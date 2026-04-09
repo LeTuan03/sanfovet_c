@@ -42,7 +42,7 @@ export const products = [
     ingredients: [
       { name: 'Amoxicillin trihydrate', amount: '150', unit: 'mg' },
     ],
-    characteristics: 'AMOX-INJECT chứa Amoxicillin dạng trihydrate, kháng sinh nhóm β-lactam phổ rộng, tác dụng diệt khuẩn nhanh trên cả vi khuẩn Gram (+) and vi khuẩn Gram (-).',
+    characteristics: 'AMOX-INJECT chứa Amoxicillin dạng trihydrate, kháng sinh nhóm β-lactam phổ rộng, tác dụng diệt khuẩn nhanh trên cả vi khuẩn Gram (+) và vi khuẩn Gram (-).',
     indications: 'Điều trị viêm phổi, viêm ruột, viêm tử cung, viêm vú, nhiễm trùng đường tiết niệu ở gia súc.',
     dosage: { route: 'Tiêm bắp', duration: '3-5 ngày', byAnimal: [
       { animal: 'Heo', dose: '1ml/10kg TT' },
@@ -76,7 +76,7 @@ export const products = [
     tagline: 'Kháng sinh Tylosin dạng dung dịch uống',
     image: '/images/product1.png', featured: true,
     ingredients: [{ name: 'Tylosin tartrate', amount: '50', unit: 'mg' }],
-    characteristics: 'TYLOSIN-50 chứa Tylosin tartrate, kháng sinh nhóm Macrolide có tác dụng kìm khuẩn mạnh trên vi khuẩn Gram (+) and Mycoplasma.',
+    characteristics: 'TYLOSIN-50 chứa Tylosin tartrate, kháng sinh nhóm Macrolide có tác dụng kìm khuẩn mạnh trên vi khuẩn Gram (+) và Mycoplasma.',
     indications: 'Điều trị CRD, viêm phổi do Mycoplasma, viêm ruột hoại tử ở gia cầm.',
     dosage: { route: 'Pha nước uống', duration: '3-5 ngày', byAnimal: [
       { animal: 'Gà, vịt', dose: '1ml/lít nước' },
@@ -120,7 +120,7 @@ export const products = [
       { name: 'DL-Methionine', amount: '20', unit: 'mg/ml' },
       { name: 'Choline Chloride', amount: '10', unit: 'mg/ml' },
     ],
-    characteristics: 'LIVER TONIC là dung dịch uống bổ gan thận, giúp tăng cường chức năng gan, thải độc kim loại nặng and mycotoxin.',
+    characteristics: 'LIVER TONIC là dung dịch uống bổ gan thận, giúp tăng cường chức năng gan, thải độc kim loại nặng và mycotoxin.',
     indications: 'Bổ gan, giải độc gan cho gia súc, gia cầm. Hỗ trợ phục hồi sau bệnh, sau dùng kháng sinh kéo dài.',
     dosage: { route: 'Pha nước uống', duration: '5-7 ngày', byAnimal: [
       { animal: 'Gia cầm', dose: '1ml/lít nước' },
@@ -211,12 +211,12 @@ export const articles = [
     excerpt: 'Bệnh LMLM là bệnh truyền nhiễm cấp tính nguy hiểm, gây thiệt hại lớn cho ngành chăn nuôi gia súc. Tìm hiểu cách phòng và điều trị hiệu quả.',
     content: `
       <h2>1. Tổng quan bệnh LMLM</h2>
-      <p>Bệnh Lở mồm long móng do virus Aphtae epizooticae gây ra, thuộc họ Picornaviridae. Bệnh lây lan rất nhanh qua đường hô hấp, tiếp xúc trực tiếp and qua các vật trung gian.</p>
+      <p>Bệnh Lở mồm long móng do virus Aphtae epizooticae gây ra, thuộc họ Picornaviridae. Bệnh lây lan rất nhanh qua đường hô hấp, tiếp xúc trực tiếp và qua các vật trung gian.</p>
       <img src="/images/news-2.png" alt="Bệnh Lở mồm long móng" />
       <h2>2. Triệu chứng lâm sàng</h2>
       <ul>
         <li><strong>Sốt cao:</strong> Vật nuôi sốt cao đột ngột từ 40-41°C.</li>
-        <li><strong>Mụn nước:</strong> Xuất hiện các mụn nước ở niêm mạc miệng, lưỡi, lợi, kẽ móng chân and ở vú.</li>
+        <li><strong>Mụn nước:</strong> Xuất hiện các mụn nước ở niêm mạc miệng, lưỡi, lợi, kẽ móng chân và ở vú.</li>
         <li><strong>Dấu hiệu khác:</strong> Chảy dãi nhiều như bọt xà phòng, vật nuôi bỏ ăn, đi lại khập khiễng hoặc nằm một chỗ.</li>
       </ul>
       <h2>3. Quy trình xử lý và phòng bệnh</h2>
@@ -231,10 +231,10 @@ export const articles = [
   {
     id: 5, slug: 'ky-thuat-phong-benh-cho-ga', title: 'Kỹ thuật phòng bệnh tổng hợp cho gà nuôi công nghiệp',
     category: 'cam-nang', publishDate: '15/02/2026', thumbnail: '/images/news-2.png',
-    excerpt: 'Hướng dẫn chi tiết về lịch vaccine, vệ sinh chuồng trại, dinh dưỡng and sử dụng thuốc phòng bệnh cho gà công nghiệp.',
+    excerpt: 'Hướng dẫn chi tiết về lịch vaccine, vệ sinh chuồng trại, dinh dưỡng và sử dụng thuốc phòng bệnh cho gà công nghiệp.',
     content: `
       <h2>1. Quản lý môi trường nuôi dưỡng</h2>
-      <p>Môi trường sạch sẽ là yếu tố tiên quyết giúp gà khỏe mạnh. Cần đảm bảo chuồng trại thông thoáng, đệm lót khô ráo and thay định kỳ.</p>
+      <p>Môi trường sạch sẽ là yếu tố tiên quyết giúp gà khỏe mạnh. Cần đảm bảo chuồng trại thông thoáng, đệm lót khô ráo và thay định kỳ.</p>
       <h2>2. Lịch tiêm vaccine chi tiết</h2>
       <p>Tuân thủ nghiêm ngặt lịch vaccine cho gà từ 1 ngày tuổi:</p>
       <ul>
@@ -254,8 +254,8 @@ export const articles = [
     content: `
       <h2>Sự kiện nổi bật trong ngành chăn nuôi</h2>
       <p>Từ ngày 18-20/03/2026, Công ty CP Đầu tư Liên doanh Việt Anh (SANFOVET) đã tham dự Hội thảo Chăn nuôi Quốc tế được tổ chức tại Hà Nội. Đây là cơ hội để Sanfovet giới thiệu các dòng sản phẩm mới nhất ứng dụng công nghệ đột phá từ Hoa Kỳ.</p>
-      <h2>Trưng bày sản phẩm and tư vấn kỹ thuật</h2>
-      <p>Gian hàng của Sanfovet đã thu hút hàng ngàn lượt khách tham quan, bao gồm các chủ trang trại lớn, doanh nghiệp chăn nuôi and các chuyên gia thú y trong and ngoài nước.</p>
+      <h2>Trưng bày sản phẩm và tư vấn kỹ thuật</h2>
+      <p>Gian hàng của Sanfovet đã thu hút hàng ngàn lượt khách tham quan, bao gồm các chủ trang trại lớn, doanh nghiệp chăn nuôi và các chuyên gia thú y trong và ngoài nước.</p>
       <ul>
         <li>Giới thiệu bộ sản phẩm kháng sinh thế hệ mới.</li>
         <li>Tư vấn phác đồ điều trị bệnh hiệu quả cho các quy mô trang trại khác nhau.</li>
@@ -265,25 +265,25 @@ export const articles = [
     `,
   },
   {
-    id: 7, slug: 'xu-huong-chan-nuoi-2026', title: 'Xu hướng chăn nuôi 2026: Công nghệ and phát triển bền vững',
+    id: 7, slug: 'xu-huong-chan-nuoi-2026', title: 'Xu hướng chăn nuôi 2026: Công nghệ và phát triển bền vững',
     category: 'tin-nganh', publishDate: '05/03/2026', thumbnail: '/images/news-1.png',
-    excerpt: 'Phân tích xu hướng chăn nuôi năm 2026 with trọng tâm là ứng dụng công nghệ, an toàn sinh học and phát triển bền vững.',
+    excerpt: 'Phân tích xu hướng chăn nuôi năm 2026 với trọng tâm là ứng dụng công nghệ, an toàn sinh học và phát triển bền vững.',
     content: `
       <h2>1. Ứng dụng công nghệ cao (Chăn nuôi 4.0)</h2>
-      <p>Năm 2026 đánh dấu bước tiến quan trọng trong việc ứng dụng AI and IoT vào quản lý trang trại. Hệ thống giám sát sức khỏe vật nuôi thời gian thực giúp phát hiện sớm dịch bệnh and tối ưu hóa lượng thức ăn.</p>
+      <p>Năm 2026 đánh dấu bước tiến quan trọng trong việc ứng dụng AI và IoT vào quản lý trang trại. Hệ thống giám sát sức khỏe vật nuôi thời gian thực giúp phát hiện sớm dịch bệnh và tối ưu hóa lượng thức ăn.</p>
       <h2>2. An toàn sinh học là chìa khóa</h2>
-      <p>Trong bối cảnh dịch bệnh diễn biến phức tạp, an toàn sinh học không còn là tùy chọn mà là bắt buộc. Việc kiểm soát người ra vào, phương tiện and sử dụng các chế phẩm sát trùng chất lượng cao trở thành tiêu chuẩn chung.</p>
-      <h2>3. Phát triển bền vững and bảo vệ môi trường</h2>
-      <p>Xử lý chất thải chăn nuôi bằng công nghệ Biogas thế hệ mới and sản xuất phân bón hữu cơ giúp giảm thiểu ô nhiễm môi trường, tạo ra giá trị gia tăng ổn định cho trang trại.</p>
+      <p>Trong bối cảnh dịch bệnh diễn biến phức tạp, an toàn sinh học không còn là tùy chọn mà là bắt buộc. Việc kiểm soát người ra vào, phương tiện và sử dụng các chế phẩm sát trùng chất lượng cao trở thành tiêu chuẩn chung.</p>
+      <h2>3. Phát triển bền vững và bảo vệ môi trường</h2>
+      <p>Xử lý chất thải chăn nuôi bằng công nghệ Biogas thế hệ mới và sản xuất phân bón hữu cơ giúp giảm thiểu ô nhiễm môi trường, tạo ra giá trị gia tăng ổn định cho trang trại.</p>
     `,
   },
   {
-    id: 8, slug: 'ga-bi-thuong-han', title: 'Gà bị thương hàn - Cách nhận biết and phác đồ điều trị dứt điểm',
+    id: 8, slug: 'ga-bi-thuong-han', title: 'Gà bị thương hàn - Cách nhận biết và phác đồ điều trị dứt điểm',
     category: 'benh-dieu-tri', publishDate: '05/04/2026', thumbnail: '/images/news-1.png',
-    excerpt: 'Bệnh thương hàn do vi khuẩn Salmonella gây ra, ảnh hưởng nghiêm trọng đến năng suất trứng and sức khỏe đàn gà. Xem ngay giải pháp điều trị.',
+    excerpt: 'Bệnh thương hàn do vi khuẩn Salmonella gây ra, ảnh hưởng nghiêm trọng đến năng suất trứng và sức khỏe đàn gà. Xem ngay giải pháp điều trị.',
     content: `
       <h2>1. Nguyên nhân gây bệnh</h2>
-      <p>Bệnh do vi khuẩn <strong>Salmonella gallinarum</strong> and <strong>Salmonella pullorum</strong> gây ra. Vi khuẩn có thể lây truyền từ mẹ sang con qua trứng hoặc lây ngang qua môi trường chăn nuôi.</p>
+      <p>Bệnh do vi khuẩn <strong>Salmonella gallinarum</strong> và <strong>Salmonella pullorum</strong> gây ra. Vi khuẩn có thể lây truyền từ mẹ sang con qua trứng hoặc lây ngang qua môi trường chăn nuôi.</p>
       <h2>2. Triệu chứng nhận biết</h2>
       <ul>
         <li><strong>Gà con:</strong> Ỉa chảy phân trắng, dính bết ở lỗ huyệt, gà gầy sút, chết nhanh.</li>

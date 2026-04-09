@@ -26,7 +26,7 @@ export default function RootLayout({
   children: React.ReactNode;
 }>) {
   return (
-    <html lang="vi" className={`${inter.variable} ${montserrat.variable}`}>
+    <html lang="vi" className={`${inter.variable} ${montserrat.variable}`} suppressHydrationWarning>
       <body className={`${inter.className} antialiased`}>
         <AntdRegistry>{children}</AntdRegistry>
       </body>
