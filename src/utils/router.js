@@ -67,8 +67,15 @@ export class Router {
       li.classList.remove('active');
       const link = li.querySelector('a');
       if (link) {
-        const href = link.getAttribute('href');
-        if (href === '#' + path || (path !== '/' && href && path.startsWith(href.replace('#', '')))) {
+        const href = link.getAttribute('href') || '';
+        const linkPath = href.replace('#', '');
+        
+        // Exact match
+        if (path === linkPath) {
+          li.classList.add('active');
+        } 
+        // Match sub-paths but exclude root '/' from prefix matching
+        else if (linkPath !== '/' && path.startsWith(linkPath)) {
           li.classList.add('active');
         }
       }

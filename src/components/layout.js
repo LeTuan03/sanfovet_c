@@ -23,7 +23,6 @@ export function renderTopBar() {
 
 export function renderHeader() {
   return `
-  <div class="site-header">
     <div class="container header-inner">
       <a href="#/" class="logo" aria-label="SANFOVET - Trang chủ">
         <img src="/images/logo.png" alt="Logo SANFOVET - Thuốc thú y trang trại" width="48" height="48" loading="eager" />
@@ -59,8 +58,7 @@ export function renderHeader() {
       <button class="menu-toggle" id="menu-toggle" aria-label="Mở menu">
         ${icon('menu', 24)}
       </button>
-    </div>
-  </div>`;
+    </div>`;
 }
 
 export function renderFooter() {

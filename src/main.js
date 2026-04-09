@@ -103,7 +103,7 @@ function initScrollAnimations() {
 
 // Header scroll effect
 function initHeaderScroll() {
-  const header = document.querySelector('.site-header');
+  const header = document.getElementById('site-header');
   window.addEventListener('scroll', () => {
     if (window.scrollY > 50) {
       header?.classList.add('scrolled');

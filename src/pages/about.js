@@ -25,11 +25,11 @@ export function renderAboutPage() {
     <section class="section section-alt"><div class="container">
       <div class="section-header"><h2>Tầm Nhìn – Sứ Mệnh</h2></div>
       <div style="display:grid;grid-template-columns:1fr 1fr;gap:30px">
-        <div style="background:#fff;padding:32px;border-radius:var(--radius);box-shadow:var(--shadow);border-left:4px solid var(--primary)">
+        <div style="background:#fff;padding:32px;box-shadow:var(--shadow);border-left:4px solid var(--primary)">
           <h3 style="color:var(--primary);margin-bottom:12px;font-size:1.2rem">${icon('eye', 20)} Tầm nhìn</h3>
           <p style="color:var(--text-light);line-height:1.8">Trở thành công ty dược phẩm thú y hàng đầu Đông Nam Á, cung cấp giải pháp sức khỏe vật nuôi toàn diện, ứng dụng công nghệ hiện đại nhất.</p>
         </div>
-        <div style="background:#fff;padding:32px;border-radius:var(--radius);box-shadow:var(--shadow);border-left:4px solid var(--accent)">
+        <div style="background:#fff;padding:32px;box-shadow:var(--shadow);border-left:4px solid var(--accent)">
           <h3 style="color:var(--accent);margin-bottom:12px;font-size:1.2rem">${icon('sparkles', 20)} Sứ mệnh</h3>
           <p style="color:var(--text-light);line-height:1.8">Đồng hành cùng người chăn nuôi Việt Nam, nâng cao chất lượng sản phẩm chăn nuôi, bảo vệ sức khỏe vật nuôi và an toàn thực phẩm.</p>
         </div>

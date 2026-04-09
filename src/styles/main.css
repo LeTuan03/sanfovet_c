@@ -45,8 +45,8 @@ button{cursor:pointer;border:none;background:none;font-family:inherit}
 .social-top a:hover{opacity:1;color:var(--accent)}
 
 /* ===== HEADER ===== */
-.site-header{background:rgba(255,255,255,.97);backdrop-filter:blur(12px);position:sticky;top:0;z-index:1000;border-bottom:1px solid var(--border);transition:var(--transition)}
-.site-header.scrolled{box-shadow:var(--shadow)}
+#site-header{background:rgba(255,255,255,.97);backdrop-filter:blur(12px);position:sticky;top:0;z-index:1000;border-bottom:1px solid var(--border);transition:var(--transition)}
+#site-header.scrolled{box-shadow:var(--shadow)}
 .header-inner{display:flex;align-items:center;justify-content:space-between;height:var(--header-h)}
 .logo{display:flex;align-items:center;gap:10px;font-weight:800;font-size:1.3rem;color:var(--primary)}
 .logo img{height:48px;width:auto}
@@ -190,7 +190,7 @@ button{cursor:pointer;border:none;background:none;font-family:inherit}
 .product-detail-info h1{font-family:var(--font-heading);font-size:2rem;color:var(--primary-dark);margin-bottom:10px}
 .product-detail-info .tagline{font-size:1.05rem;color:var(--text-light);margin-bottom:20px;padding-bottom:20px;border-bottom:1px solid var(--border)}
 .info-section{margin-bottom:24px}
-.info-section h2{font-size:1.1rem;font-weight:700;color:var(--primary);margin-bottom:10px;display:flex;align-items:center;gap:8px;padding:10px 16px;background:var(--primary-light);border-radius:var(--radius-sm);border-left:4px solid var(--primary)}
+.info-section h2{font-size:1.1rem;font-weight:700;color:var(--primary);margin-bottom:10px;display:flex;align-items:center;gap:8px;padding:10px 16px;background:var(--primary-light);border-left:4px solid var(--primary)}
 .info-section p,.info-section ul{font-size:.92rem;color:var(--text-light);line-height:1.8}
 .info-section ul li{padding:4px 0;padding-left:20px;position:relative}
 .info-section ul li::before{content:'•';position:absolute;left:4px;color:var(--primary)}
@@ -252,18 +252,40 @@ button{cursor:pointer;border:none;background:none;font-family:inherit}
 .popup-close:hover{background:#e0e0e0}
 
 /* ===== BACK TO TOP ===== */
-.back-to-top{position:fixed;bottom:90px;right:24px;width:44px;height:44px;background:var(--primary);color:#fff;border-radius:50%;display:flex;align-items:center;justify-content:center;box-shadow:0 3px 12px rgba(26,140,63,.3);z-index:998;transition:var(--transition);opacity:0;transform:translateY(20px)}
+.back-to-top{position:fixed;bottom:380px;right:24px;width:44px;height:44px;background:var(--primary);color:#fff;border-radius:50%;display:flex;align-items:center;justify-content:center;box-shadow:0 3px 12px rgba(26,140,63,.3);z-index:998;transition:var(--transition);opacity:0;transform:translateY(20px)}
 .back-to-top.visible{opacity:1;transform:translateY(0)}
 .back-to-top:hover{background:var(--primary-dark);transform:translateY(-2px)}
 
 /* ===== RECRUITMENT ===== */
 .job-list{display:grid;grid-template-columns:repeat(auto-fill,minmax(340px,1fr));gap:24px}
-.job-card{background:#fff;border-radius:var(--radius);overflow:hidden;box-shadow:var(--shadow);transition:var(--transition);border-left:4px solid var(--primary)}
+.job-list.vertical{display:flex;flex-direction:column;gap:16px}
+.job-card{background:#fff;overflow:hidden;box-shadow:var(--shadow);transition:var(--transition);border-left:4px solid var(--primary)}
 .job-card:hover{transform:translateY(-4px);box-shadow:var(--shadow-lg)}
 .job-card-body{padding:24px}
 .job-card-body h3{font-size:1.05rem;font-weight:700;margin-bottom:8px}
 .job-card-body .location{font-size:.84rem;color:var(--text-muted);display:flex;align-items:center;gap:6px;margin-bottom:12px}
 .job-card-body .date{font-size:.78rem;color:var(--text-muted)}
+
+/* Vertical Job Card Styles */
+.job-list.vertical .job-card{display:flex;align-items:center;border-left-width:6px}
+.job-list.vertical .job-card-body{display:flex;justify-content:space-between;align-items:center;width:100%;gap:30px}
+.job-list.vertical .job-info{flex:1}
+.job-list.vertical .job-actions{display:flex;gap:12px;flex-shrink:0}
+
+@media(max-width: 768px) {
+  .job-list.vertical .job-card-body {
+    flex-direction: column;
+    align-items: flex-start;
+    gap: 16px;
+  }
+  .job-list.vertical .job-actions {
+    width: 100%;
+  }
+  .job-list.vertical .job-actions a {
+    flex: 1;
+    justify-content: center;
+  }
+}
 
 /* ===== GOOGLE MAP ===== */
 .map-container{border-radius:var(--radius-lg);overflow:hidden;box-shadow:var(--shadow);margin-top:40px}
