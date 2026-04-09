@@ -9,7 +9,7 @@ interface CKEditorProps {
 }
 
 export default function CKEditorWrapper({ value, onChange, placeholder }: CKEditorProps) {
-  const editorRef = useRef<any>();
+  const editorRef = useRef<any>(null);
   const [editorLoaded, setEditorLoaded] = useState(false);
   const { CKEditor, ClassicEditor } = editorRef.current || {};
 
