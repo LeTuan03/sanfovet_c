@@ -14,8 +14,12 @@ export function renderTopBar() {
           <a href="https://facebook.com/sanfovet" target="_blank" rel="noopener" aria-label="Facebook">${icon('facebook', 16)}</a>
           <a href="https://youtube.com/sanfovet" target="_blank" rel="noopener" aria-label="YouTube">${icon('youtube', 16)}</a>
         </div>
-        <button class="lang-btn active" data-lang="vi">🇻🇳 VI</button>
-        <button class="lang-btn" data-lang="en">🇬🇧 EN</button>
+        <button class="lang-btn active" data-lang="vi">
+          <img src="/images/VN.png" alt="Vietnam Flag" class="lang-flag"> VI
+        </button>
+        <button class="lang-btn" data-lang="en">
+          <img src="/images/UK.png" alt="UK Flag" class="lang-flag"> EN
+        </button>
       </div>
     </div>
   </div>`;

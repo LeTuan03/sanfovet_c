@@ -187,14 +187,15 @@ function initContactForm() {
 // Language toggle (demo)
 function initLanguageToggle() {
   document.addEventListener('click', (e) => {
-    if (e.target.classList.contains('lang-btn')) {
+    const btn = e.target.closest('.lang-btn');
+    if (btn) {
       document.querySelectorAll('.lang-btn').forEach(b => b.classList.remove('active'));
-      e.target.classList.add('active');
-      const lang = e.target.dataset.lang;
+      btn.classList.add('active');
+      const lang = btn.dataset.lang;
       if (lang === 'en') {
         alert('English version is coming soon!');
         document.querySelector('.lang-btn[data-lang="vi"]')?.classList.add('active');
-        e.target.classList.remove('active');
+        btn.classList.remove('active');
       }
     }
   });
