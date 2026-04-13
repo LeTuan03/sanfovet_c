@@ -67,7 +67,7 @@
 | Frontend – Giao diện người dùng (17 hạng mục) | 17 | **7.600.000đ** |
 | Admin – Quản trị nội dung (9 hạng mục) | 9 | **2.400.000đ** |
 | Cài đặt & Tối ưu vận hành (3 hạng mục) | 3 | **1.000.000đ** |
-| **TỔNG CHI PHÍ PHÁT TRIỂN** | **30** | **10.750.000đ** |
+| **TỔNG CHI PHÍ PHÁT TRIỂN** | **29** | **10.750.000đ** |
 | Hosting (tháng đầu) | — | ......đ/tháng |
 | Tên miền .com (năm đầu) | — | ......đ/năm |
 
