@@ -26,6 +26,10 @@ const translations: Record<Language, Record<string, string>> = {
     'featured_products': 'Sản phẩm nổi bật',
     'why_choose_us': 'Tại sao chọn chúng tôi',
     'tech_usa': 'Công nghệ USA',
+    'all_products': 'Tất cả sản phẩm',
+    'tech_support': 'Hỗ trợ kỹ thuật',
+    'free_catalogue': 'Đăng ký nhận bản in',
+    'intro_slogan': 'Công nghệ USA - Chất lượng vượt trội'
   },
   en: {
     'home': 'Home',
@@ -42,6 +46,10 @@ const translations: Record<Language, Record<string, string>> = {
     'featured_products': 'Featured Products',
     'why_choose_us': 'Why Choose Us',
     'tech_usa': 'USA Technology',
+    'all_products': 'All Products',
+    'tech_support': 'Technical Support',
+    'free_catalogue': 'Request Printed Copy',
+    'intro_slogan': 'USA Technology - Superior Quality'
   }
 };
 

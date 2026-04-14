@@ -29,18 +29,28 @@ export default function ContentProtection() {
       });
     };
 
-    // Only apply in production or if not local
-    if (process.env.NODE_ENV === 'production') {
-      document.addEventListener('contextmenu', handleContextMenu);
-    } else {
-      // In development, maybe just a console log or a less intrusive warning
-      console.log('Content protection is active (right-click blocked in production)');
-      // For testing purposes, uncomment this:
-      // document.addEventListener('contextmenu', handleContextMenu);
-    }
+    // Enable protection by default for both dev and prod in this handover version
+    document.addEventListener('contextmenu', handleContextMenu);
+    
+    // Add additional protection against common shortcuts
+    const handleKeyDown = (e: KeyboardEvent) => {
+      if (
+        (e.ctrlKey && (e.key === 'u' || e.key === 'U' || e.key === 's' || e.key === 'S' || e.key === 'c' || e.key === 'C')) ||
+        (e.ctrlKey && e.shiftKey && (e.key === 'I' || e.key === 'i' || e.key === 'J' || e.key === 'j' || e.key === 'C' || e.key === 'c')) ||
+        e.key === 'F12'
+      ) {
+        e.preventDefault();
+        message.warning({
+          content: 'Phím tắt đã bị vô hiệu hóa để bảo vệ nội dung.',
+          className: 'custom-message-warning'
+        });
+      }
+    };
+    document.addEventListener('keydown', handleKeyDown);
 
     return () => {
       document.removeEventListener('contextmenu', handleContextMenu);
+      document.removeEventListener('keydown', handleKeyDown);
     };
   }, []);
 

@@ -27,6 +27,28 @@ export const metadata: Metadata = {
   authors: [{ name: "SANFOVET Team" }],
   viewport: "width=device-width, initial-scale=1",
   robots: "index, follow",
+  openGraph: {
+    type: "website",
+    locale: "vi_VN",
+    url: "https://sanfovet.com.vn",
+    siteName: "SANFOVET",
+    title: "SANFOVET - Thuốc Thú Y Công Nghệ USA",
+    description: "Tiên phong sản xuất thuốc thú y công nghệ USA tại Việt Nam. Nhà máy đạt chuẩn GMP-WHO.",
+    images: [
+      {
+        url: "/images/banner1.png",
+        width: 1200,
+        height: 630,
+        alt: "SANFOVET - Công nghệ USA",
+      },
+    ],
+  },
+  twitter: {
+    card: "summary_large_image",
+    title: "SANFOVET - Thuốc Thú Y Công Nghệ USA",
+    description: "Tiên phong sản xuất thuốc thú y công nghệ USA tại Việt Nam.",
+    images: ["/images/banner1.png"],
+  },
 };
 
 export default function RootLayout({

@@ -2,10 +2,15 @@ import React from 'react';
 import Link from 'next/link';
 import { Eye, Filter } from 'lucide-react';
 import { products, categories } from '@/lib/data';
+import Pagination from '@/components/shared/Pagination';
 
-export default async function ProductsPage({ searchParams }: { searchParams: Promise<{ category?: string }> }) {
+const ITEMS_PER_PAGE = 6;
+
+export default async function ProductsPage({ searchParams }: { searchParams: Promise<{ category?: string; page?: string }> }) {
   const params = await searchParams;
   const currentCategory = params.category;
+  const currentPage = parseInt(params.page || '1', 10);
+
   
   const filteredProducts = currentCategory 
     ? products.filter(p => {
@@ -15,6 +20,17 @@ export default async function ProductsPage({ searchParams }: { searchParams: Pro
     : products;
 
   const activeCategory = categories.find(c => c.slug === currentCategory);
+  
+  // Pagination logic
+  const totalItems = filteredProducts.length;
+  const totalPages = Math.ceil(totalItems / ITEMS_PER_PAGE);
+  const paginatedProducts = filteredProducts.slice(
+    (currentPage - 1) * ITEMS_PER_PAGE,
+    currentPage * ITEMS_PER_PAGE
+  );
+
+  const baseUrl = currentCategory ? `/san-pham?category=${currentCategory}` : '/san-pham';
+
   return (
     <div className="bg-gray-50 min-h-screen">
       {/* Header Banner */}
@@ -60,7 +76,7 @@ export default async function ProductsPage({ searchParams }: { searchParams: Pro
         <main className="w-full md:w-3/4">
           <div className="mb-6 flex justify-between items-center bg-white p-4 rounded-lg shadow-sm border border-gray-100">
             <div className="text-gray-500 font-medium">
-              Hiển thị <strong>{filteredProducts.length}</strong> sản phẩm {activeCategory && `trong ${activeCategory.name}`}
+              Hiển thị <strong>{paginatedProducts.length}</strong> trên <strong>{totalItems}</strong> sản phẩm {activeCategory && `trong ${activeCategory.name}`}
             </div>
             <div className="flex gap-2 items-center">
               <span className="text-sm text-gray-500">Sắp xếp:</span>
@@ -72,7 +88,7 @@ export default async function ProductsPage({ searchParams }: { searchParams: Pro
           </div>
 
           <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-8">
-            {filteredProducts.map((p: any) => (
+            {paginatedProducts.map((p: any) => (
               <div key={p.id} className="bg-white rounded-[24px] shadow-sm hover:shadow-2xl border border-gray-100 overflow-hidden transition-all duration-500 group flex flex-col h-full hover:-translate-y-1">
                 <div className="aspect-[4/3] bg-gray-50 flex items-center justify-center relative p-8 group-hover:bg-primary-light/30 transition-colors duration-500">
                    <img src={p.image} alt={p.name} className="max-h-full w-auto object-contain transition-transform duration-700 group-hover:scale-110" />
@@ -98,8 +114,11 @@ export default async function ProductsPage({ searchParams }: { searchParams: Pro
           </div>
 
           <div className="mt-12 flex justify-center">
-            {/* Simple Pagination Mock */}
-            
+            <Pagination 
+              currentPage={currentPage}
+              totalPages={totalPages}
+              baseUrl={baseUrl}
+            />
           </div>
         </main>
       </div>

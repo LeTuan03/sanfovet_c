@@ -1,5 +1,5 @@
 import { Metadata } from 'next';
-import React from 'react';
+import Link from 'next/link';
 import { FileText, Download, Eye, ShieldCheck, Award } from 'lucide-react';
 
 export const metadata: Metadata = {
@@ -82,7 +82,7 @@ export default function CataloguePage() {
               <div className="absolute top-0 right-0 w-64 h-64 bg-primary/20 rounded-full blur-3xl -mr-32 -mt-32"></div>
               <h3 className="text-2xl font-black mb-4 relative z-10">Bạn cần bản in cứng?</h3>
               <p className="opacity-70 text-sm max-w-md mx-auto mb-8 relative z-10">Liên hệ với chúng tôi để nhận bộ Catalogue in ấn chất lượng cao gửi tận nơi hoàn toàn miễn phí.</p>
-              <button className="bg-white text-sanfovet-dark font-black py-4 px-10 rounded-full text-sm uppercase tracking-widest hover:bg-primary hover:text-white transition-all relative z-10">Yêu cầu bản in</button>
+              <Link href="/lien-he" className="bg-white text-sanfovet-dark font-black py-4 px-10 rounded-full text-sm uppercase tracking-widest hover:bg-primary hover:text-white transition-all relative z-10 inline-block text-center">Yêu cầu bản in</Link>
            </div>
         </div>
       </div>

@@ -72,7 +72,7 @@ export default function Header() {
               <img src="/images/logo.png" alt="SANFOVET" className={`transition-all duration-300 ${isScrolled ? 'h-10' : 'h-12 md:h-[52px]'}`} />
               <div className="hidden lg:block">
                 <div className="text-primary font-black text-xl leading-none tracking-tighter italic uppercase font-montserrat">SANFOVET</div>
-                <div className="text-[0.6rem] text-sanfovet-dark font-black tracking-widest uppercase mt-0.5">Công nghệ USA - Chất lượng vượt trội</div>
+                <div className="text-[0.6rem] text-sanfovet-dark font-black tracking-widest uppercase mt-0.5">{t('intro_slogan')}</div>
               </div>
             </Link>
 
@@ -90,7 +90,7 @@ export default function Header() {
                   <div className="max-h-[600px] overflow-y-auto custom-scrollbar">
                     <div className="px-6 mb-4 border-b border-gray-50 pb-4">
                       <Link href="/san-pham" className="text-[0.7rem] font-black text-primary uppercase tracking-[2px] hover:text-primary-dark transition-colors flex items-center justify-between group/all">
-                         Tất cả sản phẩm 
+                         {t('all_products')} 
                          <div className="w-6 h-6 rounded-full bg-primary/10 flex items-center justify-center group-hover/all:translate-x-1 transition-transform">
                             <ChevronRight size={12} />
                          </div>
@@ -130,14 +130,14 @@ export default function Header() {
         {isMobileMenuOpen && (
           <div className="lg:hidden fixed inset-0 top-[70px] bg-white z-50 overflow-y-auto animate-fade-in border-t border-gray-100 pb-20">
              <div className="p-6 flex flex-col gap-1">
-                <MobileNavItem href="/" label="Trang chủ" onClick={() => setIsMobileMenuOpen(false)} />
-                <MobileNavItem href="/gioi-thieu" label="Giới thiệu" onClick={() => setIsMobileMenuOpen(false)} />
-                <MobileNavItem href="/san-pham" label="Sản phẩm" onClick={() => setIsMobileMenuOpen(false)} />
-                <MobileNavItem href="/cam-nang-chan-nuoi" label="Cẩm nang" onClick={() => setIsMobileMenuOpen(false)} />
+                <MobileNavItem href="/" label={t('home')} onClick={() => setIsMobileMenuOpen(false)} />
+                <MobileNavItem href="/gioi-thieu" label={t('about')} onClick={() => setIsMobileMenuOpen(false)} />
+                <MobileNavItem href="/san-pham" label={t('products')} onClick={() => setIsMobileMenuOpen(false)} />
+                <MobileNavItem href="/cam-nang-chan-nuoi" label={t('knowledge')} onClick={() => setIsMobileMenuOpen(false)} />
                 <MobileNavItem href="/benh-va-dieu-tri-benh" label="Bệnh & Điều trị" onClick={() => setIsMobileMenuOpen(false)} />
-                <MobileNavItem href="/tin-tuc" label="Tin tức" onClick={() => setIsMobileMenuOpen(false)} />
-                <MobileNavItem href="/tuyen-dung" label="Tuyển dụng" onClick={() => setIsMobileMenuOpen(false)} />
-                <Link href="/lien-he" className="mt-8 py-4 bg-primary text-white text-center font-black rounded-xl uppercase tracking-widest shadow-lg shadow-primary/20 active:scale-95 font-montserrat" onClick={() => setIsMobileMenuOpen(false)}>Liên hệ ngay</Link>
+                <MobileNavItem href="/tin-tuc" label={t('news')} onClick={() => setIsMobileMenuOpen(false)} />
+                <MobileNavItem href="/tuyen-dung" label={t('recruitment')} onClick={() => setIsMobileMenuOpen(false)} />
+                <Link href="/lien-he" className="mt-8 py-4 bg-primary text-white text-center font-black rounded-xl uppercase tracking-widest shadow-lg shadow-primary/20 active:scale-95 font-montserrat" onClick={() => setIsMobileMenuOpen(false)}>{t('contact')}</Link>
              </div>
           </div>
         )}

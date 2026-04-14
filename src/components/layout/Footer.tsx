@@ -3,8 +3,10 @@
 import React from 'react';
 import Link from 'next/link';
 import { FacebookOutlined, YoutubeOutlined } from '@ant-design/icons';
+import { useLanguage } from '@/lib/LanguageContext';
 
 export default function Footer() {
+  const { t } = useLanguage();
   return (
     <footer className="bg-gradient-to-b from-sanfovet-dark to-[#061208] text-white/70 py-16 text-[0.85rem] mt-16 w-full relative">
       <div className="container mx-auto px-4">
@@ -25,7 +27,7 @@ export default function Footer() {
 
           {/* Col 2 - Product Categories with exact links */}
           <div>
-            <h3 className="text-white text-lg font-bold mb-6 relative pb-2.5 after:content-[''] after:absolute after:bottom-0 after:left-0 after:w-10 after:height-0.5 after:bg-primary uppercase">Danh mục sản phẩm</h3>
+            <h3 className="text-white text-lg font-bold mb-6 relative pb-2.5 after:content-[''] after:absolute after:bottom-0 after:left-0 after:w-10 after:height-0.5 after:bg-primary uppercase">{t('products')}</h3>
             <ul className="space-y-2">
               <li><Link href="/san-pham?category=thuoc-bo-tro-tiem-dang-dung-dich-hon-dich" className="hover:text-primary transition-colors">Thuốc bổ trợ tiêm</Link></li>
               <li><Link href="/san-pham?category=thuoc-khang-sinh-tiem-dang-dung-dich-hon-dich" className="hover:text-primary transition-colors">Thuốc kháng sinh tiêm</Link></li>
@@ -42,7 +44,7 @@ export default function Footer() {
 
           {/* Col 3 - Technical Support */}
           <div>
-            <h3 className="text-white text-lg font-bold mb-6 relative pb-2.5 after:content-[''] after:absolute after:bottom-0 after:left-0 after:w-10 after:height-0.5 after:bg-primary uppercase">Hỗ trợ kỹ thuật</h3>
+            <h3 className="text-white text-lg font-bold mb-6 relative pb-2.5 after:content-[''] after:absolute after:bottom-0 after:left-0 after:w-10 after:height-0.5 after:bg-primary uppercase">{t('tech_support')}</h3>
             <div className="mb-6">
               <p className="text-white font-bold mb-1">BSTY. Hoàng Đăng Trạng</p>
               <p>Email: <a href="mailto:dangtrang19877@gmail.com" className="hover:text-primary transition-colors">dangtrang19877@gmail.com</a></p>
@@ -68,14 +70,14 @@ export default function Footer() {
           <div>
             <h3 className="text-white text-lg font-bold mb-6 relative pb-2.5 after:content-[''] after:absolute after:bottom-0 after:left-0 after:w-10 after:height-0.5 after:bg-primary uppercase">Liên kết nhanh</h3>
             <ul className="space-y-2">
-              <li><Link href="/" className="hover:text-primary transition-colors">Trang chủ</Link></li>
-              <li><Link href="/gioi-thieu" className="hover:text-primary transition-colors">Giới thiệu</Link></li>
-              <li><Link href="/catalogue" className="hover:text-primary transition-colors">Catalogue</Link></li>
-              <li><Link href="/cam-nang-chan-nuoi" className="hover:text-primary transition-colors">Cẩm nang chăn nuôi</Link></li>
+              <li><Link href="/" className="hover:text-primary transition-colors">{t('home')}</Link></li>
+              <li><Link href="/gioi-thieu" className="hover:text-primary transition-colors">{t('about')}</Link></li>
+              <li><Link href="/catalogue" className="hover:text-primary transition-colors">{t('catalogue')}</Link></li>
+              <li><Link href="/cam-nang-chan-nuoi" className="hover:text-primary transition-colors">{t('knowledge')}</Link></li>
               <li><Link href="/benh-va-dieu-tri-benh" className="hover:text-primary transition-colors">Bệnh & điều trị bệnh</Link></li>
-              <li><Link href="/tin-tuc" className="hover:text-primary transition-colors">Tin tức</Link></li>
-              <li><Link href="/tuyen-dung" className="hover:text-primary transition-colors">Tuyển dụng</Link></li>
-              <li><Link href="/lien-he" className="hover:text-primary transition-colors">Liên hệ</Link></li>
+              <li><Link href="/tin-tuc" className="hover:text-primary transition-colors">{t('news')}</Link></li>
+              <li><Link href="/tuyen-dung" className="hover:text-primary transition-colors">{t('recruitment')}</Link></li>
+              <li><Link href="/lien-he" className="hover:text-primary transition-colors">{t('contact')}</Link></li>
             </ul>
           </div>
         </div>
