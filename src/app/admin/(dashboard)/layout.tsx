@@ -9,8 +9,15 @@ import {
   ReadOutlined,
   UsergroupAddOutlined,
   DashboardOutlined,
+  PictureOutlined,
+  VideoCameraOutlined,
+  MenuOutlined,
+  SettingOutlined,
+  UserOutlined,
+  LogoutOutlined,
+  BellOutlined,
 } from '@ant-design/icons';
-import { Button, Layout, Menu, theme, ConfigProvider } from 'antd';
+import { Button, Layout, Menu, theme, ConfigProvider, Avatar, Dropdown, Space, Badge, MenuProps } from 'antd';
 import { usePathname, useRouter } from 'next/navigation';
 
 const { Header, Sider, Content } = Layout;
@@ -50,9 +57,66 @@ export default function AdminLayout({
       label: 'Bài viết & Cẩm nang',
     },
     {
+      key: '/admin/news',
+      icon: <ReadOutlined />,
+      label: 'Quản lý Tin tức',
+    },
+    {
       key: '/admin/jobs',
       icon: <UsergroupAddOutlined />,
       label: 'Tuyển dụng',
+    },
+    {
+      type: 'divider',
+      key: 'div1',
+    },
+    {
+      key: '/admin/banners',
+      icon: <PictureOutlined />,
+      label: 'Banner / Slider',
+    },
+    {
+      key: '/admin/media-gallery',
+      icon: <VideoCameraOutlined />,
+      label: 'Video & Hình ảnh',
+    },
+    {
+      key: '/admin/menus',
+      icon: <MenuOutlined />,
+      label: 'Quản lý Menu',
+    },
+    {
+      key: '/admin/settings',
+      icon: <SettingOutlined />,
+      label: 'Thông tin chung',
+    },
+    {
+      key: '/admin/users',
+      icon: <UserOutlined />,
+      label: 'Người dùng admin',
+    },
+  ];
+
+  const userMenuItems = [
+    {
+      key: 'profile',
+      label: 'Hồ sơ cá nhân',
+      icon: <UserOutlined />,
+    },
+    {
+      key: 'settings',
+      label: 'Cài đặt tài khoản',
+      icon: <SettingOutlined />,
+    },
+    {
+      type: 'divider',
+      key: 'div2',
+    },
+    {
+      key: 'logout',
+      label: 'Đăng xuất',
+      icon: <LogoutOutlined />,
+      danger: true,
     },
   ];
 
@@ -80,7 +144,7 @@ export default function AdminLayout({
           <Menu
             mode="inline"
             selectedKeys={[pathname]}
-            items={menuItems}
+            items={menuItems as any}
             onClick={handleMenuClick}
             className="border-none"
           />
@@ -97,22 +161,31 @@ export default function AdminLayout({
                 height: 48,
               }}
             />
-            <div className="flex items-center gap-4">
-               <span className="font-bold text-gray-500">Administrator</span>
-               <div className="w-10 h-10 bg-primary/10 rounded-full flex items-center justify-center text-primary font-bold">A</div>
+            <div className="flex items-center gap-6">
+              <Badge count={3} size="small">
+                <Button type="text" icon={<BellOutlined />} className="text-gray-500" />
+              </Badge>
+              <Dropdown menu={{ items: userMenuItems as any }} placement="bottomRight" arrow>
+                <div className="flex items-center gap-3 cursor-pointer hover:bg-gray-50 px-2 py-1 rounded-lg transition-colors">
+                  <Avatar style={{ backgroundColor: '#1a8c3f' }} icon={<UserOutlined />} />
+                  <div className="hidden md:block">
+                    <div className="text-xs font-black text-sanfovet-dark leading-none">Admin Sanfovet</div>
+                    <div className="text-[10px] text-gray-400 font-bold uppercase tracking-widest mt-1">Quản trị viên</div>
+                  </div>
+                </div>
+              </Dropdown>
             </div>
           </Header>
           <Content
             style={{
-              margin: '24px 24px',
               padding: 24,
               minHeight: 280,
-              background: colorBgContainer,
-              borderRadius: borderRadiusLG,
+              background: '#f8faf9',
             }}
-            className="shadow-sm"
           >
-            {children}
+            <div className="max-w-[1600px] mx-auto">
+              {children}
+            </div>
           </Content>
         </Layout>
       </Layout>

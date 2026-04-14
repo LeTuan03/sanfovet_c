@@ -184,7 +184,6 @@ export default function ProductManagement() {
                     <Col span={8}>
                       <Form.Item name="categoryId" label="Danh mục" rules={[{ required: true }]}>
                         <Select 
-                          className="h-10"
                           options={categories.map(c => ({ label: c.name, value: c.id }))}
                         />
                       </Form.Item>

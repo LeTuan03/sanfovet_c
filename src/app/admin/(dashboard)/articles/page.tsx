@@ -3,7 +3,7 @@
 import React, { useState } from 'react';
 import { Table, Button, Space, Modal, Form, Input, Select, message, Tag, Tooltip, Row, Col, Divider } from 'antd';
 import { PlusOutlined, EditOutlined, DeleteOutlined, EyeOutlined, SearchOutlined, FileImageOutlined } from '@ant-design/icons';
-import { articles } from '@/lib/data';
+import { articles, animalTags } from '@/lib/data';
 import CKEditor from '@/components/admin/CKEditor';
 
 export default function ArticleManagement() {
@@ -61,7 +61,7 @@ export default function ArticleManagement() {
       title: 'Tiêu đề bài viết',
       dataIndex: 'title',
       key: 'title',
-      width: '40%',
+      width: '35%',
       render: (text: string, record: any) => (
         <div className="flex items-center gap-3">
           <div className="w-12 h-12 bg-gray-50 rounded-xl overflow-hidden border border-gray-100 shrink-0">
@@ -77,9 +77,29 @@ export default function ArticleManagement() {
       key: 'category',
       render: (cat: string) => {
         const colors: any = { 'benh-dieu-tri': 'red', 'cam-nang': 'blue', 'tin-noi-bo': 'green', 'tin-nganh': 'orange' };
-        const labels: any = { 'benh-dieu-tri': 'Bệnh & Điều trị', 'cam-nang': 'Cẩm nang', 'tin-noi-bo': 'Tin nội bộ', 'tin-nganh': 'Tin ngành' };
+        const labels: any = { 'benh-dieu-tri': 'Bệnh học', 'cam-nang': 'Cẩm nang', 'tin-noi-bo': 'Tin nội bộ', 'tin-nganh': 'Tin ngành' };
         return <Tag color={colors[cat] || 'default'} className="font-bold px-3 py-0.5 rounded-full uppercase text-[0.6rem]">{labels[cat] || cat}</Tag>;
       },
+      filters: [
+        { text: 'Bệnh & Điều trị', value: 'benh-dieu-tri' },
+        { text: 'Cẩm nang', value: 'cam-nang' },
+      ],
+      onFilter: (value: any, record: any) => record.category === value,
+    },
+    {
+      title: 'Loài vật',
+      dataIndex: 'animalTag',
+      key: 'animalTag',
+      render: (tag: string) => {
+        if (!tag) return <span className="text-gray-300 italic text-[0.7rem]">-</span>;
+        const animal = animalTags.find(a => a.slug === tag);
+        return (
+          <div className="flex items-center gap-1">
+            <span className="text-lg">{animal?.icon}</span>
+            <span className="text-xs font-bold text-gray-500">{animal?.name || tag}</span>
+          </div>
+        );
+      }
     },
     {
       title: 'Ngày đăng',
@@ -116,13 +136,14 @@ export default function ArticleManagement() {
       ),
     },
   ];
-
+  const isCamNang = Form.useWatch('category', form) === 'cam-nang';
+  console.log(isCamNang);
   return (
     <div className="space-y-6">
       <div className="flex justify-between items-center mb-10">
         <div>
            <h2 className="text-2xl font-black text-sanfovet-dark uppercase tracking-tight italic">Bài viết & Cẩm nang</h2>
-           <p className="text-gray-400 font-bold uppercase tracking-widest text-[0.65rem] mt-1">Quản lý nội dung tin tức, kiến thức chăn nuôi and bệnh học</p>
+           <p className="text-gray-400 font-bold uppercase tracking-widest text-[0.65rem] mt-1">Quản lý nội dung tin tức, kiến thức chăn nuôi và bệnh học</p>
         </div>
         <div className="flex gap-4">
            <Input 
@@ -164,24 +185,37 @@ export default function ArticleManagement() {
       >
         <Form form={form} layout="vertical" className="mt-8">
           <Row gutter={24}>
-            <Col span={16}>
+            <Col span={12}>
               <Form.Item name="title" label="Tiêu đề bài viết" rules={[{ required: true, message: 'Vui lòng nhập tiêu đề' }]}>
                 <Input placeholder="Tiêu đề bắt mắt..." className="rounded-xl py-3 px-4 font-bold text-lg" />
               </Form.Item>
             </Col>
-            <Col span={8}>
+            <Col span={6}>
               <Form.Item name="category" label="Chuyên mục" rules={[{ required: true }]}>
                 <Select 
-                  className="rounded-xl h-12" 
-                  placeholder="Chọn chuyên mục"
+                  className="rounded-xl" 
+                  placeholder="Chọn loại bài"
                   options={[
                     { label: 'Bệnh & Điều trị', value: 'benh-dieu-tri' },
-                    { label: 'Cẩm nang', value: 'cam-nang' },
+                    { label: 'Cẩm nang chăn nuôi', value: 'cam-nang' },
                     { label: 'Tin nội bộ', value: 'tin-noi-bo' },
                     { label: 'Tin ngành', value: 'tin-nganh' },
                   ]}
                 />
               </Form.Item>
+            </Col>
+            <Col span={6} hidden={Boolean(!isCamNang)}>
+               <Form.Item name="animalTag" label="Loài vật liên quan">
+                 <Select 
+                   className="rounded-xl" 
+                   placeholder="Chọn loài vật"
+                   allowClear
+                   options={animalTags.map(tag => ({
+                     label: <span>{tag.icon} {tag.name}</span>,
+                     value: tag.slug
+                   }))}
+                 />
+               </Form.Item>
             </Col>
           </Row>
 
