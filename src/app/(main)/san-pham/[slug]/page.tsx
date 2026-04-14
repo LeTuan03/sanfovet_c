@@ -130,11 +130,11 @@ export default async function ProductDetailPage({ params }: Readonly<{ params: P
               </div>
               
               <div className="grid grid-cols-1 md:grid-cols-2 gap-8">
-                <div>
+                <div className="flex flex-col">
                    <h2 className="text-[1.1rem] font-black text-primary mb-6 flex items-center gap-3 bg-primary-light px-5 py-3.5 border-l-[6px] border-primary uppercase tracking-wider shadow-sm">
                     <Microscope size={20} /> Liều & Cách dùng
                   </h2>
-                  <div className="bg-white p-7 rounded-2xl border border-gray-100 shadow-sm flex flex-col h-full">
+                  <div className="bg-white p-7 rounded-2xl border border-gray-100 shadow-sm flex flex-col flex-1">
                      <div className="mb-6 pb-6 border-b border-gray-50">
                         <p className="mb-2 flex items-center gap-2 text-sm text-gray-400 font-bold uppercase tracking-widest leading-none">Đường cấp thuốc</p>
                         <p className="text-sanfovet-dark font-black text-lg">{product.dosage?.route}</p>
@@ -155,11 +155,11 @@ export default async function ProductDetailPage({ params }: Readonly<{ params: P
                   </div>
                 </div>
 
-                <div>
+                <div className="flex flex-col">
                    <h2 className="text-[1.1rem] font-black text-orange-600 mb-6 flex items-center gap-3 bg-orange-50 px-5 py-3.5 border-l-[6px] border-orange-600 uppercase tracking-wider shadow-sm">
                     <Calendar size={20} /> Ngưng thuốc
                   </h2>
-                  <div className="bg-white p-7 rounded-2xl border border-gray-100 shadow-sm flex flex-col h-full font-medium">
+                  <div className="bg-white p-7 rounded-2xl border border-gray-100 shadow-sm flex flex-col flex-1 font-medium">
                      <p className="text-gray-600 leading-relaxed mb-6">Ngừng sử dụng thuốc trước khi giết mổ:</p>
                      <div className="mt-auto bg-orange-50 p-6 rounded-2xl border border-orange-100 text-center">
                         <span className="text-3xl font-black text-orange-700 block mb-1">{product.withdrawalPeriod}</span>
@@ -171,19 +171,19 @@ export default async function ProductDetailPage({ params }: Readonly<{ params: P
 
               {/* Additional Info: Formulation & Storage */}
               <div className="grid grid-cols-1 md:grid-cols-2 gap-8">
-                <div>
+                <div className="flex flex-col">
                   <h2 className="text-[1.1rem] font-black text-primary mb-6 flex items-center gap-3 bg-primary-light px-5 py-3.5 border-l-[6px] border-primary uppercase tracking-wider shadow-sm">
                     <Package size={20} /> Dạng bào chế
                   </h2>
-                  <div className="bg-white p-7 rounded-2xl border border-gray-100 shadow-sm">
+                  <div className="bg-white p-7 rounded-2xl border border-gray-100 shadow-sm flex-1">
                     <p className="text-sanfovet-dark font-black text-lg">{product.formulation}</p>
                   </div>
                 </div>
-                <div>
+                <div className="flex flex-col">
                   <h2 className="text-[1.1rem] font-black text-blue-600 mb-6 flex items-center gap-3 bg-blue-50 px-5 py-3.5 border-l-[6px] border-blue-600 uppercase tracking-wider shadow-sm">
                     <ShieldCheck size={20} /> Bảo quản
                   </h2>
-                  <div className="bg-white p-7 rounded-2xl border border-gray-100 shadow-sm">
+                  <div className="bg-white p-7 rounded-2xl border border-gray-100 shadow-sm flex-1">
                     <p className="text-gray-700 font-medium leading-relaxed">{product.storage}</p>
                   </div>
                 </div>

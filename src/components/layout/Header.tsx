@@ -112,7 +112,7 @@ export default function Header() {
                 </div>
               </div>
 
-              <Link href="/cam-nang-chan-nuoi" className="px-3 py-2 text-[0.82rem] font-black text-sanfovet-dark hover:text-primary uppercase tracking-tight font-montserrat">{t('news')}</Link>
+              <Link href="/cam-nang-chan-nuoi" className="px-3 py-2 text-[0.82rem] font-black text-sanfovet-dark hover:text-primary uppercase tracking-tight font-montserrat">{t('knowledge')}</Link>
               <Link href="/tin-tuc" className="px-3 py-2 text-[0.82rem] font-black text-sanfovet-dark hover:text-primary uppercase tracking-tight font-montserrat">{t('news')}</Link>
               <Link href="/catalogue" className="px-3 py-2 text-[0.82rem] font-black text-sanfovet-dark hover:text-primary uppercase tracking-tight font-montserrat">{t('catalogue')}</Link>
               <Link href="/tuyen-dung" className="px-3 py-2 text-[0.82rem] font-black text-sanfovet-dark hover:text-primary uppercase tracking-tight font-montserrat">{t('recruitment')}</Link>
