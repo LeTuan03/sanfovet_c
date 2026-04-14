@@ -4,6 +4,8 @@ import { notFound } from 'next/navigation';
 import { products, categories } from '@/lib/data';
 import { ChevronRight, ArrowLeft, CheckCircle, FileText, Info, Package, AlertCircle, ShieldCheck, Download, Microscope, Calendar } from 'lucide-react';
 
+import ProductImageLightbox from '@/components/shared/ProductImageLightbox';
+
 export default async function ProductDetailPage({ params }: Readonly<{ params: Promise<{ slug: string }> }>) {
   const { slug } = await params;
   const product = products.find(p => p.slug === slug);
@@ -36,12 +38,8 @@ export default async function ProductDetailPage({ params }: Readonly<{ params: P
         {/* Product Hero */}
         <div className="grid grid-cols-1 lg:grid-cols-2 gap-12 lg:gap-20 mb-16">
           {/* Image */}
-          <div className="bg-sanfovet-alt rounded-[24px] p-8 md:p-12 flex items-center justify-center relative group shadow-inner">
-             <img 
-               src={product.image} 
-               alt={product.name} 
-               className="max-h-[400px] w-auto object-contain transition-transform duration-500 group-hover:scale-105"
-             />
+          <div className="bg-sanfovet-alt rounded-[24px] p-8 md:p-12 flex items-center justify-center relative shadow-inner">
+             <ProductImageLightbox src={product.image} alt={product.name} />
              <div className="absolute top-6 left-6 bg-white/80 backdrop-blur-sm p-3 rounded-full shadow-sm">
                 <ShieldCheck className="text-primary" size={24} />
              </div>
@@ -167,6 +165,26 @@ export default async function ProductDetailPage({ params }: Readonly<{ params: P
                         <span className="text-3xl font-black text-orange-700 block mb-1">{product.withdrawalPeriod}</span>
                         <span className="text-[0.65rem] font-bold text-orange-600/60 uppercase tracking-[2px]">Thời gian an toàn</span>
                      </div>
+                  </div>
+                </div>
+              </div>
+
+              {/* Additional Info: Formulation & Storage */}
+              <div className="grid grid-cols-1 md:grid-cols-2 gap-8">
+                <div>
+                  <h2 className="text-[1.1rem] font-black text-primary mb-6 flex items-center gap-3 bg-primary-light px-5 py-3.5 border-l-[6px] border-primary uppercase tracking-wider shadow-sm">
+                    <Package size={20} /> Dạng bào chế
+                  </h2>
+                  <div className="bg-white p-7 rounded-2xl border border-gray-100 shadow-sm">
+                    <p className="text-sanfovet-dark font-black text-lg">{product.formulation}</p>
+                  </div>
+                </div>
+                <div>
+                  <h2 className="text-[1.1rem] font-black text-blue-600 mb-6 flex items-center gap-3 bg-blue-50 px-5 py-3.5 border-l-[6px] border-blue-600 uppercase tracking-wider shadow-sm">
+                    <ShieldCheck size={20} /> Bảo quản
+                  </h2>
+                  <div className="bg-white p-7 rounded-2xl border border-gray-100 shadow-sm">
+                    <p className="text-gray-700 font-medium leading-relaxed">{product.storage}</p>
                   </div>
                 </div>
               </div>

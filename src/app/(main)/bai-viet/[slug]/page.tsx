@@ -2,7 +2,29 @@ import React from 'react';
 import Link from 'next/link';
 import { notFound } from 'next/navigation';
 import { articles, products } from '@/lib/data';
-import { Calendar, User, ChevronRight, ArrowLeft, Share2, Printer, Tag } from 'lucide-react';
+import { Calendar, User, ChevronRight, ArrowLeft, Share2, Printer, Tag, List } from 'lucide-react';
+
+function extractHeadings(html: string): { id: string; text: string }[] {
+  const regex = /<h2[^>]*>(.*?)<\/h2>/gi;
+  const headings: { id: string; text: string }[] = [];
+  let match;
+  while ((match = regex.exec(html)) !== null) {
+    const text = match[1].replace(/<[^>]*>/g, '').trim();
+    const id = text.toLowerCase().replace(/[^a-z0-9\u00C0-\u024F]+/gi, '-').replace(/^-|-$/g, '');
+    headings.push({ id, text });
+  }
+  return headings;
+}
+
+function getCategoryLabel(category: string): string {
+  switch (category) {
+    case 'benh-dieu-tri': return 'Bệnh & Điều Trị';
+    case 'cam-nang': return 'Cẩm Nang Chăn Nuôi';
+    case 'tin-noi-bo': return 'Tin Nội Bộ';
+    case 'tin-nganh': return 'Tin Ngành';
+    default: return 'Bài Viết';
+  }
+}
 
 interface Article {
   id: number;
@@ -28,8 +50,11 @@ export default async function ArticleDetailPage({ params }: Readonly<{ params: P
     .filter((a: any) => a.category === article.category && a.id !== article.id)
     .slice(0, 3);
 
-  // Get suggested products (simulated based on category)
+  // Get suggested products
   const suggestedProducts = products.slice(0, 3);
+
+  // Extract TOC headings
+  const headings = extractHeadings(article.content);
 
   return (
     <div className="bg-white min-h-screen">
@@ -56,7 +81,7 @@ export default async function ArticleDetailPage({ params }: Readonly<{ params: P
                 <header className="mb-10 not-prose">
                    <div className="flex items-center gap-4 text-sm text-gray-400 font-bold mb-4 uppercase tracking-widest">
                       <span className="bg-primary text-white px-3 py-1 rounded-full text-[10px]">
-                        {article.category === 'benh-dieu-tri' ? 'Bệnh & Điều Trị' : 'Cẩm nang'}
+                        {getCategoryLabel(article.category)}
                       </span>
                       <span className="flex items-center gap-1.5"><Calendar size={14} /> {article.publishDate}</span>
                       <span className="flex items-center gap-1.5"><User size={14} /> Sanfovet Editor</span>
@@ -121,6 +146,24 @@ export default async function ArticleDetailPage({ params }: Readonly<{ params: P
           {/* Sidebar */}
           <aside className="lg:col-span-1">
              <div className="sticky top-24 space-y-12">
+                 {/* Table of Contents */}
+                 {headings.length > 0 && (
+                   <div className="bg-sanfovet-alt p-6 rounded-[24px] border border-gray-100">
+                     <h3 className="font-black text-lg text-sanfovet-dark mb-4 flex items-center gap-2 uppercase tracking-wider">
+                       <List size={18} className="text-primary" /> Mục lục
+                     </h3>
+                     <ol className="space-y-2">
+                       {headings.map((h, i) => (
+                         <li key={h.id}>
+                           <a href={`#${h.id}`} className="text-sm font-medium text-gray-600 hover:text-primary transition-colors flex items-start gap-2">
+                             <span className="text-primary font-black text-xs mt-0.5">{i + 1}.</span> {h.text}
+                           </a>
+                         </li>
+                       ))}
+                     </ol>
+                   </div>
+                 )}
+
                 {/* Related Articles */}
                 <div>
                    <h3 className="font-black text-lg text-sanfovet-dark mb-6 border-b border-gray-100 pb-4 uppercase tracking-wider">Bài viết liên quan</h3>

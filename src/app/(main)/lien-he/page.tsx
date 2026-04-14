@@ -110,15 +110,18 @@ export default function ContactPage() {
           </div>
         </div>
 
-        {/* Google Maps (Placeholder frame) */}
-        <div className="mt-24 w-full h-[500px] rounded-[48px] overflow-hidden shadow-2xl border-8 border-white group relative">
-           <img src="/images/farm.png" className="w-full h-full object-cover blur-[2px] opacity-40" alt="Map loading" />
-           <div className="absolute inset-0 flex items-center justify-center">
-              <div className="bg-white/80 backdrop-blur-md px-10 py-5 rounded-full border border-gray-100 shadow-xl flex items-center gap-4">
-                 <div className="w-3 h-3 rounded-full bg-red-600 animate-pulse"></div>
-                 <span className="text-sanfovet-dark font-black uppercase text-sm tracking-widest italic tracking-tighter">Bản đồ Sanfovet tại Hà Nội</span>
-              </div>
-           </div>
+        {/* Google Maps */}
+        <div className="mt-24 w-full h-[500px] rounded-[48px] overflow-hidden shadow-2xl border-8 border-white">
+           <iframe 
+             src="https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d3727.9957!2d105.8652!3d20.8305!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x0%3A0x0!2sCụm+CN+Li%C3%AAn+Ph%C6%B0%C6%A1ng%2C+X%C3%A3+H%E1%BB%93ng+V%C3%A2n%2C+Th%C6%B0%E1%BB%9Dng+T%C3%ADn%2C+H%C3%A0+N%E1%BB%99i!5e0!3m2!1svi!2svn!4v1700000000000"
+             width="100%" 
+             height="100%" 
+             style={{ border: 0 }} 
+             allowFullScreen 
+             loading="lazy" 
+             referrerPolicy="no-referrer-when-downgrade"
+             title="Bản đồ Sanfovet - Cụm CN Liên Phương, Xã Hồng Vân, Thường Tín, Hà Nội"
+           />
         </div>
       </div>
     </div>

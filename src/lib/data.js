@@ -135,7 +135,7 @@ export const products = [
 export const articles = [
   {
     id: 1, slug: 'benh-glasser-o-lon', title: 'Bệnh Glasser ở lợn - Nguyên nhân, triệu chứng và cách điều trị hiệu quả',
-    category: 'benh-dieu-tri', publishDate: '15/03/2026', thumbnail: '/images/news-1.png',
+    category: 'benh-dieu-tri', animalTag: 'heo-cam-nang-chan-nuoi', publishDate: '15/03/2026', thumbnail: '/images/news-1.png',
     excerpt: 'Bệnh Glasser do vi khuẩn Haemophilus parasuis gây ra, là một trong những bệnh nguy hiểm nhất ở heo con. Tìm hiểu triệu chứng, chẩn đoán và phác đồ điều trị hiệu quả.',
     content: `
       <h2>1. Nguyên nhân gây bệnh Glasser</h2>
@@ -162,7 +162,7 @@ export const articles = [
   },
   {
     id: 2, slug: 'benh-adeno-tren-vit', title: 'Bệnh Adeno trên vịt - Phòng và điều trị bệnh do virus Adenovirus',
-    category: 'benh-dieu-tri', publishDate: '10/03/2026', thumbnail: '/images/news-2.png',
+    category: 'benh-dieu-tri', animalTag: 'vit-cam-nang-chan-nuoi', publishDate: '10/03/2026', thumbnail: '/images/news-2.png',
     excerpt: 'Bệnh Adeno trên vịt gây thiệt hại nghiêm trọng cho ngành chăn nuôi thủy cầm. Bài viết phân tích nguyên nhân, triệu chứng và phương pháp phòng trị hiệu quả.',
     content: `
       <h2>1. Đặc điểm bệnh Adeno trên vịt</h2>
@@ -187,7 +187,7 @@ export const articles = [
   },
   {
     id: 3, slug: 'huong-dan-nuoi-vit-sieu-thit', title: 'Hướng dẫn kỹ thuật nuôi vịt siêu thịt đạt hiệu quả cao',
-    category: 'cam-nang', publishDate: '28/02/2026', thumbnail: '/images/news-3.png',
+    category: 'cam-nang', animalTag: 'vit-cam-nang-chan-nuoi', publishDate: '28/02/2026', thumbnail: '/images/news-3.png',
     excerpt: 'Tổng hợp kỹ thuật nuôi vịt siêu thịt từ A-Z: chọn giống, chuồng trại, dinh dưỡng, phòng bệnh giúp đạt năng suất tối đa.',
     content: `
       <h2>1. Chọn giống vịt siêu thịt</h2>
@@ -207,7 +207,7 @@ export const articles = [
   },
   {
     id: 4, slug: 'benh-lo-mom-long-mong', title: 'Bệnh Lở mồm long móng (LMLM) - Bệnh truyền nhiễm cấp tính nguy hiểm',
-    category: 'benh-dieu-tri', publishDate: '20/03/2026', thumbnail: '/images/news-2.png',
+    category: 'benh-dieu-tri', animalTag: 'trau-bo-cam-nang-chan-nuoi', publishDate: '20/03/2026', thumbnail: '/images/news-2.png',
     excerpt: 'Bệnh LMLM là bệnh truyền nhiễm cấp tính nguy hiểm, gây thiệt hại lớn cho ngành chăn nuôi gia súc. Tìm hiểu cách phòng và điều trị hiệu quả.',
     content: `
       <h2>1. Tổng quan bệnh LMLM</h2>
@@ -230,7 +230,7 @@ export const articles = [
   },
   {
     id: 5, slug: 'ky-thuat-phong-benh-cho-ga', title: 'Kỹ thuật phòng bệnh tổng hợp cho gà nuôi công nghiệp',
-    category: 'cam-nang', publishDate: '15/02/2026', thumbnail: '/images/news-2.png',
+    category: 'cam-nang', animalTag: 'ga', publishDate: '15/02/2026', thumbnail: '/images/news-2.png',
     excerpt: 'Hướng dẫn chi tiết về lịch vaccine, vệ sinh chuồng trại, dinh dưỡng và sử dụng thuốc phòng bệnh cho gà công nghiệp.',
     content: `
       <h2>1. Quản lý môi trường nuôi dưỡng</h2>
@@ -279,7 +279,7 @@ export const articles = [
   },
   {
     id: 8, slug: 'ga-bi-thuong-han', title: 'Gà bị thương hàn - Cách nhận biết và phác đồ điều trị dứt điểm',
-    category: 'benh-dieu-tri', publishDate: '05/04/2026', thumbnail: '/images/news-1.png',
+    category: 'benh-dieu-tri', animalTag: 'ga', publishDate: '05/04/2026', thumbnail: '/images/news-1.png',
     excerpt: 'Bệnh thương hàn do vi khuẩn Salmonella gây ra, ảnh hưởng nghiêm trọng đến năng suất trứng và sức khỏe đàn gà. Xem ngay giải pháp điều trị.',
     content: `
       <h2>1. Nguyên nhân gây bệnh</h2>
@@ -305,4 +305,13 @@ export const jobs = [
   { id: 1, slug: 'nvkd-ninh-binh-thanh-hoa', title: 'Nhân viên Kinh doanh - Khu vực Ninh Bình, Thanh Hoá', location: 'Ninh Bình, Thanh Hoá', date: '2026-03-25', description: 'Tìm kiếm NVKD năng động tại khu vực Ninh Bình, Thanh Hoá. Yêu cầu: Tốt nghiệp Đại học/Cao đẳng ngành Thú y hoặc Chăn nuôi. Có kinh nghiệm ưu tiên.' },
   { id: 2, slug: 'nvkd-quang-binh-hue', title: 'Nhân viên Kinh doanh - Khu vực Quảng Bình, Quảng Trị, Huế', location: 'Quảng Bình, Quảng Trị, Huế', date: '2026-03-20', description: 'Tuyển NVKD khu vực miền Trung. Mức lương hấp dẫn + thưởng doanh số.' },
   { id: 3, slug: 'nvkd-lao-cai-yen-bai', title: 'Nhân viên Kinh doanh - Khu vực Lào Cai, Yên Bái, Sơn La', location: 'Lào Cai, Yên Bái, Sơn La, Hà Giang', date: '2026-03-15', description: 'Mở rộng thị trường khu vực Tây Bắc. Yêu cầu có phương tiện di chuyển.' },
+];
+
+// Animal tags for Cẩm nang grouping
+export const animalTags = [
+  { id: 1, name: 'Gà', slug: 'ga', icon: '🐔', description: 'Kỹ thuật chăn nuôi và phòng bệnh cho gà' },
+  { id: 2, name: 'Heo', slug: 'heo-cam-nang-chan-nuoi', icon: '🐷', description: 'Kiến thức nuôi heo hiệu quả, phòng trị bệnh trên heo' },
+  { id: 3, name: 'Vịt', slug: 'vit-cam-nang-chan-nuoi', icon: '🦆', description: 'Hướng dẫn nuôi vịt siêu thịt, vịt đẻ trứng' },
+  { id: 4, name: 'Trâu Bò', slug: 'trau-bo-cam-nang-chan-nuoi', icon: '🐄', description: 'Kỹ thuật chăn nuôi trâu bò thịt, bò sữa' },
+  { id: 5, name: 'Thủy Sản', slug: 'thuy-san', icon: '🐟', description: 'Nuôi trồng thủy sản: tôm, cá và các loài khác' },
 ];

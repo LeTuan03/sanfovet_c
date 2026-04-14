@@ -4,13 +4,21 @@ import { articles } from '@/lib/data';
 import { Calendar, ChevronRight, Globe } from 'lucide-react';
 
 export default function IndustryNewsPage() {
-  const list = articles.filter(a => a.category === 'tin-nganh');
+  const list = articles.filter((a: any) => a.category === 'tin-nganh');
 
   return (
     <div className="bg-white min-h-screen">
       <section className="bg-primary-dark text-white py-16 relative overflow-hidden">
         <div className="absolute inset-0 opacity-10 bg-[url('/images/farm.png')] bg-cover bg-center"></div>
         <div className="container mx-auto px-4 relative z-10">
+           {/* Breadcrumb */}
+           <div className="flex items-center gap-2 text-sm text-white/60 font-bold mb-6 uppercase tracking-widest">
+             <Link href="/" className="hover:text-white transition-colors">Trang chủ</Link>
+             <ChevronRight size={14} />
+             <Link href="/tin-tuc" className="hover:text-white transition-colors">Tin tức</Link>
+             <ChevronRight size={14} />
+             <span className="text-white">Tin tức ngành chăn nuôi</span>
+           </div>
            <h1 className="text-4xl font-black mb-4 uppercase italic">Tin tức ngành chăn nuôi</h1>
            <p className="text-primary-light max-w-xl font-medium">Cập nhật tin tức, xu hướng và thông tin mới nhất về thị trường thú y Việt Nam và Thế giới.</p>
         </div>
@@ -18,7 +26,7 @@ export default function IndustryNewsPage() {
 
       <div className="container mx-auto px-4 py-16">
         <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8">
-          {list.map((a) => (
+          {list.map((a: any) => (
             <article key={a.id} className="group bg-white rounded-[32px] border border-gray-100 shadow-sm hover:shadow-xl transition-all duration-500 overflow-hidden">
                <Link href={`/bai-viet/${a.slug}`} className="aspect-video relative overflow-hidden block">
                   <img src={a.thumbnail} alt={a.title} className="w-full h-full object-cover group-hover:scale-110 transition-transform duration-700" />
