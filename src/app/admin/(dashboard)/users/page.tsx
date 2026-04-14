@@ -12,7 +12,23 @@ const initialUsers = [
 export default function AdminUsersPage() {
   const [users, setUsers] = useState(initialUsers);
   const [isModalOpen, setIsModalOpen] = useState(false);
+  const [isPassModalOpen, setIsPassModalOpen] = useState(false);
+  const [selectedUser, setSelectedUser] = useState<any>(null);
   const [form] = Form.useForm();
+  const [passForm] = Form.useForm();
+
+  const handleOpenPassModal = (record: any) => {
+    setSelectedUser(record);
+    passForm.resetFields();
+    setIsPassModalOpen(true);
+  };
+
+  const handleChangePassword = () => {
+    passForm.validateFields().then(() => {
+      message.success(`Đã đổi mật khẩu cho tài khoản ${selectedUser.email}`);
+      setIsPassModalOpen(false);
+    });
+  };
 
   const columns = [
     {
@@ -49,7 +65,7 @@ export default function AdminUsersPage() {
       render: (_: any, record: any) => (
         <Space size="middle">
           <Tooltip title="Đổi mật khẩu">
-            <Button icon={<LockOutlined />} />
+            <Button icon={<LockOutlined />} onClick={() => handleOpenPassModal(record)} />
           </Tooltip>
           <Button type="primary" ghost icon={<EditOutlined />} />
           <Button 
@@ -104,21 +120,49 @@ export default function AdminUsersPage() {
         okText="Tạo tài khoản"
         cancelText="Hủy"
       >
-         <Form layout="vertical" className="mt-6">
-            <Form.Item label="Họ và tên" required>
+         <Form form={form} layout="vertical" className="mt-6">
+            <Form.Item label="Họ và tên" name="name" required>
                <Input placeholder="VD: Nguyễn Văn A" />
             </Form.Item>
-            <Form.Item label="Email đăng nhập" required>
+            <Form.Item label="Email đăng nhập" name="email" required>
                <Input placeholder="email@sanfovet.com.vn" />
             </Form.Item>
-            <Form.Item label="Mật khẩu tạm thời" required>
+            <Form.Item label="Mật khẩu tạm thời" name="password" required>
                <Input.Password prefix={<LockOutlined className="text-gray-300" />} />
             </Form.Item>
-            <Form.Item label="Quyền hạn">
-               <Select defaultValue="Editor">
+            <Form.Item label="Quyền hạn" name="role" initialValue="Editor">
+               <Select>
                   <Select.Option value="SuperAdmin">SuperAdmin (Toàn quyền)</Select.Option>
                   <Select.Option value="Editor">Editor (Chỉ sửa nội dung)</Select.Option>
                </Select>
+            </Form.Item>
+         </Form>
+      </Modal>
+
+      <Modal
+        title={<span>Đổi mật khẩu cho <b>{selectedUser?.name}</b></span>}
+        open={isPassModalOpen}
+        onOk={handleChangePassword}
+        onCancel={() => setIsPassModalOpen(false)}
+        okText="Cập nhật mật khẩu"
+        cancelText="Bỏ qua"
+      >
+         <Form form={passForm} layout="vertical" className="mt-6">
+            <Form.Item label="Mật khẩu mới" name="newPassword" rules={[{ required: true, min: 6 }]}>
+               <Input.Password prefix={<LockOutlined className="text-gray-300" />} />
+            </Form.Item>
+            <Form.Item label="Xác nhận mật khẩu" name="confirmPassword" dependencies={['newPassword']} rules={[
+               { required: true },
+               ({ getFieldValue }) => ({
+                  validator(_, value) {
+                     if (!value || getFieldValue('newPassword') === value) {
+                        return Promise.resolve();
+                     }
+                     return Promise.reject(new Error('Mật khẩu không khớp!'));
+                  },
+               }),
+            ]}>
+               <Input.Password prefix={<LockOutlined className="text-gray-300" />} />
             </Form.Item>
          </Form>
       </Modal>
