@@ -181,6 +181,7 @@ export default function AdminLayout({
               padding: 24,
               minHeight: 280,
               background: '#f8faf9',
+              flex: 'auto',
             }}
           >
             <div className="max-w-[1600px] mx-auto">

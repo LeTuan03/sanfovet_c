@@ -27,7 +27,7 @@ export default function RootLayout({
 }>) {
   return (
     <html lang="vi" className={`${inter.variable} ${montserrat.variable}`} suppressHydrationWarning>
-      <body className={`${inter.className} antialiased`}>
+      <body className={`${inter.className} antialiased min-h-screen`} suppressHydrationWarning>
         <AntdRegistry>{children}</AntdRegistry>
       </body>
     </html>
