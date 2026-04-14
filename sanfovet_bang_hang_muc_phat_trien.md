@@ -15,6 +15,7 @@
 | 1 | Cấu trúc chung & Header / Footer | Logo, topbar (email + hotline + ngôn ngữ VI/EN), menu chính có dropdown (Sản phẩm 10 danh mục, Tin tức, Giới thiệu), menu mobile hamburger; footer 4 cột: thông tin công ty, link sản phẩm, hỗ trợ kỹ thuật, mạng xã hội, copyright | Frontend | 800 |
 | 2 | Widget Float / Sticky – Hỗ trợ nhanh | Các nút cố định màn hình: Hotline click-to-call, Email click-to-email, Zalo, Facebook, nút mở Popup liên hệ nhanh | Frontend | 250 |
 | 3 | Trang chủ (`/`) | Banner slider tự động (3–4 ảnh), block "Về chúng tôi" + nút xem thêm + nút catalogue, thumbnail video giới thiệu, block "Sản phẩm nổi bật" (grid 7 sản phẩm + hover overlay), block "Bệnh & điều trị" (5 bài mới nhất), block "Tin nổi bật" (5 bài), block "Tại sao chọn chúng tôi" (5 icon) | Frontend | 1.000 |
+| **3a** | **Block Video & Hình ảnh – Trang chủ** | **Section riêng trên trang chủ: gallery hình ảnh dạng masonry/grid (tối đa 12 ảnh, lightbox phóng to), nhúng 1–2 video (YouTube embed hoặc MP4 self-hosted) với thumbnail tùy chỉnh, autoplay tắt theo mặc định, responsive đầy đủ trên mobile/tablet** | **Frontend** | **350** |
 | 4 | Trang Giới thiệu (`/gioi-thieu/`) | Video MP4 self-hosted nhúng trực tiếp có play/pause; 6 tab/section nội dung: Catalogue, Lịch sử, Giới thiệu, Tầm nhìn–Sứ mệnh, Cơ sở vật chất, Cơ cấu tổ chức; sidebar sản phẩm nổi bật + tin tức; breadcrumb | Frontend | 450 |
 | 5 | Trang Catalogue (`/catalogue/`) | Hiển thị PDF/ảnh catalogue, nút tải xuống file PDF/ZIP, breadcrumb | Frontend | 250 |
 | 6 | Trang Tổng Sản phẩm (`/danh-muc-san-pham/san-pham/`) | Grid tất cả sản phẩm (ảnh + tên + hover "Xem thêm"), sidebar 10 danh mục lọc nhanh, phân trang | Frontend | 350 |
@@ -42,6 +43,7 @@
 | 21 | Quản lý Tin tức | CRUD tin tức: tiêu đề, nội dung, ảnh đại diện, phân loại (Nội bộ / Ngành chăn nuôi thú y), ngày đăng, trạng thái đăng/ẩn | Admin | 250 |
 | 22 | Quản lý Tuyển dụng | CRUD tin tuyển dụng: tiêu đề vị trí, ảnh poster, nội dung HTML chi tiết (khu vực, yêu cầu, quyền lợi), ngày đăng, trạng thái | Admin | 200 |
 | 23 | Quản lý Banner / Slider trang chủ | Thêm/sửa/xóa/sắp xếp thứ tự banner slider; upload ảnh; gán link điều hướng | Admin | 200 |
+| **23a** | **Quản lý Video & Hình ảnh – Trang chủ** | **Giao diện admin quản lý riêng cho section video/hình ảnh trang chủ: upload/xóa/sắp xếp ảnh gallery (tối đa 12 ảnh, kéo thả đổi thứ tự); thêm/sửa/xóa video (nhập URL YouTube hoặc upload MP4); đặt thumbnail tùy chỉnh cho từng video; bật/tắt hiển thị từng item** | **Admin** | **300** |
 | 24 | Quản lý Menu | Quản lý menu chính & sub-menu dropdown (Sản phẩm 10 danh mục, Giới thiệu, Tin tức) | Admin | 150 |
 | 25 | Quản lý Thông tin chung | Email, hotline, địa chỉ 2 cơ sở, link mạng xã hội (Facebook, YouTube, Zalo), thông tin hỗ trợ kỹ thuật | Admin | 200 |
 | 26 | Quản lý User | CRUD tài khoản admin, đổi mật khẩu, phân quyền | Admin | 150 |
@@ -64,10 +66,10 @@
 
 | Nhóm | Số hạng mục | Tổng chi phí (VND) |
 |------|:-----------:|:------------------:|
-| Frontend – Giao diện người dùng (17 hạng mục) | 17 | **7.600.000đ** |
-| Admin – Quản trị nội dung (9 hạng mục) | 9 | **2.400.000đ** |
+| Frontend – Giao diện người dùng (18 hạng mục) | 18 | **7.950.000đ** |
+| Admin – Quản trị nội dung (10 hạng mục) | 10 | **2.700.000đ** |
 | Cài đặt & Tối ưu vận hành (3 hạng mục) | 3 | **1.000.000đ** |
-| **TỔNG CHI PHÍ PHÁT TRIỂN** | **29** | **10.750.000đ** |
+| **TỔNG CHI PHÍ PHÁT TRIỂN** | **31** | **11.650.000đ** |
 | Hosting (tháng đầu) | — | ......đ/tháng |
 | Tên miền .com (năm đầu) | — | ......đ/năm |
 
