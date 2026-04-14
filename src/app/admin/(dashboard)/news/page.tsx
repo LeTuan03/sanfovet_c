@@ -4,6 +4,7 @@ import React, { useState } from 'react';
 import { Table, Button, Space, Tag, Input, Modal, Form, Select, Switch, message, Breadcrumb } from 'antd';
 import { PlusOutlined, EditOutlined, DeleteOutlined, SearchOutlined, ReadOutlined } from '@ant-design/icons';
 import { articles } from '@/lib/data';
+import CKEditor from '@/components/admin/CKEditor';
 
 const { Search } = Input;
 
@@ -226,7 +227,7 @@ export default function AdminNewsPage() {
             name="content"
             label="Nội dung chi tiết"
           >
-            <Input.TextArea rows={10} placeholder="Nhập nội dung HTML hoặc văn bản của bài viết..." />
+            <CKEditor placeholder="Nhập nội dung chi tiết bài viết..." />
           </Form.Item>
         </Form>
       </Modal>

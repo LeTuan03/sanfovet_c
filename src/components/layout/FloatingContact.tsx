@@ -23,7 +23,7 @@ export default function FloatingContact() {
   return (
     <>
       {/* Floating Action Buttons */}
-      <div className="fixed bottom-6 right-6 flex flex-col gap-3 z-[999]">
+      <div className="hidden md:flex fixed bottom-6 right-6 flex-col gap-3 z-[999]">
         <a 
           href="tel:0974999204" 
           className="w-[52px] h-[52px] rounded-full flex items-center justify-center text-white shadow-lg transition-transform hover:scale-110 active:scale-95 bg-gradient-to-br from-[#e53935] to-[#c62828] animate-bounce-slow"
@@ -69,7 +69,7 @@ export default function FloatingContact() {
       {showBackToTop && (
         <button 
           onClick={scrollToTop}
-          className="fixed bottom-[380px] right-6 w-11 h-11 bg-primary text-white rounded-full flex items-center justify-center shadow-md z-[998] transition-all hover:bg-primary-dark hover:-translate-y-0.5 animate-fade-in"
+          className="hidden md:flex fixed bottom-[380px] right-6 w-11 h-11 bg-primary text-white rounded-full items-center justify-center shadow-md z-[998] transition-all hover:bg-primary-dark hover:-translate-y-0.5 animate-fade-in"
           title="Quay lại đầu trang"
         >
           <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2.5" strokeLinecap="round" strokeLinejoin="round"><path d="m18 15-6-6-6 6"/></svg>

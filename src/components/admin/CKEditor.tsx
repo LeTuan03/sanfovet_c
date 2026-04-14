@@ -38,6 +38,49 @@ export default function CKEditorWrapper({ value, onChange, placeholder }: CKEdit
     );
   }
 
+  // Custom Upload Adapter for Base64 images
+  class MyUploadAdapter {
+    loader: any;
+    reader: any;
+
+    constructor(loader: any) {
+      this.loader = loader;
+    }
+
+    upload() {
+      return this.loader.file.then(
+        (file: any) =>
+          new Promise((resolve, reject) => {
+            const reader = new FileReader();
+            reader.onload = () => {
+              resolve({
+                default: reader.result,
+              });
+            };
+            reader.onerror = (error) => {
+              reject(error);
+            };
+            reader.onabort = () => {
+              reject();
+            };
+            reader.readAsDataURL(file);
+          })
+      );
+    }
+
+    abort() {
+      if (this.reader) {
+        this.reader.abort();
+      }
+    }
+  }
+
+  function MyCustomUploadAdapterPlugin(editor: any) {
+    editor.plugins.get('FileRepository').createUploadAdapter = (loader: any) => {
+      return new MyUploadAdapter(loader);
+    };
+  }
+
   return (
     <div className="ck-editor-container premium-editor">
       <CKEditor
@@ -55,6 +98,7 @@ export default function CKEditorWrapper({ value, onChange, placeholder }: CKEdit
               'bulletedList',
               'numberedList',
               '|',
+              'imageUpload',
               'blockQuote',
               'insertTable',
               'mediaEmbed',
@@ -62,6 +106,7 @@ export default function CKEditorWrapper({ value, onChange, placeholder }: CKEdit
               'redo'
             ]
           },
+          extraPlugins: [MyCustomUploadAdapterPlugin],
           language: 'vi',
         }}
         onChange={(event: any, editor: any) => {
