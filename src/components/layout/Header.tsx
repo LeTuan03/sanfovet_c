@@ -7,9 +7,12 @@ import {
   Syringe, FlaskConical, TestTube, Pill, Droplets, Bug, ShieldCheck, Leaf, FlaskRound, Beaker 
 } from 'lucide-react';
 import { FacebookOutlined, YoutubeOutlined } from '@ant-design/icons';
+import { useLanguage } from '@/lib/LanguageContext';
 
 export default function Header() {
+  const { language, setLanguage, t } = useLanguage();
   const [isMobileMenuOpen, setIsMobileMenuOpen] = useState(false);
+
   const [isScrolled, setIsScrolled] = useState(false);
 
   useEffect(() => {
@@ -43,10 +46,16 @@ export default function Header() {
               </Link>
             </div>
             <div className="flex items-center gap-2 border-l border-white/20 pl-4">
-              <button className="flex items-center gap-1.5 px-2.5 py-1 bg-primary rounded text-[0.7rem] font-black border border-primary transition-all uppercase tracking-wider">
+              <button 
+                onClick={() => setLanguage('vi')}
+                className={`flex items-center gap-1.5 px-2.5 py-1 rounded text-[0.7rem] font-black border transition-all uppercase tracking-wider ${language === 'vi' ? 'bg-primary border-primary' : 'bg-white/5 border-white/20 text-white/80 hover:bg-white/10'}`}
+              >
                 <img src="/images/VN.png" alt="VN" className="w-[16px] rounded-sm" /> VI
               </button>
-              <button className="flex items-center gap-1.5 px-2.5 py-1 bg-white/5 hover:bg-white/10 rounded text-[0.7rem] font-black border border-white/20 transition-all uppercase tracking-wider text-white/80">
+              <button 
+                onClick={() => setLanguage('en')}
+                className={`flex items-center gap-1.5 px-2.5 py-1 rounded text-[0.7rem] font-black border transition-all uppercase tracking-wider ${language === 'en' ? 'bg-primary border-primary' : 'bg-white/5 border-white/20 text-white/80 hover:bg-white/10'}`}
+              >
                 <img src="/images/UK.png" alt="EN" className="w-[16px] rounded-sm" /> EN
               </button>
             </div>
@@ -69,12 +78,12 @@ export default function Header() {
 
             {/* Desktop Nav */}
             <nav className="hidden lg:flex items-center gap-1">
-              <Link href="/" className="px-3 py-2 text-[0.82rem] font-black text-sanfovet-dark hover:text-primary uppercase tracking-tight font-montserrat">Trang chủ</Link>
-              <Link href="/gioi-thieu" className="px-3 py-2 text-[0.82rem] font-black text-sanfovet-dark hover:text-primary uppercase tracking-tight font-montserrat">Giới thiệu</Link>
+              <Link href="/" className="px-3 py-2 text-[0.82rem] font-black text-sanfovet-dark hover:text-primary uppercase tracking-tight font-montserrat">{t('home')}</Link>
+              <Link href="/gioi-thieu" className="px-3 py-2 text-[0.82rem] font-black text-sanfovet-dark hover:text-primary uppercase tracking-tight font-montserrat">{t('about')}</Link>
               
               <div className="relative group p-0">
                 <Link href="/san-pham" className="px-3 py-2 text-[0.82rem] font-black text-sanfovet-dark hover:text-primary uppercase tracking-tight flex items-center gap-1 group-hover:bg-sanfovet-alt rounded-lg transition-colors font-montserrat">
-                  Sản phẩm <ChevronDown size={14} className="group-hover:rotate-180 transition-transform" />
+                  {t('products')} <ChevronDown size={14} className="group-hover:rotate-180 transition-transform" />
                 </Link>
                 {/* Mega Dropdown */}
                 <div className="absolute top-full left-0 w-[440px] bg-white shadow-2xl rounded-2xl py-6 opacity-0 invisible group-hover:opacity-100 group-hover:visible transition-all translate-y-2 group-hover:translate-y-0 border border-gray-100 z-50 overflow-hidden">
@@ -103,12 +112,11 @@ export default function Header() {
                 </div>
               </div>
 
-              <Link href="/cam-nang-chan-nuoi" className="px-3 py-2 text-[0.82rem] font-black text-sanfovet-dark hover:text-primary uppercase tracking-tight font-montserrat">Cẩm nang</Link>
-              <Link href="/benh-va-dieu-tri-benh" className="px-3 py-2 text-[0.82rem] font-black text-sanfovet-dark hover:text-primary uppercase tracking-tight font-montserrat">Bệnh & Điều trị</Link>
-              <Link href="/tin-tuc" className="px-3 py-2 text-[0.82rem] font-black text-sanfovet-dark hover:text-primary uppercase tracking-tight font-montserrat">Tin tức</Link>
-              <Link href="/catalogue" className="px-3 py-2 text-[0.82rem] font-black text-sanfovet-dark hover:text-primary uppercase tracking-tight font-montserrat">Catalogue</Link>
-              <Link href="/tuyen-dung" className="px-3 py-2 text-[0.82rem] font-black text-sanfovet-dark hover:text-primary uppercase tracking-tight font-montserrat">Tuyển dụng</Link>
-              <Link href="/lien-he" className="ml-4 px-6 py-2.5 bg-primary text-white text-[0.82rem] font-black rounded-full hover:bg-primary-dark transition-all uppercase tracking-widest shadow-lg shadow-primary/20 active:scale-95 font-montserrat">Liên hệ</Link>
+              <Link href="/cam-nang-chan-nuoi" className="px-3 py-2 text-[0.82rem] font-black text-sanfovet-dark hover:text-primary uppercase tracking-tight font-montserrat">{t('news')}</Link>
+              <Link href="/tin-tuc" className="px-3 py-2 text-[0.82rem] font-black text-sanfovet-dark hover:text-primary uppercase tracking-tight font-montserrat">{t('news')}</Link>
+              <Link href="/catalogue" className="px-3 py-2 text-[0.82rem] font-black text-sanfovet-dark hover:text-primary uppercase tracking-tight font-montserrat">{t('catalogue')}</Link>
+              <Link href="/tuyen-dung" className="px-3 py-2 text-[0.82rem] font-black text-sanfovet-dark hover:text-primary uppercase tracking-tight font-montserrat">{t('recruitment')}</Link>
+              <Link href="/lien-he" className="ml-4 px-6 py-2.5 bg-primary text-white text-[0.82rem] font-black rounded-full hover:bg-primary-dark transition-all uppercase tracking-widest shadow-lg shadow-primary/20 active:scale-95 font-montserrat">{t('contact')}</Link>
             </nav>
 
             {/* Mobile Menu Button */}

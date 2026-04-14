@@ -1,7 +1,15 @@
+import { Metadata } from 'next';
 import React from 'react';
 import Link from 'next/link';
 import { jobs } from '@/lib/data';
 import { MapPin, Calendar, Users, Target, CircleCheck, Heart, Mail } from 'lucide-react';
+
+export const metadata: Metadata = {
+  title: "Tuyển Dụng",
+  description: "Gia nhập SANFOVET – Môi trường làm việc năng động, chuyên nghiệp với chế độ đãi ngộ hấp dẫn. Xem các vị trí đang tuyển dụng ngay.",
+  keywords: ["tuyển dụng sanfovet", "việc làm thú y", "tuyển nhân viên kinh doanh", "hành trình sự nghiệp"],
+};
+
 
 export default function RecruitmentPage() {
   const benefits = [

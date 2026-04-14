@@ -7,11 +7,26 @@ import { SettingOutlined, PhoneOutlined, MailOutlined, HomeOutlined, FacebookOut
 export default function AdminSettingsPage() {
   const [form] = Form.useForm();
 
+  // Load from localStorage on mount
+  React.useEffect(() => {
+    const savedSettings = localStorage.getItem('sanfovet_settings');
+    if (savedSettings) {
+      try {
+        form.setFieldsValue(JSON.parse(savedSettings));
+      } catch (e) {
+        console.error('Failed to parse settings', e);
+      }
+    }
+  }, [form]);
+
   const handleSave = () => {
-    message.loading({ content: 'Đang lưu cài đặt...', key: 'save' });
-    setTimeout(() => {
-      message.success({ content: 'Lưu thay đổi thành công!', key: 'save' });
-    }, 1000);
+    form.validateFields().then(values => {
+      message.loading({ content: 'Đang lưu cài đặt...', key: 'save' });
+      localStorage.setItem('sanfovet_settings', JSON.stringify(values));
+      setTimeout(() => {
+        message.success({ content: 'Lưu thay đổi thành công!', key: 'save' });
+      }, 800);
+    });
   };
 
   return (

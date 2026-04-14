@@ -18,7 +18,7 @@ export default async function ProductDetailPage({ params }: Readonly<{ params: P
   const relatedProducts = products.filter(p => p.categoryId === product.categoryId && p.id !== product.id).slice(0, 4);
 
   return (
-    <div className="bg-white min-h-screen pb-24">
+    <div className="bg-white min-h-[100vh] pb-24">
       {/* Breadcrumbs */}
       <div className="bg-sanfovet-alt py-4">
         <div className="container mx-auto px-4 flex items-center text-sm text-gray-500">

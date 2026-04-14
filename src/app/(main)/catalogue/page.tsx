@@ -1,5 +1,13 @@
+import { Metadata } from 'next';
 import React from 'react';
 import { FileText, Download, Eye, ShieldCheck, Award } from 'lucide-react';
+
+export const metadata: Metadata = {
+  title: "Catalogue & Tài liệu",
+  description: "Tải về Catalogue sản phẩm thú y 2026 và Hồ sơ năng lực mới nhất của SANFOVET. Tài liệu kỹ thuật chuyên sâu cho trang trại.",
+  keywords: ["catalogue thuốc thú y", "hồ sơ năng lực sanfovet", "tải tài liệu thú y", "hướng dẫn sử dụng thuốc thú y"],
+};
+
 
 export default function CataloguePage() {
   const documents = [
@@ -50,14 +58,22 @@ export default function CataloguePage() {
                          {doc.type} • {doc.size}
                       </p>
                    </div>
-                   <div className="flex gap-4">
-                      <button className="flex items-center gap-2 bg-sanfovet-alt text-primary font-black py-3 px-6 rounded-full text-xs uppercase tracking-widest hover:bg-primary hover:text-white transition-all">
-                         <Eye size={16} /> Xem
-                      </button>
-                      <button className="flex items-center gap-2 bg-primary text-white font-black py-3 px-6 rounded-full text-xs uppercase tracking-widest hover:bg-primary-dark transition-all shadow-lg shadow-primary/20">
-                         <Download size={16} /> Tải về
-                      </button>
-                   </div>
+                    <div className="flex gap-4">
+                       <a 
+                         href="https://www.w3.org/WAI/ER/tests/xhtml/testfiles/resources/pdf/dummy.pdf" 
+                         target="_blank"
+                         className="flex items-center gap-2 bg-sanfovet-alt text-primary font-black py-3 px-6 rounded-full text-xs uppercase tracking-widest hover:bg-primary hover:text-white transition-all"
+                       >
+                          <Eye size={16} /> Xem
+                       </a>
+                       <a 
+                         href="https://www.w3.org/WAI/ER/tests/xhtml/testfiles/resources/pdf/dummy.pdf" 
+                         download
+                         className="flex items-center gap-2 bg-primary text-white font-black py-3 px-6 rounded-full text-xs uppercase tracking-widest hover:bg-primary-dark transition-all shadow-lg shadow-primary/20"
+                       >
+                          <Download size={16} /> Tải về
+                       </a>
+                    </div>
                 </div>
               ))}
            </div>
