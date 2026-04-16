@@ -1,10 +1,21 @@
 import React from 'react';
 import Link from 'next/link';
 import { notFound } from 'next/navigation';
-import { products, categories } from '@/lib/data';
+import { products, articles, categories } from '@/lib/data';
 import { ChevronRight, ArrowLeft, CheckCircle, FileText, Info, Package, AlertCircle, ShieldCheck, Download, Microscope, Calendar } from 'lucide-react';
+import { Metadata } from 'next';
 
 import ProductImageLightbox from '@/components/shared/ProductImageLightbox';
+
+export async function generateMetadata({ params }: { params: Promise<{ slug: string }> }): Promise<Metadata> {
+  const { slug } = await params;
+  const product = products.find(p => p.slug === slug);
+  
+  return {
+    title: product ? `${product.name} - Sanfovet` : 'Sản phẩm - Sanfovet',
+    description: product?.tagline || 'Chi tiết sản phẩm thuốc thú y Sanfovet',
+  };
+}
 
 export default async function ProductDetailPage({ params }: Readonly<{ params: Promise<{ slug: string }> }>) {
   const { slug } = await params;

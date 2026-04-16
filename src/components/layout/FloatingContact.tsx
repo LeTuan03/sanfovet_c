@@ -78,8 +78,14 @@ export default function FloatingContact() {
 
       {/* Contact Popup Overlay */}
       {isPopupOpen && (
-        <div className="fixed inset-0 bg-black/60 backdrop-blur-sm z-[2000] flex items-center justify-center p-4 animate-fade-in">
-          <div className="bg-white rounded-[20px] p-9 max-w-[480px] w-full relative shadow-2xl animate-scale-up">
+        <div 
+          className="fixed inset-0 bg-black/60 backdrop-blur-sm z-[2000] flex items-center justify-center p-4 animate-fade-in"
+          onClick={() => setIsPopupOpen(false)}
+        >
+          <div 
+            className="bg-white rounded-[20px] p-9 max-w-[480px] w-full relative shadow-2xl animate-scale-up"
+            onClick={(e) => e.stopPropagation()}
+          >
             <button 
               onClick={() => setIsPopupOpen(false)}
               className="absolute top-3 right-3 w-9 h-9 flex items-center justify-center rounded-full bg-gray-50 text-gray-400 hover:text-gray-900 transition-colors"

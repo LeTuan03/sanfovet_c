@@ -1,17 +1,70 @@
 "use client";
 
-import React, { useState } from 'react';
-import { Table, Button, Space, Modal, Form, Input, Tabs, message, Tag, Breadcrumb, Divider } from 'antd';
-import { PlusOutlined, EditOutlined, DeleteOutlined, AppstoreOutlined, TagsOutlined } from '@ant-design/icons';
+import React, { useState, useMemo } from 'react';
+import { useRouter, useSearchParams, usePathname } from 'next/navigation';
+import { Table, Button, Space, Modal, Form, Input, Tabs, Tooltip, Row, Col, App } from 'antd';
+import { 
+  PlusOutlined, EditOutlined, DeleteOutlined, 
+  AppstoreOutlined, TagsOutlined, SearchOutlined 
+} from '@ant-design/icons';
 import { categories as initialCategories, animalTags as initialAnimalTags } from '@/lib/data';
+import AdminPageHeader from '@/components/admin/AdminPageHeader';
+import { motion } from 'framer-motion';
 
 export default function CategoryAndTagManagement() {
+  const { modal, message } = App.useApp();
+  const router = useRouter();
+  const pathname = usePathname();
+  const searchParams = useSearchParams();
+  const query = searchParams.get('q') || '';
+  const page = parseInt(searchParams.get('page') || '1');
+  const activeTab = searchParams.get('tab') || '1';
+
   const [categories, setCategories] = useState([...initialCategories]);
   const [animalTags, setAnimalTags] = useState([...initialAnimalTags]);
-  const [activeTab, setActiveTab] = useState('1');
   const [isModalOpen, setIsModalOpen] = useState(false);
   const [editingItem, setEditingItem] = useState<any>(null);
   const [form] = Form.useForm();
+
+  // Derived filtered data
+  const filteredCategories = useMemo(() => {
+    return categories.filter(item => 
+      item.name.toLowerCase().includes(query.toLowerCase()) ||
+      item.slug.toLowerCase().includes(query.toLowerCase())
+    );
+  }, [categories, query]);
+
+  const filteredAnimalTags = useMemo(() => {
+    return animalTags.filter(item => 
+      item.name.toLowerCase().includes(query.toLowerCase()) ||
+      item.slug.toLowerCase().includes(query.toLowerCase())
+    );
+  }, [animalTags, query]);
+
+  const updateUrl = (params: { q?: string; page?: number; tab?: string }) => {
+    const newSearchParams = new URLSearchParams(searchParams.toString());
+    
+    if (params.q !== undefined) {
+      if (params.q) newSearchParams.set('q', params.q);
+      else newSearchParams.delete('q');
+      newSearchParams.set('page', '1'); // Reset to page 1 on search
+    }
+    
+    if (params.page !== undefined) {
+      newSearchParams.set('page', params.page.toString());
+    }
+
+    if (params.tab !== undefined) {
+      newSearchParams.set('tab', params.tab);
+      newSearchParams.set('page', '1'); // Reset to page 1 on tab change
+    }
+
+    router.push(`${pathname}?${newSearchParams.toString()}`);
+  };
+
+  const onTabChange = (key: string) => {
+    updateUrl({ tab: key });
+  };
 
   const showModal = (record?: any) => {
     if (record) {
@@ -27,7 +80,6 @@ export default function CategoryAndTagManagement() {
   const handleOk = () => {
     form.validateFields().then((values) => {
       if (activeTab === '1') {
-        // Handle Product Categories
         if (editingItem) {
           setCategories(categories.map((item) => (item.id === editingItem.id ? { ...item, ...values } : item)));
           message.success('Cập nhật danh mục thành công');
@@ -41,7 +93,6 @@ export default function CategoryAndTagManagement() {
           message.success('Thêm danh mục mới thành công');
         }
       } else {
-        // Handle Animal Tags
         if (editingItem) {
           setAnimalTags(animalTags.map((item) => (item.id === editingItem.id ? { ...item, ...values } : item)));
           message.success('Cập nhật loài vật thành công');
@@ -61,7 +112,7 @@ export default function CategoryAndTagManagement() {
   };
 
   const handleDelete = (id: number) => {
-    Modal.confirm({
+    modal.confirm({
       title: 'Xác nhận xóa',
       content: 'Việc xóa phân loại này có thể ảnh hưởng đến hiển thị của các sản phẩm/bài viết liên quan. Bạn có chắc chắn?',
       okText: 'Xóa',
@@ -78,88 +129,152 @@ export default function CategoryAndTagManagement() {
   };
 
   const categoryColumns = [
-    { title: 'ID', dataIndex: 'id', key: 'id', width: 80 },
-    { title: 'Tên danh mục', dataIndex: 'name', key: 'name', render: (text: string) => <span className="font-bold text-gray-800">{text}</span> },
-    { title: 'Slug (URL)', dataIndex: 'slug', key: 'slug', render: (text: string) => <code className="text-xs text-primary bg-primary-light px-2 py-1 rounded-md">{text}</code> },
+    { 
+      title: 'ID', 
+      dataIndex: 'id', 
+      key: 'id', 
+      width: 80,
+      render: (id: number) => <span className="font-bold text-gray-400 text-xs">#{id}</span>
+    },
+    { 
+      title: 'Tên danh mục', 
+      dataIndex: 'name', 
+      key: 'name', 
+      render: (text: string) => <span className="font-black text-sanfovet-dark">{text}</span> 
+    },
+    { 
+      title: 'Slug (URL)', 
+      dataIndex: 'slug', 
+      key: 'slug', 
+      render: (text: string) => <code className="text-[10px] text-primary bg-emerald-50 px-2 py-1 rounded-md border border-emerald-100 font-bold">{text}</code> 
+    },
     {
       title: 'Thao tác',
       key: 'action',
+      align: 'right' as const,
       render: (_: any, record: any) => (
-        <Space size="middle">
-          <Button icon={<EditOutlined />} type="text" onClick={() => showModal(record)} className="text-blue-500" />
-          <Button icon={<DeleteOutlined />} type="text" danger onClick={() => handleDelete(record.id)} />
+        <Space size="small">
+          <Tooltip title="Chỉnh sửa">
+             <Button icon={<EditOutlined />} type="text" onClick={() => showModal(record)} className="text-blue-500 hover:bg-blue-50 w-9 h-9 flex items-center justify-center rounded-xl transition-all" />
+          </Tooltip>
+          <Tooltip title="Xóa">
+             <Button icon={<DeleteOutlined />} type="text" danger onClick={() => handleDelete(record.id)} className="hover:bg-red-50 w-9 h-9 flex items-center justify-center rounded-xl transition-all" />
+          </Tooltip>
         </Space>
       ),
     },
   ];
 
   const tagColumns = [
-    { title: 'Icon', dataIndex: 'icon', key: 'icon', width: 60, render: (icon: string) => <span className="text-xl">{icon}</span> },
-    { title: 'Tên loài vật', dataIndex: 'name', key: 'name', render: (text: string) => <span className="font-black text-sanfovet-dark">{text}</span> },
-    { title: 'Slug (URL)', dataIndex: 'slug', key: 'slug', render: (text: string) => <code className="text-xs text-gray-500">{text}</code> },
-    { title: 'Mô tả', dataIndex: 'description', key: 'description', ellipsis: true },
+    { 
+      title: 'Icon', 
+      dataIndex: 'icon', 
+      key: 'icon', 
+      width: 80, 
+      render: (icon: string) => (
+        <div className="w-10 h-10 bg-gray-50 rounded-xl flex items-center justify-center text-xl shadow-sm border border-gray-100">
+          {icon}
+        </div>
+      )
+    },
+    { 
+      title: 'Tên loài vật', 
+      dataIndex: 'name', 
+      key: 'name', 
+      render: (text: string) => <span className="font-black text-sanfovet-dark">{text}</span> 
+    },
+    { 
+      title: 'Slug', 
+      dataIndex: 'slug', 
+      key: 'slug', 
+      render: (text: string) => <code className="text-[10px] text-gray-500 bg-gray-50 px-2 py-1 rounded-md font-bold">{text}</code> 
+    },
+    { 
+      title: 'Mô tả', 
+      dataIndex: 'description', 
+      key: 'description', 
+      ellipsis: true,
+      render: (text: string) => <span className="text-gray-400 text-xs italic">{text || 'Chưa có mô tả...'}</span>
+    },
     {
       title: 'Thao tác',
       key: 'action',
+      align: 'right' as const,
       render: (_: any, record: any) => (
-        <Space size="middle">
-          <Button icon={<EditOutlined />} type="text" onClick={() => showModal(record)} className="text-blue-500" />
-          <Button icon={<DeleteOutlined />} type="text" danger onClick={() => handleDelete(record.id)} />
+        <Space size="small">
+          <Tooltip title="Chỉnh sửa">
+             <Button icon={<EditOutlined />} type="text" onClick={() => showModal(record)} className="text-blue-500 hover:bg-blue-50 w-9 h-9 flex items-center justify-center rounded-xl transition-all" />
+          </Tooltip>
+          <Tooltip title="Xóa">
+             <Button icon={<DeleteOutlined />} type="text" danger onClick={() => handleDelete(record.id)} className="hover:bg-red-50 w-9 h-9 flex items-center justify-center rounded-xl transition-all" />
+          </Tooltip>
         </Space>
       ),
     },
   ];
 
   return (
-    <div className="space-y-6">
-      <div className="flex justify-between items-center">
-        <div>
-          <Breadcrumb items={[{ title: 'Admin' }, { title: 'Quản lý Phân loại' }]} />
-          <h1 className="text-2xl font-black text-sanfovet-dark mt-2 tracking-tight uppercase italic">Quản lý Phân loại & Tag</h1>
-        </div>
-        <Button 
-          type="primary" 
-          icon={<PlusOutlined />} 
-          size="large"
-          className="rounded-xl font-bold px-6"
-          onClick={() => showModal()}
-        >
-          {activeTab === '1' ? 'Thêm Danh mục mới' : 'Thêm Loài vật mới'}
-        </Button>
-      </div>
+    <motion.div 
+      initial={{ opacity: 0, y: 10 }}
+      animate={{ opacity: 1, y: 0 }}
+      className="space-y-6 pb-12"
+    >
+      <AdminPageHeader 
+        title="Phân loại & Tag"
+        breadcrumbItems={[
+          { title: 'Admin', href: '/admin' },
+          { title: 'Phân loại' },
+        ]}
+        onSearch={(val) => updateUrl({ q: val })}
+        primaryAction={{
+          label: activeTab === '1' ? 'Thêm Danh mục' : 'Thêm Loài vật',
+          onClick: () => showModal(),
+          icon: <PlusOutlined />
+        }}
+      />
 
-      <div className="bg-white p-6 rounded-3xl shadow-sm border border-gray-100">
+      <div className="bg-white rounded-[32px] overflow-hidden shadow-xl shadow-gray-200/50 border border-gray-100 p-2">
         <Tabs
           activeKey={activeTab}
-          onChange={setActiveTab}
-          className="admin-custom-tabs"
+          onChange={onTabChange}
+          className="admin-tabs custom-admin-tabs"
           items={[
             {
               key: '1',
-              label: <span className="flex items-center gap-2 font-bold px-4 uppercase text-[0.7rem] tracking-widest"><AppstoreOutlined /> Danh mục Sản phẩm</span>,
+              label: <span className="flex items-center gap-2 font-black px-4 uppercase text-[11px] tracking-widest"><AppstoreOutlined /> Danh mục Sản phẩm</span>,
               children: (
-                <div className="py-4">
+                <div className="pt-2">
                   <Table 
                     columns={categoryColumns} 
-                    dataSource={categories} 
+                    dataSource={filteredCategories} 
                     rowKey="id" 
-                    pagination={false}
-                    className="border border-gray-50 rounded-2xl overflow-hidden" 
+                    className="admin-table"
+                    pagination={{
+                      current: page,
+                      pageSize: 10,
+                      className: "p-6 border-t border-gray-50",
+                      onChange: (p) => updateUrl({ page: p })
+                    }}
                   />
                 </div>
               ),
             },
             {
               key: '2',
-              label: <span className="flex items-center gap-2 font-bold px-4 uppercase text-[0.7rem] tracking-widest"><TagsOutlined /> Loài vật (Handbook)</span>,
+              label: <span className="flex items-center gap-2 font-black px-4 uppercase text-[11px] tracking-widest"><TagsOutlined /> Loài vật (Handbook)</span>,
               children: (
-                <div className="py-4">
+                <div className="pt-2">
                   <Table 
                     columns={tagColumns} 
-                    dataSource={animalTags} 
+                    dataSource={filteredAnimalTags} 
                     rowKey="id" 
-                    pagination={false}
-                    className="border border-gray-50 rounded-2xl overflow-hidden"
+                    className="admin-table"
+                    pagination={{
+                      current: page,
+                      pageSize: 10,
+                      className: "p-6 border-t border-gray-50",
+                      onChange: (p) => updateUrl({ page: p })
+                    }}
                   />
                 </div>
               ),
@@ -169,33 +284,49 @@ export default function CategoryAndTagManagement() {
       </div>
 
       <Modal
-        title={<span className="text-xl font-black uppercase italic tracking-tight">{editingItem ? 'Chỉnh sửa' : 'Thêm mới'} Phân loại</span>}
+        title={
+          <div className="flex items-center gap-3 pt-4 px-2">
+            <div className="w-10 h-10 bg-primary/10 rounded-xl flex items-center justify-center text-primary">
+              {editingItem ? <EditOutlined /> : <PlusOutlined />}
+            </div>
+            <span className="text-2xl font-black uppercase italic tracking-tighter text-sanfovet-dark">
+              {editingItem ? 'Chỉnh sửa' : 'Thêm mới'} Phân loại
+            </span>
+          </div>
+        }
         open={isModalOpen}
         onOk={handleOk}
         onCancel={() => setIsModalOpen(false)}
-        okText="Lưu lại"
+        okText="Lưu dữ liệu"
         cancelText="Hủy bỏ"
-        className="rounded-[32px]"
+        width={600}
+        className="admin-modal"
+        okButtonProps={{ className: "rounded-xl h-11 px-8 font-bold uppercase tracking-widest text-[11px] border-none shadow-lg shadow-primary/20" }}
+        cancelButtonProps={{ className: "rounded-xl h-11 px-8 font-bold uppercase tracking-widest text-[11px]" }}
       >
-        <Form form={form} layout="vertical" className="mt-8">
+        <Form form={form} layout="vertical" className="mt-6 px-2">
           <Form.Item name="name" label="Tên gọi" rules={[{ required: true, message: 'Vui lòng nhập tên' }]}>
             <Input className="rounded-xl py-3 px-4 font-bold" placeholder="Ví dụ: Gà, Heo, Thuốc bổ..." />
           </Form.Item>
-          <Form.Item name="slug" label="Slug (URL - Tùy chọn)" help="Lưu ý: Nếu để trống hệ thống sẽ tự sinh dựa trên tên gọi.">
-            <Input className="rounded-xl py-2 px-4" placeholder="vi-du-ga" />
+          <Form.Item name="slug" label="Slug (URL - Tùy chọn)" help={<span className="text-[10px] opacity-60 uppercase font-bold tracking-tight mt-1 inline-block">Để trống hệ thống sẽ tự sinh dựa trên tên gọi.</span>}>
+            <Input className="rounded-xl py-2 px-4 italic" placeholder="vi-du-ga" />
           </Form.Item>
           {activeTab === '2' && (
-            <>
-              <Form.Item name="icon" label="Biểu tượng (Emoji)" initialValue="🐾">
-                <Input className="rounded-xl py-2 px-4 w-20 text-center text-xl" />
-              </Form.Item>
-              <Form.Item name="description" label="Mô tả ngắn">
-                <Input.TextArea rows={3} className="rounded-xl p-4" placeholder="Mô tả cho loài vật này trong cẩm nang..." />
-              </Form.Item>
-            </>
+            <Row gutter={20}>
+              <Col span={6}>
+                 <Form.Item name="icon" label="Biểu tượng" initialValue="🐾">
+                    <Input className="rounded-xl py-2 px-4 text-center text-xl h-[48px]" />
+                 </Form.Item>
+              </Col>
+              <Col span={18}>
+                 <Form.Item name="description" label="Mô tả ngắn">
+                    <Input.TextArea rows={1} className="rounded-xl p-3 h-[48px]" placeholder="Mô tả cho loài vật này..." />
+                 </Form.Item>
+              </Col>
+            </Row>
           )}
         </Form>
       </Modal>
-    </div>
+    </motion.div>
   );
 }

@@ -7,14 +7,35 @@ import { FacebookOutlined, YoutubeOutlined } from '@ant-design/icons';
 export default function ContactContent() {
   const [status, setStatus] = React.useState<'idle' | 'sending' | 'success'>('idle');
 
-  const handleSubmit = (e: React.FormEvent) => {
+  const handleSubmit = async (e: React.FormEvent<HTMLFormElement>) => {
     e.preventDefault();
     setStatus('sending');
     
-    // Simulate API call
-    setTimeout(() => {
-      setStatus('success');
-    }, 1500);
+    const formData = new FormData(e.currentTarget);
+    const data = {
+      fullName: formData.get('fullName'),
+      phoneNumber: formData.get('phoneNumber'),
+      emailAddress: formData.get('emailAddress'),
+      messageBox: formData.get('messageBox'),
+    };
+
+    try {
+      const response = await fetch('/api/contact', {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify(data),
+      });
+
+      if (response.ok) {
+        setStatus('success');
+      } else {
+        throw new Error('Failed to send');
+      }
+    } catch (error) {
+      console.error(error);
+      setStatus('idle');
+      alert('Đã có lỗi xảy ra khi gửi tin nhắn. Vui lòng thử lại sau.');
+    }
   };
 
   return (
@@ -117,20 +138,20 @@ export default function ContactContent() {
                     <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
                        <div>
                           <label htmlFor="fullName" className="block text-[10px] font-black uppercase text-gray-400 tracking-[2px] mb-2 px-4 italic">Họ và tên *</label>
-                          <input id="fullName" type="text" placeholder="Nhập họ tên của bạn" className="w-full bg-gray-50 border-none rounded-2xl px-6 py-4 text-sm focus:ring-2 focus:ring-primary focus:bg-white transition-all placeholder:text-gray-300" required />
+                          <input id="fullName" name="fullName" type="text" placeholder="Nhập họ tên của bạn" className="w-full bg-gray-50 border-none rounded-2xl px-6 py-4 text-sm focus:ring-2 focus:ring-primary focus:bg-white transition-all placeholder:text-gray-300" required />
                        </div>
                        <div>
                           <label htmlFor="phoneNumber" className="block text-[10px] font-black uppercase text-gray-400 tracking-[2px] mb-2 px-4 italic">Số điện thoại *</label>
-                          <input id="phoneNumber" type="tel" placeholder="Nhập số điện thoại" className="w-full bg-gray-50 border-none rounded-2xl px-6 py-4 text-sm focus:ring-2 focus:ring-primary focus:bg-white transition-all placeholder:text-gray-300" required />
+                          <input id="phoneNumber" name="phoneNumber" type="tel" placeholder="Nhập số điện thoại" className="w-full bg-gray-50 border-none rounded-2xl px-6 py-4 text-sm focus:ring-2 focus:ring-primary focus:bg-white transition-all placeholder:text-gray-300" required />
                        </div>
                     </div>
                     <div>
                        <label htmlFor="emailAddress" className="block text-[10px] font-black uppercase text-gray-400 tracking-[2px] mb-2 px-4 italic">Địa chỉ Email</label>
-                       <input id="emailAddress" type="email" placeholder="Nhập địa chỉ email" className="w-full bg-gray-50 border-none rounded-2xl px-6 py-4 text-sm focus:ring-2 focus:ring-primary focus:bg-white transition-all placeholder:text-gray-300" />
+                       <input id="emailAddress" name="emailAddress" type="email" placeholder="Nhập địa chỉ email" className="w-full bg-gray-50 border-none rounded-2xl px-6 py-4 text-sm focus:ring-2 focus:ring-primary focus:bg-white transition-all placeholder:text-gray-300" />
                     </div>
                     <div>
                        <label htmlFor="messageBox" className="block text-[10px] font-black uppercase text-gray-400 tracking-[2px] mb-2 px-4 italic">Nội dung yêu cầu *</label>
-                       <textarea id="messageBox" rows={5} placeholder="Bạn cần chúng tôi hỗ trợ gì?" className="w-full bg-gray-50 border-none rounded-2xl px-6 py-4 text-sm focus:ring-2 focus:ring-primary focus:bg-white transition-all placeholder:text-gray-300" required></textarea>
+                       <textarea id="messageBox" name="messageBox" rows={5} placeholder="Bạn cần chúng tôi hỗ trợ gì?" className="w-full bg-gray-50 border-none rounded-2xl px-6 py-4 text-sm focus:ring-2 focus:ring-primary focus:bg-white transition-all placeholder:text-gray-300" required></textarea>
                     </div>
                     <button 
                       type="submit" 

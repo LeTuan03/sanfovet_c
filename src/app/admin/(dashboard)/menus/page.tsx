@@ -1,8 +1,9 @@
 "use client";
 
-import React, { useState } from 'react';
+import React, { useState, useMemo } from 'react';
 import { Table, Button, Space, Tag, Modal, Form, Input, Select, message, Breadcrumb, Divider, Row, Col, Tooltip } from 'antd';
-import { PlusOutlined, EditOutlined, DeleteOutlined, MenuOutlined, GlobalOutlined, LinkOutlined, ArrowUpOutlined, ArrowDownOutlined } from '@ant-design/icons';
+import { PlusOutlined, EditOutlined, DeleteOutlined, MenuOutlined, GlobalOutlined, LinkOutlined, ArrowUpOutlined, ArrowDownOutlined, SearchOutlined } from '@ant-design/icons';
+import { useRouter, useSearchParams, usePathname } from 'next/navigation';
 
 const initialMenus = [
   { id: 1, name: 'Trang chủ', link: '/', parent: null, position: 'header', order: 1, status: true },
@@ -16,10 +17,36 @@ const initialMenus = [
 ];
 
 export default function AdminMenusPage() {
+  const router = useRouter();
+  const pathname = usePathname();
+  const searchParams = useSearchParams();
+  const query = searchParams.get('q') || '';
+
   const [menus, setMenus] = useState(initialMenus);
   const [isModalOpen, setIsModalOpen] = useState(false);
   const [editingItem, setEditingItem] = useState<any>(null);
   const [form] = Form.useForm();
+
+  // Derived filtered data
+  const filteredData = useMemo(() => {
+    return menus.filter(item => 
+      item.name.toLowerCase().includes(query.toLowerCase()) ||
+      item.link.toLowerCase().includes(query.toLowerCase())
+    ).sort((a, b) => a.order - b.order);
+  }, [menus, query]);
+
+  const updateUrl = (params: { q?: string }) => {
+    const newSearchParams = new URLSearchParams(searchParams.toString());
+    if (params.q !== undefined) {
+      if (params.q) newSearchParams.set('q', params.q);
+      else newSearchParams.delete('q');
+    }
+    router.push(`${pathname}?${newSearchParams.toString()}`);
+  };
+
+  const handleSearch = (e: React.ChangeEvent<HTMLInputElement>) => {
+    updateUrl({ q: e.target.value });
+  };
 
   const handleAdd = () => {
     setEditingItem(null);
@@ -103,7 +130,24 @@ export default function AdminMenusPage() {
             <Button type="text" icon={<EditOutlined />} onClick={() => handleEdit(record)} className="text-blue-500" />
           </Tooltip>
           <Tooltip title="Xóa">
-            <Button type="text" danger icon={<DeleteOutlined />} onClick={() => setMenus(menus.filter(m => m.id !== record.id))} />
+            <Button 
+                type="text" 
+                danger 
+                icon={<DeleteOutlined />} 
+                onClick={() => {
+                   Modal.confirm({
+                      title: 'Xác nhận xóa menu?',
+                      content: `Bạn có chắc chắn muốn xóa menu "${record.name}" không?`,
+                      okText: 'Xóa ngay',
+                      cancelText: 'Hủy',
+                      okType: 'danger',
+                      onOk: () => {
+                         setMenus(menus.filter(m => m.id !== record.id));
+                         message.success('Đã xóa menu thành công');
+                      }
+                   });
+                }} 
+            />
           </Tooltip>
         </Space>
       ),
@@ -116,17 +160,26 @@ export default function AdminMenusPage() {
         <div>
           <Breadcrumb items={[{ title: 'Admin' }, { title: 'Quản lý Menu' }]} />
           <h1 className="text-2xl font-black text-sanfovet-dark mt-2 tracking-tight uppercase italic">Cơ cấu Điều hướng Web</h1>
-          <p className="text-xs font-bold text-gray-400 uppercase tracking-widest mt-1 italic">Quản lý liên kết Header & Footer chính thức</p>
+
         </div>
-        <Button 
-          type="primary" 
-          icon={<PlusOutlined />} 
-          size="large"
-          className="rounded-xl font-bold h-10 px-6 uppercase tracking-wider text-xs shadow-lg shadow-primary/20"
-          onClick={handleAdd}
-        >
-          Thêm Menu mới
-        </Button>
+        <div className="flex gap-4">
+           <Input 
+              prefix={<SearchOutlined className="text-gray-300" />} 
+              placeholder="Tìm kiếm menu..." 
+              className="w-64 rounded-xl border-gray-100 shadow-sm"
+              defaultValue={query}
+              onChange={handleSearch}
+           />
+           <Button 
+             type="primary" 
+             icon={<PlusOutlined />} 
+             size="large"
+             className="rounded-xl font-bold h-10 px-6 uppercase tracking-wider text-xs shadow-lg shadow-primary/20"
+             onClick={handleAdd}
+           >
+             Thêm Menu mới
+           </Button>
+        </div>
       </div>
 
       <div className="bg-white p-8 rounded-[32px] shadow-sm border border-gray-100 min-h-[500px]">
@@ -140,7 +193,7 @@ export default function AdminMenusPage() {
 
         <Table 
           columns={columns} 
-          dataSource={menus.sort((a,b) => a.order - b.order)} 
+          dataSource={filteredData} 
           rowKey="id" 
           pagination={false}
           className="border border-gray-50 rounded-2xl overflow-hidden shadow-xs"

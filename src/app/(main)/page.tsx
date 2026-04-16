@@ -3,6 +3,7 @@ import Link from 'next/link';
 import { Eye, ArrowRight, Download, Calendar, Microscope, ShieldCheck, Users, Truck, Gem, ChevronRight } from 'lucide-react';
 import { products, articles, categories } from '@/lib/data';
 import BannerSlider from '@/components/home/BannerSlider';
+import HomeGallery from '@/components/home/HomeGallery';
 
 export default function HomePage() {
   const featuredProducts = products.filter(p => p.featured).slice(0, 8);
@@ -211,49 +212,7 @@ export default function HomePage() {
         </div>
       </section>
 
-      {/* Video & Gallery Section */}
-      <section className="py-20 md:py-28 bg-white overflow-hidden">
-        <div className="container mx-auto px-4">
-          <div className="text-center max-w-2xl mx-auto mb-16">
-            <h2 className="text-3xl md:text-4xl font-bold mb-4 text-gray-900 border-b-4 border-accent pb-3 inline-block">Video & Hình Ảnh</h2>
-            <p className="text-gray-500 mt-5 font-medium">Khám phá nhà máy sản xuất và các hoạt động nổi bật của SANFOVET</p>
-          </div>
-
-          <div className="grid grid-cols-1 lg:grid-cols-2 gap-8">
-            {/* Video */}
-            <div className="rounded-[24px] overflow-hidden shadow-2xl border-4 border-white relative group">
-              <video 
-                className="w-full aspect-video object-cover bg-black"
-                poster="/images/about.png"
-                controls
-                preload="none"
-              >
-                <source src="/videos/sanfovet-intro.mp4" type="video/mp4" />
-                Trình duyệt của bạn không hỗ trợ video.
-              </video>
-              <div className="absolute bottom-4 left-4 bg-black/60 backdrop-blur-sm text-white px-4 py-2 rounded-full text-xs font-bold uppercase tracking-widest pointer-events-none">
-                🎬 Giới thiệu SANFOVET
-              </div>
-            </div>
-
-            {/* Image Gallery Grid */}
-            <div className="grid grid-cols-2 gap-4">
-              <div className="rounded-[20px] overflow-hidden shadow-lg group">
-                <img src="/images/about.png" alt="Nhà máy GMP" className="w-full h-full object-cover group-hover:scale-110 transition-transform duration-700" />
-              </div>
-              <div className="rounded-[20px] overflow-hidden shadow-lg group">
-                <img src="/images/farm.png" alt="Trang trại" className="w-full h-full object-cover group-hover:scale-110 transition-transform duration-700" />
-              </div>
-              <div className="rounded-[20px] overflow-hidden shadow-lg group">
-                <img src="/images/banner1.png" alt="Sản phẩm Sanfovet" className="w-full h-full object-cover group-hover:scale-110 transition-transform duration-700" />
-              </div>
-              <div className="rounded-[20px] overflow-hidden shadow-lg group">
-                <img src="/images/banner2.png" alt="Hội nghị" className="w-full h-full object-cover group-hover:scale-110 transition-transform duration-700" />
-              </div>
-            </div>
-          </div>
-        </div>
-      </section>
+      <HomeGallery />
     </div>
   );
 }

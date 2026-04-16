@@ -1,8 +1,13 @@
-import React from 'react';
-import Link from 'next/link';
-import { Eye, Filter } from 'lucide-react';
 import { products, categories } from '@/lib/data';
 import Pagination from '@/components/shared/Pagination';
+import { Metadata } from 'next';
+import { Eye, Filter } from 'lucide-react';
+import Link from 'next/link';
+
+export const metadata: Metadata = {
+  title: 'Danh mục Sản phẩm - Sanfovet',
+  description: 'Danh mục các loại thuốc thú y, thuốc bổ trợ, kháng sinh chất lượng cao từ Sanfovet.',
+};
 
 const ITEMS_PER_PAGE = 6;
 
@@ -61,7 +66,7 @@ export default async function ProductsPage({ searchParams }: { searchParams: Pro
                 {categories.map((c: any) => (
                   <li key={c.id}>
                     <Link 
-                      href={`/san-pham?category=${c.slug}`} 
+                      href={`/san-pham/danh-muc/${c.slug}`} 
                       className={`block py-3 px-4 rounded-xl transition-all font-bold text-sm ${currentCategory === c.slug ? 'bg-primary text-white shadow-lg' : 'text-gray-600 hover:bg-gray-100'}`}
                     >
                       {c.name}

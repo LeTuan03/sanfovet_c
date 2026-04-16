@@ -97,16 +97,16 @@ export default function Header() {
                       </Link>
                     </div>
                     <div className="px-2 space-y-0.5">
-                      <DropdownItem href="/san-pham?category=thuoc-bo-tro-tiem-dang-dung-dich-hon-dich" icon={<Syringe size={20} />} label="Thuốc bổ trợ tiêm dạng dung dịch, hỗn dịch" />
-                      <DropdownItem href="/san-pham?category=thuoc-khang-sinh-tiem-dang-dung-dich-hon-dich" icon={<FlaskConical size={20} />} label="Thuốc kháng sinh tiêm dạng dung dịch, hỗn dịch" />
-                      <DropdownItem href="/san-pham?category=thuoc-khang-sinh-dang-dung-dich-uong-dang-xit" icon={<FlaskRound size={20} />} label="Thuốc kháng sinh dạng dung dịch uống, dạng xịt" />
-                      <DropdownItem href="/san-pham?category=thuoc-khang-sinh-dang-premix-sieu-bam-dinh" icon={<TestTube size={20} />} label="Thuốc kháng sinh dạng Premix siêu bám dính" />
-                      <DropdownItem href="/san-pham?category=thuoc-khang-sinh-dang-bot-dang-hat-hoa-tan" icon={<Beaker size={20} />} label="Thuốc kháng sinh dạng bột, dạng hạt hòa tan" />
-                      <DropdownItem href="/san-pham?category=thuoc-bo-tro-dang-com-dang-bot-hoa-tan" icon={<Pill size={20} />} label="Thuốc bổ trợ dạng cốm, dạng bột hòa tan" />
-                      <DropdownItem href="/san-pham?category=thuoc-bo-tro-dang-dung-dich" icon={<Droplets size={20} />} label="Thuốc bổ trợ dạng dung dịch" />
-                      <DropdownItem href="/san-pham?category=thuoc-tri-cau-trung-ki-sinh-trung-dang-bot-dang-dung-dich" icon={<Bug size={20} />} label="Thuốc trị cầu trùng, kí sinh trùng" />
-                      <DropdownItem href="/san-pham?category=thuoc-sat-trung-diet-con-trung" icon={<ShieldCheck size={20} />} label="Thuốc sát trùng, diệt côn trùng" />
-                      <DropdownItem href="/san-pham?category=thuoc-tri-nam-tri-giun-san" icon={<Leaf size={20} />} label="Thuốc trị nấm, trị giun sán" />
+                      <DropdownItem href="/san-pham/danh-muc/thuoc-bo-tro-tiem-dang-dung-dich-hon-dich" icon={<Syringe size={20} />} label="Thuốc bổ trợ tiêm dạng dung dịch, hỗn dịch" />
+                      <DropdownItem href="/san-pham/danh-muc/thuoc-khang-sinh-tiem-dang-dung-dich-hon-dich" icon={<FlaskConical size={20} />} label="Thuốc kháng sinh tiêm dạng dung dịch, hỗn dịch" />
+                      <DropdownItem href="/san-pham/danh-muc/thuoc-khang-sinh-dang-dung-dich-uong-dang-xit" icon={<FlaskRound size={20} />} label="Thuốc kháng sinh dạng dung dịch uống, dạng xịt" />
+                      <DropdownItem href="/san-pham/danh-muc/thuoc-khang-sinh-dang-premix-sieu-bam-dinh" icon={<TestTube size={20} />} label="Thuốc kháng sinh dạng Premix siêu bám dính" />
+                      <DropdownItem href="/san-pham/danh-muc/thuoc-khang-sinh-dang-bot-dang-hat-hoa-tan" icon={<Beaker size={20} />} label="Thuốc kháng sinh dạng bột, dạng hạt hòa tan" />
+                      <DropdownItem href="/san-pham/danh-muc/thuoc-bo-tro-dang-com-dang-bot-hoa-tan" icon={<Pill size={20} />} label="Thuốc bổ trợ dạng cốm, dạng bột hòa tan" />
+                      <DropdownItem href="/san-pham/danh-muc/thuoc-bo-tro-dang-dung-dich" icon={<Droplets size={20} />} label="Thuốc bổ trợ dạng dung dịch" />
+                      <DropdownItem href="/san-pham/danh-muc/thuoc-tri-cau-trung-ki-sinh-trung-dang-bot-dang-dung-dich" icon={<Bug size={20} />} label="Thuốc trị cầu trùng, kí sinh trùng" />
+                      <DropdownItem href="/san-pham/danh-muc/thuoc-sat-trung-diet-con-trung" icon={<ShieldCheck size={20} />} label="Thuốc sát trùng, diệt côn trùng" />
+                      <DropdownItem href="/san-pham/danh-muc/thuoc-tri-nam-tri-giun-san" icon={<Leaf size={20} />} label="Thuốc trị nấm, trị giun sán" />
                     </div>
                   </div>
                 </div>

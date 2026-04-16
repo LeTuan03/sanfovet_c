@@ -1,8 +1,9 @@
 "use client";
 
-import React, { useState } from 'react';
+import React, { useState, useMemo } from 'react';
+import { useRouter, useSearchParams, usePathname } from 'next/navigation';
 import { Table, Button, Space, Tag, Modal, Form, Input, Select, message, Breadcrumb, Avatar, Tooltip } from 'antd';
-import { PlusOutlined, EditOutlined, DeleteOutlined, UserOutlined, LockOutlined, SafetyCertificateOutlined } from '@ant-design/icons';
+import { PlusOutlined, EditOutlined, DeleteOutlined, UserOutlined, LockOutlined, SafetyCertificateOutlined, SearchOutlined } from '@ant-design/icons';
 
 const initialUsers = [
   { id: 1, name: 'Sanfovet Admin', email: 'admin@sanfovet.com.vn', role: 'SuperAdmin', lastActive: '10 phút trước', avatar: null },
@@ -10,12 +11,77 @@ const initialUsers = [
 ];
 
 export default function AdminUsersPage() {
+  const router = useRouter();
+  const pathname = usePathname();
+  const searchParams = useSearchParams();
+  const query = searchParams.get('q') || '';
+  const page = parseInt(searchParams.get('page') || '1');
+
   const [users, setUsers] = useState(initialUsers);
   const [isModalOpen, setIsModalOpen] = useState(false);
   const [isPassModalOpen, setIsPassModalOpen] = useState(false);
   const [selectedUser, setSelectedUser] = useState<any>(null);
   const [form] = Form.useForm();
   const [passForm] = Form.useForm();
+
+  // Derived filtered data
+  const filteredData = useMemo(() => {
+    return users.filter(item => 
+      item.name.toLowerCase().includes(query.toLowerCase()) ||
+      item.email.toLowerCase().includes(query.toLowerCase()) ||
+      item.role.toLowerCase().includes(query.toLowerCase())
+    );
+  }, [users, query]);
+
+  const updateUrl = (params: { q?: string; page?: number }) => {
+    const newSearchParams = new URLSearchParams(searchParams.toString());
+    
+    if (params.q !== undefined) {
+      if (params.q) newSearchParams.set('q', params.q);
+      else newSearchParams.delete('q');
+      newSearchParams.set('page', '1'); // Reset to page 1 on search
+    }
+    
+    if (params.page !== undefined) {
+      newSearchParams.set('page', params.page.toString());
+    }
+
+    router.push(`${pathname}?${newSearchParams.toString()}`);
+  };
+
+  const handleSearch = (e: React.ChangeEvent<HTMLInputElement>) => {
+    updateUrl({ q: e.target.value });
+  };
+
+  const showModal = (record?: any) => {
+    if (record) {
+      setSelectedUser(record);
+      form.setFieldsValue(record);
+    } else {
+      setSelectedUser(null);
+      form.resetFields();
+    }
+    setIsModalOpen(true);
+  };
+
+  const handleOk = () => {
+    form.validateFields().then((values) => {
+      if (selectedUser && !isPassModalOpen) {
+        setUsers(users.map((u) => (u.id === selectedUser.id ? { ...u, ...values } : u)));
+        message.success('Cập nhật tài khoản thành công');
+      } else {
+        const newUser = {
+          ...values,
+          id: Math.max(...users.map((u) => u.id), 0) + 1,
+          lastActive: 'Vừa xong',
+          avatar: null,
+        };
+        setUsers([...users, newUser]);
+        message.success('Thêm tài khoản mới thành công');
+      }
+      setIsModalOpen(false);
+    });
+  };
 
   const handleOpenPassModal = (record: any) => {
     setSelectedUser(record);
@@ -67,13 +133,29 @@ export default function AdminUsersPage() {
           <Tooltip title="Đổi mật khẩu">
             <Button icon={<LockOutlined />} onClick={() => handleOpenPassModal(record)} />
           </Tooltip>
-          <Button type="primary" ghost icon={<EditOutlined />} />
-          <Button 
-            danger 
-            icon={<DeleteOutlined />} 
-            disabled={record.role === 'SuperAdmin'}
-            onClick={() => setUsers(users.filter(u => u.id !== record.id))} 
-          />
+          <Tooltip title="Chỉnh sửa">
+            <Button type="primary" ghost icon={<EditOutlined />} onClick={() => showModal(record)} />
+          </Tooltip>
+          <Tooltip title="Xóa">
+            <Button 
+                danger 
+                icon={<DeleteOutlined />} 
+                disabled={record.role === 'SuperAdmin'}
+                onClick={() => {
+                   Modal.confirm({
+                      title: 'Xác nhận xóa tài khoản?',
+                      content: `Bạn có chắc muốn xóa tài khoản ${record.name}?`,
+                      okText: 'Xóa ngay',
+                      cancelText: 'Hủy',
+                      okType: 'danger',
+                      onOk: () => {
+                         setUsers(users.filter(u => u.id !== record.id));
+                         message.success('Đã xóa tài khoản');
+                      }
+                   });
+                }} 
+            />
+          </Tooltip>
         </Space>
       ),
     },
@@ -83,18 +165,27 @@ export default function AdminUsersPage() {
     <div className="space-y-6">
       <div className="flex justify-between items-center">
         <div>
-          <Breadcrumb items={[{ title: 'Admin' }, { title: 'Quản lý Người dùng' }]} />
+          <Breadcrumb items={[{ title: 'Admin', href: '/admin' }, { title: 'Quản lý Người dùng' }]} />
           <h1 className="text-2xl font-black text-sanfovet-dark mt-2 tracking-tight">Tài khoản Quản trị viên</h1>
         </div>
-        <Button 
-          type="primary" 
-          icon={<PlusOutlined />} 
-          size="large"
-          className="rounded-lg font-bold"
-          onClick={() => setIsModalOpen(true)}
-        >
-          Cấp tài khoản mới
-        </Button>
+        <div className="flex gap-4">
+           <Input 
+              prefix={<SearchOutlined className="text-gray-300" />} 
+              placeholder="Tìm kiếm user..." 
+              className="w-64 rounded-xl border-gray-100 shadow-sm"
+              defaultValue={query}
+              onChange={handleSearch}
+           />
+           <Button 
+             type="primary" 
+             icon={<PlusOutlined />} 
+             size="large"
+             className="rounded-xl font-bold h-10 px-6 uppercase tracking-wider text-xs shadow-lg shadow-primary/20"
+             onClick={() => showModal()}
+           >
+             Cấp tài khoản mới
+           </Button>
+        </div>
       </div>
 
       <div className="bg-white p-8 rounded-2xl shadow-sm border border-gray-100">
@@ -105,31 +196,37 @@ export default function AdminUsersPage() {
 
         <Table 
           columns={columns} 
-          dataSource={users} 
+          dataSource={filteredData} 
           rowKey="id" 
-          pagination={false}
+          pagination={{
+            current: page,
+            pageSize: 10,
+            onChange: (p) => updateUrl({ page: p })
+          }}
           className="border border-gray-50 rounded-xl overflow-hidden"
         />
       </div>
 
       <Modal
-        title="Cấp mới tài khoản truy cập"
+        title={selectedUser ? "Cập nhật tài khoản" : "Cấp mới tài khoản truy cập"}
         open={isModalOpen}
-        onOk={() => setIsModalOpen(false)}
+        onOk={handleOk}
         onCancel={() => setIsModalOpen(false)}
-        okText="Tạo tài khoản"
+        okText={selectedUser ? "Cập nhật" : "Tạo tài khoản"}
         cancelText="Hủy"
       >
          <Form form={form} layout="vertical" className="mt-6">
-            <Form.Item label="Họ và tên" name="name" required>
+            <Form.Item label="Họ và tên" name="name" rules={[{ required: true, message: 'Vui lòng nhập họ tên' }]}>
                <Input placeholder="VD: Nguyễn Văn A" />
             </Form.Item>
-            <Form.Item label="Email đăng nhập" name="email" required>
+            <Form.Item label="Email đăng nhập" name="email" rules={[{ required: true, type: 'email', message: 'Vui lòng nhập email hợp lệ' }]}>
                <Input placeholder="email@sanfovet.com.vn" />
             </Form.Item>
-            <Form.Item label="Mật khẩu tạm thời" name="password" required>
-               <Input.Password prefix={<LockOutlined className="text-gray-300" />} />
-            </Form.Item>
+            {!selectedUser && (
+              <Form.Item label="Mật khẩu tạm thời" name="password" rules={[{ required: true, message: 'Vui lòng nhập mật khẩu' }]}>
+                 <Input.Password prefix={<LockOutlined className="text-gray-300" />} />
+              </Form.Item>
+            )}
             <Form.Item label="Quyền hạn" name="role" initialValue="Editor">
                <Select>
                   <Select.Option value="SuperAdmin">SuperAdmin (Toàn quyền)</Select.Option>
@@ -148,11 +245,11 @@ export default function AdminUsersPage() {
         cancelText="Bỏ qua"
       >
          <Form form={passForm} layout="vertical" className="mt-6">
-            <Form.Item label="Mật khẩu mới" name="newPassword" rules={[{ required: true, min: 6 }]}>
+            <Form.Item label="Mật khẩu mới" name="newPassword" rules={[{ required: true, min: 6, message: 'Mật khẩu tối thiểu 6 ký tự' }]}>
                <Input.Password prefix={<LockOutlined className="text-gray-300" />} />
             </Form.Item>
             <Form.Item label="Xác nhận mật khẩu" name="confirmPassword" dependencies={['newPassword']} rules={[
-               { required: true },
+               { required: true, message: 'Vui lòng xác nhận mật khẩu' },
                ({ getFieldValue }) => ({
                   validator(_, value) {
                      if (!value || getFieldValue('newPassword') === value) {

@@ -1,16 +1,52 @@
 "use client";
 
-import React, { useState } from 'react';
-import { Table, Button, Space, Modal, Form, Input, Select, message, Tag, Breadcrumb, Row, Col, Tooltip } from 'antd';
-import { PlusOutlined, EditOutlined, DeleteOutlined, SearchOutlined, UsergroupAddOutlined, GlobalOutlined } from '@ant-design/icons';
+import React, { useState, useMemo } from 'react';
+import { useRouter, useSearchParams, usePathname } from 'next/navigation';
+import { Table, Button, Space, Modal, Form, Input, Select, Tag, Breadcrumb, Row, Col, Tooltip, App } from 'antd';
+import { PlusOutlined, EditOutlined, DeleteOutlined, SearchOutlined, GlobalOutlined } from '@ant-design/icons';
 import { jobs as initialJobs } from '@/lib/data';
 import CKEditor from '@/components/admin/CKEditor';
 
 export default function AdminJobsPage() {
+  const { modal, message } = App.useApp();
+  const router = useRouter();
+  const pathname = usePathname();
+  const searchParams = useSearchParams();
+  const query = searchParams.get('q') || '';
+  const page = parseInt(searchParams.get('page') || '1');
+
   const [data, setData] = useState([...initialJobs]);
   const [isModalOpen, setIsModalOpen] = useState(false);
   const [form] = Form.useForm();
   const [editingId, setEditingId] = useState<number | null>(null);
+
+  // Derived filtered data
+  const filteredData = useMemo(() => {
+    return data.filter(item => 
+      item.title.toLowerCase().includes(query.toLowerCase()) ||
+      item.location.toLowerCase().includes(query.toLowerCase())
+    );
+  }, [data, query]);
+
+  const updateUrl = (params: { q?: string; page?: number }) => {
+    const newSearchParams = new URLSearchParams(searchParams.toString());
+    
+    if (params.q !== undefined) {
+      if (params.q) newSearchParams.set('q', params.q);
+      else newSearchParams.delete('q');
+      newSearchParams.set('page', '1'); // Reset to page 1 on search
+    }
+    
+    if (params.page !== undefined) {
+      newSearchParams.set('page', params.page.toString());
+    }
+
+    router.push(`${pathname}?${newSearchParams.toString()}`);
+  };
+
+  const handleSearch = (e: React.ChangeEvent<HTMLInputElement>) => {
+    updateUrl({ q: e.target.value });
+  };
 
   const showModal = (record?: any) => {
     if (record) {
@@ -80,7 +116,24 @@ export default function AdminJobsPage() {
             <Button icon={<EditOutlined />} type="text" className="text-blue-500" onClick={() => showModal(record)} />
           </Tooltip>
           <Tooltip title="Gỡ tin">
-            <Button icon={<DeleteOutlined />} type="text" danger onClick={() => setData(data.filter(j => j.id !== record.id))} />
+            <Button 
+                icon={<DeleteOutlined />} 
+                type="text" 
+                danger 
+                onClick={() => {
+                   modal.confirm({
+                      title: 'Xác nhận gỡ tin tuyển dụng?',
+                      content: `Bạn có chắc chắn muốn gỡ vị trí "${record.title}" không?`,
+                      okText: 'Gỡ tin ngay',
+                      cancelText: 'Hủy',
+                      okType: 'danger',
+                      onOk: () => {
+                         setData(data.filter(j => j.id !== record.id));
+                         message.success('Đã gỡ tin tuyển dụng');
+                      }
+                   });
+                }} 
+            />
           </Tooltip>
         </Space>
       ),
@@ -91,9 +144,9 @@ export default function AdminJobsPage() {
     <div className="space-y-6">
       <div className="flex justify-between items-center mb-10">
         <div>
-          <Breadcrumb items={[{ title: 'Admin' }, { title: 'Quản lý Tuyển dụng' }]} />
+          <Breadcrumb items={[{ title: 'Admin', href: '/admin' }, { title: 'Quản lý Tuyển dụng' }]} />
           <h1 className="text-2xl font-black text-sanfovet-dark mt-2 tracking-tight uppercase italic">Quản lý Tuyển dụng</h1>
-          <p className="text-xs font-bold text-gray-400 uppercase tracking-widest mt-1">Cập nhật nhân sự và cơ hội nghề nghiệp tại Sanfovet</p>
+
         </div>
         <Button 
           type="primary" 
@@ -112,14 +165,20 @@ export default function AdminJobsPage() {
             prefix={<SearchOutlined className="text-gray-300" />} 
             placeholder="Tìm kiếm vị trí..." 
             className="max-w-md rounded-xl"
+            defaultValue={query}
+            onChange={handleSearch}
           />
         </div>
 
         <Table 
           columns={columns} 
-          dataSource={data} 
+          dataSource={filteredData} 
           rowKey="id" 
-          pagination={{ pageSize: 6 }}
+          pagination={{ 
+            current: page,
+            pageSize: 6,
+            onChange: (p) => updateUrl({ page: p })
+          }}
           className="border border-gray-50 rounded-2xl overflow-hidden" 
         />
       </div>

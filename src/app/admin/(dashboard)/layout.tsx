@@ -17,7 +17,7 @@ import {
   LogoutOutlined,
   BellOutlined,
 } from '@ant-design/icons';
-import { Button, Layout, Menu, theme, ConfigProvider, Avatar, Dropdown, Space, Badge, MenuProps } from 'antd';
+import { Button, Layout, Menu, theme, ConfigProvider, Avatar, Dropdown, Space, Badge, MenuProps, App } from 'antd';
 import { usePathname, useRouter } from 'next/navigation';
 
 const { Header, Sider, Content } = Layout;
@@ -35,66 +35,80 @@ export default function AdminLayout({
     token: { colorBgContainer, borderRadiusLG },
   } = theme.useToken();
 
-  const menuItems = [
+  const menuItems: any[] = [
     {
-      key: '/admin',
-      icon: <DashboardOutlined />,
-      label: 'Tổng quan',
+      label: 'DASHBOARD',
+      type: 'group',
+      children: [
+        {
+          key: '/admin',
+          icon: <DashboardOutlined />,
+          label: 'Tổng quan',
+        },
+      ]
     },
     {
-      key: '/admin/products',
-      icon: <ShoppingOutlined />,
-      label: 'Quản lý Sản phẩm',
+      label: 'QUẢN LÝ NỘI DUNG',
+      type: 'group',
+      children: [
+        {
+          key: '/admin/products',
+          icon: <ShoppingOutlined />,
+          label: 'Quản lý Sản phẩm',
+        },
+        {
+          key: '/admin/categories',
+          icon: <AppstoreOutlined />,
+          label: 'Quản lý Danh mục',
+        },
+        {
+          key: '/admin/articles',
+          icon: <ReadOutlined />,
+          label: 'Bài viết & Cẩm nang',
+        },
+        {
+          key: '/admin/news',
+          icon: <ReadOutlined />,
+          label: 'Quản lý Tin tức',
+        },
+        {
+          key: '/admin/jobs',
+          icon: <UsergroupAddOutlined />,
+          label: 'Tuyển dụng',
+        },
+      ]
     },
     {
-      key: '/admin/categories',
-      icon: <AppstoreOutlined />,
-      label: 'Quản lý Danh mục',
-    },
-    {
-      key: '/admin/articles',
-      icon: <ReadOutlined />,
-      label: 'Bài viết & Cẩm nang',
-    },
-    {
-      key: '/admin/news',
-      icon: <ReadOutlined />,
-      label: 'Quản lý Tin tức',
-    },
-    {
-      key: '/admin/jobs',
-      icon: <UsergroupAddOutlined />,
-      label: 'Tuyển dụng',
-    },
-    {
-      type: 'divider',
-      key: 'div1',
-    },
-    {
-      key: '/admin/banners',
-      icon: <PictureOutlined />,
-      label: 'Banner / Slider',
-    },
-    {
-      key: '/admin/media-gallery',
-      icon: <VideoCameraOutlined />,
-      label: 'Video & Hình ảnh',
-    },
-    {
-      key: '/admin/menus',
-      icon: <MenuOutlined />,
-      label: 'Quản lý Menu',
-    },
-    {
-      key: '/admin/settings',
-      icon: <SettingOutlined />,
-      label: 'Thông tin chung',
-    },
-    {
-      key: '/admin/users',
-      icon: <UserOutlined />,
-      label: 'Người dùng admin',
-    },
+      label: 'CẤU HÌNH HỆ THỐNG',
+      type: 'group',
+      children: [
+        {
+          key: '/admin/banners',
+          icon: <PictureOutlined />,
+          label: 'Banner / Slider',
+        },
+        {
+          key: '/admin/media-gallery',
+          icon: <VideoCameraOutlined />,
+          label: 'Video & Hình ảnh',
+        },
+        {
+          key: '/admin/menus',
+          icon: <MenuOutlined />,
+          label: 'Quản lý Menu',
+        },
+        {
+          key: '/admin/settings',
+          icon: <SettingOutlined />,
+          label: 'Thông tin chung',
+        },
+        {
+          key: '/admin/users',
+          icon: <UserOutlined />,
+          label: 'Người dùng admin',
+        },
+      ]
+    }
   ];
 
   const userMenuItems = [
@@ -129,67 +143,138 @@ export default function AdminLayout({
       theme={{
         token: {
           colorPrimary: '#1a8c3f',
-          borderRadius: 8,
+          borderRadius: 16,
+          fontFamily: "'Inter', sans-serif",
+          colorBgBase: '#ffffff',
+          boxShadow: '0 4px 20px rgba(0,0,0,0.03)',
         },
+        components: {
+          Menu: {
+            itemSelectedBg: '#f0f9f2',
+            itemSelectedColor: '#1a8c3f',
+            itemHoverBg: '#f8faf9',
+            groupTitleFontSize: 11,
+            groupTitleColor: '#a0aec0',
+            itemColor: '#4a5568',
+            itemHeight: 48,
+            itemMarginInline: 12,
+            itemBorderRadius: 12,
+          },
+          Layout: {
+            headerBg: 'rgba(255, 255, 255, 0.8)',
+            headerHeight: 72,
+          },
+          Button: {
+            borderRadius: 12,
+            controlHeight: 40,
+            fontWeight: 600,
+          },
+          Card: {
+            borderRadiusLG: 24,
+          }
+        }
       }}
     >
-      <Layout className="min-h-screen">
-        <Sider trigger={null} collapsible collapsed={collapsed} theme="light" className="shadow-lg border-r border-gray-100">
-          <div className="p-6 text-center border-b border-gray-50 mb-4">
-             <h2 className={`font-black tracking-tighter text-primary italic transition-all duration-300 ${collapsed ? 'text-lg' : 'text-2xl'}`}>
-                {collapsed ? 'SF' : 'SANFOVET'}
-             </h2>
-             {!collapsed && <div className="text-[0.6rem] font-bold text-gray-400 uppercase tracking-widest mt-1">Hệ thống Quản trị</div>}
-          </div>
-          <Menu
-            mode="inline"
-            selectedKeys={[pathname]}
-            items={menuItems as any}
-            onClick={handleMenuClick}
-            className="border-none"
-          />
-        </Sider>
-        <Layout>
-          <Header style={{ padding: '0 24px', background: colorBgContainer }} className="flex justify-between items-center shadow-sm border-b border-gray-100">
-            <Button
-              type="text"
-              icon={collapsed ? <MenuUnfoldOutlined /> : <MenuFoldOutlined />}
-              onClick={() => setCollapsed(!collapsed)}
-              style={{
-                fontSize: '18px',
-                width: 48,
-                height: 48,
-              }}
-            />
-            <div className="flex items-center gap-6">
-              <Badge count={3} size="small">
-                <Button type="text" icon={<BellOutlined />} className="text-gray-500" />
-              </Badge>
-              <Dropdown menu={{ items: userMenuItems as any }} placement="bottomRight" arrow>
-                <div className="flex items-center gap-3 cursor-pointer hover:bg-gray-50 px-2 py-1 rounded-lg transition-colors">
-                  <Avatar style={{ backgroundColor: '#1a8c3f' }} icon={<UserOutlined />} />
-                  <div className="hidden md:block">
-                    <div className="text-xs font-black text-sanfovet-dark leading-none">Admin Sanfovet</div>
-                    <div className="text-[10px] text-gray-400 font-bold uppercase tracking-widest mt-1">Quản trị viên</div>
-                  </div>
-                </div>
-              </Dropdown>
-            </div>
-          </Header>
-          <Content
-            style={{
-              padding: 24,
-              minHeight: 280,
-              background: '#f8faf9',
-              flex: 'auto',
-            }}
+      <App>
+        <Layout className="min-h-screen bg-white">
+          <Sider 
+            trigger={null} 
+            collapsible 
+            collapsed={collapsed} 
+            theme="light" 
+            width={260}
+            className="shadow-[4px_0_24px_rgba(0,0,0,0.02)] border-r border-gray-50 sticky top-0 h-screen"
           >
-            <div className="max-w-[1600px] mx-auto">
-              {children}
+            <div className="px-6 py-8 mb-2 flex flex-col items-center">
+               <div className="flex items-center gap-3 justify-center mb-3">
+                  <div className="w-11 h-11 bg-gradient-to-br from-primary to-primary-dark rounded-2xl flex items-center justify-center text-white font-black text-2xl shadow-lg shadow-primary/30 transform hover:scale-105 transition-transform duration-300">S</div>
+                  {!collapsed && (
+                    <h2 className="font-black tracking-tighter text-sanfovet-dark text-2xl mb-0 transition-opacity duration-300 bg-clip-text text-transparent bg-gradient-to-r from-sanfovet-dark to-primary">
+                      SANFOVET
+                    </h2>
+                  )}
+               </div>
+               {!collapsed && (
+                 <div className="text-[0.65rem] font-black text-gray-400 uppercase tracking-[0.25em] text-center opacity-70">
+                   Management Suite
+                 </div>
+               )}
             </div>
-          </Content>
+            <Menu
+              mode="inline"
+              selectedKeys={[pathname]}
+              items={menuItems}
+              onClick={handleMenuClick}
+              className="admin-sidebar-menu border-none px-2"
+            />
+          </Sider>
+          <Layout>
+            <Header 
+              style={{ 
+                padding: '0 32px', 
+                backdropFilter: 'blur(8px)',
+                position: 'sticky',
+                top: 0,
+                zIndex: 10,
+                width: '100%',
+                display: 'flex',
+                alignItems: 'center',
+                justifyContent: 'space-between'
+              }} 
+              className="shadow-[0_1px_2px_rgba(0,0,0,0.03)] border-b border-gray-100"
+            >
+              <div className="flex items-center gap-4">
+                <Button
+                  type="text"
+                  icon={collapsed ? <MenuUnfoldOutlined /> : <MenuFoldOutlined />}
+                  onClick={() => setCollapsed(!collapsed)}
+                  className="hover:bg-gray-50 flex items-center justify-center rounded-xl transition-all"
+                  style={{
+                    fontSize: '18px',
+                    width: 44,
+                    height: 44,
+                  }}
+                />
+              </div>
+              <div className="flex items-center gap-6">
+                <Badge count={3} size="small" offset={[-2, 6]}>
+                  <Button 
+                    type="text" 
+                    icon={<BellOutlined />} 
+                    className="text-gray-400 hover:text-primary transition-colors flex items-center justify-center w-11 h-11 rounded-2xl hover:bg-gray-50" 
+                  />
+                </Badge>
+                <Dropdown menu={{ items: userMenuItems as any }} placement="bottomRight" arrow={{ pointAtCenter: true }}>
+                  <div className="flex items-center gap-3 cursor-pointer hover:bg-gray-50 px-4 py-2 rounded-2xl transition-all border border-transparent hover:border-gray-100 bg-gray-50/50">
+                    <Avatar 
+                      size={36}
+                      style={{ backgroundColor: '#1a8c3f' }} 
+                      icon={<UserOutlined />} 
+                      className="shadow-lg shadow-primary/20 ring-2 ring-white"
+                    />
+                    <div className="hidden lg:block">
+                      <div className="text-[12px] font-black text-sanfovet-dark leading-none uppercase tracking-tight">Admin Sanfovet</div>
+                      <div className="text-[10px] text-gray-400 font-bold uppercase tracking-[0.1em] mt-1.5 opacity-80">Quản trị viên</div>
+                    </div>
+                  </div>
+                </Dropdown>
+              </div>
+            </Header>
+            <Content
+              style={{
+                padding: 24,
+                minHeight: 280,
+                background: '#f8faf9',
+                flex: 'auto',
+              }}
+            >
+              <div className="max-w-[1600px] mx-auto">
+                {children}
+              </div>
+            </Content>
+          </Layout>
         </Layout>
-      </Layout>
+      </App>
     </ConfigProvider>
   );
 }

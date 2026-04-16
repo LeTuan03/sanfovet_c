@@ -1,16 +1,51 @@
 "use client";
 
-import React, { useState } from 'react';
-import { Table, Button, Space, Modal, Form, Input, Select, message, Tag, Tooltip, Row, Col, Divider } from 'antd';
+import React, { useState, useMemo } from 'react';
+import { Table, Button, Space, Modal, Form, Input, Select, message, Tag, Tooltip, Row, Col, Divider, Breadcrumb } from 'antd';
 import { PlusOutlined, EditOutlined, DeleteOutlined, EyeOutlined, SearchOutlined, FileImageOutlined } from '@ant-design/icons';
+import { useRouter, useSearchParams, usePathname } from 'next/navigation';
 import { articles, animalTags } from '@/lib/data';
 import CKEditor from '@/components/admin/CKEditor';
 
 export default function ArticleManagement() {
+  const router = useRouter();
+  const pathname = usePathname();
+  const searchParams = useSearchParams();
+  const query = searchParams.get('q') || '';
+  const page = parseInt(searchParams.get('page') || '1');
+
   const [data, setData] = useState([...articles]);
   const [isModalOpen, setIsModalOpen] = useState(false);
   const [form] = Form.useForm();
   const [editingId, setEditingId] = useState<number | null>(null);
+
+  // Derived filtered data
+  const filteredData = useMemo(() => {
+    return data.filter(item => 
+      item.title.toLowerCase().includes(query.toLowerCase()) ||
+      item.category.toLowerCase().includes(query.toLowerCase())
+    );
+  }, [data, query]);
+
+  const updateUrl = (params: { q?: string; page?: number }) => {
+    const newSearchParams = new URLSearchParams(searchParams.toString());
+    
+    if (params.q !== undefined) {
+      if (params.q) newSearchParams.set('q', params.q);
+      else newSearchParams.delete('q');
+      newSearchParams.set('page', '1'); // Reset to page 1 on search
+    }
+    
+    if (params.page !== undefined) {
+      newSearchParams.set('page', params.page.toString());
+    }
+
+    router.push(`${pathname}?${newSearchParams.toString()}`);
+  };
+
+  const handleSearch = (e: React.ChangeEvent<HTMLInputElement>) => {
+    updateUrl({ q: e.target.value });
+  };
 
   const showModal = (record?: any) => {
     if (record) {
@@ -80,11 +115,6 @@ export default function ArticleManagement() {
         const labels: any = { 'benh-dieu-tri': 'Bệnh học', 'cam-nang': 'Cẩm nang', 'tin-noi-bo': 'Tin nội bộ', 'tin-nganh': 'Tin ngành' };
         return <Tag color={colors[cat] || 'default'} className="font-bold px-3 py-0.5 rounded-full uppercase text-[0.6rem]">{labels[cat] || cat}</Tag>;
       },
-      filters: [
-        { text: 'Bệnh & Điều trị', value: 'benh-dieu-tri' },
-        { text: 'Cẩm nang', value: 'cam-nang' },
-      ],
-      onFilter: (value: any, record: any) => record.category === value,
     },
     {
       title: 'Loài vật',
@@ -136,20 +166,30 @@ export default function ArticleManagement() {
       ),
     },
   ];
+
   const isCamNang = Form.useWatch('category', form) === 'cam-nang';
-  console.log(isCamNang);
+
   return (
     <div className="space-y-6">
       <div className="flex justify-between items-center mb-10">
         <div>
+           <Breadcrumb 
+             items={[
+               { title: 'Admin', href: '/admin' },
+               { title: 'Quản lý bài viết' },
+             ]} 
+             className="mb-2"
+           />
            <h2 className="text-2xl font-black text-sanfovet-dark uppercase tracking-tight italic">Bài viết & Cẩm nang</h2>
-           <p className="text-gray-400 font-bold uppercase tracking-widest text-[0.65rem] mt-1">Quản lý nội dung tin tức, kiến thức chăn nuôi và bệnh học</p>
+
         </div>
         <div className="flex gap-4">
            <Input 
               prefix={<SearchOutlined className="text-gray-300" />} 
               placeholder="Tìm bài viết..." 
               className="w-64 rounded-xl border-gray-100 shadow-sm shadow-black/[0.02]"
+              defaultValue={query}
+              onChange={handleSearch}
            />
            <Button 
              type="primary" 
@@ -164,12 +204,14 @@ export default function ArticleManagement() {
 
       <Table 
          columns={columns} 
-         dataSource={data} 
+         dataSource={filteredData} 
          rowKey="id" 
          className="shadow-sm border border-gray-50 rounded-2xl overflow-hidden bg-white"
          pagination={{
+            current: page,
             pageSize: 6,
             className: "px-6 pb-4",
+            onChange: (p) => updateUrl({ page: p })
          }}
       />
 
