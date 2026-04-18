@@ -1,7 +1,7 @@
 import { Metadata } from 'next';
 import React from 'react';
 import Link from 'next/link';
-import { readData } from '@/lib/storage';
+import { jobService } from '@/services';
 import { Job } from '@/types';
 // import { jobs } from '@/lib/data'; // Removed static import
 import { MapPin, Calendar, Users, Target, CircleCheck, Heart, Mail } from 'lucide-react';
@@ -14,7 +14,7 @@ export const metadata: Metadata = {
 
 
 export default async function RecruitmentPage() {
-  const jobs = await readData<Job[]>('jobs');
+  const jobs = await jobService.getAll();
   const benefits = [
     { icon: <Target className="text-primary" />, title: "Môi trường năng động", desc: "Đội ngũ trẻ trung, sáng tạo và nhiệt huyết trong công việc." },
     { icon: <Heart className="text-primary" />, title: "Chế độ đãi ngộ tốt", desc: "Lương thưởng hấp dẫn, bảo hiểm đầy đủ và du lịch hàng năm." },

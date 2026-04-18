@@ -1,16 +1,16 @@
 import React from 'react';
 import Link from 'next/link';
 import { Eye, ArrowRight, Download, Calendar, Microscope, ShieldCheck, Users, Truck, Gem, ChevronRight, Award, CheckCircle2 } from 'lucide-react';
-import { readData } from '@/lib/storage';
+import { productService, articleService, categoryService } from '@/services';
 import { Product, Article, Category } from '@/types';
 import BannerSlider from '@/components/home/BannerSlider';
 import HomeGallery from '@/components/home/HomeGallery';
 import FadeUp from '@/components/shared/FadeUp';
 
 export default async function HomePage() {
-  const products = await readData<Product[]>('products');
-  const articles = await readData<Article[]>('articles');
-  const categories = await readData<Category[]>('categories');
+  const products = await productService.getAll();
+  const articles = await articleService.getAll();
+  const categories = await categoryService.getAll();
 
   const featuredProducts = Array.isArray(products) ? products.filter((p: Product) => p.featured).slice(0, 8) : [];
   const diseaseArticles = Array.isArray(articles) ? articles.filter((a: Article) => a.category === 'benh-dieu-tri').slice(0, 4) : [];

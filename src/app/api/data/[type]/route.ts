@@ -1,27 +1,61 @@
 import { NextResponse } from 'next/server';
-import { readData, writeData, DataType } from '@/lib/storage';
+import { 
+  productService, 
+  categoryService, 
+  articleService, 
+  jobService, 
+  animalTagService, 
+  menuService, 
+  settingService, 
+  bannerService, 
+  mediaService 
+} from '@/services';
 
 export async function GET(
   request: Request,
   { params }: { params: Promise<{ type: string }> }
 ) {
-  const { type: rawType } = await params;
-  const type = rawType as DataType;
-  
-  // Basic validation of data type
-  const validTypes: DataType[] = [
-    'products', 'categories', 'articles', 'jobs', 
-    'animal-tags', 'menus', 'settings', 'banners', 'media-gallery'
-  ];
-  
-  if (!validTypes.includes(type)) {
-    return NextResponse.json({ error: 'Invalid data type' }, { status: 400 });
-  }
+  const { type } = await params;
 
   try {
-    const data = await readData(type);
+    let data;
+    switch (type) {
+      case 'products':
+        data = await productService.getAll();
+        break;
+      case 'categories':
+        data = await categoryService.getAll();
+        break;
+      case 'articles':
+        data = await articleService.getAll();
+        break;
+      case 'jobs':
+        data = await jobService.getAll();
+        break;
+      case 'animal-tags':
+        data = await animalTagService.getAll();
+        break;
+      case 'menus':
+        data = await menuService.getAll();
+        break;
+      case 'settings':
+        data = await settingService.getSettings();
+        break;
+      case 'banners':
+        data = await bannerService.getAll();
+        break;
+      case 'media-gallery':
+        data = {
+          images: await mediaService.getImages(),
+          videos: await mediaService.getVideos()
+        };
+        break;
+      default:
+        return NextResponse.json({ error: 'Invalid data type' }, { status: 400 });
+    }
     return NextResponse.json(data);
   } catch (error) {
+    console.error(`Error fetching ${type}:`, error);
     return NextResponse.json({ error: 'Failed to fetch data' }, { status: 500 });
   }
 }
@@ -30,18 +64,8 @@ export async function POST(
   request: Request,
   { params }: { params: Promise<{ type: string }> }
 ) {
-  const { type: rawType } = await params;
-  const type = rawType as DataType;
+  const { type } = await params;
   
-  const validTypes: DataType[] = [
-    'products', 'categories', 'articles', 'jobs', 
-    'animal-tags', 'menus', 'settings', 'banners', 'media-gallery'
-  ];
-  
-  if (!validTypes.includes(type)) {
-    return NextResponse.json({ error: 'Invalid data type' }, { status: 400 });
-  }
-
   // Basic security check for modification requests
   const authHeader = request.headers.get('authorization');
   const expectedToken = process.env.ADMIN_SECRET_TOKEN || 'sanfovet-dev-token';
@@ -52,9 +76,40 @@ export async function POST(
 
   try {
     const body = await request.json();
-    await writeData(type, body);
+    
+    switch (type) {
+      case 'products':
+        await productService.setAll(body);
+        break;
+      case 'categories':
+        await categoryService.setAll(body);
+        break;
+      case 'articles':
+        await articleService.setAll(body);
+        break;
+      case 'jobs':
+        await jobService.setAll(body);
+        break;
+      case 'animal-tags':
+        await animalTagService.setAll(body);
+        break;
+      case 'menus':
+        await menuService.setAll(body);
+        break;
+      case 'settings':
+        await settingService.updateSettings(body);
+        break;
+      case 'banners':
+        await bannerService.setAll(body);
+        break;
+      // Note: media-gallery might need more specific handling if updated as a whole
+      default:
+        return NextResponse.json({ error: 'Invalid data type' }, { status: 400 });
+    }
+    
     return NextResponse.json({ success: true });
   } catch (error) {
+    console.error(`Error saving ${type}:`, error);
     return NextResponse.json({ error: 'Failed to save data' }, { status: 500 });
   }
 }

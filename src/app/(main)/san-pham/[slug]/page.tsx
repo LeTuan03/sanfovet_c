@@ -1,7 +1,7 @@
 import React from 'react';
 import Link from 'next/link';
 import { notFound } from 'next/navigation';
-import { readData } from '@/lib/storage';
+import { productService, categoryService } from '@/services';
 import { Product, Category } from '@/types';
 // import { products, articles, categories } from '@/lib/data'; // Removed static imports
 import { ChevronRight, ArrowLeft, CheckCircle, FileText, Info, Package, AlertCircle, ShieldCheck, Download, Microscope, Calendar } from 'lucide-react';
@@ -11,8 +11,7 @@ import ProductImageLightbox from '@/components/shared/ProductImageLightbox';
 
 export async function generateMetadata({ params }: { params: Promise<{ slug: string }> }): Promise<Metadata> {
   const { slug } = await params;
-  const products = await readData<Product[]>('products');
-  const product = Array.isArray(products) ? products.find((p: Product) => p.slug === slug) : undefined;
+  const product = await productService.getBySlug(slug);
   
   return {
     title: product ? `${product.name} - Sanfovet` : 'Sản phẩm - Sanfovet',
@@ -22,16 +21,15 @@ export async function generateMetadata({ params }: { params: Promise<{ slug: str
 
 export default async function ProductDetailPage({ params }: Readonly<{ params: Promise<{ slug: string }> }>) {
   const { slug } = await params;
-  const products = await readData<Product[]>('products');
-  const categories = await readData<Category[]>('categories');
-  const product = Array.isArray(products) ? products.find((p: Product) => p.slug === slug) : undefined;
+  const product = await productService.getBySlug(slug);
 
   if (!product) {
     notFound();
   }
 
-  const category = Array.isArray(categories) ? categories.find((c: Category) => c.id === product.categoryId) : undefined;
-  const relatedProducts = Array.isArray(products) ? products.filter((p: Product) => p.categoryId === product.categoryId && p.id !== product.id).slice(0, 4) : [];
+  const category = await categoryService.getById(String(product.categoryId));
+  const products = await productService.getAll();
+  const relatedProducts = products.filter((p: Product) => p.categoryId === product.categoryId && p.id !== product.id).slice(0, 4);
 
   return (
     <div className="bg-white min-h-[100vh] pb-24">
