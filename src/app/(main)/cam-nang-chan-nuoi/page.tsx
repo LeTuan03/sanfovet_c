@@ -8,7 +8,7 @@ import { Calendar, ChevronRight, Search } from 'lucide-react';
 export default async function HandbookPage() {
   const articles = await readData<Article[]>('articles');
   const animalTags = await readData<AnimalTag[]>('animal-tags');
-  const allHandbook = Array.isArray(articles) ? articles.filter((a: Article) => a.category === 'cam-nang' || a.category === 'benh-dieu-tri') : [];
+  const allHandbook = Array.isArray(articles) ? articles.filter((a: Article) => a.category === 'cam-nang') : [];
 
   return (
     <div className="bg-white min-h-screen">

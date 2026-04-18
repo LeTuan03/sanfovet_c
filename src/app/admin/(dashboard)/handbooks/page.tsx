@@ -12,7 +12,7 @@ import 'dayjs/locale/vi';
 import { adminFetch } from '@/lib/api';
 import { Article, AnimalTag } from '@/types';
 
-export default function ArticleManagement() {
+export default function HandbookManagement() {
   const { message: msg, modal } = App.useApp();
   const router = useRouter();
   const pathname = usePathname();
@@ -49,17 +49,17 @@ export default function ArticleManagement() {
     fetchData();
   }, [msg]);
 
-  // Derived articles
-  const articlesList = useMemo(() => {
-     return data.filter((a: Article) => a.category === 'benh-dieu-tri');
+  // Derived handbooks
+  const handbooksList = useMemo(() => {
+     return data.filter((a: Article) => a.category === 'cam-nang');
   }, [data]);
 
   // Derived filtered data
   const filteredData = useMemo(() => {
-    return articlesList.filter((item: Article) => 
+    return handbooksList.filter((item: Article) => 
       item.title.toLowerCase().includes(query.toLowerCase())
     );
-  }, [articlesList, query]);
+  }, [handbooksList, query]);
 
   const updateUrl = (params: { q?: string; page?: number }) => {
     const newSearchParams = new URLSearchParams(searchParams.toString());
@@ -190,7 +190,21 @@ export default function ArticleManagement() {
         return <Tag color={colors[cat] || 'default'} className="font-bold px-3 py-0.5 rounded-full uppercase text-[0.6rem]">{labels[cat] || cat}</Tag>;
       },
     },
-
+    {
+      title: 'Loài vật',
+      dataIndex: 'animalTag',
+      key: 'animalTag',
+      render: (tag: string) => {
+        if (!tag) return <span className="text-gray-300 italic text-[0.7rem]">-</span>;
+        const animal = animalTags.find((a: AnimalTag) => a.slug === tag);
+        return (
+          <div className="flex items-center gap-1">
+            <span className="text-lg">{animal?.icon}</span>
+            <span className="text-xs font-bold text-gray-500">{animal?.name || tag}</span>
+          </div>
+        );
+      }
+    },
     {
       title: 'Ngày đăng',
       dataIndex: 'publishDate',
@@ -236,11 +250,11 @@ export default function ArticleManagement() {
            <Breadcrumb 
              items={[
                { title: 'Admin', href: '/admin' },
-               { title: 'Quản lý Bệnh học' },
+               { title: 'Cẩm nang chăn nuôi' },
              ]} 
              className="mb-2"
            />
-           <h2 className="text-2xl font-black text-sanfovet-dark uppercase tracking-tight italic">Quản lý Bệnh học</h2>
+           <h2 className="text-2xl font-black text-sanfovet-dark uppercase tracking-tight italic">Cẩm nang chăn nuôi</h2>
 
         </div>
         <div className="flex gap-4">
@@ -277,7 +291,7 @@ export default function ArticleManagement() {
       />
 
       <Modal
-        title={<span className="text-xl font-black uppercase italic tracking-tight">{editingId ? 'Chỉnh sửa Bài viết' : 'Soạn thảo Bài viết mới'}</span>}
+        title={<span className="text-xl font-black uppercase italic tracking-tight">{editingId ? 'Chỉnh sửa Cẩm nang' : 'Soạn thảo Cẩm nang mới'}</span>}
         open={isModalOpen}
         onOk={handleOk}
         onCancel={() => setIsModalOpen(false)}
@@ -301,18 +315,30 @@ export default function ArticleManagement() {
                 <Input placeholder="Tiêu đề bắt mắt..." className="rounded-xl py-3 px-4 font-bold text-lg" />
               </Form.Item>
             </Col>
-            <Col span={12}>
-              <Form.Item name="category" label="Chuyên mục" initialValue="benh-dieu-tri" rules={[{ required: true }]}>
+            <Col span={6}>
+              <Form.Item name="category" label="Chuyên mục" initialValue="cam-nang" rules={[{ required: true }]}>
                 <Select 
                   className="rounded-xl" 
                   disabled
                   options={[
-                    { label: 'Bệnh & Điều trị', value: 'benh-dieu-tri' },
+                    { label: 'Cẩm nang chăn nuôi', value: 'cam-nang' },
                   ]}
                 />
               </Form.Item>
             </Col>
-
+            <Col span={6}>
+               <Form.Item name="animalTag" label="Loài vật liên quan">
+                 <Select 
+                   className="rounded-xl" 
+                   placeholder="Chọn loài vật"
+                   allowClear
+                   options={animalTags.map(tag => ({
+                     label: <span>{tag.icon} {tag.name}</span>,
+                     value: tag.slug
+                   }))}
+                 />
+               </Form.Item>
+            </Col>
           </Row>
 
           <Row gutter={24}>

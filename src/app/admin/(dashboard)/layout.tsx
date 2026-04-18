@@ -69,7 +69,12 @@ export default function AdminLayout({
         {
           key: '/admin/articles',
           icon: <ReadOutlined />,
-          label: 'Bài viết & Cẩm nang',
+          label: 'Quản lý Bệnh học',
+        },
+        {
+          key: '/admin/handbooks',
+          icon: <ReadOutlined />,
+          label: 'Cẩm nang chăn nuôi',
         },
         {
           key: '/admin/news',

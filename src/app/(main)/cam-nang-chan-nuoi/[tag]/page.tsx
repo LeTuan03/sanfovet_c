@@ -16,7 +16,7 @@ export default async function AnimalTagPage({ params }: Readonly<{ params: Promi
     notFound();
   }
 
-  const tagArticles = articles.filter((a: Article) => a.animalTag === tag);
+  const tagArticles = articles.filter((a: Article) => a.animalTag === tag && a.category === 'cam-nang');
 
   return (
     <div className="bg-white min-h-screen">
