@@ -3,6 +3,7 @@
 import React, { useState, useEffect } from 'react';
 import Link from 'next/link';
 import { Eye, ArrowRight, Download } from 'lucide-react';
+import { motion, AnimatePresence } from 'framer-motion';
 
 export default function BannerSlider() {
   const [currentSlide, setCurrentSlide] = useState(0);
@@ -42,36 +43,61 @@ export default function BannerSlider() {
 
   return (
     <section className="relative w-full h-[360px] md:h-[580px] lg:h-[780px] bg-sanfovet-dark overflow-hidden">
-      {banners.map((slide, index) => (
-        <div 
-          key={slide.id}
-          className={`absolute inset-0 transition-opacity duration-1000 ${index === currentSlide ? 'opacity-100 z-10' : 'opacity-0 z-0'}`}
-        >
-          <img 
-            src={slide.image} 
-            alt={slide.title}
-            className="w-full h-full object-cover"
-          />
-          <div className="absolute inset-0 bg-gradient-to-r from-sanfovet-dark/75 to-sanfovet-dark/30 flex items-center">
-            <div className="container mx-auto px-4">
-               <div className="max-w-2xl text-white">
-                  <h1 className="text-2xl md:text-5xl lg:text-7xl font-bold mb-4 md:mb-6 leading-tight whitespace-pre-line drop-shadow-lg">
-                    {slide.title}
-                  </h1>
-                  <p className="text-sm md:text-lg lg:text-xl mb-6 md:mb-10 opacity-90 leading-relaxed drop-shadow-md">
-                    {slide.desc || "Công nghệ USA – Chất lượng quốc tế – Giải pháp toàn diện cho chăn nuôi Việt Nam"}
-                  </p>
-                  <Link 
-                    href={slide.link || "/san-pham"}
-                    className="inline-flex items-center gap-2 px-6 py-3 md:px-8 md:py-4 bg-primary hover:bg-primary-dark text-white rounded-full font-bold transition-all shadow-xl hover:-translate-y-1 active:scale-95 text-sm md:text-base"
-                  >
-                    <Eye size={16} /> Xem ngay
-                  </Link>
-               </div>
-            </div>
-          </div>
-        </div>
-      ))}
+      <AnimatePresence initial={false}>
+        {banners.map((slide, index) => {
+          if (index !== currentSlide) return null;
+          return (
+            <motion.div 
+              key={slide.id}
+              initial={{ opacity: 0, scale: 1.05 }}
+              animate={{ opacity: 1, scale: 1 }}
+              exit={{ opacity: 0 }}
+              transition={{ duration: 1 }}
+              className="absolute inset-0 z-10"
+            >
+              <img 
+                src={slide.image} 
+                alt={slide.title}
+                className="w-full h-full object-cover"
+              />
+              <div className="absolute inset-0 bg-gradient-to-r from-sanfovet-dark/75 to-sanfovet-dark/30 flex items-center">
+                <div className="container mx-auto px-4">
+                   <div className="max-w-2xl text-white">
+                      <motion.h1 
+                        initial={{ opacity: 0, y: 30 }}
+                        animate={{ opacity: 1, y: 0 }}
+                        transition={{ delay: 0.3, duration: 0.8 }}
+                        className="text-2xl md:text-5xl lg:text-7xl font-bold mb-4 md:mb-6 leading-tight whitespace-pre-line drop-shadow-lg"
+                      >
+                        {slide.title}
+                      </motion.h1>
+                      <motion.p 
+                        initial={{ opacity: 0, y: 20 }}
+                        animate={{ opacity: 1, y: 0 }}
+                        transition={{ delay: 0.5, duration: 0.8 }}
+                        className="text-sm md:text-lg lg:text-xl mb-6 md:mb-10 opacity-90 leading-relaxed drop-shadow-md"
+                      >
+                        {slide.desc || "Công nghệ USA – Chất lượng quốc tế – Giải pháp toàn diện cho chăn nuôi Việt Nam"}
+                      </motion.p>
+                      <motion.div
+                        initial={{ opacity: 0, scale: 0.9 }}
+                        animate={{ opacity: 1, scale: 1 }}
+                        transition={{ delay: 0.7, duration: 0.5 }}
+                      >
+                        <Link 
+                          href={slide.link || "/san-pham"}
+                          className="inline-flex items-center gap-2 px-6 py-3 md:px-8 md:py-4 bg-primary hover:bg-primary-dark text-white rounded-full font-bold transition-all shadow-xl hover:-translate-y-1 active:scale-95 text-sm md:text-base"
+                        >
+                          <Eye size={16} /> Xem ngay
+                        </Link>
+                      </motion.div>
+                   </div>
+                </div>
+              </div>
+            </motion.div>
+          );
+        })}
+      </AnimatePresence>
 
       {/* Slide dots */}
       <div className="absolute bottom-6 left-1/2 -translate-x-1/2 flex items-center gap-3 z-20">

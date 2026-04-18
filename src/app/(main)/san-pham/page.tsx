@@ -1,6 +1,7 @@
 import { readData } from '@/lib/storage';
 import { Category, Product } from '@/types';
 import Pagination from '@/components/shared/Pagination';
+import FadeUp from '@/components/shared/FadeUp';
 import { Metadata } from 'next';
 import { Eye, Filter } from 'lucide-react';
 import Link from 'next/link';
@@ -97,8 +98,9 @@ export default async function ProductsPage({ searchParams }: { searchParams: Pro
           </div>
 
           <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-8">
-            {paginatedProducts.map((p: Product) => (
-              <div key={p.id} className="bg-white rounded-[24px] shadow-sm hover:shadow-2xl border border-gray-100 overflow-hidden transition-all duration-500 group flex flex-col h-full hover:-translate-y-1">
+            {paginatedProducts.map((p: Product, index: number) => (
+              <FadeUp key={p.id} delay={index * 0.1}>
+              <div className="bg-white rounded-[24px] shadow-sm hover:shadow-2xl border border-gray-100 overflow-hidden transition-all duration-500 group flex flex-col h-full hover:-translate-y-1">
                 <div className="aspect-[4/3] bg-gray-50 flex items-center justify-center relative p-8 group-hover:bg-primary-light/30 transition-colors duration-500">
                    <img src={p.image} alt={p.name} className="max-h-full w-auto object-contain transition-transform duration-700 group-hover:scale-110" />
                 </div>
@@ -113,6 +115,7 @@ export default async function ProductsPage({ searchParams }: { searchParams: Pro
                   </Link>
                 </div>
               </div>
+              </FadeUp>
             ))}
             {filteredProducts.length === 0 && (
               <div className="col-span-full py-20 text-center bg-white rounded-[40px] border border-dashed border-gray-200">

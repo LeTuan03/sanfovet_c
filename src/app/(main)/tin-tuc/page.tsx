@@ -3,6 +3,7 @@ import Link from 'next/link';
 import { readData } from '@/lib/storage';
 import { Article } from '@/types';
 // import { articles } from '@/lib/data'; // Removed static import
+import FadeUp from '@/components/shared/FadeUp';
 import { Calendar, ChevronRight, Newspaper, Users, Globe } from 'lucide-react';
 
 export default async function NewsPage() {
@@ -25,8 +26,9 @@ export default async function NewsPage() {
         <div className="grid grid-cols-1 lg:grid-cols-3 gap-12">
           {/* Main Feed */}
           <div className="lg:col-span-2 space-y-12">
-             {allNews.map((a: Article) => (
-               <article key={a.id} className="group flex flex-col md:flex-row gap-8 bg-white p-6 rounded-[40px] border border-gray-100 shadow-sm hover:shadow-2xl hover:-translate-y-1 transition-all duration-500">
+             {allNews.map((a: Article, index: number) => (
+               <FadeUp key={a.id} delay={index * 0.1}>
+               <article className="group flex flex-col md:flex-row gap-8 bg-white p-6 rounded-[40px] border border-gray-100 shadow-sm hover:shadow-2xl hover:-translate-y-1 transition-all duration-500">
                   <Link href={`/bai-viet/${a.slug}`} className="w-full md:w-2/5 aspect-[4/3] relative overflow-hidden rounded-[32px] shrink-0">
                      <img src={a.thumbnail} alt={a.title} className="w-full h-full object-cover group-hover:scale-110 transition-transform duration-700" />
                      <div className="absolute top-4 left-4">
@@ -50,6 +52,7 @@ export default async function NewsPage() {
                      </Link>
                   </div>
                </article>
+               </FadeUp>
              ))}
           </div>
 

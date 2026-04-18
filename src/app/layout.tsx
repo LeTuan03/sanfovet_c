@@ -17,6 +17,11 @@ const montserrat = Montserrat({
   variable: '--font-montserrat',
 });
 
+export const viewport = {
+  width: "device-width",
+  initialScale: 1,
+};
+
 export const metadata: Metadata = {
   title: {
     default: "SANFOVET - Thuốc Thú Y Công Nghệ USA | Chất Lượng Vượt Trội",
@@ -25,7 +30,7 @@ export const metadata: Metadata = {
   description: "SANFOVET tự hào là đơn vị tiên phong trong sản xuất và phân phối thuốc thú y trang trại tại Việt Nam với công nghệ tiên tiến từ Hoa Kỳ. Nhà máy đạt tiêu chuẩn GMP-WHO.",
   keywords: ["thuốc thú y", "sanfovet", "chăn nuôi", "gmp-who", "phòng bệnh vật nuôi", "điều trị bệnh thú y"],
   authors: [{ name: "SANFOVET Team" }],
-  viewport: "width=device-width, initial-scale=1",
+  metadataBase: new URL("https://sanfovet.com.vn"),
   robots: "index, follow",
   openGraph: {
     type: "website",

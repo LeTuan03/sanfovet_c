@@ -4,6 +4,7 @@ import React from 'react';
 import Link from 'next/link';
 import { FacebookOutlined, YoutubeOutlined } from '@ant-design/icons';
 import { useLanguage } from '@/lib/LanguageContext';
+import { motion } from 'framer-motion';
 // import { footerMenus } from '@/lib/data'; // Removed static import
 
 export default function Footer() {
@@ -44,7 +45,13 @@ export default function Footer() {
       <div className="container mx-auto px-4">
         <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-12 mb-12">
           {/* Col 1 - Company Info */}
-          <div className="space-y-4">
+          <motion.div 
+            initial={{ opacity: 0, y: 20 }}
+            whileInView={{ opacity: 1, y: 0 }}
+            viewport={{ once: true }}
+            transition={{ duration: 0.5, delay: 0 }}
+            className="space-y-4"
+          >
             <h3 className="text-white text-lg font-bold mb-6 relative pb-2.5 after:content-[''] after:absolute after:bottom-0 after:left-0 after:w-10 after:height-0.5 after:bg-primary uppercase">SANFOVET</h3>
             <p className="font-semibold text-white/90">{settings?.companyName || 'Công ty CP Đầu tư Liên doanh Việt Anh'}</p>
             <p><strong>Trụ sở:</strong> {settings?.addressHN || 'Cụm CN Liên Phương, Xã Hồng Vân, Hà Nội'}</p>
@@ -57,10 +64,15 @@ export default function Footer() {
                 {settings.addressHCM}
               </p>
             )}
-          </div>
+          </motion.div>
 
           {/* Col 2 - Product Categories with exact links */}
-          <div>
+          <motion.div
+            initial={{ opacity: 0, y: 20 }}
+            whileInView={{ opacity: 1, y: 0 }}
+            viewport={{ once: true }}
+            transition={{ duration: 0.5, delay: 0.1 }}
+          >
             <h3 className="text-white text-lg font-bold mb-6 relative pb-2.5 after:content-[''] after:absolute after:bottom-0 after:left-0 after:w-10 after:height-0.5 after:bg-primary uppercase">{t('products')}</h3>
             <ul className="space-y-2">
               {categories.map((cat) => (
@@ -72,10 +84,15 @@ export default function Footer() {
                 </>
               )}
             </ul>
-          </div>
+          </motion.div>
 
           {/* Col 3 - Technical Support */}
-          <div>
+          <motion.div
+            initial={{ opacity: 0, y: 20 }}
+            whileInView={{ opacity: 1, y: 0 }}
+            viewport={{ once: true }}
+            transition={{ duration: 0.5, delay: 0.2 }}
+          >
             <h3 className="text-white text-lg font-bold mb-6 relative pb-2.5 after:content-[''] after:absolute after:bottom-0 after:left-0 after:w-10 after:height-0.5 after:bg-primary uppercase">{t('tech_support')}</h3>
             <div className="mb-6">
               <p className="text-white font-bold mb-1">{settings?.support?.doctorName || 'BSTY. Hoàng Đăng Trạng'}</p>
@@ -96,10 +113,15 @@ export default function Footer() {
                 </a>
               </div>
             </div>
-          </div>
+          </motion.div>
 
           {/* Col 4 - Quick Links */}
-          <div>
+          <motion.div
+            initial={{ opacity: 0, y: 20 }}
+            whileInView={{ opacity: 1, y: 0 }}
+            viewport={{ once: true }}
+            transition={{ duration: 0.5, delay: 0.3 }}
+          >
             <h3 className="text-white text-lg font-bold mb-6 relative pb-2.5 after:content-[''] after:absolute after:bottom-0 after:left-0 after:w-10 after:height-0.5 after:bg-primary uppercase">Liên kết nhanh</h3>
             <ul className="space-y-2">
               {menus.filter(m => m.status).sort((a, b) => a.order - b.order).map((menu) => (
@@ -110,7 +132,7 @@ export default function Footer() {
                 </li>
               ))}
             </ul>
-          </div>
+          </motion.div>
         </div>
 
         <div className="pt-8 border-t border-white/10 text-center text-white/40 text-[0.82rem]">

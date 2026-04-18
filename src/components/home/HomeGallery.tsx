@@ -2,6 +2,7 @@
 
 import React, { useState } from 'react';
 import { X, ZoomIn, PlayCircle } from 'lucide-react';
+import { motion, AnimatePresence } from 'framer-motion';
 
 export default function HomeGallery() {
   const [selectedItem, setSelectedItem] = useState<any>(null);
@@ -32,17 +33,29 @@ export default function HomeGallery() {
   return (
     <section className="py-24 bg-white">
       <div className="container mx-auto px-4">
-        <div className="text-center max-w-2xl mx-auto mb-16">
+        <motion.div 
+          initial={{ opacity: 0, y: 20 }}
+          whileInView={{ opacity: 1, y: 0 }}
+          viewport={{ once: true, margin: "-100px" }}
+          transition={{ duration: 0.6 }}
+          className="text-center max-w-2xl mx-auto mb-16"
+        >
           <h2 className="text-3xl md:text-5xl font-black mb-6 text-sanfovet-dark uppercase italic tracking-wider relative inline-block">
             Video & Hình Ảnh
             <span className="absolute -bottom-2 left-0 w-1/2 h-1.5 bg-primary rounded-full"></span>
           </h2>
           <p className="text-gray-500 font-medium text-lg italic">Khám phá quy mô nhà máy và các hoạt động nổi bật của SANFOVET</p>
-        </div>
+        </motion.div>
 
         <div className="grid grid-cols-1 lg:grid-cols-2 gap-10">
           {/* Video Feature */}
-          <div className="flex flex-col gap-6">
+          <motion.div 
+            initial={{ opacity: 0, x: -50 }}
+            whileInView={{ opacity: 1, x: 0 }}
+            viewport={{ once: true, margin: "-100px" }}
+            transition={{ duration: 0.6, delay: 0.2 }}
+            className="flex flex-col gap-6"
+          >
              <div 
                className="group relative aspect-video rounded-[40px] overflow-hidden shadow-2xl border-8 border-white cursor-pointer"
                onClick={() => setSelectedItem({ ...featuredVideo, type: 'video' })}
@@ -67,13 +80,17 @@ export default function HomeGallery() {
                    <PlayCircle size={24} />
                 </a>
              </div>
-          </div>
+          </motion.div>
 
           {/* Masonry-style Grid */}
           <div className="columns-2 gap-6 space-y-6">
             {images.map((img, i) => (
-              <div 
+              <motion.div 
                 key={img.id}
+                initial={{ opacity: 0, y: 30 }}
+                whileInView={{ opacity: 1, y: 0 }}
+                viewport={{ once: true, margin: "-50px" }}
+                transition={{ duration: 0.5, delay: i * 0.1 }}
                 className="relative group rounded-3xl overflow-hidden shadow-md cursor-pointer break-inside-avoid"
                 onClick={() => setSelectedItem({ ...img, type: 'image' })}
               >
@@ -90,20 +107,32 @@ export default function HomeGallery() {
                    </div>
                    <p className="text-white font-bold text-sm leading-tight line-clamp-2 transform translate-y-4 group-hover:translate-y-0 transition-transform delay-75">{img.title}</p>
                 </div>
-              </div>
+              </motion.div>
             ))}
           </div>
         </div>
       </div>
 
       {/* Lightbox / Video Player */}
+      <AnimatePresence>
       {selectedItem && (
-        <div className="fixed inset-0 z-[2000] flex items-center justify-center p-4 md:p-12 animate-fade-in">
+        <motion.div 
+          initial={{ opacity: 0 }}
+          animate={{ opacity: 1 }}
+          exit={{ opacity: 0 }}
+          className="fixed inset-0 z-[2000] flex items-center justify-center p-4 md:p-12"
+        >
           <div 
             className="absolute inset-0 bg-sanfovet-dark/95 backdrop-blur-md cursor-pointer"
             onClick={() => setSelectedItem(null)}
           ></div>
-          <div className="relative z-10 w-full max-w-6xl bg-white rounded-[40px] overflow-hidden shadow-2xl animate-scale-up">
+          <motion.div 
+            initial={{ scale: 0.95, opacity: 0 }}
+            animate={{ scale: 1, opacity: 1 }}
+            exit={{ scale: 0.95, opacity: 0 }}
+            transition={{ type: "spring", stiffness: 300, damping: 25 }}
+            className="relative z-10 w-full max-w-6xl bg-white rounded-[40px] overflow-hidden shadow-2xl"
+          >
             <button 
               onClick={() => setSelectedItem(null)}
               className="absolute top-6 right-6 bg-gray-100 hover:bg-red-100 text-gray-400 hover:text-red-500 w-12 h-12 rounded-full flex items-center justify-center transition-all z-20 shadow-sm"
@@ -148,9 +177,10 @@ export default function HomeGallery() {
                   </button>
                </div>
             </div>
-          </div>
-        </div>
+          </motion.div>
+        </motion.div>
       )}
+      </AnimatePresence>
 
       <style jsx global>{`
         @keyframes fade-in {

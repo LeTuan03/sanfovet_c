@@ -9,7 +9,7 @@ import {
 import { FacebookOutlined, YoutubeOutlined } from '@ant-design/icons';
 import { useLanguage } from '@/lib/LanguageContext';
 import { NavMenu, Category, Setting, AnimalTag } from '@/types';
-// import { headerMenus } from '@/lib/data'; // Removed static import
+import { motion, AnimatePresence } from 'framer-motion';
 
 export default function Header() {
   const { language, setLanguage, t } = useLanguage();
@@ -184,8 +184,15 @@ export default function Header() {
         </div>
 
         {/* Mobile Nav */}
+        <AnimatePresence>
         {isMobileMenuOpen && (
-          <div className="lg:hidden fixed inset-0 top-[70px] bg-white z-50 overflow-y-auto animate-fade-in border-t border-gray-100 pb-20">
+          <motion.div 
+            initial={{ opacity: 0, y: -20 }}
+            animate={{ opacity: 1, y: 0 }}
+            exit={{ opacity: 0, y: -20 }}
+            transition={{ duration: 0.2 }}
+            className="lg:hidden fixed inset-0 top-[70px] bg-white z-50 overflow-y-auto border-t border-gray-100 pb-20"
+          >
              <div className="p-6 flex flex-col gap-1">
                 {menus.filter(m => m.status).sort((a, b) => a.order - b.order).map((menu) => {
                   if (menu.isButton) {
@@ -210,8 +217,9 @@ export default function Header() {
                   );
                 })}
              </div>
-          </div>
+          </motion.div>
         )}
+        </AnimatePresence>
       </header>
     </div>
   );
