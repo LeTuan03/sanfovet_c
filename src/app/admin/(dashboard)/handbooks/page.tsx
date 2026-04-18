@@ -12,7 +12,7 @@ import 'dayjs/locale/vi';
 import { adminFetch } from '@/lib/api';
 import { Article, AnimalTag } from '@/types';
 
-export default function HandbookManagement() {
+function HandbookManagementContent() {
   const { message: msg, modal } = App.useApp();
   const router = useRouter();
   const pathname = usePathname();
@@ -367,5 +367,14 @@ export default function HandbookManagement() {
         </Form>
       </Modal>
     </div>
+  );
+}
+
+
+export default function HandbookManagement() {
+  return (
+    <React.Suspense fallback={<div className="p-8 text-center text-gray-500">Đang tải dữ liệu...</div>}>
+      <HandbookManagementContent />
+    </React.Suspense>
   );
 }

@@ -10,7 +10,7 @@ const initialUsers = [
   { id: 2, name: 'Editor 01', email: 'editor@sanfovet.com.vn', role: 'Editor', lastActive: '2 giờ trước', avatar: null },
 ];
 
-export default function AdminUsersPage() {
+function AdminUsersPageContent() {
   const { message: msg, modal } = App.useApp();
   const router = useRouter();
   const pathname = usePathname();
@@ -265,5 +265,14 @@ export default function AdminUsersPage() {
          </Form>
       </Modal>
     </div>
+  );
+}
+
+
+export default function AdminUsersPage() {
+  return (
+    <React.Suspense fallback={<div className="p-8 text-center text-gray-500">Đang tải dữ liệu...</div>}>
+      <AdminUsersPageContent />
+    </React.Suspense>
   );
 }

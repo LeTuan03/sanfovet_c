@@ -18,7 +18,7 @@ import { motion } from 'framer-motion';
 import { adminFetch } from '@/lib/api';
 import { Product, Category } from '@/types';
 
-export default function ProductManagement() {
+function ProductManagementContent() {
   const { modal, message } = App.useApp();
   const router = useRouter();
   const pathname = usePathname();
@@ -447,5 +447,14 @@ export default function ProductManagement() {
         </Form>
       </Modal>
     </motion.div>
+  );
+}
+
+
+export default function ProductManagement() {
+  return (
+    <React.Suspense fallback={<div className="p-8 text-center text-gray-500">Đang tải dữ liệu...</div>}>
+      <ProductManagementContent />
+    </React.Suspense>
   );
 }

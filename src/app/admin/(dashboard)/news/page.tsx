@@ -13,7 +13,7 @@ import { Article } from '@/types';
 import CKEditor from '@/components/admin/CKEditor';
 import ImageUpload from '@/components/admin/ImageUpload';
 
-export default function AdminNewsPage() {
+function AdminNewsPageContent() {
   const { modal, message } = App.useApp();
   const router = useRouter();
   const pathname = usePathname();
@@ -360,5 +360,14 @@ export default function AdminNewsPage() {
         </Form>
       </Modal>
     </motion.div>
+  );
+}
+
+
+export default function AdminNewsPage() {
+  return (
+    <React.Suspense fallback={<div className="p-8 text-center text-gray-500">Đang tải dữ liệu...</div>}>
+      <AdminNewsPageContent />
+    </React.Suspense>
   );
 }

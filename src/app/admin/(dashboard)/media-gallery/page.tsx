@@ -19,7 +19,7 @@ import { adminFetch } from '@/lib/api';
 // const initialImages = [...]; 
 // const initialVideos = [...];
 
-export default function AdminMediaGalleryPage() {
+function AdminMediaGalleryPageContent() {
   const { modal, message } = App.useApp();
   const router = useRouter();
   const pathname = usePathname();
@@ -477,5 +477,14 @@ export default function AdminMediaGalleryPage() {
         </Image.PreviewGroup>
       </div>
     </motion.div>
+  );
+}
+
+
+export default function AdminMediaGalleryPage() {
+  return (
+    <React.Suspense fallback={<div className="p-8 text-center text-gray-500">Đang tải dữ liệu...</div>}>
+      <AdminMediaGalleryPageContent />
+    </React.Suspense>
   );
 }

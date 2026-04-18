@@ -16,7 +16,7 @@ import { Banner } from '@/types';
 
 // import { initialBanners } from '@/lib/data'; // Removed static data
 
-export default function AdminBannersPage() {
+function AdminBannersPageContent() {
   const { modal, message } = App.useApp();
   const router = useRouter();
   const pathname = usePathname();
@@ -322,5 +322,14 @@ export default function AdminBannersPage() {
         </Form>
       </Modal>
     </motion.div>
+  );
+}
+
+
+export default function AdminBannersPage() {
+  return (
+    <React.Suspense fallback={<div className="p-8 text-center text-gray-500">Đang tải dữ liệu...</div>}>
+      <AdminBannersPageContent />
+    </React.Suspense>
   );
 }

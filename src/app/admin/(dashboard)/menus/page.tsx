@@ -6,7 +6,7 @@ import { PlusOutlined, EditOutlined, DeleteOutlined, MenuOutlined, GlobalOutline
 import { useRouter, useSearchParams, usePathname } from 'next/navigation';
 import { adminFetch } from '@/lib/api';
 
-export default function AdminMenusPage() {
+function AdminMenusPageContent() {
   const { message: msg, modal } = App.useApp();
   const router = useRouter();
   const pathname = usePathname();
@@ -327,5 +327,14 @@ export default function AdminMenusPage() {
         </Form>
       </Modal>
     </div>
+  );
+}
+
+
+export default function AdminMenusPage() {
+  return (
+    <React.Suspense fallback={<div className="p-8 text-center text-gray-500">Đang tải dữ liệu...</div>}>
+      <AdminMenusPageContent />
+    </React.Suspense>
   );
 }

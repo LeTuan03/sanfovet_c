@@ -12,7 +12,7 @@ import AdminPageHeader from '@/components/admin/AdminPageHeader';
 import { motion } from 'framer-motion';
 import { adminFetch } from '@/lib/api';
 
-export default function CategoryAndTagManagement() {
+function CategoryAndTagManagementContent() {
   const { modal, message } = App.useApp();
   const router = useRouter();
   const pathname = usePathname();
@@ -380,5 +380,14 @@ export default function CategoryAndTagManagement() {
         </Form>
       </Modal>
     </motion.div>
+  );
+}
+
+
+export default function CategoryAndTagManagement() {
+  return (
+    <React.Suspense fallback={<div className="p-8 text-center text-gray-500">Đang tải dữ liệu...</div>}>
+      <CategoryAndTagManagementContent />
+    </React.Suspense>
   );
 }

@@ -11,7 +11,7 @@ import dayjs from 'dayjs';
 import 'dayjs/locale/vi';
 import { adminFetch } from '@/lib/api';
 
-export default function AdminJobsPage() {
+function AdminJobsPageContent() {
   const { modal, message } = App.useApp();
   const router = useRouter();
   const pathname = usePathname();
@@ -306,5 +306,14 @@ export default function AdminJobsPage() {
         </Form>
       </Modal>
     </div>
+  );
+}
+
+
+export default function AdminJobsPage() {
+  return (
+    <React.Suspense fallback={<div className="p-8 text-center text-gray-500">Đang tải dữ liệu...</div>}>
+      <AdminJobsPageContent />
+    </React.Suspense>
   );
 }

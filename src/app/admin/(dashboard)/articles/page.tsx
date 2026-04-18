@@ -12,7 +12,7 @@ import 'dayjs/locale/vi';
 import { adminFetch } from '@/lib/api';
 import { Article, AnimalTag } from '@/types';
 
-export default function ArticleManagement() {
+function ArticleManagementContent() {
   const { message: msg, modal } = App.useApp();
   const router = useRouter();
   const pathname = usePathname();
@@ -341,5 +341,14 @@ export default function ArticleManagement() {
         </Form>
       </Modal>
     </div>
+  );
+}
+
+
+export default function ArticleManagement() {
+  return (
+    <React.Suspense fallback={<div className="p-8 text-center text-gray-500">Đang tải dữ liệu...</div>}>
+      <ArticleManagementContent />
+    </React.Suspense>
   );
 }
