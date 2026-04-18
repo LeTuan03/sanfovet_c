@@ -40,15 +40,18 @@ const VideoUpload: React.FC<VideoUploadProps> = ({
   };
 
   const customUpload = async (options: any) => {
-    const { file, onSuccess, onError } = options;
+    const { file, onSuccess, onError, onProgress } = options;
     try {
       setLoading(true);
       setPercent(0);
       
       const path = `videos/${Date.now()}-${file.name}`;
-      // Note: We could use uploadTask.on('state_changed') for progress, 
-      // but for simplicity let's just use the promise or update uploadFile
-      const url = await uploadFile(file as File, path);
+      // Use originFileObj if available
+      const rawFile = (file as any).originFileObj || file;
+      const url = await uploadFile(rawFile as File, path, (progress) => {
+        setPercent(Math.round(progress));
+        onProgress({ percent: progress });
+      });
       
       setVideoUrl(url);
       onChange?.(url);
@@ -75,6 +78,7 @@ const VideoUpload: React.FC<VideoUploadProps> = ({
         showUploadList={false}
         customRequest={customUpload}
         beforeUpload={beforeUpload}
+        className="upload-fill"
       >
         <div className="relative w-full min-h-[120px] rounded-2xl border-2 border-dashed border-gray-100 hover:border-primary transition-all bg-gray-50/50 flex flex-col items-center justify-center p-6 cursor-pointer group">
           {videoUrl ? (
@@ -115,6 +119,16 @@ const VideoUpload: React.FC<VideoUploadProps> = ({
           )}
         </div>
       </Upload>
+      <style>{`
+        .upload-fill,
+        .upload-fill .ant-upload-wrapper,
+        .upload-fill .ant-upload-select,
+        .upload-fill .ant-upload {
+          display: block !important;
+          width: 100% !important;
+          height: 100% !important;
+        }
+      `}</style>
     </div>
   );
 };

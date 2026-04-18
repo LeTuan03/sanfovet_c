@@ -58,11 +58,15 @@ const ImageUpload: React.FC<ImageUploadProps> = ({
   };
 
   const customUpload = async (options: any) => {
-    const { file, onSuccess, onError } = options;
+    const { file, onSuccess, onError, onProgress } = options;
     try {
       setLoading(true);
       const path = `uploads/${Date.now()}-${file.name}`;
-      const url = await uploadFile(file as File, path);
+      // Use originFileObj if available (recommended by Ant Design)
+      const rawFile = (file as any).originFileObj || file;
+      const url = await uploadFile(rawFile as File, path, (progress) => {
+        onProgress({ percent: progress });
+      });
       setImageUrl(url);
       onChange?.(url);
       onSuccess('ok');
@@ -98,14 +102,11 @@ const ImageUpload: React.FC<ImageUploadProps> = ({
         */}
       <div className="absolute inset-0">
         <Upload
-          name="avatar"
+          accept="image/*"
           showUploadList={false}
           customRequest={customUpload}
           beforeUpload={beforeUpload}
           onChange={handleChange}
-          style={{ display: 'block', width: '100%', height: '100%' }}
-          // Override Ant Design inline styles qua style trực tiếp trên Upload
-          // và dùng CSS global bên dưới
           className="upload-fill"
         >
           {/* Trigger area: fill toàn bộ */}

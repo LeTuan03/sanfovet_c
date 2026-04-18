@@ -107,7 +107,7 @@ function AdminMediaGalleryPageContent() {
     setIsModalOpen(true);
   };
 
-  const handleDeleteImage = (id: number) => {
+  const handleDeleteImage = (id: string | number) => {
     modal.confirm({
       title: 'Xóa hình ảnh?',
       content: 'Hình ảnh này sẽ không còn hiển thị ở Thư viện trang chủ.',
@@ -134,7 +134,7 @@ function AdminMediaGalleryPageContent() {
     });
   };
 
-  const handleDeleteVideo = (id: number) => {
+  const handleDeleteVideo = (id: string | number) => {
     modal.confirm({
       title: 'Xóa video?',
       content: 'Video này sẽ không còn hiển thị ở mục Gallery.',
