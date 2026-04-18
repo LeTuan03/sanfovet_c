@@ -13,6 +13,8 @@ import {
 } from '@ant-design/icons';
 import { useRouter, useSearchParams, usePathname } from 'next/navigation';
 import AdminPageHeader from '@/components/admin/AdminPageHeader';
+import ImageUpload from '@/components/admin/ImageUpload';
+import VideoUpload from '@/components/admin/VideoUpload';
 import { motion } from 'framer-motion';
 import { adminFetch } from '@/lib/api';
 
@@ -197,7 +199,7 @@ function AdminMediaGalleryPageContent() {
           updatedImages = images.map(img => img.id === editingId ? { ...img, ...values } : img);
         } else {
           const newImg = {
-            id: Date.now(),
+            id: String(Date.now()),
             url: values.url || '/images/about.png',
             title: values.title,
             status: values.status || 'active',
@@ -210,7 +212,7 @@ function AdminMediaGalleryPageContent() {
           updatedVideos = videos.map(v => v.id === editingId ? { ...v, ...values } : v);
         } else {
           const newVid = {
-            id: Date.now(),
+            id: String(Date.now()),
             url: values.url,
             title: values.title,
             thumbnail: values.thumbnail || '/images/about.png',
@@ -443,28 +445,27 @@ function AdminMediaGalleryPageContent() {
           </Row>
           
           {activeTab === 'images' ? (
-            <>
-               <Form.Item name="url" label="URL Hình ảnh (hoặc /images/...)">
-                  <Input placeholder="Nhập đường dẫn ảnh..." prefix={<PictureOutlined />} className="rounded-xl py-2 px-4" />
-               </Form.Item>
-               <div className="flex flex-col gap-2">
-                  <span className="text-xs font-bold text-gray-500 uppercase tracking-widest mb-1">Tải lên tập tin mới</span>
-                  <Upload.Dragger listType="picture" maxCount={1} className="rounded-[24px!important] overflow-hidden">
-                     <p className="ant-upload-drag-icon">
-                        <PictureOutlined className="text-primary" />
-                     </p>
-                     <p className="ant-upload-text font-bold text-sanfovet-dark">Kéo thả hoặc click để tải lên</p>
-                     <p className="ant-upload-hint text-[10px] uppercase font-bold tracking-widest text-gray-400 mt-2">JPG, PNG, WEBP (MAX 5MB)</p>
-                  </Upload.Dragger>
-               </div>
-            </>
+            <Form.Item name="url" label="Hình ảnh Gallery" rules={[{ required: true, message: 'Vui lòng tải ảnh lên' }]}>
+               <ImageUpload label="Tải ảnh Gallery lên" aspectRatio="16/9" />
+            </Form.Item>
           ) : (
             <>
-              <Form.Item name="url" label="Link Video (YouTube / Embed / MP4)" rules={[{ required: true, message: 'Vui lòng nhập link video' }]}>
-                 <Input placeholder="Dán link video tại đây..." prefix={<PlayCircleOutlined className="text-red-500" />} className="rounded-xl py-2 px-4" />
+              <Form.Item label="Link Video hoặc Tải lên tập tin" required rules={[{ required: true, message: 'Vui lòng cung cấp link video hoặc tải lên' }]}>
+                <div className="space-y-4">
+                  <Form.Item name="url" noStyle>
+                    <Input 
+                      placeholder="Dán link video (YouTube, MP4...) tại đây" 
+                      prefix={<PlayCircleOutlined className="text-red-500" />} 
+                      className="rounded-xl py-2 px-4 mb-2" 
+                    />
+                  </Form.Item>
+                  <Form.Item name="url" noStyle>
+                    <VideoUpload label="Hoặc nhấn vào đây để tải video lên" />
+                  </Form.Item>
+                </div>
               </Form.Item>
-              <Form.Item name="thumbnail" label="URL Ảnh đại diện (Thumbnail)">
-                 <Input placeholder="Ví dụ: /images/custom-thumb.png" className="rounded-xl py-2 px-4" />
+              <Form.Item name="thumbnail" label="Ảnh đại diện Video (Thumbnail)">
+                 <ImageUpload label="Tải thumbnail lên" aspectRatio="16/9" />
               </Form.Item>
             </>
           )}

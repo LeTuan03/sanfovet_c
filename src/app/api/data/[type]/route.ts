@@ -102,6 +102,10 @@ export async function POST(
       case 'banners':
         await bannerService.setAll(body);
         break;
+      case 'media-gallery':
+        if (body.images) await mediaService.setImages(body.images);
+        if (body.videos) await mediaService.setVideos(body.videos);
+        break;
       // Note: media-gallery might need more specific handling if updated as a whole
       default:
         return NextResponse.json({ error: 'Invalid data type' }, { status: 400 });

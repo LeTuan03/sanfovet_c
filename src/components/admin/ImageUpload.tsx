@@ -5,6 +5,7 @@ import { Upload, message } from 'antd';
 import { PlusOutlined, DeleteOutlined, LoadingOutlined } from '@ant-design/icons';
 import type { UploadChangeParam } from 'antd/es/upload';
 import type { RcFile, UploadFile, UploadProps } from 'antd/es/upload/interface';
+import { uploadFile } from '@/lib/firebase/storage';
 
 interface ImageUploadProps {
   value?: string;
@@ -43,19 +44,34 @@ const ImageUpload: React.FC<ImageUploadProps> = ({
     setImageUrl(value);
   }, [value]);
 
-  const handleChange: UploadProps['onChange'] = (
+  const handleChange: UploadProps['onChange'] = async (
     info: UploadChangeParam<UploadFile>
   ) => {
     if (info.file.status === 'uploading') {
       setLoading(true);
       return;
     }
-    if (info.file.status === 'done' || info.file.originFileObj) {
-      getBase64(info.file.originFileObj as RcFile, (url) => {
-        setLoading(false);
-        setImageUrl(url);
-        onChange?.(url);
-      });
+    
+    // Ant Design's status 'done' or 'error' depends on customRequest
+    // Since our customRequest is just a dummy, we handle the upload here if status is 'uploading' 
+    // but info.file.originFileObj is present.
+  };
+
+  const customUpload = async (options: any) => {
+    const { file, onSuccess, onError } = options;
+    try {
+      setLoading(true);
+      const path = `uploads/${Date.now()}-${file.name}`;
+      const url = await uploadFile(file as File, path);
+      setImageUrl(url);
+      onChange?.(url);
+      onSuccess('ok');
+    } catch (error) {
+      console.error('Upload error:', error);
+      message.error('Tải ảnh lên thất bại!');
+      onError(error);
+    } finally {
+      setLoading(false);
     }
   };
 
@@ -84,9 +100,7 @@ const ImageUpload: React.FC<ImageUploadProps> = ({
         <Upload
           name="avatar"
           showUploadList={false}
-          customRequest={({ onSuccess }) => {
-            setTimeout(() => onSuccess?.('ok'), 0);
-          }}
+          customRequest={customUpload}
           beforeUpload={beforeUpload}
           onChange={handleChange}
           style={{ display: 'block', width: '100%', height: '100%' }}

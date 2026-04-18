@@ -45,9 +45,43 @@ export class MediaService {
     return docRef.id;
   }
 
-  async addVideo(video: Omit<MediaVideo, 'id'>): Promise<string> {
-    const docRef = await adminDb.collection('media-videos').add(video);
+  async addVideo(video: Omit<MediaVideo, "id">): Promise<string> {
+    const docRef = await adminDb.collection("media-videos").add(video);
     return docRef.id;
+  }
+
+  async setImages(images: MediaImage[]): Promise<void> {
+    const batch = adminDb.batch();
+    const collection = adminDb.collection("media-images");
+
+    // Clear existing images (for a full reset like other services)
+    const snapshot = await collection.get();
+    snapshot.docs.forEach((doc: any) => batch.delete(doc.ref));
+
+    images.forEach((img) => {
+      const { id, ...rest } = img;
+      const docRef = id && typeof id === "string" ? collection.doc(id) : collection.doc();
+      batch.set(docRef, rest);
+    });
+
+    await batch.commit();
+  }
+
+  async setVideos(videos: MediaVideo[]): Promise<void> {
+    const batch = adminDb.batch();
+    const collection = adminDb.collection("media-videos");
+
+    // Clear existing videos
+    const snapshot = await collection.get();
+    snapshot.docs.forEach((doc: any) => batch.delete(doc.ref));
+
+    videos.forEach((vid) => {
+      const { id, ...rest } = vid;
+      const docRef = id && typeof id === "string" ? collection.doc(id) : collection.doc();
+      batch.set(docRef, rest);
+    });
+
+    await batch.commit();
   }
 }
 
