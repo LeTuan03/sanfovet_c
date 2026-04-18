@@ -11,12 +11,10 @@ import {
 import AdminPageHeader from '@/components/admin/AdminPageHeader';
 import ImageUpload from '@/components/admin/ImageUpload';
 import { motion } from 'framer-motion';
+import { adminFetch } from '@/lib/api';
+import { Banner } from '@/types';
 
-const initialBanners = [
-  { id: 1, image: '/images/banner1.png', title: 'Banner Trang chủ 1', link: '/san-pham', order: 1, status: true },
-  { id: 2, image: '/images/banner2.png', title: 'Banner Khuyến mãi tháng 4', link: '/tin-tuc', order: 2, status: true },
-  { id: 3, image: '/images/banner1.png', title: 'Banner Tuyển dụng miền Trung', link: '/tuyen-dung', order: 3, status: false },
-];
+// import { initialBanners } from '@/lib/data'; // Removed static data
 
 export default function AdminBannersPage() {
   const { modal, message } = App.useApp();
@@ -26,10 +24,28 @@ export default function AdminBannersPage() {
   const query = searchParams.get('q') || '';
   const page = parseInt(searchParams.get('page') || '1');
 
-  const [banners, setBanners] = useState(initialBanners);
+  const [banners, setBanners] = useState<Banner[]>([]);
+  const [loading, setLoading] = useState(true);
   const [isModalOpen, setIsModalOpen] = useState(false);
-  const [editingBanner, setEditingBanner] = useState<any>(null);
+  const [editingBanner, setEditingBanner] = useState<Banner | null>(null);
   const [form] = Form.useForm();
+
+  // Load data from API
+  React.useEffect(() => {
+    const fetchData = async () => {
+      setLoading(true);
+      try {
+        const res = await adminFetch('/api/data/banners');
+        const data = await res.json();
+        setBanners(data);
+      } catch (error) {
+        message.error('Không thể tải dữ liệu');
+      } finally {
+        setLoading(false);
+      }
+    };
+    fetchData();
+  }, [message]);
 
   // Derived filtered data
   const filteredData = useMemo(() => {
@@ -102,7 +118,7 @@ export default function AdminBannersPage() {
       title: 'Actions',
       key: 'action',
       align: 'right' as const,
-      render: (_: any, record: any) => (
+      render: (_: any, record: Banner) => (
         <Space size="small">
           <Tooltip title="Chỉnh sửa">
              <Button 
@@ -130,7 +146,7 @@ export default function AdminBannersPage() {
     },
   ];
 
-  const handleEdit = (record: any) => {
+  const handleEdit = (record: Banner) => {
     setEditingBanner(record);
     form.setFieldsValue(record);
     setIsModalOpen(true);
@@ -142,9 +158,23 @@ export default function AdminBannersPage() {
       content: 'Bạn có chắc muốn xóa banner này?',
       okText: 'Xóa ngay',
       okType: 'danger',
-      onOk: () => {
-        setBanners(banners.filter(b => b.id !== id));
-        message.success('Đã xóa thành công');
+      onOk: async () => {
+        const newData = banners.filter(b => b.id !== id);
+        try {
+          const res = await adminFetch('/api/data/banners', {
+            method: 'POST',
+            headers: { 'Content-Type': 'application/json' },
+            body: JSON.stringify(newData),
+          });
+          if (res.ok) {
+            setBanners(newData);
+            message.success('Đã xóa thành công');
+          } else {
+            throw new Error();
+          }
+        } catch (error) {
+          message.error('Lỗi khi xóa dữ liệu');
+        }
       }
     });
   };
@@ -156,21 +186,37 @@ export default function AdminBannersPage() {
   };
 
   const handleModalOk = () => {
-    form.validateFields().then(values => {
+    form.validateFields().then(async (values) => {
+      let newData = [];
       if (editingBanner) {
-        setBanners(banners.map(b => b.id === editingBanner.id ? { ...b, ...values } : b));
-        message.success('Đã cập nhật banner');
+        newData = banners.map(b => b.id === editingBanner.id ? { ...b, ...values } : b);
       } else {
         const newBanner = {
-          id: banners.length + 1,
-          image: '/images/banner1.png',
+          id: Date.now(),
+          image: '/images/banner1.png', // Placeholder or use value from form if integrated
           ...values,
-          order: banners.length + 1,
+          order: values.order || banners.length + 1,
         };
-        setBanners([...banners, newBanner]);
-        message.success('Đã thêm banner mới');
+        newData = [...banners, newBanner];
       }
-      setIsModalOpen(false);
+
+      // Save to API
+      try {
+        const res = await adminFetch('/api/data/banners', {
+          method: 'POST',
+          headers: { 'Content-Type': 'application/json' },
+          body: JSON.stringify(newData),
+        });
+        if (res.ok) {
+          setBanners(newData);
+          message.success(editingBanner ? 'Đã cập nhật banner' : 'Đã thêm banner mới');
+          setIsModalOpen(false);
+        } else {
+          throw new Error();
+        }
+      } catch (error) {
+        message.error('Lỗi khi lưu dữ liệu');
+      }
     });
   };
 
@@ -208,6 +254,7 @@ export default function AdminBannersPage() {
             columns={columns} 
             dataSource={filteredData} 
             rowKey="id" 
+            loading={loading}
             className="admin-table"
             pagination={{
               current: page,

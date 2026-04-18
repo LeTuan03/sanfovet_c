@@ -1,30 +1,57 @@
 "use client";
 
 import React, { useState, useMemo } from 'react';
-import { Table, Button, Space, Modal, Form, Input, Select, message, Tag, Tooltip, Row, Col, Divider, Breadcrumb, DatePicker } from 'antd';
+import { Table, Button, Space, Modal, Form, Input, Select, Tag, Tooltip, Row, Col, Divider, Breadcrumb, DatePicker, App } from 'antd';
 import { PlusOutlined, EditOutlined, DeleteOutlined, EyeOutlined, SearchOutlined, FileImageOutlined } from '@ant-design/icons';
 import { useRouter, useSearchParams, usePathname } from 'next/navigation';
-import { articles, animalTags } from '@/lib/data';
+// import { articles, animalTags } from '@/lib/data'; // Removed static imports
 import CKEditor from '@/components/admin/CKEditor';
 import ImageUpload from '@/components/admin/ImageUpload';
 import dayjs from 'dayjs';
 import 'dayjs/locale/vi';
+import { adminFetch } from '@/lib/api';
+import { Article, AnimalTag } from '@/types';
 
 export default function ArticleManagement() {
+  const { message: msg, modal } = App.useApp();
   const router = useRouter();
   const pathname = usePathname();
   const searchParams = useSearchParams();
   const query = searchParams.get('q') || '';
   const page = parseInt(searchParams.get('page') || '1');
 
-  const [data, setData] = useState([...articles]);
+  const [data, setData] = useState<Article[]>([]);
+  const [animalTags, setAnimalTags] = useState<AnimalTag[]>([]);
+  const [loading, setLoading] = useState(true);
   const [isModalOpen, setIsModalOpen] = useState(false);
   const [form] = Form.useForm();
   const [editingId, setEditingId] = useState<number | null>(null);
 
+  // Load data from API
+  React.useEffect(() => {
+    const fetchData = async () => {
+      setLoading(true);
+      try {
+        const [artRes, tagRes] = await Promise.all([
+          adminFetch('/api/data/articles'),
+          adminFetch('/api/data/animal-tags')
+        ]);
+        const artData = await artRes.json();
+        const tagData = await tagRes.json();
+        setData(artData);
+        setAnimalTags(tagData);
+      } catch (error) {
+        msg.error('Không thể tải dữ liệu');
+      } finally {
+        setLoading(false);
+      }
+    };
+    fetchData();
+  }, [msg]);
+
   // Derived filtered data
   const filteredData = useMemo(() => {
-    return data.filter(item => 
+    return data.filter((item: Article) => 
       item.title.toLowerCase().includes(query.toLowerCase()) ||
       item.category.toLowerCase().includes(query.toLowerCase())
     );
@@ -50,7 +77,7 @@ export default function ArticleManagement() {
     updateUrl({ q: e.target.value });
   };
 
-  const showModal = (record?: any) => {
+  const showModal = (record?: Article) => {
     if (record) {
       setEditingId(record.id);
       form.setFieldsValue({
@@ -68,38 +95,68 @@ export default function ArticleManagement() {
   };
 
   const handleOk = () => {
-    form.validateFields().then((values) => {
+    form.validateFields().then(async (values) => {
       const formattedValues = {
         ...values,
         publishDate: values.publishDate ? values.publishDate.format('DD/MM/YYYY') : dayjs().format('DD/MM/YYYY'),
       };
 
+      let newData = [];
       if (editingId) {
-        setData(data.map((item) => (item.id === editingId ? { ...item, ...formattedValues } : item)));
-        message.success('Cập nhật bài viết thành công');
+        newData = data.map((item: Article) => (item.id === editingId ? { ...item, ...formattedValues } : item));
       } else {
         const newArticle = {
           ...formattedValues,
-          id: Math.max(...data.map((a) => a.id), 0) + 1,
+          id: Math.max(...data.map((a: Article) => a.id), 0) + 1,
           slug: values.title.toLowerCase().replaceAll(' ', '-').replaceAll(/[^\w-]/g, ''),
         };
-        setData([newArticle, ...data]);
-        message.success('Thêm bài viết mới thành công');
+        newData = [newArticle, ...data];
       }
-      setIsModalOpen(false);
+
+      // Save to API
+      try {
+        const res = await adminFetch('/api/data/articles', {
+          method: 'POST',
+          headers: { 'Content-Type': 'application/json' },
+          body: JSON.stringify(newData),
+        });
+        if (res.ok) {
+          setData(newData);
+          msg.success(editingId ? 'Cập nhật bài viết thành công' : 'Thêm bài viết mới thành công');
+          setIsModalOpen(false);
+        } else {
+          throw new Error();
+        }
+      } catch (error) {
+        msg.error('Lỗi khi lưu dữ liệu');
+      }
     });
   };
 
   const handleDelete = (id: number) => {
-    Modal.confirm({
+    modal.confirm({
       title: 'Xác nhận xóa',
       content: 'Bạn có chắc chắn muốn xóa bài viết này không?',
       okText: 'Xóa',
       okType: 'danger',
       cancelText: 'Hủy',
-      onOk: () => {
-        setData(data.filter((item) => item.id !== id));
-        message.success('Đã xóa bài viết');
+      onOk: async () => {
+        const newData = data.filter((item: Article) => item.id !== id);
+        try {
+          const res = await adminFetch('/api/data/articles', {
+            method: 'POST',
+            headers: { 'Content-Type': 'application/json' },
+            body: JSON.stringify(newData),
+          });
+          if (res.ok) {
+            setData(newData);
+            msg.success('Đã xóa bài viết');
+          } else {
+            throw new Error();
+          }
+        } catch (error) {
+          msg.error('Lỗi khi xóa dữ liệu');
+        }
       },
     });
   };
@@ -110,7 +167,7 @@ export default function ArticleManagement() {
       dataIndex: 'title',
       key: 'title',
       width: '35%',
-      render: (text: string, record: any) => (
+      render: (text: string, record: Article) => (
         <div className="flex items-center gap-3">
           <div className="w-12 h-12 bg-gray-50 rounded-xl overflow-hidden border border-gray-100 shrink-0">
              <img src={record.thumbnail} alt={text} className="w-full h-full object-cover" />
@@ -135,7 +192,7 @@ export default function ArticleManagement() {
       key: 'animalTag',
       render: (tag: string) => {
         if (!tag) return <span className="text-gray-300 italic text-[0.7rem]">-</span>;
-        const animal = animalTags.find(a => a.slug === tag);
+        const animal = animalTags.find((a: AnimalTag) => a.slug === tag);
         return (
           <div className="flex items-center gap-1">
             <span className="text-lg">{animal?.icon}</span>
@@ -153,7 +210,7 @@ export default function ArticleManagement() {
     {
       title: 'Thao tác',
       key: 'action',
-      render: (_: any, record: any) => (
+      render: (_: any, record: Article) => (
         <Space size="middle">
           <Tooltip title="Xem bài viết">
              <Button icon={<EyeOutlined />} type="text" className="text-gray-400 hover:text-primary" />
@@ -219,6 +276,7 @@ export default function ArticleManagement() {
          columns={columns} 
          dataSource={filteredData} 
          rowKey="id" 
+         loading={loading}
          className="shadow-sm border border-gray-50 rounded-2xl overflow-hidden bg-white"
          pagination={{
             current: page,

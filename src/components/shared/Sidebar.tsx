@@ -1,6 +1,7 @@
-import React from 'react';
+"use client";
+
+import React, { useState, useEffect } from 'react';
 import Link from 'next/link';
-import { products, articles } from '@/lib/data';
 
 interface SidebarProps {
   showProducts?: boolean;
@@ -9,6 +10,32 @@ interface SidebarProps {
 }
 
 export default function Sidebar({ showProducts = true, showNews = true, showQuickLinks = true }: SidebarProps) {
+  const [products, setProducts] = useState<any[]>([]);
+  const [articles, setArticles] = useState<any[]>([]);
+  const [loading, setLoading] = useState(true);
+
+  useEffect(() => {
+    const fetchData = async () => {
+      try {
+        const [pRes, aRes] = await Promise.all([
+          fetch('/api/data/products'),
+          fetch('/api/data/articles')
+        ]);
+        const pData = await pRes.json();
+        const aData = await aRes.json();
+        setProducts(pData);
+        setArticles(aData);
+      } catch (error) {
+        console.error('Failed to fetch sidebar data', error);
+      } finally {
+        setLoading(false);
+      }
+    };
+    fetchData();
+  }, []);
+
+  if (loading) return <div className="animate-pulse space-y-4"><div className="h-40 bg-gray-100 rounded-2xl"></div><div className="h-40 bg-gray-100 rounded-2xl"></div></div>;
+
   const featuredProducts = products.filter((p: any) => p.featured).slice(0, 7);
   const latestNews = articles.slice(0, 5);
 

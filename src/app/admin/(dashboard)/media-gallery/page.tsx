@@ -14,17 +14,10 @@ import {
 import { useRouter, useSearchParams, usePathname } from 'next/navigation';
 import AdminPageHeader from '@/components/admin/AdminPageHeader';
 import { motion } from 'framer-motion';
+import { adminFetch } from '@/lib/api';
 
-const initialImages = [
-  { id: 1, url: '/images/about.png', title: 'Nhà máy Sản xuất', order: 1, status: 'active' },
-  { id: 2, url: '/images/farm.png', title: 'Hoạt động chăn nuôi', order: 2, status: 'active' },
-  { id: 3, url: '/images/banner1.png', title: 'Sản phẩm chủ lực', order: 3, status: 'hidden' },
-  { id: 4, url: '/images/news-1.png', title: 'Sự kiện kỷ niệm', order: 4, status: 'active' },
-];
-
-const initialVideos = [
-  { id: 1, url: 'https://youtube.com/watch?v=example', title: 'Phim giới thiệu SANFOVET', thumbnail: '/images/about.png', order: 1, status: 'active' },
-];
+// const initialImages = [...]; 
+// const initialVideos = [...];
 
 export default function AdminMediaGalleryPage() {
   const { modal, message } = App.useApp();
@@ -34,10 +27,29 @@ export default function AdminMediaGalleryPage() {
   const query = searchParams.get('q') || '';
   const activeTab = searchParams.get('tab') || 'images';
 
-  const [images, setImages] = useState(initialImages);
-  const [videos, setVideos] = useState(initialVideos);
+  const [images, setImages] = useState<any[]>([]);
+  const [videos, setVideos] = useState<any[]>([]);
+  const [loading, setLoading] = useState(true);
   const [isModalOpen, setIsModalOpen] = useState(false);
   const [editingId, setEditingId] = useState<number | null>(null);
+
+  // Load data from API
+  React.useEffect(() => {
+    const fetchData = async () => {
+      setLoading(true);
+      try {
+        const res = await adminFetch('/api/data/media-gallery');
+        const data = await res.json();
+        setImages(data.images || []);
+        setVideos(data.videos || []);
+      } catch (error) {
+        message.error('Không thể tải dữ liệu');
+      } finally {
+        setLoading(false);
+      }
+    };
+    fetchData();
+  }, [message]);
   const [previewOpen, setPreviewOpen] = useState(false);
   const [previewImage, setPreviewImage] = useState('');
   const [form] = Form.useForm();
@@ -99,9 +111,23 @@ export default function AdminMediaGalleryPage() {
       content: 'Hình ảnh này sẽ không còn hiển thị ở Thư viện trang chủ.',
       okText: 'Xóa',
       okType: 'danger',
-      onOk: () => {
-        setImages(images.filter(img => img.id !== id));
-        message.success('Đã xóa hình ảnh');
+      onOk: async () => {
+        const newImages = images.filter(img => img.id !== id);
+        try {
+          const res = await adminFetch('/api/data/media-gallery', {
+            method: 'POST',
+            headers: { 'Content-Type': 'application/json' },
+            body: JSON.stringify({ images: newImages, videos }),
+          });
+          if (res.ok) {
+            setImages(newImages);
+            message.success('Đã xóa hình ảnh');
+          } else {
+            throw new Error();
+          }
+        } catch (error) {
+          message.error('Lỗi khi xóa dữ liệu');
+        }
       }
     });
   };
@@ -112,43 +138,76 @@ export default function AdminMediaGalleryPage() {
       content: 'Video này sẽ không còn hiển thị ở mục Gallery.',
       okText: 'Xóa',
       okType: 'danger',
-      onOk: () => {
-        setVideos(videos.filter(v => v.id !== id));
-        message.success('Đã xóa video');
+      onOk: async () => {
+        const newVideos = videos.filter(v => v.id !== id);
+        try {
+          const res = await adminFetch('/api/data/media-gallery', {
+            method: 'POST',
+            headers: { 'Content-Type': 'application/json' },
+            body: JSON.stringify({ images, videos: newVideos }),
+          });
+          if (res.ok) {
+            setVideos(newVideos);
+            message.success('Đã xóa video');
+          } else {
+            throw new Error();
+          }
+        } catch (error) {
+          message.error('Lỗi khi xóa dữ liệu');
+        }
       }
     });
   };
 
-  const toggleStatus = (id: number, type: 'images' | 'videos') => {
+  const toggleStatus = async (id: number, type: 'images' | 'videos') => {
+    let updatedImages = [...images];
+    let updatedVideos = [...videos];
+
     if (type === 'images') {
-      setImages(images.map(img => img.id === id ? { ...img, status: img.status === 'active' ? 'hidden' : 'active' } : img));
+      updatedImages = images.map(img => img.id === id ? { ...img, status: img.status === 'active' ? 'hidden' : 'active' } : img);
     } else {
-      setVideos(videos.map(v => v.id === id ? { ...v, status: v.status === 'active' ? 'hidden' : 'active' } : v));
+      updatedVideos = videos.map(v => v.id === id ? { ...v, status: v.status === 'active' ? 'hidden' : 'active' } : v);
     }
-    message.success('Đã cập nhật trạng thái hiển thị');
+
+    try {
+      const res = await adminFetch('/api/data/media-gallery', {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({ images: updatedImages, videos: updatedVideos }),
+      });
+      if (res.ok) {
+        setImages(updatedImages);
+        setVideos(updatedVideos);
+        message.success('Đã cập nhật trạng thái hiển thị');
+      } else {
+        throw new Error();
+      }
+    } catch (error) {
+      message.error('Lỗi khi cập nhật trạng thái');
+    }
   };
 
   const handleModalOk = () => {
-    form.validateFields().then(values => {
+    form.validateFields().then(async (values) => {
+      let updatedImages = [...images];
+      let updatedVideos = [...videos];
+
       if (activeTab === 'images') {
         if (editingId) {
-          setImages(images.map(img => img.id === editingId ? { ...img, ...values } : img));
-          message.success('Đã cập nhật hình ảnh');
+          updatedImages = images.map(img => img.id === editingId ? { ...img, ...values } : img);
         } else {
           const newImg = {
             id: Date.now(),
-            url: values.url || '/images/about.png', // Mock URL
+            url: values.url || '/images/about.png',
             title: values.title,
             status: values.status || 'active',
             order: values.order || 0
           };
-          setImages([...images, newImg]);
-          message.success('Đã thêm ảnh vào thư viện');
+          updatedImages = [...images, newImg];
         }
       } else {
         if (editingId) {
-          setVideos(videos.map(v => v.id === editingId ? { ...v, ...values } : v));
-          message.success('Đã cập nhật video');
+          updatedVideos = videos.map(v => v.id === editingId ? { ...v, ...values } : v);
         } else {
           const newVid = {
             id: Date.now(),
@@ -158,11 +217,28 @@ export default function AdminMediaGalleryPage() {
             status: values.status || 'active',
             order: values.order || 0
           };
-          setVideos([...videos, newVid]);
-          message.success('Đã thêm video thành công');
+          updatedVideos = [...videos, newVid];
         }
       }
-      setIsModalOpen(false);
+
+      // Save to API
+      try {
+        const res = await adminFetch('/api/data/media-gallery', {
+          method: 'POST',
+          headers: { 'Content-Type': 'application/json' },
+          body: JSON.stringify({ images: updatedImages, videos: updatedVideos }),
+        });
+        if (res.ok) {
+          setImages(updatedImages);
+          setVideos(updatedVideos);
+          message.success('Đã lưu dữ liệu thành công');
+          setIsModalOpen(false);
+        } else {
+          throw new Error();
+        }
+      } catch (error) {
+        message.error('Lỗi khi lưu dữ liệu');
+      }
     });
   };
 

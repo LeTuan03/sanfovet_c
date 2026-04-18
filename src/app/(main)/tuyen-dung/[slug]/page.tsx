@@ -1,18 +1,24 @@
 import React from 'react';
 import Link from 'next/link';
 import { notFound } from 'next/navigation';
-import { jobs, products, articles } from '@/lib/data';
+import { readData } from '@/lib/storage';
+import { Job, Product, Article } from '@/types';
+// import { jobs, products, articles } from '@/lib/data'; // Removed static imports
 import { ChevronRight, ArrowLeft, MapPin, Calendar, Mail, Phone, Briefcase, CheckCircle, Gift, Send } from 'lucide-react';
 
 export default async function JobDetailPage({ params }: Readonly<{ params: Promise<{ slug: string }> }>) {
   const { slug } = await params;
-  const job = jobs.find((j: any) => j.slug === slug);
+  const jobs = await readData<Job[]>('jobs');
+  const products = await readData<Product[]>('products');
+  const articles = await readData<Article[]>('articles');
+  
+  const job = jobs.find((j: Job) => j.slug === slug);
 
   if (!job) {
     notFound();
   }
 
-  const featuredProducts = products.filter((p: any) => p.featured).slice(0, 5);
+  const featuredProducts = products.filter((p: Product) => p.featured).slice(0, 5);
   const latestNews = articles.slice(0, 4);
 
   return (
@@ -169,7 +175,7 @@ export default async function JobDetailPage({ params }: Readonly<{ params: Promi
               <div className="bg-sanfovet-alt p-6 rounded-[24px] border border-gray-100">
                 <h3 className="font-black text-lg text-sanfovet-dark mb-6 border-b border-gray-200 pb-3 uppercase tracking-wider">Sản phẩm nổi bật</h3>
                 <div className="space-y-5">
-                  {featuredProducts.map((p: any) => (
+                  {featuredProducts.map((p: Product) => (
                     <Link href={`/san-pham/${p.slug}`} key={p.id} className="flex gap-4 group">
                       <div className="w-16 h-16 bg-white rounded-xl border border-gray-100 p-1.5 flex items-center justify-center shrink-0 group-hover:border-primary group-hover:shadow-md transition-all">
                         <img src={p.image} alt={p.name} className="max-h-full max-w-full object-contain" />
@@ -187,7 +193,7 @@ export default async function JobDetailPage({ params }: Readonly<{ params: Promi
               <div className="bg-white p-6 rounded-[24px] border border-gray-100 shadow-sm">
                 <h3 className="font-black text-lg text-sanfovet-dark mb-6 border-b border-gray-200 pb-3 uppercase tracking-wider">Tin tức mới</h3>
                 <div className="space-y-5">
-                  {latestNews.map((a: any) => (
+                  {latestNews.map((a: Article) => (
                     <Link href={`/bai-viet/${a.slug}`} key={a.id} className="flex gap-4 group">
                       <div className="w-16 h-16 bg-gray-100 rounded-xl overflow-hidden shrink-0">
                         <img src={a.thumbnail} alt={a.title} className="w-full h-full object-cover group-hover:scale-110 transition-transform duration-500" />

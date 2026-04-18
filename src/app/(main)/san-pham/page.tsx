@@ -1,4 +1,5 @@
-import { products, categories } from '@/lib/data';
+import { readData } from '@/lib/storage';
+import { Category, Product } from '@/types';
 import Pagination from '@/components/shared/Pagination';
 import { Metadata } from 'next';
 import { Eye, Filter } from 'lucide-react';
@@ -16,15 +17,18 @@ export default async function ProductsPage({ searchParams }: { searchParams: Pro
   const currentCategory = params.category;
   const currentPage = parseInt(params.page || '1', 10);
 
+  const products = await readData<Product[]>('products');
+  const categories = await readData<Category[]>('categories');
+
   
   const filteredProducts = currentCategory 
-    ? products.filter(p => {
-        const cat = categories.find(c => c.id === p.categoryId);
+    ? products.filter((p: Product) => {
+        const cat = categories.find((c: Category) => c.id === p.categoryId);
         return cat?.slug === currentCategory;
       })
     : products;
 
-  const activeCategory = categories.find(c => c.slug === currentCategory);
+  const activeCategory = categories.find((c: Category) => c.slug === currentCategory);
   
   // Pagination logic
   const totalItems = filteredProducts.length;
@@ -63,7 +67,7 @@ export default async function ProductsPage({ searchParams }: { searchParams: Pro
                     Tất cả sản phẩm
                   </Link>
               </li>
-                {categories.map((c: any) => (
+                {categories.map((c: Category) => (
                   <li key={c.id}>
                     <Link 
                       href={`/san-pham/danh-muc/${c.slug}`} 
@@ -93,14 +97,14 @@ export default async function ProductsPage({ searchParams }: { searchParams: Pro
           </div>
 
           <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-8">
-            {paginatedProducts.map((p: any) => (
+            {paginatedProducts.map((p: Product) => (
               <div key={p.id} className="bg-white rounded-[24px] shadow-sm hover:shadow-2xl border border-gray-100 overflow-hidden transition-all duration-500 group flex flex-col h-full hover:-translate-y-1">
                 <div className="aspect-[4/3] bg-gray-50 flex items-center justify-center relative p-8 group-hover:bg-primary-light/30 transition-colors duration-500">
                    <img src={p.image} alt={p.name} className="max-h-full w-auto object-contain transition-transform duration-700 group-hover:scale-110" />
                 </div>
                 <div className="p-8 flex-1 flex flex-col">
                   <div className="text-[0.65rem] font-black text-primary mb-3 uppercase tracking-widest bg-primary-light px-2.5 py-1 rounded-full w-fit">
-                    {categories.find((c: any) => c.id === p.categoryId)?.name?.split(',')[0] || 'Danh mục'}
+                    {categories.find((c: Category) => c.id === p.categoryId)?.name?.split(',')[0] || 'Danh mục'}
                   </div>
                   <h3 className="font-black text-sanfovet-dark mb-2 group-hover:text-primary transition-colors text-xl leading-tight h-14 overflow-hidden">{p.name}</h3>
                   <p className="text-sm text-gray-400 line-clamp-2 mb-8 flex-1 font-medium">{p.tagline}</p>

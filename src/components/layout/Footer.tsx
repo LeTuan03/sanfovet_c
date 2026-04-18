@@ -4,9 +4,41 @@ import React from 'react';
 import Link from 'next/link';
 import { FacebookOutlined, YoutubeOutlined } from '@ant-design/icons';
 import { useLanguage } from '@/lib/LanguageContext';
+// import { footerMenus } from '@/lib/data'; // Removed static import
 
 export default function Footer() {
   const { t } = useLanguage();
+  const [menus, setMenus] = React.useState<any[]>([]);
+  const [settings, setSettings] = React.useState<any>(null);
+  const [categories, setCategories] = React.useState<any[]>([]);
+
+  React.useEffect(() => {
+    const fetchData = async () => {
+      try {
+        const [menusRes, settingsRes, catRes] = await Promise.all([
+          fetch('/api/data/menus'),
+          fetch('/api/data/settings'),
+          fetch('/api/data/categories')
+        ]);
+        const menusData = await menusRes.json();
+        const settingsData = await settingsRes.json();
+        const catData = await catRes.json();
+
+        if (Array.isArray(menusData)) {
+          setMenus(menusData.filter((m: any) => m.position === 'footer' || m.position === 'both'));
+        }
+        
+        setSettings(settingsData);
+
+        if (Array.isArray(catData)) {
+          setCategories(catData.slice(0, 10)); // Take first 10 for footer
+        }
+      } catch (error) {
+        console.error('Failed to fetch footer data', error);
+      }
+    };
+    fetchData();
+  }, []);
   return (
     <footer className="bg-gradient-to-b from-sanfovet-dark to-[#061208] text-white/70 py-16 text-[0.85rem] mt-16 w-full relative">
       <div className="container mx-auto px-4">
@@ -14,31 +46,31 @@ export default function Footer() {
           {/* Col 1 - Company Info */}
           <div className="space-y-4">
             <h3 className="text-white text-lg font-bold mb-6 relative pb-2.5 after:content-[''] after:absolute after:bottom-0 after:left-0 after:w-10 after:height-0.5 after:bg-primary uppercase">SANFOVET</h3>
-            <p className="font-semibold text-white/90">Công ty CP Đầu tư Liên doanh Việt Anh</p>
-            <p><strong>Trụ sở:</strong> Cụm CN Liên Phương, Xã Hồng Vân, Hà Nội</p>
-            <p><strong>Điện thoại:</strong> <a href="tel:02466861629" className="hover:text-primary transition-colors">024 66861629</a> | <a href="tel:0974999204" className="hover:text-primary transition-colors">097 499 9204</a></p>
-            <p><strong>Email:</strong> <a href="mailto:pkd.sanfovet@gmail.com" className="hover:text-primary transition-colors">pkd.sanfovet@gmail.com</a></p>
+            <p className="font-semibold text-white/90">{settings?.companyName || 'Công ty CP Đầu tư Liên doanh Việt Anh'}</p>
+            <p><strong>Trụ sở:</strong> {settings?.addressHN || 'Cụm CN Liên Phương, Xã Hồng Vân, Hà Nội'}</p>
+            <p><strong>Điện thoại:</strong> <a href={`tel:${settings?.hotline1}`} className="hover:text-primary transition-colors">{settings?.hotline1 || '024 66861629'}</a> | <a href={`tel:${settings?.hotline2}`} className="hover:text-primary transition-colors">{settings?.hotline2 || '097 499 9204'}</a></p>
+            <p><strong>Email:</strong> <a href={`mailto:${settings?.email}`} className="hover:text-primary transition-colors">{settings?.email || 'pkd.sanfovet@gmail.com'}</a></p>
             <p><strong>Website:</strong> www.sanfovet.com.vn</p>
-            <p className="mt-4 pt-4 border-t border-white/10 text-white/80">
-              <strong>Chi nhánh miền Nam:</strong><br/>
-              Hố Nai, Trảng Bom, Đồng Nai
-            </p>
+            {settings?.addressHCM && (
+              <p className="mt-4 pt-4 border-t border-white/10 text-white/80">
+                <strong>Chi nhánh miền Nam:</strong><br/>
+                {settings.addressHCM}
+              </p>
+            )}
           </div>
 
           {/* Col 2 - Product Categories with exact links */}
           <div>
             <h3 className="text-white text-lg font-bold mb-6 relative pb-2.5 after:content-[''] after:absolute after:bottom-0 after:left-0 after:w-10 after:height-0.5 after:bg-primary uppercase">{t('products')}</h3>
             <ul className="space-y-2">
-              <li><Link href="/san-pham?category=thuoc-bo-tro-tiem-dang-dung-dich-hon-dich" className="hover:text-primary transition-colors">Thuốc bổ trợ tiêm</Link></li>
-              <li><Link href="/san-pham?category=thuoc-khang-sinh-tiem-dang-dung-dich-hon-dich" className="hover:text-primary transition-colors">Thuốc kháng sinh tiêm</Link></li>
-              <li><Link href="/san-pham?category=thuoc-khang-sinh-dang-dung-dich-uong-dang-xit" className="hover:text-primary transition-colors">Thuốc kháng sinh uống</Link></li>
-              <li><Link href="/san-pham?category=thuoc-khang-sinh-dang-premix-sieu-bam-dinh" className="hover:text-primary transition-colors">Thuốc premix bám dính</Link></li>
-              <li><Link href="/san-pham?category=thuoc-khang-sinh-dang-bot-dang-hat-hoa-tan" className="hover:text-primary transition-colors">Thuốc bột hòa tan</Link></li>
-              <li><Link href="/san-pham?category=thuoc-bo-tro-dang-com-dang-bot-hoa-tan" className="hover:text-primary transition-colors">Thuốc bổ trợ cốm, bột</Link></li>
-              <li><Link href="/san-pham?category=thuoc-bo-tro-dang-dung-dich" className="hover:text-primary transition-colors">Thuốc bổ trợ dung dịch</Link></li>
-              <li><Link href="/san-pham?category=thuoc-tri-cau-trung-ki-sinh-trung-dang-bot-dang-dung-dich" className="hover:text-primary transition-colors">Thuốc trị cầu trùng</Link></li>
-              <li><Link href="/san-pham?category=thuoc-sat-trung-diet-con-trung" className="hover:text-primary transition-colors">Thuốc sát trùng</Link></li>
-              <li><Link href="/san-pham?category=thuoc-tri-nam-tri-giun-san" className="hover:text-primary transition-colors">Thuốc trị nấm, giun sán</Link></li>
+              {categories.map((cat) => (
+                <li key={cat.id}><Link href={`/san-pham?category=${cat.id}`} className="hover:text-primary transition-colors">{cat.name}</Link></li>
+              ))}
+              {categories.length === 0 && (
+                <>
+                  <li><Link href="/san-pham" className="hover:text-primary transition-colors">Tất cả sản phẩm</Link></li>
+                </>
+              )}
             </ul>
           </div>
 
@@ -46,20 +78,20 @@ export default function Footer() {
           <div>
             <h3 className="text-white text-lg font-bold mb-6 relative pb-2.5 after:content-[''] after:absolute after:bottom-0 after:left-0 after:w-10 after:height-0.5 after:bg-primary uppercase">{t('tech_support')}</h3>
             <div className="mb-6">
-              <p className="text-white font-bold mb-1">BSTY. Hoàng Đăng Trạng</p>
-              <p>Email: <a href="mailto:dangtrang19877@gmail.com" className="hover:text-primary transition-colors">dangtrang19877@gmail.com</a></p>
-              <p>SĐT: <a href="tel:0383814838" className="hover:text-primary transition-colors">038 3814838</a></p>
+              <p className="text-white font-bold mb-1">{settings?.support?.doctorName || 'BSTY. Hoàng Đăng Trạng'}</p>
+              <p>Email: <a href={`mailto:${settings?.support?.doctorEmail}`} className="hover:text-primary transition-colors">{settings?.support?.doctorEmail || 'dangtrang19877@gmail.com'}</a></p>
+              <p>SĐT: <a href={`tel:${settings?.support?.doctorPhone}`} className="hover:text-primary transition-colors">{settings?.support?.doctorPhone || '038 3814838'}</a></p>
             </div>
             <div className="pt-4 border-t border-white/5">
               <h4 className="text-white font-bold mb-4 uppercase text-xs tracking-widest">Kết nối với chúng tôi</h4>
               <div className="flex gap-3">
-                <a href="https://facebook.com/ThuocThuYSANFOVET" target="_blank" rel="noopener" className="w-10 h-10 bg-white/10 hover:bg-blue-600 rounded-xl flex items-center justify-center text-white/60 hover:text-white transition-all text-lg">
+                <a href={settings?.social?.facebook || "https://facebook.com/ThuocThuYSANFOVET"} target="_blank" rel="noopener" className="w-10 h-10 bg-white/10 hover:bg-blue-600 rounded-xl flex items-center justify-center text-white/60 hover:text-white transition-all text-lg">
                   <FacebookOutlined />
                 </a>
-                <a href="https://youtube.com" target="_blank" rel="noopener" className="w-10 h-10 bg-white/10 hover:bg-red-600 rounded-xl flex items-center justify-center text-white/60 hover:text-white transition-all text-lg">
+                <a href={settings?.social?.youtube || "https://youtube.com"} target="_blank" rel="noopener" className="w-10 h-10 bg-white/10 hover:bg-red-600 rounded-xl flex items-center justify-center text-white/60 hover:text-white transition-all text-lg">
                   <YoutubeOutlined />
                 </a>
-                <a href="https://zalo.me/0974999204" target="_blank" rel="noopener" className="w-10 h-10 bg-white/10 hover:bg-blue-500 rounded-xl flex items-center justify-center text-white/60 hover:text-white transition-all text-xs font-bold">
+                <a href={`https://zalo.me/${settings?.social?.zalo || "0974999204"}`} target="_blank" rel="noopener" className="w-10 h-10 bg-white/10 hover:bg-blue-500 rounded-xl flex items-center justify-center text-white/60 hover:text-white transition-all text-xs font-bold">
                   Zalo
                 </a>
               </div>
@@ -70,14 +102,13 @@ export default function Footer() {
           <div>
             <h3 className="text-white text-lg font-bold mb-6 relative pb-2.5 after:content-[''] after:absolute after:bottom-0 after:left-0 after:w-10 after:height-0.5 after:bg-primary uppercase">Liên kết nhanh</h3>
             <ul className="space-y-2">
-              <li><Link href="/" className="hover:text-primary transition-colors">{t('home')}</Link></li>
-              <li><Link href="/gioi-thieu" className="hover:text-primary transition-colors">{t('about')}</Link></li>
-              <li><Link href="/catalogue" className="hover:text-primary transition-colors">{t('catalogue')}</Link></li>
-              <li><Link href="/cam-nang-chan-nuoi" className="hover:text-primary transition-colors">{t('knowledge')}</Link></li>
-              <li><Link href="/benh-va-dieu-tri-benh" className="hover:text-primary transition-colors">Bệnh & điều trị bệnh</Link></li>
-              <li><Link href="/tin-tuc" className="hover:text-primary transition-colors">{t('news')}</Link></li>
-              <li><Link href="/tuyen-dung" className="hover:text-primary transition-colors">{t('recruitment')}</Link></li>
-              <li><Link href="/lien-he" className="hover:text-primary transition-colors">{t('contact')}</Link></li>
+              {menus.filter(m => m.status).sort((a, b) => a.order - b.order).map((menu) => (
+                <li key={menu.id}>
+                  <Link href={menu.link} className="hover:text-primary transition-colors">
+                    {t(menu.name) || menu.name}
+                  </Link>
+                </li>
+              ))}
             </ul>
           </div>
         </div>

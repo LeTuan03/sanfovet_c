@@ -1,0 +1,12 @@
+[
+  { "id": 1, "name": "Trang chủ", "link": "/", "parent": null, "order": 1, "status": true, "position": "header" },
+  { "id": 2, "name": "Giới thiệu", "link": "/gioi-thieu", "parent": null, "order": 2, "status": true, "position": "header" },
+  { "id": 3, "name": "Sản phẩm", "link": "/san-pham", "parent": null, "order": 3, "status": true, "position": "header", "hasMega": true },
+  { "id": 4, "name": "Cẩm nang", "link": "/cam-nang-chan-nuoi", "parent": null, "order": 4, "status": true, "position": "header" },
+  { "id": 5, "name": "Tin tức", "link": "/tin-tuc", "parent": null, "order": 5, "status": true, "position": "both" },
+  { "id": 6, "name": "Catalogue", "link": "/catalogue", "parent": null, "order": 6, "status": true, "position": "header" },
+  { "id": 7, "name": "Tuyển dụng", "link": "/tuyen-dung", "parent": null, "order": 7, "status": true, "position": "header" },
+  { "id": 8, "name": "Liên hệ", "link": "/lien-he", "parent": null, "order": 8, "status": true, "position": "both", "isButton": true },
+  { "id": 101, "name": "Privacy Policy", "link": "/privacy", "parent": null, "order": 10, "status": true, "position": "footer" },
+  { "id": 102, "name": "Terms of Service", "link": "/terms", "parent": null, "order": 11, "status": true, "position": "footer" }
+]

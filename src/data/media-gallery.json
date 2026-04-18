@@ -1,0 +1,11 @@
+{
+  "images": [
+    { "id": 1, "url": "/images/about.png", "title": "Nhà máy Sản xuất", "order": 1, "status": "active" },
+    { "id": 2, "url": "/images/farm.png", "title": "Hoạt động chăn nuôi", "order": 2, "status": "active" },
+    { "id": 3, "url": "/images/banner1.png", "title": "Sản phẩm chủ lực", "order": 3, "status": "hidden" },
+    { "id": 4, "url": "/images/news-1.png", "title": "Sự kiện kỷ niệm", "order": 4, "status": "active" }
+  ],
+  "videos": [
+    { "id": 1, "url": "https://youtube.com/watch?v=example", "title": "Phim giới thiệu SANFOVET", "thumbnail": "/images/about.png", "order": 1, "status": "active" }
+  ]
+}

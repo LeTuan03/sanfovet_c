@@ -1,7 +1,9 @@
 import React from 'react';
 import Link from 'next/link';
 import { notFound } from 'next/navigation';
-import { products, articles, categories } from '@/lib/data';
+import { readData } from '@/lib/storage';
+import { Product, Category } from '@/types';
+// import { products, articles, categories } from '@/lib/data'; // Removed static imports
 import { ChevronRight, ArrowLeft, CheckCircle, FileText, Info, Package, AlertCircle, ShieldCheck, Download, Microscope, Calendar } from 'lucide-react';
 import { Metadata } from 'next';
 
@@ -9,7 +11,8 @@ import ProductImageLightbox from '@/components/shared/ProductImageLightbox';
 
 export async function generateMetadata({ params }: { params: Promise<{ slug: string }> }): Promise<Metadata> {
   const { slug } = await params;
-  const product = products.find(p => p.slug === slug);
+  const products = await readData<Product[]>('products');
+  const product = Array.isArray(products) ? products.find((p: Product) => p.slug === slug) : undefined;
   
   return {
     title: product ? `${product.name} - Sanfovet` : 'Sản phẩm - Sanfovet',
@@ -19,14 +22,16 @@ export async function generateMetadata({ params }: { params: Promise<{ slug: str
 
 export default async function ProductDetailPage({ params }: Readonly<{ params: Promise<{ slug: string }> }>) {
   const { slug } = await params;
-  const product = products.find(p => p.slug === slug);
+  const products = await readData<Product[]>('products');
+  const categories = await readData<Category[]>('categories');
+  const product = Array.isArray(products) ? products.find((p: Product) => p.slug === slug) : undefined;
 
   if (!product) {
     notFound();
   }
 
-  const category = categories.find((c: any) => c.id === product.categoryId);
-  const relatedProducts = products.filter(p => p.categoryId === product.categoryId && p.id !== product.id).slice(0, 4);
+  const category = Array.isArray(categories) ? categories.find((c: Category) => c.id === product.categoryId) : undefined;
+  const relatedProducts = Array.isArray(products) ? products.filter((p: Product) => p.categoryId === product.categoryId && p.id !== product.id).slice(0, 4) : [];
 
   return (
     <div className="bg-white min-h-[100vh] pb-24">
@@ -119,7 +124,7 @@ export default async function ProductDetailPage({ params }: Readonly<{ params: P
                     </tr>
                   </thead>
                   <tbody className="divide-y divide-gray-50">
-                    {product.ingredients?.map((ing: any) => (
+                    {product.ingredients?.map((ing: { name: string; amount: string; unit: string }) => (
                       <tr key={ing.name} className="hover:bg-primary-light/20 transition-colors">
                         <td className="px-6 py-4 text-gray-800 font-medium">{ing.name}</td>
                         <td className="px-6 py-4 font-black text-primary-dark">{ing.amount} <span className="text-[0.7rem] font-bold opacity-60 uppercase">{ing.unit}</span></td>
@@ -156,7 +161,7 @@ export default async function ProductDetailPage({ params }: Readonly<{ params: P
                      </div>
                      
                      <div className="space-y-3 mt-auto bg-sanfovet-alt p-5 rounded-xl">
-                        {product.dosage?.byAnimal?.map((a: any) => (
+                        {product.dosage?.byAnimal?.map((a: { animal: string; dose: string }) => (
                           <div key={a.animal} className="flex justify-between items-center border-b border-gray-200/50 last:border-0 pb-2.5 last:pb-0">
                             <span className="font-bold text-gray-600 text-sm">{a.animal}</span>
                             <span className="text-primary font-black">{a.dose}</span>
@@ -206,7 +211,7 @@ export default async function ProductDetailPage({ params }: Readonly<{ params: P
              <div className="bg-sanfovet-alt p-8 rounded-[24px] border border-gray-100 shadow-inner sticky top-24">
                 <h3 className="font-black text-lg text-sanfovet-dark mb-8 border-b border-gray-200 pb-4 uppercase tracking-wider">Sản phẩm cùng loại</h3>
                 <div className="space-y-6">
-                  {relatedProducts.map((p: any) => (
+                  {relatedProducts.map((p: Product) => (
                     <Link href={`/san-pham/${p.slug}`} key={p.id} className="flex gap-5 group">
                       <div className="w-20 h-20 bg-white rounded-2xl border border-gray-100 p-2 flex items-center justify-center shrink-0 group-hover:border-primary-dark group-hover:shadow-lg transition-all duration-300">
                         <img src={p.image} alt={p.name} className="max-h-full max-w-full object-contain" />

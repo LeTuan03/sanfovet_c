@@ -1,0 +1,27 @@
+[
+  {
+    "id": 1,
+    "slug": "nvkd-ninh-binh-thanh-hoa",
+    "title": "Nhân viên Kinh doanh - Khu vực Ninh Bình, Thanh Hoá 1",
+    "location": "Ninh Bình, Thanh Hoá",
+    "date": "2026-03-25",
+    "description": "Tìm kiếm NVKD năng động tại khu vực Ninh Bình, Thanh Hoá. Yêu cầu: Tốt nghiệp Đại học/Cao đẳng ngành Thú y hoặc Chăn nuôi. Có kinh nghiệm ưu tiên.",
+    "status": "active"
+  },
+  {
+    "id": 2,
+    "slug": "nvkd-quang-binh-hue",
+    "title": "Nhân viên Kinh doanh - Khu vực Quảng Bình, Quảng Trị, Huế",
+    "location": "Quảng Bình, Quảng Trị, Huế",
+    "date": "2026-03-20",
+    "description": "Tuyển NVKD khu vực miền Trung. Mức lương hấp dẫn + thưởng doanh số."
+  },
+  {
+    "id": 3,
+    "slug": "nvkd-lao-cai-yen-bai",
+    "title": "Nhân viên Kinh doanh - Khu vực Lào Cai, Yên Bái, Sơn La",
+    "location": "Lào Cai, Yên Bái, Sơn La, Hà Giang",
+    "date": "2026-03-15",
+    "description": "Mở rộng thị trường khu vực Tây Bắc. Yêu cầu có phương tiện di chuyển."
+  }
+]

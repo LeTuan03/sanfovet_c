@@ -4,13 +4,14 @@ import React, { useState, useMemo } from 'react';
 import { useRouter, useSearchParams, usePathname } from 'next/navigation';
 import { Table, Button, Space, Tag, Input, Modal, Form, Select, Switch, Tooltip, Row, Col, App, DatePicker } from 'antd';
 import { PlusOutlined, EditOutlined, DeleteOutlined, SearchOutlined, EyeOutlined } from '@ant-design/icons';
-import { articles } from '@/lib/data';
-import CKEditor from '@/components/admin/CKEditor';
-import ImageUpload from '@/components/admin/ImageUpload';
 import AdminPageHeader from '@/components/admin/AdminPageHeader';
 import dayjs from 'dayjs';
 import 'dayjs/locale/vi';
 import { motion } from 'framer-motion';
+import { adminFetch } from '@/lib/api';
+import { Article } from '@/types';
+import CKEditor from '@/components/admin/CKEditor';
+import ImageUpload from '@/components/admin/ImageUpload';
 
 export default function AdminNewsPage() {
   const { modal, message } = App.useApp();
@@ -20,10 +21,33 @@ export default function AdminNewsPage() {
   const query = searchParams.get('q') || '';
   const page = parseInt(searchParams.get('page') || '1');
 
-  const [news, setNews] = useState(articles.filter(a => a.category === 'tin-noi-bo' || a.category === 'tin-nganh'));
+  const [allArticles, setAllArticles] = useState<Article[]>([]);
+  const [loading, setLoading] = useState(true);
   const [isModalOpen, setIsModalOpen] = useState(false);
-  const [editingNews, setEditingNews] = useState<any>(null);
+  const [editingNews, setEditingNews] = useState<Article | null>(null);
   const [form] = Form.useForm();
+
+  // Load data from API
+  React.useEffect(() => {
+    const fetchData = async () => {
+      setLoading(true);
+      try {
+        const res = await adminFetch('/api/data/articles');
+        const data = await res.json();
+        setAllArticles(data || []);
+      } catch (error) {
+        message.error('Không thể tải dữ liệu');
+      } finally {
+        setLoading(false);
+      }
+    };
+    fetchData();
+  }, [message]);
+
+  // Derived news list
+  const news = useMemo(() => {
+     return allArticles.filter((a: Article) => a.category === 'tin-noi-bo' || a.category === 'tin-nganh');
+  }, [allArticles]);
 
   // Derived filtered data
   const filteredData = useMemo(() => {
@@ -133,9 +157,23 @@ export default function AdminNewsPage() {
       okText: 'Xóa',
       okType: 'danger',
       cancelText: 'Hủy',
-      onOk: () => {
-        setNews(news.filter(item => item.id !== id));
-        message.success('Đã xóa thành công');
+      onOk: async () => {
+        const newData = allArticles.filter((item: Article) => item.id !== id);
+        try {
+          const res = await adminFetch('/api/data/articles', {
+            method: 'POST',
+            headers: { 'Content-Type': 'application/json' },
+            body: JSON.stringify(newData),
+          });
+          if (res.ok) {
+            setAllArticles(newData);
+            message.success('Đã xóa bài viết thành công');
+          } else {
+            throw new Error();
+          }
+        } catch (error) {
+          message.error('Lỗi khi xóa dữ liệu');
+        }
       },
     });
   };
@@ -150,25 +188,41 @@ export default function AdminNewsPage() {
   };
 
   const handleModalOk = () => {
-    form.validateFields().then(values => {
+    form.validateFields().then(async (values) => {
       const formattedValues = {
         ...values,
         publishDate: values.publishDate ? values.publishDate.format('DD/MM/YYYY') : dayjs().format('DD/MM/YYYY'),
       };
       
+      let newData = [];
       if (editingNews) {
-        setNews(news.map(item => item.id === editingNews.id ? { ...item, ...formattedValues } : item));
-        message.success('Cập nhật thành công');
+        newData = allArticles.map((item: Article) => (item.id === editingNews.id ? { ...item, ...formattedValues } : item));
       } else {
         const newEntry = {
-          id: news.length + 1,
-          slug: values.title.toLowerCase().replace(/ /g, '-'),
           ...formattedValues,
+          id: Math.max(...allArticles.map((a: Article) => a.id), 0) + 1,
+          slug: values.title.toLowerCase().replaceAll(' ', '-').replaceAll(/[^\w-]/g, ''),
         };
-        setNews([newEntry, ...news]);
-        message.success('Thêm mới thành công');
+        newData = [newEntry, ...allArticles];
       }
-      setIsModalOpen(false);
+
+      // Save to API
+      try {
+        const res = await adminFetch('/api/data/articles', {
+          method: 'POST',
+          headers: { 'Content-Type': 'application/json' },
+          body: JSON.stringify(newData),
+        });
+        if (res.ok) {
+          setAllArticles(newData);
+          message.success(editingNews ? 'Cập nhật thành công' : 'Thêm mới thành công');
+          setIsModalOpen(false);
+        } else {
+          throw new Error();
+        }
+      } catch (error) {
+        message.error('Lỗi khi lưu dữ liệu');
+      }
     });
   };
 
@@ -197,6 +251,7 @@ export default function AdminNewsPage() {
           columns={columns} 
           dataSource={filteredData} 
           rowKey="id"
+          loading={loading}
           pagination={{ 
             current: page,
             pageSize: 8,

@@ -1,121 +1,139 @@
 "use client";
 
-import React from 'react';
-import { Form, Input, Button, Card, Tabs, Space, message, Divider, Breadcrumb } from 'antd';
+import React, { useState } from 'react';
+import { Form, Input, Button, Card, Tabs, Space, Divider, Breadcrumb, Spin, App } from 'antd';
 import { SettingOutlined, PhoneOutlined, MailOutlined, HomeOutlined, FacebookOutlined, YoutubeOutlined, UserOutlined } from '@ant-design/icons';
+import { adminFetch } from '@/lib/api';
 
 export default function AdminSettingsPage() {
+  const { message: msg } = App.useApp();
   const [form] = Form.useForm();
+  const [loading, setLoading] = useState(true);
 
-  // Load from localStorage on mount
+  // Load from API on mount
   React.useEffect(() => {
-    const savedSettings = localStorage.getItem('sanfovet_settings');
-    if (savedSettings) {
+    const fetchSettings = async () => {
+      setLoading(true);
       try {
-        form.setFieldsValue(JSON.parse(savedSettings));
+        const res = await adminFetch('/api/data/settings');
+        const data = await res.json();
+        form.setFieldsValue(data);
       } catch (e) {
-        console.error('Failed to parse settings', e);
+        msg.error('Không thể tải cài đặt');
+      } finally {
+        setLoading(false);
       }
-    }
+    };
+    fetchSettings();
   }, [form]);
 
   const handleSave = () => {
-    form.validateFields().then(values => {
-      message.loading({ content: 'Đang lưu cài đặt...', key: 'save' });
-      localStorage.setItem('sanfovet_settings', JSON.stringify(values));
-      setTimeout(() => {
-        message.success({ content: 'Lưu thay đổi thành công!', key: 'save' });
-      }, 800);
+    form.validateFields().then(async (values) => {
+      const hide = msg.loading('Đang lưu cài đặt...');
+      try {
+        const res = await adminFetch('/api/data/settings', {
+          method: 'POST',
+          headers: { 'Content-Type': 'application/json' },
+          body: JSON.stringify(values),
+        });
+        if (res.ok) {
+          msg.success('Lưu thay đổi thành công!');
+        } else {
+          throw new Error();
+        }
+      } catch (e) {
+        msg.error('Lỗi khi lưu cài đặt');
+      } finally {
+        hide();
+      }
     });
   };
+
+  if (loading) return <div className="h-64 flex items-center justify-center"><Spin size="large" /></div>;
 
   return (
     <div className="space-y-6">
       <div>
         <Breadcrumb items={[{ title: 'Admin' }, { title: 'Thông tin chung' }]} />
-        <h1 className="text-2xl font-black text-sanfovet-dark mt-2">Cài đặt Website & Thông tin liên hệ</h1>
+        <h1 className="text-2xl font-black text-sanfovet-dark mt-2 tracking-tight uppercase italic">Cài đặt Website & Liên hệ</h1>
       </div>
 
       <div className="bg-white p-2 rounded-2xl shadow-sm border border-gray-100 min-h-[600px]">
-        <Tabs
-          className="admin-settings-tabs"
-          items={[
-            {
-              key: 'general',
-              label: <span className="flex items-center gap-2"><HomeOutlined /> Thông tin cơ sở</span>,
-              children: (
-                <div className="p-8 max-w-2xl">
-                   <h3 className="text-xl font-black mb-6 border-b pb-2 uppercase tracking-tight italic">Trụ sở & Chi nhánh</h3>
-                   <Form form={form} layout="vertical" initialValues={{ name: 'Sanfovet' }}>
-                      <Form.Item label="Tên công ty" initialValue="Công ty CP Đầu tư Liên doanh Việt Anh (SANFOVET)">
-                         <Input size="large" />
+        <Form form={form} layout="vertical" onFinish={handleSave}>
+          <Tabs
+            className="admin-settings-tabs"
+            items={[
+              {
+                key: 'general',
+                label: <span className="flex items-center gap-2 font-bold"><HomeOutlined /> Thông tin cơ sở</span>,
+                children: (
+                  <div className="p-8 max-w-2xl">
+                    <h3 className="text-xl font-black mb-6 border-b pb-2 uppercase tracking-tight italic text-primary">Trụ sở & Chi nhánh</h3>
+                    <Form.Item name="companyName" label="Tên công ty" rules={[{ required: true }]}>
+                      <Input size="large" className="rounded-xl" />
+                    </Form.Item>
+                    <Form.Item name="addressHN" label="Trụ sở chính (Hà Nội)" rules={[{ required: true }]}>
+                      <Input size="large" className="rounded-xl" />
+                    </Form.Item>
+                    <Form.Item name="addressHCM" label="Chi nhánh (Miền Nam)">
+                      <Input size="large" className="rounded-xl" />
+                    </Form.Item>
+                    <div className="grid grid-cols-2 gap-4">
+                      <Form.Item name="hotline1" label="Hotline 1">
+                        <Input size="large" className="rounded-xl" prefix={<PhoneOutlined />} />
                       </Form.Item>
-                      <Form.Item label="Trụ sở chính (Hà Nội)" initialValue="Cụm công nghiệp Liên Phương, Thường Tín, TP. Hà Nội">
-                         <Input size="large" />
+                      <Form.Item name="hotline2" label="Hotline 2">
+                        <Input size="large" className="rounded-xl" prefix={<PhoneOutlined />} />
                       </Form.Item>
-                      <Form.Item label="Chi nhánh (Miền Nam)" initialValue="Khu vực Hố Nai, Trảng Bom, Tỉnh Đồng Nai">
-                         <Input size="large" />
-                      </Form.Item>
-                      <div className="grid grid-cols-2 gap-4">
-                        <Form.Item label="Hotline 1" initialValue="024 66861629">
-                           <Input size="large" prefix={<PhoneOutlined />} />
-                        </Form.Item>
-                        <Form.Item label="Hotline 2" initialValue="0974 999 204">
-                           <Input size="large" prefix={<PhoneOutlined />} />
-                        </Form.Item>
-                      </div>
-                      <Form.Item label="Email chính" initialValue="pkd.sanfovet@gmail.com">
-                         <Input size="large" prefix={<MailOutlined />} />
-                      </Form.Item>
-                      <Button type="primary" size="large" onClick={handleSave} className="rounded-lg px-10 font-bold mt-4">Cập nhật ngay</Button>
-                   </Form>
-                </div>
-              )
-            },
-            {
-              key: 'social',
-              label: <span className="flex items-center gap-2"><FacebookOutlined /> Mạng xã hội</span>,
-              children: (
-                 <div className="p-8 max-w-2xl">
-                    <h3 className="text-xl font-black mb-6 border-b pb-2 uppercase tracking-tight italic">Liên kết Cộng đồng</h3>
-                    <Form layout="vertical">
-                       <Form.Item label="Facebook Page URL">
-                          <Input size="large" prefix={<FacebookOutlined className="text-blue-600" />} placeholder="Dán link fanpage..." />
-                       </Form.Item>
-                       <Form.Item label="Zalo Phone / Link">
-                          <Input size="large" placeholder="0974 999 204" />
-                       </Form.Item>
-                       <Form.Item label="YouTube Channel">
-                          <Input size="large" prefix={<YoutubeOutlined className="text-red-500" />} />
-                       </Form.Item>
-                       <Button type="primary" size="large" onClick={handleSave} className="rounded-lg px-10 font-bold mt-4">Lưu liên kết</Button>
-                    </Form>
-                 </div>
-              )
-            },
-            {
-              key: 'support',
-              label: <span className="flex items-center gap-2"><UserOutlined /> Hỗ trợ kỹ thuật</span>,
-              children: (
-                 <div className="p-8 max-w-2xl">
-                    <h3 className="text-xl font-black mb-6 border-b pb-2 uppercase tracking-tight italic">Thông tin Bác sĩ thú y</h3>
-                    <Form layout="vertical">
-                       <Form.Item label="Họ tên BSTY" initialValue="Hoàng Đăng Trạng">
-                          <Input size="large" />
-                       </Form.Item>
-                       <Form.Item label="Số điện thoại hỗ trợ" initialValue="0383 814 838">
-                          <Input size="large" prefix={<PhoneOutlined />} />
-                       </Form.Item>
-                       <Form.Item label="Email hỗ trợ" initialValue="dangtrang19877@gmail.com">
-                          <Input size="large" prefix={<MailOutlined />} />
-                       </Form.Item>
-                       <Button type="primary" size="large" onClick={handleSave} className="rounded-lg px-10 font-bold mt-4">Cập nhật hồ sơ BSTY</Button>
-                    </Form>
-                 </div>
-              )
-            }
-          ]}
-        />
+                    </div>
+                    <Form.Item name="email" label="Email chính">
+                      <Input size="large" className="rounded-xl" prefix={<MailOutlined />} />
+                    </Form.Item>
+                    <Button type="primary" size="large" htmlType="submit" className="rounded-xl px-10 font-black uppercase tracking-widest text-xs h-12 shadow-lg shadow-primary/20">Cập nhật ngay</Button>
+                  </div>
+                )
+              },
+              {
+                key: 'social',
+                label: <span className="flex items-center gap-2 font-bold"><FacebookOutlined /> Mạng xã hội</span>,
+                children: (
+                  <div className="p-8 max-w-2xl">
+                    <h3 className="text-xl font-black mb-6 border-b pb-2 uppercase tracking-tight italic text-primary">Liên kết Cộng đồng</h3>
+                    <Form.Item name={['social', 'facebook']} label="Facebook Page URL">
+                      <Input size="large" className="rounded-xl" prefix={<FacebookOutlined className="text-blue-600" />} placeholder="https://facebook.com/..." />
+                    </Form.Item>
+                    <Form.Item name={['social', 'zalo']} label="Zalo Phone / Link">
+                      <Input size="large" className="rounded-xl" placeholder="0974 999 204" />
+                    </Form.Item>
+                    <Form.Item name={['social', 'youtube']} label="YouTube Channel">
+                      <Input size="large" className="rounded-xl" prefix={<YoutubeOutlined className="text-red-500" />} />
+                    </Form.Item>
+                    <Button type="primary" size="large" htmlType="submit" className="rounded-xl px-10 font-black uppercase tracking-widest text-xs h-12 shadow-lg shadow-primary/20">Lưu liên kết</Button>
+                  </div>
+                )
+              },
+              {
+                key: 'support',
+                label: <span className="flex items-center gap-2 font-bold"><UserOutlined /> Hỗ trợ kỹ thuật</span>,
+                children: (
+                  <div className="p-8 max-w-2xl">
+                    <h3 className="text-xl font-black mb-6 border-b pb-2 uppercase tracking-tight italic text-primary">Thông tin Bác sĩ thú y</h3>
+                    <Form.Item name={['support', 'doctorName']} label="Họ tên BSTY">
+                      <Input size="large" className="rounded-xl" />
+                    </Form.Item>
+                    <Form.Item name={['support', 'doctorPhone']} label="Số điện thoại hỗ trợ">
+                      <Input size="large" className="rounded-xl" prefix={<PhoneOutlined />} />
+                    </Form.Item>
+                    <Form.Item name={['support', 'doctorEmail']} label="Email hỗ trợ">
+                      <Input size="large" className="rounded-xl" prefix={<MailOutlined />} />
+                    </Form.Item>
+                    <Button type="primary" size="large" htmlType="submit" className="rounded-xl px-10 font-black uppercase tracking-widest text-xs h-12 shadow-lg shadow-primary/20">Cập nhật hồ sơ BSTY</Button>
+                  </div>
+                )
+              }
+            ]}
+          />
+        </Form>
       </div>
     </div>
   );

@@ -315,3 +315,23 @@ export const animalTags = [
   { id: 4, name: 'Trâu Bò', slug: 'trau-bo-cam-nang-chan-nuoi', icon: '🐄', description: 'Kỹ thuật chăn nuôi trâu bò thịt, bò sữa' },
   { id: 5, name: 'Thủy Sản', slug: 'thuy-san', icon: '🐟', description: 'Nuôi trồng thủy sản: tôm, cá và các loài khác' },
 ];
+
+// Menu data for Header and Footer
+export const headerMenus = [
+  { id: 1, name: 'Trang chủ', link: '/', parent: null, position: 'header', order: 1, status: true },
+  { id: 2, name: 'Giới thiệu', link: '/gioi-thieu', parent: null, position: 'header', order: 2, status: true },
+  { id: 3, name: 'Sản phẩm', link: '/san-pham', parent: null, position: 'header', order: 3, status: true, hasMega: true },
+  { id: 4, name: 'Cẩm nang', link: '/cam-nang-chan-nuoi', parent: null, position: 'header', order: 4, status: true },
+  { id: 5, name: 'Tin tức', link: '/tin-tuc', parent: null, position: 'both', order: 5, status: true },
+  { id: 6, name: 'Catalogue', link: '/catalogue', parent: null, position: 'header', order: 6, status: true },
+  { id: 7, name: 'Tuyển dụng', link: '/tuyen-dung', parent: null, position: 'header', order: 7, status: true },
+  { id: 8, name: 'Liên hệ', link: '/lien-he', parent: null, position: 'both', order: 8, status: true, isButton: true },
+];
+
+
+export const footerMenus = [
+  ...headerMenus.filter(m => m.position === 'both'),
+  { id: 101, name: 'privacy', link: '/privacy', parent: null, position: 'footer', order: 10, status: true },
+  { id: 102, name: 'terms', link: '/terms', parent: null, position: 'footer', order: 11, status: true },
+];
+

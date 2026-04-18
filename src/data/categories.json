@@ -1,0 +1,52 @@
+[
+  {
+    "id": 1,
+    "name": "Thuốc bổ trợ tiêm dạng dung dịch, hỗn dịch",
+    "slug": "thuoc-bo-tro-tiem-dang-dung-dich-hon-dich"
+  },
+  {
+    "id": 2,
+    "name": "Thuốc kháng sinh tiêm dạng dung dịch, hỗn dịch",
+    "slug": "thuoc-khang-sinh-tiem-dang-dung-dich-hon-dich"
+  },
+  {
+    "id": 3,
+    "name": "Thuốc kháng sinh dạng dung dịch uống, dạng xịt",
+    "slug": "thuoc-khang-sinh-dang-dung-dich-uong-dang-xit"
+  },
+  {
+    "id": 4,
+    "name": "Thuốc kháng sinh dạng Premix siêu bám dính",
+    "slug": "thuoc-khang-sinh-dang-premix-sieu-bam-dinh"
+  },
+  {
+    "id": 5,
+    "name": "Thuốc kháng sinh dạng bột, dạng hạt hòa tan",
+    "slug": "thuoc-khang-sinh-dang-bot-dang-hat-hoa-tan"
+  },
+  {
+    "id": 6,
+    "name": "Thuốc bổ trợ dạng cốm, dạng bột hòa tan",
+    "slug": "thuoc-bo-tro-dang-com-dang-bot-hoa-tan"
+  },
+  {
+    "id": 7,
+    "name": "Thuốc bổ trợ dạng dung dịch",
+    "slug": "thuoc-bo-tro-dang-dung-dich"
+  },
+  {
+    "id": 8,
+    "name": "Thuốc trị cầu trùng, kí sinh trùng",
+    "slug": "thuoc-tri-cau-trung-ki-sinh-trung-dang-bot-dang-dung-dich"
+  },
+  {
+    "id": 9,
+    "name": "Thuốc sát trùng, diệt côn trùng",
+    "slug": "thuoc-sat-trung-diet-con-trung"
+  },
+  {
+    "id": 10,
+    "name": "Thuốc trị nấm, trị giun sán",
+    "slug": "thuoc-tri-nam-tri-giun-san"
+  }
+]

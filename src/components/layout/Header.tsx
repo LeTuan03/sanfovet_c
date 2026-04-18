@@ -8,18 +8,51 @@ import {
 } from 'lucide-react';
 import { FacebookOutlined, YoutubeOutlined } from '@ant-design/icons';
 import { useLanguage } from '@/lib/LanguageContext';
+import { NavMenu, Category, Setting, AnimalTag } from '@/types';
+// import { headerMenus } from '@/lib/data'; // Removed static import
 
 export default function Header() {
   const { language, setLanguage, t } = useLanguage();
   const [isMobileMenuOpen, setIsMobileMenuOpen] = useState(false);
-
   const [isScrolled, setIsScrolled] = useState(false);
+
+  const [menus, setMenus] = useState<NavMenu[]>([]);
+  const [categories, setCategories] = useState<Category[]>([]);
+  const [settings, setSettings] = useState<Setting | null>(null);
 
   useEffect(() => {
     const handleScroll = () => {
       setIsScrolled(window.scrollY > 40);
     };
     window.addEventListener('scroll', handleScroll);
+
+    // Fetch dynamic data
+    const fetchData = async () => {
+      try {
+        const [menusRes, settingsRes, categoriesRes] = await Promise.all([
+          fetch('/api/data/menus'),
+          fetch('/api/data/settings'),
+          fetch('/api/data/categories')
+        ]);
+        const menusData = await menusRes.json();
+        const settingsData = await settingsRes.json();
+        const categoriesData = await categoriesRes.json();
+        
+        if (Array.isArray(menusData)) {
+          setMenus(menusData.filter((m: any) => m.position === 'header' || m.position === 'both'));
+        }
+        
+        setSettings(settingsData);
+        
+        if (Array.isArray(categoriesData)) {
+          setCategories(categoriesData);
+        }
+      } catch (error) {
+        console.error('Failed to fetch header data', error);
+      }
+    };
+    fetchData();
+
     return () => window.removeEventListener('scroll', handleScroll);
   }, []);
 
@@ -30,18 +63,18 @@ export default function Header() {
         <div className="container mx-auto px-4 flex justify-between items-center">
           <div className="flex items-center gap-4 flex-wrap">
             <span className="flex items-center gap-1.5 opacity-90 font-medium">
-              <Phone size={14} className="shrink-0 text-amber-500" /> 024 66861629 | 097 499 9204
+              <Phone size={14} className="shrink-0 text-amber-500" /> {settings?.hotline1 || '024 66861629'} | {settings?.hotline2 || '097 499 9204'}
             </span>
             <span className="flex items-center gap-1.5 opacity-90 font-medium border-l border-white/20 pl-4">
-              <Mail size={14} className="shrink-0 text-amber-500" /> pkd.sanfovet@gmail.com
+              <Mail size={14} className="shrink-0 text-amber-500" /> {settings?.email || 'pkd.sanfovet@gmail.com'}
             </span>
           </div>
           <div className="flex items-center gap-4">
             <div className="flex items-center gap-3 mr-2">
-              <Link href="https://facebook.com/sanfovet" target="_blank" className="text-white/70 hover:text-amber-500 transition-all font-bold">
+              <Link href={settings?.social?.facebook || "https://facebook.com/sanfovet"} target="_blank" className="text-white/70 hover:text-amber-500 transition-all font-bold">
                 <FacebookOutlined />
               </Link>
-              <Link href="https://youtube.com/sanfovet" target="_blank" className="text-white/70 hover:text-amber-500 transition-all font-bold">
+              <Link href={settings?.social?.youtube || "https://youtube.com/sanfovet"} target="_blank" className="text-white/70 hover:text-amber-500 transition-all font-bold">
                 <YoutubeOutlined />
               </Link>
             </div>
@@ -78,45 +111,69 @@ export default function Header() {
 
             {/* Desktop Nav */}
             <nav className="hidden lg:flex items-center gap-1">
-              <Link href="/" className="px-3 py-2 text-[0.82rem] font-black text-sanfovet-dark hover:text-primary uppercase tracking-tight font-montserrat">{t('home')}</Link>
-              <Link href="/gioi-thieu" className="px-3 py-2 text-[0.82rem] font-black text-sanfovet-dark hover:text-primary uppercase tracking-tight font-montserrat">{t('about')}</Link>
-              
-              <div className="relative group p-0">
-                <Link href="/san-pham" className="px-3 py-2 text-[0.82rem] font-black text-sanfovet-dark hover:text-primary uppercase tracking-tight flex items-center gap-1 group-hover:bg-sanfovet-alt rounded-lg transition-colors font-montserrat">
-                  {t('products')} <ChevronDown size={14} className="group-hover:rotate-180 transition-transform" />
-                </Link>
-                {/* Mega Dropdown */}
-                <div className="absolute top-full left-0 w-[440px] bg-white shadow-2xl rounded-2xl py-6 opacity-0 invisible group-hover:opacity-100 group-hover:visible transition-all translate-y-2 group-hover:translate-y-0 border border-gray-100 z-50 overflow-hidden">
-                  <div className="max-h-[600px] overflow-y-auto custom-scrollbar">
-                    <div className="px-6 mb-4 border-b border-gray-50 pb-4">
-                      <Link href="/san-pham" className="text-[0.7rem] font-black text-primary uppercase tracking-[2px] hover:text-primary-dark transition-colors flex items-center justify-between group/all">
-                         {t('all_products')} 
-                         <div className="w-6 h-6 rounded-full bg-primary/10 flex items-center justify-center group-hover/all:translate-x-1 transition-transform">
-                            <ChevronRight size={12} />
-                         </div>
+              {menus.filter(m => m.status).sort((a, b) => a.order - b.order).map((menu) => {
+                if (menu.hasMega) {
+                  return (
+                    <div key={menu.id} className="relative group p-0">
+                      <Link href={menu.link} className="px-3 py-2 text-[0.82rem] font-black text-sanfovet-dark hover:text-primary uppercase tracking-tight flex items-center gap-1 group-hover:bg-sanfovet-alt rounded-lg transition-colors font-montserrat">
+                        {t(menu.name)} <ChevronDown size={14} className="group-hover:rotate-180 transition-transform" />
                       </Link>
+                      {/* Mega Dropdown */}
+                      <div className="absolute top-full left-0 w-[440px] bg-white shadow-2xl rounded-2xl py-6 opacity-0 invisible group-hover:opacity-100 group-hover:visible transition-all translate-y-2 group-hover:translate-y-0 border border-gray-100 z-50 overflow-hidden">
+                        <div className="max-h-[600px] overflow-y-auto custom-scrollbar">
+                          <div className="px-6 mb-4 border-b border-gray-50 pb-4">
+                            <Link href="/san-pham" className="text-[0.7rem] font-black text-primary uppercase tracking-[2px] hover:text-primary-dark transition-colors flex items-center justify-between group/all">
+                               {t('all_products')} 
+                               <div className="w-6 h-6 rounded-full bg-primary/10 flex items-center justify-center group-hover/all:translate-x-1 transition-transform">
+                                  <ChevronRight size={12} />
+                               </div>
+                            </Link>
+                          </div>
+                          <div className="px-2 space-y-0.5">
+                            {categories.map((cat, idx) => {
+                              const icons = [
+                                <Syringe key="s1" size={20} />, <FlaskConical key="s2" size={20} />, <FlaskRound key="s3" size={20} />, 
+                                <TestTube key="s4" size={20} />, <Beaker key="s5" size={20} />, <Pill key="s6" size={20} />, 
+                                <Droplets key="s7" size={20} />, <Bug key="s8" size={20} />, <ShieldCheck key="s9" size={20} />, <Leaf key="s10" size={20} />
+                              ];
+                              return (
+                                <DropdownItem 
+                                  key={cat.id} 
+                                  href={`/san-pham/danh-muc/${cat.slug}`} 
+                                  icon={icons[idx % icons.length]} 
+                                  label={cat.name} 
+                                />
+                              );
+                            })}
+                          </div>
+                        </div>
+                      </div>
                     </div>
-                    <div className="px-2 space-y-0.5">
-                      <DropdownItem href="/san-pham/danh-muc/thuoc-bo-tro-tiem-dang-dung-dich-hon-dich" icon={<Syringe size={20} />} label="Thuốc bổ trợ tiêm dạng dung dịch, hỗn dịch" />
-                      <DropdownItem href="/san-pham/danh-muc/thuoc-khang-sinh-tiem-dang-dung-dich-hon-dich" icon={<FlaskConical size={20} />} label="Thuốc kháng sinh tiêm dạng dung dịch, hỗn dịch" />
-                      <DropdownItem href="/san-pham/danh-muc/thuoc-khang-sinh-dang-dung-dich-uong-dang-xit" icon={<FlaskRound size={20} />} label="Thuốc kháng sinh dạng dung dịch uống, dạng xịt" />
-                      <DropdownItem href="/san-pham/danh-muc/thuoc-khang-sinh-dang-premix-sieu-bam-dinh" icon={<TestTube size={20} />} label="Thuốc kháng sinh dạng Premix siêu bám dính" />
-                      <DropdownItem href="/san-pham/danh-muc/thuoc-khang-sinh-dang-bot-dang-hat-hoa-tan" icon={<Beaker size={20} />} label="Thuốc kháng sinh dạng bột, dạng hạt hòa tan" />
-                      <DropdownItem href="/san-pham/danh-muc/thuoc-bo-tro-dang-com-dang-bot-hoa-tan" icon={<Pill size={20} />} label="Thuốc bổ trợ dạng cốm, dạng bột hòa tan" />
-                      <DropdownItem href="/san-pham/danh-muc/thuoc-bo-tro-dang-dung-dich" icon={<Droplets size={20} />} label="Thuốc bổ trợ dạng dung dịch" />
-                      <DropdownItem href="/san-pham/danh-muc/thuoc-tri-cau-trung-ki-sinh-trung-dang-bot-dang-dung-dich" icon={<Bug size={20} />} label="Thuốc trị cầu trùng, kí sinh trùng" />
-                      <DropdownItem href="/san-pham/danh-muc/thuoc-sat-trung-diet-con-trung" icon={<ShieldCheck size={20} />} label="Thuốc sát trùng, diệt côn trùng" />
-                      <DropdownItem href="/san-pham/danh-muc/thuoc-tri-nam-tri-giun-san" icon={<Leaf size={20} />} label="Thuốc trị nấm, trị giun sán" />
-                    </div>
-                  </div>
-                </div>
-              </div>
+                  );
+                }
 
-              <Link href="/cam-nang-chan-nuoi" className="px-3 py-2 text-[0.82rem] font-black text-sanfovet-dark hover:text-primary uppercase tracking-tight font-montserrat">{t('knowledge')}</Link>
-              <Link href="/tin-tuc" className="px-3 py-2 text-[0.82rem] font-black text-sanfovet-dark hover:text-primary uppercase tracking-tight font-montserrat">{t('news')}</Link>
-              <Link href="/catalogue" className="px-3 py-2 text-[0.82rem] font-black text-sanfovet-dark hover:text-primary uppercase tracking-tight font-montserrat">{t('catalogue')}</Link>
-              <Link href="/tuyen-dung" className="px-3 py-2 text-[0.82rem] font-black text-sanfovet-dark hover:text-primary uppercase tracking-tight font-montserrat">{t('recruitment')}</Link>
-              <Link href="/lien-he" className="ml-4 px-6 py-2.5 bg-primary text-white text-[0.82rem] font-black rounded-full hover:bg-primary-dark transition-all uppercase tracking-widest shadow-lg shadow-primary/20 active:scale-95 font-montserrat">{t('contact')}</Link>
+                if (menu.isButton) {
+                  return (
+                    <Link 
+                      key={menu.id}
+                      href={menu.link} 
+                      className="ml-4 px-6 py-2.5 bg-primary text-white text-[0.82rem] font-black rounded-full hover:bg-primary-dark transition-all uppercase tracking-widest shadow-lg shadow-primary/20 active:scale-95 font-montserrat"
+                    >
+                      {t(menu.name)}
+                    </Link>
+                  );
+                }
+
+                return (
+                  <Link 
+                    key={menu.id}
+                    href={menu.link} 
+                    className="px-3 py-2 text-[0.82rem] font-black text-sanfovet-dark hover:text-primary uppercase tracking-tight font-montserrat"
+                  >
+                    {t(menu.name)}
+                  </Link>
+                );
+              })}
             </nav>
 
             {/* Mobile Menu Button */}
@@ -130,14 +187,28 @@ export default function Header() {
         {isMobileMenuOpen && (
           <div className="lg:hidden fixed inset-0 top-[70px] bg-white z-50 overflow-y-auto animate-fade-in border-t border-gray-100 pb-20">
              <div className="p-6 flex flex-col gap-1">
-                <MobileNavItem href="/" label={t('home')} onClick={() => setIsMobileMenuOpen(false)} />
-                <MobileNavItem href="/gioi-thieu" label={t('about')} onClick={() => setIsMobileMenuOpen(false)} />
-                <MobileNavItem href="/san-pham" label={t('products')} onClick={() => setIsMobileMenuOpen(false)} />
-                <MobileNavItem href="/cam-nang-chan-nuoi" label={t('knowledge')} onClick={() => setIsMobileMenuOpen(false)} />
-                <MobileNavItem href="/benh-va-dieu-tri-benh" label="Bệnh & Điều trị" onClick={() => setIsMobileMenuOpen(false)} />
-                <MobileNavItem href="/tin-tuc" label={t('news')} onClick={() => setIsMobileMenuOpen(false)} />
-                <MobileNavItem href="/tuyen-dung" label={t('recruitment')} onClick={() => setIsMobileMenuOpen(false)} />
-                <Link href="/lien-he" className="mt-8 py-4 bg-primary text-white text-center font-black rounded-xl uppercase tracking-widest shadow-lg shadow-primary/20 active:scale-95 font-montserrat" onClick={() => setIsMobileMenuOpen(false)}>{t('contact')}</Link>
+                {menus.filter(m => m.status).sort((a, b) => a.order - b.order).map((menu) => {
+                  if (menu.isButton) {
+                    return (
+                      <Link 
+                        key={menu.id}
+                        href={menu.link} 
+                        className="mt-8 py-4 bg-primary text-white text-center font-black rounded-xl uppercase tracking-widest shadow-lg shadow-primary/20 active:scale-95 font-montserrat" 
+                        onClick={() => setIsMobileMenuOpen(false)}
+                      >
+                        {t(menu.name)}
+                      </Link>
+                    );
+                  }
+                  return (
+                    <MobileNavItem 
+                      key={menu.id}
+                      href={menu.link} 
+                      label={t(menu.name)} 
+                      onClick={() => setIsMobileMenuOpen(false)} 
+                    />
+                  );
+                })}
              </div>
           </div>
         )}

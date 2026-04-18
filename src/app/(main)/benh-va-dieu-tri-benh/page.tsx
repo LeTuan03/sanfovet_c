@@ -1,11 +1,14 @@
 import React from 'react';
 import Link from 'next/link';
-import { articles } from '@/lib/data';
+import { readData } from '@/lib/storage';
+import { Article } from '@/types';
+// import { articles } from '@/lib/data'; // Removed static import
 import { ChevronRight, Activity, ShieldAlert } from 'lucide-react';
 import Sidebar from '@/components/shared/Sidebar';
 
-export default function DiseasesPage() {
-  const list = articles.filter((a: any) => a.category === 'benh-dieu-tri');
+export default async function DiseasesPage() {
+  const articles = await readData<Article[]>('articles');
+  const list = Array.isArray(articles) ? articles.filter((a: Article) => a.category === 'benh-dieu-tri') : [];
 
   return (
     <div className="bg-white min-h-screen">
@@ -43,7 +46,7 @@ export default function DiseasesPage() {
           {/* Main Content */}
           <main className="flex-1">
             <div className="grid grid-cols-1 md:grid-cols-2 gap-x-12 gap-y-16">
-              {list.map((a: any) => (
+              {list.map((a: Article) => (
                 <article key={a.id} className="group grid grid-cols-1 lg:grid-cols-5 gap-8 bg-white transition-all duration-300">
                    <div className="lg:col-span-2">
                      <Link href={`/bai-viet/${a.slug}`} className="aspect-[4/3] relative overflow-hidden block rounded-[32px] ring-1 ring-gray-100 shadow-md">

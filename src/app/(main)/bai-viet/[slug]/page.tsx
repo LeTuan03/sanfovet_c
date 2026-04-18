@@ -1,7 +1,9 @@
 import React from 'react';
 import Link from 'next/link';
 import { notFound } from 'next/navigation';
-import { articles, products } from '@/lib/data';
+import { readData } from '@/lib/storage';
+import { Article, Product } from '@/types';
+// import { articles, products } from '@/lib/data'; // Removed static imports
 import { Calendar, User, ChevronRight, ArrowLeft, Share2, Printer, Tag, List } from 'lucide-react';
 
 function extractHeadings(html: string): { id: string; text: string }[] {
@@ -25,21 +27,11 @@ function getCategoryLabel(category: string): string {
     default: return 'Bài Viết';
   }
 }
-
-interface Article {
-  id: number;
-  slug: string;
-  title: string;
-  category: string;
-  publishDate: string;
-  thumbnail: string;
-  excerpt: string;
-  content: string;
-}
-
 export default async function ArticleDetailPage({ params }: Readonly<{ params: Promise<{ slug: string }> }>) {
   const { slug } = await params;
-  const article = articles.find((a: any) => a.slug === slug) as Article | undefined;
+  const articles = await readData<Article[]>('articles');
+  const products = await readData<Product[]>('products');
+  const article = articles.find((a: Article) => a.slug === slug);
 
   if (!article) {
     notFound();
@@ -47,7 +39,7 @@ export default async function ArticleDetailPage({ params }: Readonly<{ params: P
 
   // Get related articles
   const relatedArticles = articles
-    .filter((a: any) => a.category === article.category && a.id !== article.id)
+    .filter((a: Article) => a.category === article.category && a.id !== article.id)
     .slice(0, 3);
 
   // Get suggested products
@@ -130,7 +122,7 @@ export default async function ArticleDetailPage({ params }: Readonly<{ params: P
                    Sản phẩm Sanfovet khuyên dùng
                 </h3>
                 <div className="grid grid-cols-1 md:grid-cols-3 gap-6">
-                   {suggestedProducts.map(p => (
+                   {suggestedProducts.map((p: Product) => (
                       <Link href={`/san-pham/${p.slug}`} key={p.id} className="bg-white p-5 rounded-2xl border border-gray-100 shadow-sm hover:shadow-xl transition-all group">
                          <div className="aspect-square mb-4 bg-sanfovet-alt rounded-xl p-4 flex items-center justify-center group-hover:bg-primary-light transition-colors">
                             <img src={p.image} alt={p.name} className="max-h-full w-auto" />
@@ -168,7 +160,7 @@ export default async function ArticleDetailPage({ params }: Readonly<{ params: P
                 <div>
                    <h3 className="font-black text-lg text-sanfovet-dark mb-6 border-b border-gray-100 pb-4 uppercase tracking-wider">Bài viết liên quan</h3>
                    <div className="space-y-6">
-                      {relatedArticles.map((a: any) => (
+                      {relatedArticles.map((a: Article) => (
                          <Link href={`/bai-viet/${a.slug}`} key={a.id} className="flex gap-4 group">
                             <div className="w-20 h-20 bg-gray-100 rounded-xl overflow-hidden shrink-0">
                                <img src={a.thumbnail} alt={a.title} className="w-full h-full object-cover group-hover:scale-110 transition-transform duration-700" />

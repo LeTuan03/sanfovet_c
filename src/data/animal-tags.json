@@ -1,0 +1,7 @@
+[
+  { "id": 1, "name": "Gà", "slug": "ga", "icon": "🐔", "description": "Kỹ thuật chăn nuôi và phòng bệnh cho gà" },
+  { "id": 2, "name": "Heo", "slug": "heo-cam-nang-chan-nuoi", "icon": "🐷", "description": "Kiến thức nuôi heo hiệu quả, phòng trị bệnh trên heo" },
+  { "id": 3, "name": "Vịt", "slug": "vit-cam-nang-chan-nuoi", "icon": "🦆", "description": "Hướng dẫn nuôi vịt siêu thịt, vịt đẻ trứng" },
+  { "id": 4, "name": "Trâu Bò", "slug": "trau-bo-cam-nang-chan-nuoi", "icon": "🐄", "description": "Kỹ thuật chăn nuôi trâu bò thịt, bò sữa" },
+  { "id": 5, "name": "Thủy Sản", "slug": "thuy-san", "icon": "🐟", "description": "Nuôi trồng thủy sản: tôm, cá và các loài khác" }
+]

@@ -1,10 +1,13 @@
 import React from 'react';
 import Link from 'next/link';
-import { articles } from '@/lib/data';
+import { readData } from '@/lib/storage';
+import { Article } from '@/types';
+// import { articles } from '@/lib/data'; // Removed static import
 import { Calendar, ChevronRight, Globe } from 'lucide-react';
 
-export default function IndustryNewsPage() {
-  const list = articles.filter((a: any) => a.category === 'tin-nganh');
+export default async function IndustryNewsPage() {
+  const articles = await readData<Article[]>('articles');
+  const list = Array.isArray(articles) ? articles.filter((a: Article) => a.category === 'tin-nganh') : [];
 
   return (
     <div className="bg-white min-h-screen">
@@ -26,7 +29,7 @@ export default function IndustryNewsPage() {
 
       <div className="container mx-auto px-4 py-16">
         <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8">
-          {list.map((a: any) => (
+          {list.map((a: Article) => (
             <article key={a.id} className="group bg-white rounded-[32px] border border-gray-100 shadow-sm hover:shadow-xl transition-all duration-500 overflow-hidden">
                <Link href={`/bai-viet/${a.slug}`} className="aspect-video relative overflow-hidden block">
                   <img src={a.thumbnail} alt={a.title} className="w-full h-full object-cover group-hover:scale-110 transition-transform duration-700" />

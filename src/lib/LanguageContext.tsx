@@ -12,14 +12,14 @@ interface LanguageContextType {
 
 const translations: Record<Language, Record<string, string>> = {
   vi: {
-    'home': 'Trang chủ',
-    'about': 'Giới thiệu',
-    'products': 'Sản phẩm',
-    'knowledge': 'Cẩm nang',
-    'news': 'Tin tức',
-    'contact': 'Liên hệ',
-    'recruitment': 'Tuyển dụng',
-    'catalogue': 'Catalogue',
+    'Trang chủ': 'Trang chủ',
+    'Giới thiệu': 'Giới thiệu',
+    'Sản phẩm': 'Sản phẩm',
+    'Cẩm nang': 'Cẩm nang',
+    'Tin tức': 'Tin tức',
+    'Catalogue': 'Catalogue',
+    'Tuyển dụng': 'Tuyển dụng',
+    'Liên hệ': 'Liên hệ',
     'call_us': 'Gọi chúng tôi',
     'email_us': 'Gửi email',
     'latest_news': 'Tin tức mới nhất',
@@ -32,14 +32,14 @@ const translations: Record<Language, Record<string, string>> = {
     'intro_slogan': 'Công nghệ USA - Chất lượng vượt trội'
   },
   en: {
-    'home': 'Home',
-    'about': 'About Us',
-    'products': 'Products',
-    'knowledge': 'Handbook',
-    'news': 'News',
-    'contact': 'Contact',
-    'recruitment': 'Recruitment',
-    'catalogue': 'Catalogue',
+    'Trang chủ': 'Home',
+    'Giới thiệu': 'About Us',
+    'Sản phẩm': 'Products',
+    'Cẩm nang': 'Handbook',
+    'Tin tức': 'News',
+    'Catalogue': 'Catalogue',
+    'Tuyển dụng': 'Recruitment',
+    'Liên hệ': 'Contact',
     'call_us': 'Call Us',
     'email_us': 'Email Us',
     'latest_news': 'Latest News',
@@ -62,7 +62,10 @@ export function LanguageProvider({ children }: { children: React.ReactNode }) {
   useEffect(() => {
     const savedLang = localStorage.getItem('sanfovet_lang') as Language;
     if (savedLang && (savedLang === 'vi' || savedLang === 'en')) {
-      setLanguage(savedLang);
+      // Use requestAnimationFrame to avoid synchronous state update in effect
+      requestAnimationFrame(() => {
+        setLanguage(savedLang);
+      });
     }
   }, []);
 

@@ -1,16 +1,17 @@
 "use client";
 
 import React from 'react';
-import { Form, Input, Button, Checkbox, Card, message } from 'antd';
+import { Form, Input, Button, Checkbox, Card, App } from 'antd';
 import { UserOutlined, LockOutlined, ArrowRightOutlined } from '@ant-design/icons';
 import { useRouter } from 'next/navigation';
 
 export default function AdminLoginPage() {
+  const { message: msg } = App.useApp();
   const router = useRouter();
 
   const onFinish = (values: any) => {
     console.log('Success:', values);
-    message.success('Đăng nhập thành công!');
+    msg.success('Đăng nhập thành công!');
     setTimeout(() => {
       router.push('/admin');
     }, 1000);

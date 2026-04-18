@@ -1,14 +1,20 @@
 import React from 'react';
 import Link from 'next/link';
 import { Eye, ArrowRight, Download, Calendar, Microscope, ShieldCheck, Users, Truck, Gem, ChevronRight } from 'lucide-react';
-import { products, articles, categories } from '@/lib/data';
+// import { products, articles, categories } from '@/lib/data'; // Removed static imports
+import { readData } from '@/lib/storage';
+import { Product, Article, Category } from '@/types';
 import BannerSlider from '@/components/home/BannerSlider';
 import HomeGallery from '@/components/home/HomeGallery';
 
-export default function HomePage() {
-  const featuredProducts = products.filter(p => p.featured).slice(0, 8);
-  const diseaseArticles = articles.filter(a => a.category === 'benh-dieu-tri').slice(0, 4);
-  const latestNews = articles.slice(0, 3);
+export default async function HomePage() {
+  const products = await readData<Product[]>('products');
+  const articles = await readData<Article[]>('articles');
+  const categories = await readData<Category[]>('categories');
+
+  const featuredProducts = Array.isArray(products) ? products.filter((p: Product) => p.featured).slice(0, 8) : [];
+  const diseaseArticles = Array.isArray(articles) ? articles.filter((a: Article) => a.category === 'benh-dieu-tri').slice(0, 4) : [];
+  const latestNews = Array.isArray(articles) ? articles.slice(0, 3) : [];
 
   const features = [
     { icon: <Microscope size={28} />, title: 'Công nghệ USA', desc: 'Ứng dụng công nghệ tiên tiến từ Hoa Kỳ trong sản xuất thuốc thú y' },
@@ -90,14 +96,14 @@ export default function HomePage() {
           </div>
 
           <div className="grid grid-cols-2 lg:grid-cols-4 gap-6 md:gap-8">
-            {featuredProducts.map((p) => (
+            {featuredProducts.map((p: Product) => (
               <article key={p.id} className="bg-white rounded-[16px] shadow-sm hover:shadow-xl border border-gray-100 overflow-hidden transition-all duration-500 group relative">
                 <div className="aspect-[4/3] bg-gray-50 flex items-center justify-center p-6 relative overflow-hidden">
                    <img src={p.image} alt={p.name} className="max-h-full w-auto object-contain transition-transform duration-700 group-hover:scale-110" />
                 </div>
                 <div className="p-6">
                   <div className="text-[0.7rem] font-bold text-primary bg-primary-light px-2.5 py-1 rounded-full w-fit mb-3 uppercase tracking-wider">
-                    {categories.find((c: any) => c.id === p.categoryId)?.name?.split(' ').slice(0, 3).join(' ') || 'Danh mục'}
+                    {categories.find((c: Category) => c.id === p.categoryId)?.name?.split(' ').slice(0, 3).join(' ') || 'Danh mục'}
                   </div>
                   <h3 className="font-bold text-gray-900 mb-2 leading-snug h-12 overflow-hidden group-hover:text-primary transition-colors">{p.name}</h3>
                   <p className="text-[0.8rem] text-gray-500 line-clamp-2 mb-6 min-h-[40px]">{p.tagline}</p>
@@ -134,7 +140,7 @@ export default function HomePage() {
           </div>
 
           <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-8">
-            {diseaseArticles.map((a, i) => (
+            {diseaseArticles.map((a: Article, i: number) => (
               <article key={a.id} className="bg-white rounded-[16px] border border-gray-100 shadow-sm overflow-hidden hover:shadow-xl transition-all duration-500 flex flex-col group">
                  <div className="aspect-video relative overflow-hidden bg-gray-100">
                     <img src={`/images/news-${(i % 3) + 1}.png`} alt={a.title} className="w-full h-full object-cover group-hover:scale-110 transition-transform duration-700" />
@@ -167,7 +173,7 @@ export default function HomePage() {
           </div>
 
           <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-5 gap-8">
-             {features.map((f, i) => (
+             {features.map((f, i: number) => (
                <div key={i} className="flex flex-col items-center text-center p-8 bg-white/5 rounded-[20px] border border-white/10 hover:bg-white/10 transition-all duration-300 hover:-translate-y-2">
                  <div className="w-[70px] h-[70px] rounded-full bg-gradient-to-br from-primary to-accent flex items-center justify-center mb-8 text-white shadow-[0_4px_20px_rgba(26,140,63,0.3)]">
                    {f.icon}
@@ -189,7 +195,7 @@ export default function HomePage() {
           </div>
 
           <div className="grid grid-cols-1 md:grid-cols-3 gap-8">
-            {latestNews.map((a, i) => (
+            {latestNews.map((a: Article, i: number) => (
               <article key={a.id} className="bg-white rounded-[20px] shadow-sm overflow-hidden hover:shadow-2xl transition-all duration-500 group flex flex-col">
                  <div className="aspect-video relative overflow-hidden">
                     <img src={`/images/news-${(i % 3) + 1}.png`} alt={a.title} className="w-full h-full object-cover group-hover:scale-105 transition-transform duration-700" />

@@ -4,11 +4,12 @@ import React, { useState, useMemo } from 'react';
 import { useRouter, useSearchParams, usePathname } from 'next/navigation';
 import { Table, Button, Space, Modal, Form, Input, Select, Tag, Breadcrumb, Row, Col, Tooltip, App, DatePicker } from 'antd';
 import { PlusOutlined, EditOutlined, DeleteOutlined, SearchOutlined, GlobalOutlined } from '@ant-design/icons';
-import { jobs as initialJobs } from '@/lib/data';
+// import { jobs as initialJobs } from '@/lib/data'; // Removed static import
 import CKEditor from '@/components/admin/CKEditor';
 import ImageUpload from '@/components/admin/ImageUpload';
 import dayjs from 'dayjs';
 import 'dayjs/locale/vi';
+import { adminFetch } from '@/lib/api';
 
 export default function AdminJobsPage() {
   const { modal, message } = App.useApp();
@@ -18,10 +19,28 @@ export default function AdminJobsPage() {
   const query = searchParams.get('q') || '';
   const page = parseInt(searchParams.get('page') || '1');
 
-  const [data, setData] = useState([...initialJobs]);
+  const [data, setData] = useState<any[]>([]);
+  const [loading, setLoading] = useState(true);
   const [isModalOpen, setIsModalOpen] = useState(false);
   const [form] = Form.useForm();
   const [editingId, setEditingId] = useState<number | null>(null);
+
+  // Load data from API
+  React.useEffect(() => {
+    const fetchData = async () => {
+      setLoading(true);
+      try {
+        const res = await adminFetch('/api/data/jobs');
+        const jobsData = await res.json();
+        setData(jobsData);
+      } catch (error) {
+        message.error('Không thể tải dữ liệu');
+      } finally {
+        setLoading(false);
+      }
+    };
+    fetchData();
+  }, [message]);
 
   // Derived filtered data
   const filteredData = useMemo(() => {
@@ -69,26 +88,61 @@ export default function AdminJobsPage() {
   };
 
   const handleOk = () => {
-    form.validateFields().then((values) => {
+    form.validateFields().then(async (values) => {
       const formattedValues = {
         ...values,
         date: values.date ? values.date.format('YYYY-MM-DD') : dayjs().format('YYYY-MM-DD'),
       };
 
+      let newData = [];
       if (editingId) {
-        setData(data.map((item) => (item.id === editingId ? { ...item, ...formattedValues } : item)));
-        message.success('Cập nhật tin tuyển dụng thành công');
+        newData = data.map((item) => (item.id === editingId ? { ...item, ...formattedValues } : item));
       } else {
         const newJob = {
           ...formattedValues,
           id: Math.max(...data.map((j) => j.id), 0) + 1,
           slug: values.title.toLowerCase().replaceAll(' ', '-').replaceAll(/[^\w-]/g, ''),
         };
-        setData([newJob, ...data]);
-        message.success('Đăng tin tuyển dụng thành công');
+        newData = [newJob, ...data];
       }
-      setIsModalOpen(false);
+
+      // Save to API
+      try {
+        const res = await adminFetch('/api/data/jobs', {
+          method: 'POST',
+          headers: { 'Content-Type': 'application/json' },
+          body: JSON.stringify(newData),
+        });
+        if (res.ok) {
+          setData(newData);
+          message.success(editingId ? 'Cập nhật tin tuyển dụng thành công' : 'Đăng tin tuyển dụng thành công');
+          setIsModalOpen(false);
+        } else {
+          throw new Error();
+        }
+      } catch (error) {
+        message.error('Lỗi khi lưu dữ liệu');
+      }
     });
+  };
+
+  const handleRemove = async (id: number) => {
+    const newData = data.filter(j => j.id !== id);
+    try {
+      const res = await adminFetch('/api/data/jobs', {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify(newData),
+      });
+      if (res.ok) {
+        setData(newData);
+        message.success('Đã gỡ tin tuyển dụng');
+      } else {
+        throw new Error();
+      }
+    } catch (error) {
+      message.error('Lỗi khi gỡ tin');
+    }
   };
 
   const columns = [
@@ -140,10 +194,7 @@ export default function AdminJobsPage() {
                       okText: 'Gỡ tin ngay',
                       cancelText: 'Hủy',
                       okType: 'danger',
-                      onOk: () => {
-                         setData(data.filter(j => j.id !== record.id));
-                         message.success('Đã gỡ tin tuyển dụng');
-                      }
+                      onOk: () => handleRemove(record.id)
                    });
                 }} 
             />
@@ -187,6 +238,7 @@ export default function AdminJobsPage() {
           columns={columns} 
           dataSource={filteredData} 
           rowKey="id" 
+          loading={loading}
           pagination={{ 
             current: page,
             pageSize: 6,

@@ -1,10 +1,14 @@
 import React from 'react';
 import Link from 'next/link';
-import { articles, animalTags } from '@/lib/data';
+import { readData } from '@/lib/storage';
+import { Article, AnimalTag } from '@/types';
+// import { articles, animalTags } from '@/lib/data'; // Removed static imports
 import { Calendar, ChevronRight, Search } from 'lucide-react';
 
-export default function HandbookPage() {
-  const allHandbook = articles.filter((a: any) => a.category === 'cam-nang' || a.category === 'benh-dieu-tri');
+export default async function HandbookPage() {
+  const articles = await readData<Article[]>('articles');
+  const animalTags = await readData<AnimalTag[]>('animal-tags');
+  const allHandbook = Array.isArray(articles) ? articles.filter((a: Article) => a.category === 'cam-nang' || a.category === 'benh-dieu-tri') : [];
 
   return (
     <div className="bg-white min-h-screen">
@@ -27,8 +31,8 @@ export default function HandbookPage() {
 
       <div className="container mx-auto px-4 py-16">
         {/* Grouped by Animal - Each tag gets its own section */}
-        {animalTags.map((tag: any) => {
-          const tagArticles = allHandbook.filter((a: any) => a.animalTag === tag.slug);
+        {animalTags.map((tag: AnimalTag) => {
+          const tagArticles = allHandbook.filter((a: Article) => a.animalTag === tag.slug);
           if (tagArticles.length === 0) return null;
 
           return (
@@ -52,7 +56,7 @@ export default function HandbookPage() {
 
               {/* Articles Grid */}
               <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8">
-                {tagArticles.slice(0, 3).map((a: any) => (
+                {tagArticles.slice(0, 3).map((a: Article) => (
                   <article key={a.id} className="group flex flex-col h-full bg-white rounded-[32px] border border-gray-100 shadow-sm hover:shadow-2xl transition-all duration-500 overflow-hidden">
                     <Link href={`/bai-viet/${a.slug}`} className="aspect-video relative overflow-hidden block">
                       <img src={a.thumbnail} alt={a.title} className="w-full h-full object-cover group-hover:scale-110 transition-transform duration-700" />

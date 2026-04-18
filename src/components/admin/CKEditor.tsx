@@ -119,42 +119,6 @@ export default function CKEditorWrapper({ value, onChange, placeholder }: CKEdit
       <style jsx global>{`
         .premium-editor .ck-editor__main > .ck-editor__editable {
           min-height: 300px;
-          border-bottom-left-radius: 1rem !important;
-          border-bottom-right-radius: 1rem !important;
-          border-color: #f3f4f6 !important;
-          padding: 1.5rem !important;
-          font-family: inherit;
-          font-size: 0.95rem;
-          color: #1a1a1a;
-          line-height: 1.6;
-        }
-        .premium-editor .ck-toolbar {
-          border-top-left-radius: 1rem !important;
-          border-top-right-radius: 1rem !important;
-          border-color: #f3f4f6 !important;
-          background: #fdfdfd !important;
-          padding: 0.5rem !important;
-        }
-        .premium-editor .ck.ck-editor__editable.ck-focused:not(.ck-editor__nested-editable) {
-          border-color: #2e7d32 !important; /* sanfovet primary color maybe? */
-          box-shadow: 0 0 0 4px rgba(46, 125, 50, 0.05) !important;
-        }
-        .premium-editor .ck-content h2 {
-          font-size: 1.5rem;
-          font-weight: 800;
-          margin-top: 2rem;
-          margin-bottom: 1rem;
-          color: #111;
-        }
-        .premium-editor .ck-content h3 {
-          font-size: 1.25rem;
-          font-weight: 700;
-          margin-top: 1.5rem;
-          margin-bottom: 0.75rem;
-          color: #333;
-        }
-        .premium-editor .ck-content p {
-          margin-bottom: 1rem;
         }
       `}</style>
     </div>

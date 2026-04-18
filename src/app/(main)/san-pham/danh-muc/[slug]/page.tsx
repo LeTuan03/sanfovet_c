@@ -2,7 +2,9 @@ import React from 'react';
 import Link from 'next/link';
 import { notFound } from 'next/navigation';
 import { Eye, ChevronRight, Home, LayoutGrid } from 'lucide-react';
-import { products, categories } from '@/lib/data';
+import { readData } from '@/lib/storage';
+import { Product, Category } from '@/types';
+// import { products, categories } from '@/lib/data'; // Removed static imports
 import Pagination from '@/components/shared/Pagination';
 
 const ITEMS_PER_PAGE = 9;
@@ -14,14 +16,17 @@ export default async function CategoryPage({ params, searchParams }: {
   const { slug } = await params;
   const { page } = await searchParams;
   
-  const currentCategory = categories.find(c => c.slug === slug);
+  const products = await readData<Product[]>('products');
+  const categories = await readData<Category[]>('categories');
+
+  const currentCategory = Array.isArray(categories) ? categories.find((c: Category) => c.slug === slug) : undefined;
   
   if (!currentCategory) {
     notFound();
   }
 
   const currentPage = parseInt(page || '1', 10);
-  const filteredProducts = products.filter(p => p.categoryId === currentCategory.id);
+  const filteredProducts = products.filter((p: Product) => p.categoryId === currentCategory.id);
   
   // Pagination logic
   const totalItems = filteredProducts.length;
@@ -60,7 +65,7 @@ export default async function CategoryPage({ params, searchParams }: {
             <div className="bg-white p-8 rounded-[32px] shadow-sm border border-gray-100 sticky top-24">
               <h3 className="text-lg font-black text-sanfovet-dark mb-6 uppercase tracking-tight italic border-b border-gray-50 pb-4">Phân loại khác</h3>
               <ul className="space-y-2">
-                {categories.map((c) => (
+                {categories.map((c: Category) => (
                   <li key={c.id}>
                     <Link 
                       href={`/san-pham/danh-muc/${c.slug}`}
@@ -87,7 +92,7 @@ export default async function CategoryPage({ params, searchParams }: {
             </div>
 
             <div className="grid grid-cols-1 md:grid-cols-2 xl:grid-cols-3 gap-8">
-              {paginatedProducts.map((p) => (
+              {paginatedProducts.map((p: Product) => (
                 <article key={p.id} className="bg-white rounded-[32px] shadow-sm hover:shadow-2xl border border-gray-100 overflow-hidden transition-all duration-500 group flex flex-col h-full hover:-translate-y-1">
                   <div className="aspect-[4/3] bg-gray-50 flex items-center justify-center relative p-10 group-hover:bg-primary-light/30 transition-colors duration-500">
                      <img src={p.image} alt={p.name} className="max-h-full w-auto object-contain transition-transform duration-700 group-hover:scale-110" />

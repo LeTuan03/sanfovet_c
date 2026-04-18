@@ -1,12 +1,15 @@
 import React from 'react';
 import Link from 'next/link';
-import { articles } from '@/lib/data';
+import { readData } from '@/lib/storage';
+import { Article } from '@/types';
+// import { articles } from '@/lib/data'; // Removed static import
 import { Calendar, ChevronRight, Newspaper, Users, Globe } from 'lucide-react';
 
-export default function NewsPage() {
-  const newsInternal = articles.filter(a => a.category === 'tin-noi-bo');
-  const newsIndustry = articles.filter(a => a.category === 'tin-nganh');
-  const allNews = [...newsInternal, ...newsIndustry].sort((a, b) => new Date(b.publishDate).getTime() - new Date(a.publishDate).getTime());
+export default async function NewsPage() {
+  const articles = await readData<Article[]>('articles');
+  const newsInternal = articles.filter((a: Article) => a.category === 'tin-noi-bo');
+  const newsIndustry = articles.filter((a: Article) => a.category === 'tin-nganh');
+  const allNews = [...newsInternal, ...newsIndustry].sort((a: Article, b: Article) => new Date(b.publishDate).getTime() - new Date(a.publishDate).getTime());
 
   return (
     <div className="bg-white min-h-screen pb-20">
@@ -22,7 +25,7 @@ export default function NewsPage() {
         <div className="grid grid-cols-1 lg:grid-cols-3 gap-12">
           {/* Main Feed */}
           <div className="lg:col-span-2 space-y-12">
-             {allNews.map((a, i) => (
+             {allNews.map((a: Article) => (
                <article key={a.id} className="group flex flex-col md:flex-row gap-8 bg-white p-6 rounded-[40px] border border-gray-100 shadow-sm hover:shadow-2xl hover:-translate-y-1 transition-all duration-500">
                   <Link href={`/bai-viet/${a.slug}`} className="w-full md:w-2/5 aspect-[4/3] relative overflow-hidden rounded-[32px] shrink-0">
                      <img src={a.thumbnail} alt={a.title} className="w-full h-full object-cover group-hover:scale-110 transition-transform duration-700" />
@@ -75,7 +78,7 @@ export default function NewsPage() {
                          <div className="w-10 h-10 bg-red-600/20 rounded-xl flex items-center justify-center text-red-400 group-hover:bg-red-600 group-hover:text-white transition-all"><Newspaper size={20} /></div>
                          <span className="font-bold">Bệnh & Điều trị</span>
                       </div>
-                      <span className="text-xs opacity-50 font-black">{articles.filter(a => a.category === 'benh-dieu-tri').length}</span>
+                      <span className="text-xs opacity-50 font-black">{articles.filter((a: Article) => a.category === 'benh-dieu-tri').length}</span>
                    </Link>
                 </div>
              </div>

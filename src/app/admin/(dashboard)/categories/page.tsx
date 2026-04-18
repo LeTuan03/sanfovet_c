@@ -7,9 +7,10 @@ import {
   PlusOutlined, EditOutlined, DeleteOutlined, 
   AppstoreOutlined, TagsOutlined, SearchOutlined 
 } from '@ant-design/icons';
-import { categories as initialCategories, animalTags as initialAnimalTags } from '@/lib/data';
+// import { categories as initialCategories, animalTags as initialAnimalTags } from '@/lib/data'; // Removed static imports
 import AdminPageHeader from '@/components/admin/AdminPageHeader';
 import { motion } from 'framer-motion';
+import { adminFetch } from '@/lib/api';
 
 export default function CategoryAndTagManagement() {
   const { modal, message } = App.useApp();
@@ -20,11 +21,34 @@ export default function CategoryAndTagManagement() {
   const page = parseInt(searchParams.get('page') || '1');
   const activeTab = searchParams.get('tab') || '1';
 
-  const [categories, setCategories] = useState([...initialCategories]);
-  const [animalTags, setAnimalTags] = useState([...initialAnimalTags]);
+  const [categories, setCategories] = useState<any[]>([]);
+  const [animalTags, setAnimalTags] = useState<any[]>([]);
+  const [loading, setLoading] = useState(true);
   const [isModalOpen, setIsModalOpen] = useState(false);
   const [editingItem, setEditingItem] = useState<any>(null);
   const [form] = Form.useForm();
+
+  // Load data from API
+  React.useEffect(() => {
+    const fetchData = async () => {
+      setLoading(true);
+      try {
+        const [catRes, tagRes] = await Promise.all([
+          adminFetch('/api/data/categories'),
+          adminFetch('/api/data/animal-tags')
+        ]);
+        const catData = await catRes.json();
+        const tagData = await tagRes.json();
+        setCategories(catData);
+        setAnimalTags(tagData);
+      } catch (error) {
+        message.error('Không thể tải dữ liệu');
+      } finally {
+        setLoading(false);
+      }
+    };
+    fetchData();
+  }, [message]);
 
   // Derived filtered data
   const filteredCategories = useMemo(() => {
@@ -78,36 +102,41 @@ export default function CategoryAndTagManagement() {
   };
 
   const handleOk = () => {
-    form.validateFields().then((values) => {
-      if (activeTab === '1') {
-        if (editingItem) {
-          setCategories(categories.map((item) => (item.id === editingItem.id ? { ...item, ...values } : item)));
-          message.success('Cập nhật danh mục thành công');
-        } else {
-          const newItem = {
-            ...values,
-            id: Math.max(...categories.map((c) => c.id), 0) + 1,
-            slug: values.slug || values.name.toLowerCase().replaceAll(' ', '-').replaceAll(/[^\w-]/g, ''),
-          };
-          setCategories([...categories, newItem]);
-          message.success('Thêm danh mục mới thành công');
-        }
+    form.validateFields().then(async (values) => {
+      let updatedData = [];
+      const dataType = activeTab === '1' ? 'categories' : 'animal-tags';
+      const currentData = activeTab === '1' ? categories : animalTags;
+
+      if (editingItem) {
+        updatedData = currentData.map((item) => (item.id === editingItem.id ? { ...item, ...values } : item));
       } else {
-        if (editingItem) {
-          setAnimalTags(animalTags.map((item) => (item.id === editingItem.id ? { ...item, ...values } : item)));
-          message.success('Cập nhật loài vật thành công');
-        } else {
-          const newItem = {
-            ...values,
-            id: Math.max(...animalTags.map((c) => c.id), 0) + 1,
-            slug: values.slug || values.name.toLowerCase().replaceAll(' ', '-').replaceAll(/[^\w-]/g, ''),
-            icon: values.icon || '🐾',
-          };
-          setAnimalTags([...animalTags, newItem]);
-          message.success('Thêm loài vật mới thành công');
-        }
+        const newItem = {
+          ...values,
+          id: Math.max(...currentData.map((c) => c.id), 0) + 1,
+          slug: values.slug || values.name.toLowerCase().replaceAll(' ', '-').replaceAll(/[^\w-]/g, ''),
+          ...(activeTab === '2' ? { icon: values.icon || '🐾' } : {}),
+        };
+        updatedData = [...currentData, newItem];
       }
-      setIsModalOpen(false);
+
+      // Save to API
+      try {
+        const res = await adminFetch(`/api/data/${dataType}`, {
+          method: 'POST',
+          headers: { 'Content-Type': 'application/json' },
+          body: JSON.stringify(updatedData),
+        });
+        if (res.ok) {
+          if (activeTab === '1') setCategories(updatedData);
+          else setAnimalTags(updatedData);
+          message.success(editingItem ? 'Cập nhật thành công' : 'Thêm mới thành công');
+          setIsModalOpen(false);
+        } else {
+          throw new Error();
+        }
+      } catch (error) {
+        message.error('Lỗi khi lưu dữ liệu');
+      }
     });
   };
 
@@ -117,13 +146,27 @@ export default function CategoryAndTagManagement() {
       content: 'Việc xóa phân loại này có thể ảnh hưởng đến hiển thị của các sản phẩm/bài viết liên quan. Bạn có chắc chắn?',
       okText: 'Xóa',
       okType: 'danger',
-      onOk: () => {
-        if (activeTab === '1') {
-          setCategories(categories.filter((cat) => cat.id !== id));
-        } else {
-          setAnimalTags(animalTags.filter((tag) => tag.id !== id));
+      onOk: async () => {
+        const dataType = activeTab === '1' ? 'categories' : 'animal-tags';
+        const currentData = activeTab === '1' ? categories : animalTags;
+        const updatedData = currentData.filter((item) => item.id !== id);
+
+        try {
+          const res = await adminFetch(`/api/data/${dataType}`, {
+            method: 'POST',
+            headers: { 'Content-Type': 'application/json' },
+            body: JSON.stringify(updatedData),
+          });
+          if (res.ok) {
+            if (activeTab === '1') setCategories(updatedData);
+            else setAnimalTags(updatedData);
+            message.success('Đã xóa thành công');
+          } else {
+            throw new Error();
+          }
+        } catch (error) {
+          message.error('Lỗi khi xóa dữ liệu');
         }
-        message.success('Đã xóa thành công');
       },
     });
   };
@@ -248,6 +291,7 @@ export default function CategoryAndTagManagement() {
                     columns={categoryColumns} 
                     dataSource={filteredCategories} 
                     rowKey="id" 
+                    loading={loading}
                     className="admin-table"
                     pagination={{
                       current: page,
@@ -268,6 +312,7 @@ export default function CategoryAndTagManagement() {
                     columns={tagColumns} 
                     dataSource={filteredAnimalTags} 
                     rowKey="id" 
+                    loading={loading}
                     className="admin-table"
                     pagination={{
                       current: page,

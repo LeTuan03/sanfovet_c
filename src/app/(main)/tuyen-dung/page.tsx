@@ -1,7 +1,9 @@
 import { Metadata } from 'next';
 import React from 'react';
 import Link from 'next/link';
-import { jobs } from '@/lib/data';
+import { readData } from '@/lib/storage';
+import { Job } from '@/types';
+// import { jobs } from '@/lib/data'; // Removed static import
 import { MapPin, Calendar, Users, Target, CircleCheck, Heart, Mail } from 'lucide-react';
 
 export const metadata: Metadata = {
@@ -11,7 +13,8 @@ export const metadata: Metadata = {
 };
 
 
-export default function RecruitmentPage() {
+export default async function RecruitmentPage() {
+  const jobs = await readData<Job[]>('jobs');
   const benefits = [
     { icon: <Target className="text-primary" />, title: "Môi trường năng động", desc: "Đội ngũ trẻ trung, sáng tạo và nhiệt huyết trong công việc." },
     { icon: <Heart className="text-primary" />, title: "Chế độ đãi ngộ tốt", desc: "Lương thưởng hấp dẫn, bảo hiểm đầy đủ và du lịch hàng năm." },
@@ -53,7 +56,7 @@ export default function RecruitmentPage() {
           </div>
 
           <div className="space-y-8">
-             {jobs.map((job) => (
+             {jobs.map((job: Job) => (
                <div key={job.id} className="group bg-white rounded-[40px] p-8 border border-gray-100 shadow-sm hover:shadow-2xl transition-all duration-500 flex flex-col md:flex-row items-center gap-8 border-l-[12px] border-l-primary hover:border-l-primary-dark">
                   <div className="flex-1 text-center md:text-left">
                      <h4 className="text-2xl font-black text-sanfovet-dark mb-4 group-hover:text-primary transition-colors">{job.title}</h4>

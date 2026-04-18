@@ -1,31 +1,40 @@
 "use client";
 
 import React, { useState, useMemo } from 'react';
-import { Table, Button, Space, Tag, Modal, Form, Input, Select, message, Breadcrumb, Divider, Row, Col, Tooltip } from 'antd';
+import { Table, Button, Space, Tag, Modal, Form, Input, Select, Breadcrumb, Divider, Row, Col, Tooltip, App } from 'antd';
 import { PlusOutlined, EditOutlined, DeleteOutlined, MenuOutlined, GlobalOutlined, LinkOutlined, ArrowUpOutlined, ArrowDownOutlined, SearchOutlined } from '@ant-design/icons';
 import { useRouter, useSearchParams, usePathname } from 'next/navigation';
-
-const initialMenus = [
-  { id: 1, name: 'Trang chủ', link: '/', parent: null, position: 'header', order: 1, status: true },
-  { id: 2, name: 'Sản phẩm', link: '/san-pham', parent: null, position: 'header', order: 2, status: true },
-  { id: 3, name: 'Kháng sinh tiêm', link: '/san-pham?cat=1', parent: 2, position: 'header', order: 3, status: true },
-  { id: 4, name: 'Thuốc bổ trợ', link: '/san-pham?cat=2', parent: 2, position: 'header', order: 4, status: true },
-  { id: 5, name: 'Giới thiệu', link: '/gioi-thieu', parent: null, position: 'header', order: 5, status: true },
-  { id: 6, name: 'Tin tức', link: '/tin-tuc', parent: null, position: 'both', order: 6, status: true },
-  { id: 7, name: 'Liên hệ', link: '/lien-he', parent: null, position: 'both', order: 7, status: true },
-  { id: 8, name: 'Chính sách bảo mật', link: '/privacy', parent: null, position: 'footer', order: 8, status: true },
-];
+import { adminFetch } from '@/lib/api';
 
 export default function AdminMenusPage() {
+  const { message: msg, modal } = App.useApp();
   const router = useRouter();
   const pathname = usePathname();
   const searchParams = useSearchParams();
   const query = searchParams.get('q') || '';
 
-  const [menus, setMenus] = useState(initialMenus);
+  const [menus, setMenus] = useState<any[]>([]);
+  const [loading, setLoading] = useState(true);
   const [isModalOpen, setIsModalOpen] = useState(false);
   const [editingItem, setEditingItem] = useState<any>(null);
   const [form] = Form.useForm();
+
+  // Load from API
+  React.useEffect(() => {
+    const fetchData = async () => {
+      setLoading(true);
+      try {
+        const res = await adminFetch('/api/data/menus');
+        const data = await res.json();
+        setMenus(data || []);
+      } catch (error) {
+        msg.error('Không thể tải dữ liệu menu');
+      } finally {
+        setLoading(false);
+      }
+    };
+    fetchData();
+  }, [msg]);
 
   // Derived filtered data
   const filteredData = useMemo(() => {
@@ -61,10 +70,10 @@ export default function AdminMenusPage() {
   };
 
   const handleOk = () => {
-    form.validateFields().then(values => {
+    form.validateFields().then(async (values) => {
+      let newData = [];
       if (editingItem) {
-        setMenus(menus.map(m => m.id === editingItem.id ? { ...m, ...values } : m));
-        message.success('Cập nhật menu thành công');
+        newData = menus.map(m => m.id === editingItem.id ? { ...m, ...values } : m);
       } else {
         const newItem = {
           ...values,
@@ -72,10 +81,25 @@ export default function AdminMenusPage() {
           order: menus.length + 1,
           status: true
         };
-        setMenus([...menus, newItem]);
-        message.success('Thêm menu mới thành công');
+        newData = [...menus, newItem];
       }
-      setIsModalOpen(false);
+
+      try {
+        const res = await adminFetch('/api/data/menus', {
+          method: 'POST',
+          headers: { 'Content-Type': 'application/json' },
+          body: JSON.stringify(newData),
+        });
+        if (res.ok) {
+          setMenus(newData);
+          msg.success(editingItem ? 'Cập nhật menu thành công' : 'Thêm menu mới thành công');
+          setIsModalOpen(false);
+        } else {
+          throw new Error();
+        }
+      } catch (error) {
+        msg.error('Lỗi khi lưu dữ liệu');
+      }
     });
   };
 
@@ -135,15 +159,29 @@ export default function AdminMenusPage() {
                 danger 
                 icon={<DeleteOutlined />} 
                 onClick={() => {
-                   Modal.confirm({
+                   modal.confirm({
                       title: 'Xác nhận xóa menu?',
                       content: `Bạn có chắc chắn muốn xóa menu "${record.name}" không?`,
                       okText: 'Xóa ngay',
                       cancelText: 'Hủy',
                       okType: 'danger',
-                      onOk: () => {
-                         setMenus(menus.filter(m => m.id !== record.id));
-                         message.success('Đã xóa menu thành công');
+                      onOk: async () => {
+                         const newData = menus.filter((m: any) => m.id !== record.id);
+                         try {
+                           const res = await adminFetch('/api/data/menus', {
+                             method: 'POST',
+                             headers: { 'Content-Type': 'application/json' },
+                             body: JSON.stringify(newData),
+                           });
+                           if (res.ok) {
+                             setMenus(newData);
+                             msg.success('Đã xóa menu thành công');
+                           } else {
+                             throw new Error();
+                           }
+                         } catch (error) {
+                           msg.error('Lỗi khi xóa dữ liệu');
+                         }
                       }
                    });
                 }} 
@@ -160,7 +198,6 @@ export default function AdminMenusPage() {
         <div>
           <Breadcrumb items={[{ title: 'Admin' }, { title: 'Quản lý Menu' }]} />
           <h1 className="text-2xl font-black text-sanfovet-dark mt-2 tracking-tight uppercase italic">Cơ cấu Điều hướng Web</h1>
-
         </div>
         <div className="flex gap-4">
            <Input 
@@ -196,6 +233,7 @@ export default function AdminMenusPage() {
           dataSource={filteredData} 
           rowKey="id" 
           pagination={false}
+          loading={loading}
           className="border border-gray-50 rounded-2xl overflow-hidden shadow-xs"
         />
 
@@ -265,6 +303,25 @@ export default function AdminMenusPage() {
                   ))}
                 </Select>
               </Form.Item>
+            </Col>
+          </Row>
+
+          <Row gutter={24}>
+            <Col span={12}>
+               <Form.Item name="hasMega" label="Mega Menu (Sản phẩm)" valuePropName="checked">
+                 <Select className="rounded-xl h-10">
+                    <Select.Option value={false}>Không</Select.Option>
+                    <Select.Option value={true}>Kích hoạt Mega Menu</Select.Option>
+                 </Select>
+               </Form.Item>
+            </Col>
+            <Col span={12}>
+               <Form.Item name="isButton" label="Kiểu hiển thị (Nút bấm)" valuePropName="checked">
+                  <Select className="rounded-xl h-10">
+                    <Select.Option value={false}>Link bình thường</Select.Option>
+                    <Select.Option value={true}>Dạng Nút nổi bật</Select.Option>
+                  </Select>
+               </Form.Item>
             </Col>
           </Row>
         </Form>

@@ -10,11 +10,13 @@ import {
   EyeOutlined, SearchOutlined, MinusCircleOutlined 
 } from '@ant-design/icons';
 import { useRouter, useSearchParams, usePathname } from 'next/navigation';
-import { products, categories } from '@/lib/data';
+// import { products, categories } from '@/lib/data'; // Removed static import
 import CKEditor from '@/components/admin/CKEditor';
 import ImageUpload from '@/components/admin/ImageUpload';
 import AdminPageHeader from '@/components/admin/AdminPageHeader';
 import { motion } from 'framer-motion';
+import { adminFetch } from '@/lib/api';
+import { Product, Category } from '@/types';
 
 export default function ProductManagement() {
   const { modal, message } = App.useApp();
@@ -24,10 +26,34 @@ export default function ProductManagement() {
   const query = searchParams.get('q') || '';
   const page = parseInt(searchParams.get('page') || '1');
 
-  const [data, setData] = useState([...products]);
+  const [data, setData] = useState<Product[]>([]);
+  const [categories, setCategories] = useState<Category[]>([]);
+  const [loading, setLoading] = useState(true);
   const [isModalOpen, setIsModalOpen] = useState(false);
   const [form] = Form.useForm();
   const [editingId, setEditingId] = useState<number | null>(null);
+
+  // Load data from API
+  React.useEffect(() => {
+    const fetchData = async () => {
+      setLoading(true);
+      try {
+        const [prodRes, catRes] = await Promise.all([
+          adminFetch('/api/data/products'),
+          adminFetch('/api/data/categories')
+        ]);
+        const prodData = await prodRes.json();
+        const catData = await catRes.json();
+        setData(prodData);
+        setCategories(catData);
+      } catch (error) {
+        message.error('Không thể tải dữ liệu');
+      } finally {
+        setLoading(false);
+      }
+    };
+    fetchData();
+  }, [message]);
 
   // Derived filtered data
   const filteredData = useMemo(() => {
@@ -57,7 +83,7 @@ export default function ProductManagement() {
     router.push(`${pathname}?${newSearchParams.toString()}`);
   };
 
-  const showModal = (record?: any) => {
+  const showModal = (record?: Product) => {
     if (record) {
       setEditingId(record.id);
       form.setFieldsValue(record);
@@ -69,20 +95,36 @@ export default function ProductManagement() {
   };
 
   const handleOk = () => {
-    form.validateFields().then((values) => {
+    form.validateFields().then(async (values) => {
+      let newData = [];
       if (editingId) {
-        setData(data.map((item) => (item.id === editingId ? { ...item, ...values } : item)));
-        message.success('Cập nhật sản phẩm thành công');
+        newData = data.map((item: Product) => (item.id === editingId ? { ...item, ...values } : item));
       } else {
         const newProduct = {
           ...values,
-          id: Math.max(...data.map((p) => p.id), 0) + 1,
+          id: Math.max(...data.map((p: Product) => p.id), 0) + 1,
           slug: values.name.toLowerCase().replaceAll(' ', '-').replaceAll(/[^\w-]/g, ''),
         };
-        setData([newProduct, ...data]);
-        message.success('Thêm sản phẩm mới thành công');
+        newData = [newProduct, ...data];
       }
-      setIsModalOpen(false);
+
+      // Save to API
+      try {
+        const res = await adminFetch('/api/data/products', {
+          method: 'POST',
+          headers: { 'Content-Type': 'application/json' },
+          body: JSON.stringify(newData),
+        });
+        if (res.ok) {
+          setData(newData);
+          message.success(editingId ? 'Cập nhật sản phẩm thành công' : 'Thêm sản phẩm mới thành công');
+          setIsModalOpen(false);
+        } else {
+          throw new Error();
+        }
+      } catch (error) {
+        message.error('Lỗi khi lưu dữ liệu');
+      }
     });
   };
 
@@ -93,9 +135,23 @@ export default function ProductManagement() {
       okText: 'Xóa',
       okType: 'danger',
       cancelText: 'Hủy',
-      onOk: () => {
-        setData(data.filter((item) => item.id !== id));
-        message.success('Đã xóa sản phẩm');
+      onOk: async () => {
+        const newData = data.filter((item: Product) => item.id !== id);
+        try {
+          const res = await adminFetch('/api/data/products', {
+            method: 'POST',
+            headers: { 'Content-Type': 'application/json' },
+            body: JSON.stringify(newData),
+          });
+          if (res.ok) {
+            setData(newData);
+            message.success('Đã xóa sản phẩm');
+          } else {
+            throw new Error();
+          }
+        } catch (error) {
+          message.error('Lỗi khi xóa dữ liệu');
+        }
       },
     });
   };
@@ -105,7 +161,7 @@ export default function ProductManagement() {
       title: 'Tên Sản phẩm',
       dataIndex: 'name',
       key: 'name',
-      render: (text: string, record: any) => (
+      render: (text: string, record: Product) => (
         <div className="flex items-center gap-4 py-1">
           <div className="w-12 h-12 bg-gray-50 rounded-xl overflow-hidden border border-gray-100 shrink-0 shadow-sm group-hover:shadow-md transition-all">
              <img src={record.image} alt={text} className="w-full h-full object-contain p-1" />
@@ -125,7 +181,7 @@ export default function ProductManagement() {
       dataIndex: 'categoryId',
       key: 'categoryId',
       render: (id: number) => {
-        const cat = categories.find((c) => c.id === id);
+        const cat = categories.find((c: Category) => c.id === id);
         return <Tag className="font-black px-3 py-1 rounded-lg uppercase text-[10px] border-none bg-emerald-50 text-emerald-700 m-0 tracking-wider shadow-sm">{cat?.name.split(',')[0] || 'Khác'}</Tag>;
       },
     },
@@ -139,7 +195,7 @@ export default function ProductManagement() {
       title: 'Thao tác',
       key: 'action',
       align: 'right' as const,
-      render: (_: any, record: any) => (
+      render: (_: any, record: Product) => (
         <Space size="small">
           <Tooltip title="Xem trang khách">
              <Button 
@@ -195,6 +251,7 @@ export default function ProductManagement() {
            columns={columns} 
            dataSource={filteredData} 
            rowKey="id" 
+           loading={loading}
            className="admin-table"
            pagination={{
               current: page,

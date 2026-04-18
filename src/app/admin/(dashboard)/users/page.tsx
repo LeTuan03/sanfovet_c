@@ -2,7 +2,7 @@
 
 import React, { useState, useMemo } from 'react';
 import { useRouter, useSearchParams, usePathname } from 'next/navigation';
-import { Table, Button, Space, Tag, Modal, Form, Input, Select, message, Breadcrumb, Avatar, Tooltip } from 'antd';
+import { Table, Button, Space, Tag, Modal, Form, Input, Select, Breadcrumb, Avatar, Tooltip, App } from 'antd';
 import { PlusOutlined, EditOutlined, DeleteOutlined, UserOutlined, LockOutlined, SafetyCertificateOutlined, SearchOutlined } from '@ant-design/icons';
 
 const initialUsers = [
@@ -11,6 +11,7 @@ const initialUsers = [
 ];
 
 export default function AdminUsersPage() {
+  const { message: msg, modal } = App.useApp();
   const router = useRouter();
   const pathname = usePathname();
   const searchParams = useSearchParams();
@@ -68,7 +69,7 @@ export default function AdminUsersPage() {
     form.validateFields().then((values) => {
       if (selectedUser && !isPassModalOpen) {
         setUsers(users.map((u) => (u.id === selectedUser.id ? { ...u, ...values } : u)));
-        message.success('Cập nhật tài khoản thành công');
+        msg.success('Cập nhật tài khoản thành công');
       } else {
         const newUser = {
           ...values,
@@ -77,7 +78,7 @@ export default function AdminUsersPage() {
           avatar: null,
         };
         setUsers([...users, newUser]);
-        message.success('Thêm tài khoản mới thành công');
+        msg.success('Thêm tài khoản mới thành công');
       }
       setIsModalOpen(false);
     });
@@ -91,7 +92,7 @@ export default function AdminUsersPage() {
 
   const handleChangePassword = () => {
     passForm.validateFields().then(() => {
-      message.success(`Đã đổi mật khẩu cho tài khoản ${selectedUser.email}`);
+      msg.success(`Đã đổi mật khẩu cho tài khoản ${selectedUser.email}`);
       setIsPassModalOpen(false);
     });
   };
@@ -142,7 +143,7 @@ export default function AdminUsersPage() {
                 icon={<DeleteOutlined />} 
                 disabled={record.role === 'SuperAdmin'}
                 onClick={() => {
-                   Modal.confirm({
+                   modal.confirm({
                       title: 'Xác nhận xóa tài khoản?',
                       content: `Bạn có chắc muốn xóa tài khoản ${record.name}?`,
                       okText: 'Xóa ngay',
@@ -150,7 +151,7 @@ export default function AdminUsersPage() {
                       okType: 'danger',
                       onOk: () => {
                          setUsers(users.filter(u => u.id !== record.id));
-                         message.success('Đã xóa tài khoản');
+                         msg.success('Đã xóa tài khoản');
                       }
                    });
                 }} 
