@@ -19,13 +19,25 @@ export interface MediaVideo {
 
 export class MediaService {
   async getImages(): Promise<MediaImage[]> {
-    const snapshot = await adminDb.collection('media-images').orderBy('order', 'asc').get();
-    return snapshot.docs.map((doc: any) => ({ id: doc.id, ...doc.data() }) as MediaImage);
+    try {
+      if (!adminDb) return [];
+      const snapshot = await adminDb.collection('media-images').orderBy('order', 'asc').get();
+      return snapshot.docs.map((doc: any) => ({ id: doc.id, ...doc.data() }) as MediaImage);
+    } catch (error) {
+      console.error('Error in MediaService.getImages:', error);
+      return [];
+    }
   }
 
   async getVideos(): Promise<MediaVideo[]> {
-    const snapshot = await adminDb.collection('media-videos').orderBy('order', 'asc').get();
-    return snapshot.docs.map((doc: any) => ({ id: doc.id, ...doc.data() }) as MediaVideo);
+    try {
+      if (!adminDb) return [];
+      const snapshot = await adminDb.collection('media-videos').orderBy('order', 'asc').get();
+      return snapshot.docs.map((doc: any) => ({ id: doc.id, ...doc.data() }) as MediaVideo);
+    } catch (error) {
+      console.error('Error in MediaService.getVideos:', error);
+      return [];
+    }
   }
 
   async addImage(image: Omit<MediaImage, 'id'>): Promise<string> {
