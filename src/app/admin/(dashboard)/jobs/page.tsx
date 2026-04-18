@@ -2,10 +2,13 @@
 
 import React, { useState, useMemo } from 'react';
 import { useRouter, useSearchParams, usePathname } from 'next/navigation';
-import { Table, Button, Space, Modal, Form, Input, Select, Tag, Breadcrumb, Row, Col, Tooltip, App } from 'antd';
+import { Table, Button, Space, Modal, Form, Input, Select, Tag, Breadcrumb, Row, Col, Tooltip, App, DatePicker } from 'antd';
 import { PlusOutlined, EditOutlined, DeleteOutlined, SearchOutlined, GlobalOutlined } from '@ant-design/icons';
 import { jobs as initialJobs } from '@/lib/data';
 import CKEditor from '@/components/admin/CKEditor';
+import ImageUpload from '@/components/admin/ImageUpload';
+import dayjs from 'dayjs';
+import 'dayjs/locale/vi';
 
 export default function AdminJobsPage() {
   const { modal, message } = App.useApp();
@@ -51,25 +54,35 @@ export default function AdminJobsPage() {
   const showModal = (record?: any) => {
     if (record) {
       setEditingId(record.id);
-      form.setFieldsValue(record);
+      form.setFieldsValue({
+        ...record,
+        date: record.date ? dayjs(record.date, 'YYYY-MM-DD') : dayjs(),
+      });
     } else {
       setEditingId(null);
       form.resetFields();
+      form.setFieldsValue({
+        date: dayjs(),
+      });
     }
     setIsModalOpen(true);
   };
 
   const handleOk = () => {
     form.validateFields().then((values) => {
+      const formattedValues = {
+        ...values,
+        date: values.date ? values.date.format('YYYY-MM-DD') : dayjs().format('YYYY-MM-DD'),
+      };
+
       if (editingId) {
-        setData(data.map((item) => (item.id === editingId ? { ...item, ...values } : item)));
+        setData(data.map((item) => (item.id === editingId ? { ...item, ...formattedValues } : item)));
         message.success('Cập nhật tin tuyển dụng thành công');
       } else {
         const newJob = {
-          ...values,
+          ...formattedValues,
           id: Math.max(...data.map((j) => j.id), 0) + 1,
           slug: values.title.toLowerCase().replaceAll(' ', '-').replaceAll(/[^\w-]/g, ''),
-          date: new Date().toISOString().split('T')[0],
         };
         setData([newJob, ...data]);
         message.success('Đăng tin tuyển dụng thành công');
@@ -189,6 +202,14 @@ export default function AdminJobsPage() {
         onOk={handleOk}
         onCancel={() => setIsModalOpen(false)}
         width={900}
+        styles={{
+          body: {
+            maxHeight: '80vh',
+            overflowY: 'auto',
+            overflowX: 'hidden',
+          },
+        }}
+        centered
         okText="Lưu & Xuất bản"
         cancelText="Hủy"
         className="rounded-[32px] top-[40px]"
@@ -212,7 +233,7 @@ export default function AdminJobsPage() {
           </Form.Item>
 
           <Row gutter={24}>
-            <Col span={12}>
+            <Col span={10}>
                <Form.Item name="status" label="Trạng thái hiển thị" initialValue="active">
                   <Select className="rounded-xl">
                     <Select.Option value="active">Đang mở tuyển</Select.Option>
@@ -220,12 +241,16 @@ export default function AdminJobsPage() {
                   </Select>
                </Form.Item>
             </Col>
-            <Col span={12}>
-               <Form.Item name="thumbnail" label="URL Ảnh Poster (Tùy chọn)">
-                 <Input className="rounded-xl" placeholder="/images/jobs-poster.png" />
+            <Col span={14}>
+               <Form.Item name="date" label="Ngày đăng tin">
+                 <DatePicker className="w-full rounded-xl py-2" format="YYYY-MM-DD" />
                </Form.Item>
             </Col>
           </Row>
+
+          <Form.Item name="thumbnail" label="Hình ảnh Poster (Tùy chọn)">
+             <ImageUpload label="Tải ảnh poster" aspectRatio="16/9" />
+          </Form.Item>
         </Form>
       </Modal>
     </div>

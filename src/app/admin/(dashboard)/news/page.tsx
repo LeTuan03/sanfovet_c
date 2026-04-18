@@ -2,11 +2,14 @@
 
 import React, { useState, useMemo } from 'react';
 import { useRouter, useSearchParams, usePathname } from 'next/navigation';
-import { Table, Button, Space, Tag, Input, Modal, Form, Select, Switch, Tooltip, Row, Col, App } from 'antd';
+import { Table, Button, Space, Tag, Input, Modal, Form, Select, Switch, Tooltip, Row, Col, App, DatePicker } from 'antd';
 import { PlusOutlined, EditOutlined, DeleteOutlined, SearchOutlined, EyeOutlined } from '@ant-design/icons';
 import { articles } from '@/lib/data';
 import CKEditor from '@/components/admin/CKEditor';
+import ImageUpload from '@/components/admin/ImageUpload';
 import AdminPageHeader from '@/components/admin/AdminPageHeader';
+import dayjs from 'dayjs';
+import 'dayjs/locale/vi';
 import { motion } from 'framer-motion';
 
 export default function AdminNewsPage() {
@@ -116,7 +119,10 @@ export default function AdminNewsPage() {
 
   const handleEdit = (record: any) => {
     setEditingNews(record);
-    form.setFieldsValue(record);
+    form.setFieldsValue({
+      ...record,
+      publishDate: record.publishDate ? dayjs(record.publishDate, 'DD/MM/YYYY') : dayjs(),
+    });
     setIsModalOpen(true);
   };
 
@@ -137,21 +143,27 @@ export default function AdminNewsPage() {
   const handleAdd = () => {
     setEditingNews(null);
     form.resetFields();
+    form.setFieldsValue({
+      publishDate: dayjs(),
+    });
     setIsModalOpen(true);
   };
 
   const handleModalOk = () => {
     form.validateFields().then(values => {
+      const formattedValues = {
+        ...values,
+        publishDate: values.publishDate ? values.publishDate.format('DD/MM/YYYY') : dayjs().format('DD/MM/YYYY'),
+      };
+      
       if (editingNews) {
-        setNews(news.map(item => item.id === editingNews.id ? { ...item, ...values } : item));
+        setNews(news.map(item => item.id === editingNews.id ? { ...item, ...formattedValues } : item));
         message.success('Cập nhật thành công');
       } else {
         const newEntry = {
           id: news.length + 1,
           slug: values.title.toLowerCase().replace(/ /g, '-'),
-          ...values,
-          publishDate: new Date().toLocaleDateString('vi-VN'),
-          thumbnail: '/images/news-1.png',
+          ...formattedValues,
         };
         setNews([newEntry, ...news]);
         message.success('Thêm mới thành công');
@@ -197,7 +209,7 @@ export default function AdminNewsPage() {
 
       <Modal
         title={
-          <div className="flex items-center gap-3 pt-4 px-2">
+          <div className="flex items-center gap-3 px-2">
             <div className="w-10 h-10 bg-primary/10 rounded-xl flex items-center justify-center text-primary">
               {editingNews ? <EditOutlined /> : <PlusOutlined />}
             </div>
@@ -210,16 +222,23 @@ export default function AdminNewsPage() {
         onOk={handleModalOk}
         onCancel={() => setIsModalOpen(false)}
         width={900}
+        styles={{
+          body: {
+            maxHeight: '80vh',
+            overflowY: 'auto',
+            overflowX: 'hidden',
+          },
+        }}
+        centered
         okText={editingNews ? "Cập nhật bài viết" : "Đăng bài ngay"}
         cancelText="Hủy bỏ"
-        className="admin-modal"
         okButtonProps={{ className: "rounded-xl h-11 px-8 font-bold uppercase tracking-widest text-[11px] border-none shadow-lg shadow-primary/20" }}
         cancelButtonProps={{ className: "rounded-xl h-11 px-8 font-bold uppercase tracking-widest text-[11px]" }}
       >
         <Form
           form={form}
           layout="vertical"
-          className="mt-6 px-2"
+          className="mt-6 px-4"
         >
           <Form.Item
             name="title"
@@ -242,10 +261,19 @@ export default function AdminNewsPage() {
                 </Select>
               </Form.Item>
             </Col>
-            <Col span={10}>
+            <Col span={6}>
+              <Form.Item
+                name="publishDate"
+                label="Ngày đăng bài"
+                rules={[{ required: true, message: 'Vui lòng chọn ngày đăng' }]}
+              >
+                <DatePicker className="w-full rounded-xl" format="DD/MM/YYYY" />
+              </Form.Item>
+            </Col>
+            <Col span={4}>
               <Form.Item
                 name="status"
-                label="Hiển thị trên website"
+                label="Hiển thị"
                 initialValue={true}
                 valuePropName="checked"
               >
@@ -253,6 +281,13 @@ export default function AdminNewsPage() {
               </Form.Item>
             </Col>
           </Row>
+
+          <Form.Item
+             name="thumbnail"
+             label="Hình ảnh bài viết"
+          >
+             <ImageUpload label="Chọn ảnh đại diện" aspectRatio="16/9" />
+          </Form.Item>
 
           <Form.Item
             name="excerpt"

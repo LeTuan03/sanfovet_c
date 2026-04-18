@@ -23,6 +23,9 @@ importers:
       antd:
         specifier: ^6.3.5
         version: 6.3.5(react-dom@19.2.4(react@19.2.4))(react@19.2.4)
+      dayjs:
+        specifier: ^1.11.20
+        version: 1.11.20
       framer-motion:
         specifier: ^12.38.0
         version: 12.38.0(react-dom@19.2.4(react@19.2.4))(react@19.2.4)
@@ -3515,11 +3518,6 @@ snapshots:
   '@ckeditor/ckeditor5-restricted-editing@41.4.2':
     dependencies:
       ckeditor5: 41.4.2
-    transitivePeerDependencies:
-      - bufferutil
-      - canvas
-      - supports-color
-      - utf-8-validate
 
   '@ckeditor/ckeditor5-select-all@41.4.2':
     dependencies:
@@ -3536,11 +3534,6 @@ snapshots:
     dependencies:
       '@ckeditor/ckeditor5-theme-lark': 41.4.2
       ckeditor5: 41.4.2
-    transitivePeerDependencies:
-      - bufferutil
-      - canvas
-      - supports-color
-      - utf-8-validate
 
   '@ckeditor/ckeditor5-special-characters@41.4.2':
     dependencies:

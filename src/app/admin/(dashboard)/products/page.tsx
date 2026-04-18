@@ -12,6 +12,7 @@ import {
 import { useRouter, useSearchParams, usePathname } from 'next/navigation';
 import { products, categories } from '@/lib/data';
 import CKEditor from '@/components/admin/CKEditor';
+import ImageUpload from '@/components/admin/ImageUpload';
 import AdminPageHeader from '@/components/admin/AdminPageHeader';
 import { motion } from 'framer-motion';
 
@@ -207,7 +208,7 @@ export default function ProductManagement() {
 
       <Modal
         title={
-          <div className="flex items-center gap-3 pt-4 px-2">
+          <div className="flex items-center gap-3 px-2">
             <div className="w-10 h-10 bg-primary/10 rounded-xl flex items-center justify-center text-primary">
               {editingId ? <EditOutlined /> : <PlusOutlined />}
             </div>
@@ -222,11 +223,18 @@ export default function ProductManagement() {
         width={1000}
         okText={editingId ? "Cập nhật dữ liệu" : "Thêm mới ngay"}
         cancelText="Hủy bỏ"
-        className="admin-modal"
+        styles={{
+          body: {
+            maxHeight: '80vh',
+            overflowY: 'auto',
+            overflowX: 'hidden',
+          },
+        }}
+        centered
         okButtonProps={{ className: "rounded-xl h-11 px-8 font-bold uppercase tracking-widest text-[11px] border-none shadow-lg shadow-primary/20" }}
         cancelButtonProps={{ className: "rounded-xl h-11 px-8 font-bold uppercase tracking-widest text-[11px]" }}
       >
-        <Form form={form} layout="vertical" className="mt-6 px-2">
+        <Form form={form} layout="vertical" className="mt-6 px-4">
           <Tabs defaultActiveKey="1" className="admin-tabs custom-admin-tabs" items={[
             {
               key: '1',
@@ -267,8 +275,8 @@ export default function ProductManagement() {
                   </Row>
                   <Row gutter={24}>
                     <Col span={12}>
-                       <Form.Item name="image" label="URL Hình ảnh (hoặc tên file trong /images/)">
-                          <Input className="rounded-xl py-2" placeholder="/images/product-x.png" />
+                       <Form.Item name="image" label="Hình ảnh sản phẩm">
+                          <ImageUpload label="Chọn ảnh sản phẩm" />
                        </Form.Item>
                     </Col>
                     <Col span={12}>

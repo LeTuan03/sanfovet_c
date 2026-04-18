@@ -1,11 +1,14 @@
 "use client";
 
 import React, { useState, useMemo } from 'react';
-import { Table, Button, Space, Modal, Form, Input, Select, message, Tag, Tooltip, Row, Col, Divider, Breadcrumb } from 'antd';
+import { Table, Button, Space, Modal, Form, Input, Select, message, Tag, Tooltip, Row, Col, Divider, Breadcrumb, DatePicker } from 'antd';
 import { PlusOutlined, EditOutlined, DeleteOutlined, EyeOutlined, SearchOutlined, FileImageOutlined } from '@ant-design/icons';
 import { useRouter, useSearchParams, usePathname } from 'next/navigation';
 import { articles, animalTags } from '@/lib/data';
 import CKEditor from '@/components/admin/CKEditor';
+import ImageUpload from '@/components/admin/ImageUpload';
+import dayjs from 'dayjs';
+import 'dayjs/locale/vi';
 
 export default function ArticleManagement() {
   const router = useRouter();
@@ -50,25 +53,35 @@ export default function ArticleManagement() {
   const showModal = (record?: any) => {
     if (record) {
       setEditingId(record.id);
-      form.setFieldsValue(record);
+      form.setFieldsValue({
+        ...record,
+        publishDate: record.publishDate ? dayjs(record.publishDate, 'DD/MM/YYYY') : dayjs(),
+      });
     } else {
       setEditingId(null);
       form.resetFields();
+      form.setFieldsValue({
+        publishDate: dayjs(),
+      });
     }
     setIsModalOpen(true);
   };
 
   const handleOk = () => {
     form.validateFields().then((values) => {
+      const formattedValues = {
+        ...values,
+        publishDate: values.publishDate ? values.publishDate.format('DD/MM/YYYY') : dayjs().format('DD/MM/YYYY'),
+      };
+
       if (editingId) {
-        setData(data.map((item) => (item.id === editingId ? { ...item, ...values } : item)));
+        setData(data.map((item) => (item.id === editingId ? { ...item, ...formattedValues } : item)));
         message.success('Cập nhật bài viết thành công');
       } else {
         const newArticle = {
-          ...values,
+          ...formattedValues,
           id: Math.max(...data.map((a) => a.id), 0) + 1,
           slug: values.title.toLowerCase().replaceAll(' ', '-').replaceAll(/[^\w-]/g, ''),
-          publishDate: values.publishDate || new Date().toLocaleDateString('vi-VN'),
         };
         setData([newArticle, ...data]);
         message.success('Thêm bài viết mới thành công');
@@ -221,6 +234,14 @@ export default function ArticleManagement() {
         onOk={handleOk}
         onCancel={() => setIsModalOpen(false)}
         width={1000}
+        styles={{
+          body: {
+            maxHeight: '80vh',
+            overflowY: 'auto',
+            overflowX: 'hidden',
+          },
+        }}
+        centered
         okText="Xuất bản ngay"
         cancelText="Lưu bản nháp"
         className="rounded-[32px] top-[40px]"
@@ -262,14 +283,14 @@ export default function ArticleManagement() {
           </Row>
 
           <Row gutter={24}>
-            <Col span={16}>
-              <Form.Item name="thumbnail" label="URL Hình đại diện (Thumbnail)">
-                <Input prefix={<FileImageOutlined />} placeholder="/images/news-1.png" className="rounded-xl py-2 px-4" />
+            <Col span={14}>
+              <Form.Item name="thumbnail" label="Hình đại diện (Thumbnail)">
+                <ImageUpload label="Tải ảnh đại diện" aspectRatio="16/9" />
               </Form.Item>
             </Col>
-            <Col span={8}>
-              <Form.Item name="publishDate" label="Ngày đăng (dd/mm/yyyy)">
-                <Input placeholder="Ví dụ: 20/03/2026" className="rounded-xl py-2 px-4" />
+            <Col span={10}>
+              <Form.Item name="publishDate" label="Ngày đăng bài">
+                <DatePicker className="w-full rounded-xl py-2" format="DD/MM/YYYY" />
               </Form.Item>
             </Col>
           </Row>

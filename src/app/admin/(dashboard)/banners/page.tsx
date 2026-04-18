@@ -9,6 +9,7 @@ import {
   SearchOutlined, LinkOutlined 
 } from '@ant-design/icons';
 import AdminPageHeader from '@/components/admin/AdminPageHeader';
+import ImageUpload from '@/components/admin/ImageUpload';
 import { motion } from 'framer-motion';
 
 const initialBanners = [
@@ -220,7 +221,7 @@ export default function AdminBannersPage() {
 
       <Modal
         title={
-          <div className="flex items-center gap-3 pt-4 px-2">
+          <div className="flex items-center gap-3 px-2">
             <div className="w-10 h-10 bg-primary/10 rounded-xl flex items-center justify-center text-primary">
               {editingBanner ? <EditOutlined /> : <PlusOutlined />}
             </div>
@@ -235,19 +236,20 @@ export default function AdminBannersPage() {
         okText="Lưu dữ liệu"
         cancelText="Hủy bỏ"
         width={700}
-        className="admin-modal"
+        styles={{
+          body: {
+            maxHeight: '80vh',
+            overflowY: 'auto',
+            overflowX: 'hidden',
+          },
+        }}
+        centered
         okButtonProps={{ className: "rounded-xl h-11 px-8 font-bold uppercase tracking-widest text-[11px] border-none shadow-lg shadow-primary/20" }}
         cancelButtonProps={{ className: "rounded-xl h-11 px-8 font-bold uppercase tracking-widest text-[11px]" }}
       >
-        <Form form={form} layout="vertical" className="mt-6 px-2">
-          <Form.Item label="Hình ảnh Banner" required>
-            <Upload.Dragger multiple={false} maxCount={1} action="/api/upload" listType="picture" className="rounded-[24px!important] overflow-hidden">
-              <p className="ant-upload-drag-icon">
-                <PlusOutlined className="text-primary" />
-              </p>
-              <p className="ant-upload-text text-sanfovet-dark font-bold">Kéo thả hoặc click để chọn file ảnh</p>
-              <p className="ant-upload-hint text-[10px] text-gray-400 font-bold uppercase tracking-widest mt-2">JPG, PNG, WEBP (Max 2MB)</p>
-            </Upload.Dragger>
+        <Form form={form} layout="vertical" className="mt-6 px-4">
+          <Form.Item name="image" label="Hình ảnh Banner" rules={[{ required: true }]}>
+            <ImageUpload label="Tải lên Banner" aspectRatio="2/1" />
           </Form.Item>
 
           <Form.Item name="title" label="Tiêu đề / Ghi chú" rules={[{ required: true }]}>

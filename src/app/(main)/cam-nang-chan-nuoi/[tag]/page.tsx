@@ -28,7 +28,7 @@ export default async function AnimalTagPage({ params }: Readonly<{ params: Promi
             <span className="text-primary-light">{animalTag.name}</span>
           </div>
           <div className="flex items-center gap-6">
-            <span className="text-6xl">{animalTag.icon}</span>
+            {/* <span className="text-6xl">{animalTag.icon}</span> */}
             <div>
               <h1 className="text-4xl font-black uppercase tracking-tighter italic">{animalTag.name}</h1>
               <p className="text-primary-light font-medium mt-2">{animalTag.description}</p>

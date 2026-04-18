@@ -18,7 +18,12 @@ import {
   BellOutlined,
 } from '@ant-design/icons';
 import { Button, Layout, Menu, theme, ConfigProvider, Avatar, Dropdown, Space, Badge, MenuProps, App } from 'antd';
+import viVN from 'antd/locale/vi_VN';
+import 'dayjs/locale/vi';
+import dayjs from 'dayjs';
 import { usePathname, useRouter } from 'next/navigation';
+
+dayjs.locale('vi');
 
 const { Header, Sider, Content } = Layout;
 
@@ -140,6 +145,7 @@ export default function AdminLayout({
 
   return (
     <ConfigProvider
+      locale={viVN}
       theme={{
         token: {
           colorPrimary: '#1a8c3f',

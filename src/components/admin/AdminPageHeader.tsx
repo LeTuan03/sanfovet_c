@@ -43,7 +43,7 @@ export default function AdminPageHeader({
             }))}
             className="text-[11px] font-medium uppercase tracking-wider opacity-60 mb-1"
           />
-          <h1 className="text-3xl font-black text-sanfovet-dark uppercase italic tracking-tighter leading-tight">
+          <h1 className="text-3xl font-black text-sanfovet-dark uppercase tracking-tighter leading-tight">
             {title}
           </h1>
         </div>

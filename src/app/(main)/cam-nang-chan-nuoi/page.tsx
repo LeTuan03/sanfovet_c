@@ -36,7 +36,7 @@ export default function HandbookPage() {
               {/* Section Header */}
               <div className="flex items-center justify-between mb-8">
                 <div className="flex items-center gap-4">
-                  <span className="text-4xl">{tag.icon}</span>
+                  {/* <span className="text-4xl">{tag.icon}</span> */}
                   <div>
                     <h2 className="text-2xl font-black text-sanfovet-dark uppercase tracking-tight">{tag.name}</h2>
                     <p className="text-sm text-gray-400 font-medium">{tag.description}</p>

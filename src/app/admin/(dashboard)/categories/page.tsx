@@ -285,7 +285,7 @@ export default function CategoryAndTagManagement() {
 
       <Modal
         title={
-          <div className="flex items-center gap-3 pt-4 px-2">
+          <div className="flex items-center gap-3 px-2">
             <div className="w-10 h-10 bg-primary/10 rounded-xl flex items-center justify-center text-primary">
               {editingItem ? <EditOutlined /> : <PlusOutlined />}
             </div>
@@ -300,11 +300,18 @@ export default function CategoryAndTagManagement() {
         okText="Lưu dữ liệu"
         cancelText="Hủy bỏ"
         width={600}
-        className="admin-modal"
+        styles={{
+          body: {
+            maxHeight: '80vh',
+            overflowY: 'auto',
+            overflowX: 'hidden',
+          },
+        }}
+        centered
         okButtonProps={{ className: "rounded-xl h-11 px-8 font-bold uppercase tracking-widest text-[11px] border-none shadow-lg shadow-primary/20" }}
         cancelButtonProps={{ className: "rounded-xl h-11 px-8 font-bold uppercase tracking-widest text-[11px]" }}
       >
-        <Form form={form} layout="vertical" className="mt-6 px-2">
+        <Form form={form} layout="vertical" className="mt-6 px-4">
           <Form.Item name="name" label="Tên gọi" rules={[{ required: true, message: 'Vui lòng nhập tên' }]}>
             <Input className="rounded-xl py-3 px-4 font-bold" placeholder="Ví dụ: Gà, Heo, Thuốc bổ..." />
           </Form.Item>

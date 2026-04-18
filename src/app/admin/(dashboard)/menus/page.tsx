@@ -217,9 +217,17 @@ export default function AdminMenusPage() {
         onOk={handleOk}
         onCancel={() => setIsModalOpen(false)}
         width={600}
+        styles={{
+          body: {
+            maxHeight: '80vh',
+            overflowY: 'auto',
+            overflowX: 'hidden',
+          },
+        }}
+        centered
         okText="Lưu lại"
         cancelText="Hủy bỏ"
-        className="rounded-[32px] top-[100px]"
+        className="rounded-[32px]"
       >
         <Form form={form} layout="vertical" className="mt-8">
           <Row gutter={24}>

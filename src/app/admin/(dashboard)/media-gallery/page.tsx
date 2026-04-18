@@ -318,7 +318,7 @@ export default function AdminMediaGalleryPage() {
 
       <Modal
         title={
-          <div className="flex items-center gap-3 pt-4 px-2">
+          <div className="flex items-center gap-3 px-2">
             <div className="w-10 h-10 bg-primary/10 rounded-xl flex items-center justify-center text-primary">
               {editingId ? <EditOutlined /> : <PlusOutlined />}
             </div>
@@ -333,11 +333,18 @@ export default function AdminMediaGalleryPage() {
         okText="Lưu dữ liệu"
         cancelText="Bỏ qua"
         width={750}
-        className="admin-modal"
+        styles={{
+          body: {
+            maxHeight: '80vh',
+            overflowY: 'auto',
+            overflowX: 'hidden',
+          },
+        }}
+        centered
         okButtonProps={{ className: "rounded-xl h-11 px-8 font-bold uppercase tracking-widest text-[11px] border-none shadow-lg shadow-primary/20" }}
         cancelButtonProps={{ className: "rounded-xl h-11 px-8 font-bold uppercase tracking-widest text-[11px]" }}
       >
-        <Form form={form} layout="vertical" className="mt-6 px-2">
+        <Form form={form} layout="vertical" className="mt-6 px-4">
           <Row gutter={24}>
             <Col span={14}>
               <Form.Item name="title" label="Tiêu đề / Chú thích" rules={[{ required: true, message: 'Vui lòng nhập tiêu đề' }]}>
