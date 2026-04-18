@@ -1,7 +1,6 @@
 import React from 'react';
 import Link from 'next/link';
-import { Eye, ArrowRight, Download, Calendar, Microscope, ShieldCheck, Users, Truck, Gem, ChevronRight } from 'lucide-react';
-// import { products, articles, categories } from '@/lib/data'; // Removed static imports
+import { Eye, ArrowRight, Download, Calendar, Microscope, ShieldCheck, Users, Truck, Gem, ChevronRight, Award, CheckCircle2 } from 'lucide-react';
 import { readData } from '@/lib/storage';
 import { Product, Article, Category } from '@/types';
 import BannerSlider from '@/components/home/BannerSlider';
@@ -17,66 +16,76 @@ export default async function HomePage() {
   const latestNews = Array.isArray(articles) ? articles.slice(0, 3) : [];
 
   const features = [
-    { icon: <Microscope size={28} />, title: 'Công nghệ USA', desc: 'Ứng dụng công nghệ tiên tiến từ Hoa Kỳ trong sản xuất thuốc thú y' },
-    { icon: <ShieldCheck size={28} />, title: 'Tiêu chuẩn GMP', desc: 'Nhà máy đạt tiêu chuẩn GMP-WHO về sản xuất dược phẩm thú y' },
-    { icon: <Users size={28} />, title: 'Chuyên gia hàng đầu', desc: 'Đội ngũ BSTY giàu kinh nghiệm hỗ trợ kỹ thuật 24/7' },
-    { icon: <Truck size={28} />, title: 'Phân phối toàn quốc', desc: 'Mạng lưới phân phối rộng khắp 63 tỉnh thành' },
-    { icon: <Gem size={28} />, title: 'Chất lượng cao', desc: 'Sản phẩm được kiểm nghiệm nghiêm ngặt, đạt tiêu chuẩn quốc tế' },
+    { icon: <Microscope size={32} />, title: 'Công nghệ USA', desc: 'Ứng dụng công nghệ tiên tiến từ Hoa Kỳ trong sản xuất thuốc thú y' },
+    { icon: <ShieldCheck size={32} />, title: 'Đạt chuẩn GMP', desc: 'Nhà máy đạt chuẩn chất lượng GMP-WHO về sản xuất dược phẩm' },
+    { icon: <Users size={32} />, title: 'Chuyên gia giỏi', desc: 'Đội ngũ hơn 50 BSTY giàu kinh nghiệm túc trực tư vấn kỹ thuật' },
+    { icon: <Truck size={32} />, title: 'Phủ sóng toàn quốc', desc: 'Hệ thống vận tải và hàng nghìn đại lý phân phối rộng khắp' },
+    { icon: <Gem size={32} />, title: 'Chất lượng vàng', desc: 'Sản phẩm được lưu hành, kiểm định chất lượng chặt chẽ' },
   ];
 
   return (
-    <div className="w-full">
+    <div className="w-full bg-white">
       {/* Hero Banner Section */}
       <BannerSlider />
 
       {/* About Section */}
-      <section className="py-20 md:py-28 bg-white overflow-hidden">
-        <div className="container mx-auto px-4">
-           <div className="flex flex-col lg:flex-row gap-16 items-center">
-              <div className="w-full lg:w-1/2 relative group">
-                <div className="relative z-10 rounded-[20px] overflow-hidden shadow-2xl border-4 border-white">
-                  <img src="/images/about.png" alt="Trụ sở SANFOVET" className="w-full h-auto object-cover" />
+      <section className="py-24 lg:py-32 bg-white overflow-hidden relative">
+        {/* Decorative elements */}
+        <div className="absolute top-0 right-0 w-1/3 h-full bg-gray-50 -skew-x-12 origin-top"></div>
+        <div className="container mx-auto px-4 relative z-10">
+           <div className="flex flex-col lg:flex-row gap-16 lg:gap-24 items-center">
+              <div className="w-full lg:w-5/12 relative">
+                <div className="relative z-10 rounded-[40px] overflow-hidden shadow-[0_20px_50px_rgba(0,0,0,0.15)] group">
+                  <img src="/images/about.png" alt="Trụ sở SANFOVET" className="w-full h-[500px] object-cover group-hover:scale-105 transition-transform duration-1000" />
+                  <div className="absolute inset-0 bg-gradient-to-t from-black/60 via-black/10 to-transparent flex items-end p-10">
+                     <div className="text-white">
+                        <div className="font-black text-6xl mb-2 text-primary-light drop-shadow-lg">20+</div>
+                        <div className="text-sm font-bold uppercase tracking-widest opacity-90 drop-shadow">Năm Phát Triển Khẳng Định Vị Thế</div>
+                     </div>
+                  </div>
                 </div>
-                <div className="absolute -inset-4 border-2 border-primary/20 rounded-[24px] pointer-events-none transition-all group-hover:-inset-2"></div>
+                {/* Background decorative blob */}
+                <div className="absolute -inset-6 bg-primary/5 rounded-[48px] -z-10 transform -rotate-3"></div>
               </div>
-              <div className="w-full lg:w-1/2">
-                <h2 className="text-primary font-bold uppercase tracking-[2px] text-xs mb-3 flex items-center gap-2">
-                  <span className="w-8 h-px bg-primary"></span> Về chúng tôi
-                </h2>
-                <h3 className="text-3xl md:text-4xl font-bold mb-6 text-primary-dark leading-tight">Công ty CP Đầu tư Liên doanh Việt Anh</h3>
-                <p className="text-gray-600 mb-5 leading-relaxed">
-                  SANFOVET tự hào là đơn vị tiên phong trong lĩnh vực sản xuất và phân phối thuốc thú y trang trại tại Việt Nam. 
-                  Với công nghệ tiên tiến từ Hoa Kỳ, chúng tôi cam kết mang đến những sản phẩm chất lượng cao nhất.
-                </p>
-                <p className="text-gray-600 mb-8 leading-relaxed">
-                  Đội ngũ hơn 50 bác sĩ thú y và kỹ thuật viên giàu kinh nghiệm luôn sẵn sàng hỗ trợ kỹ thuật cho bà con chăn nuôi trên toàn quốc.
-                </p>
-                
-                <div className="grid grid-cols-2 md:grid-cols-4 gap-4 mb-10">
-                  <div className="text-center p-5 bg-primary-light rounded-[12px] group hover:bg-primary transition-all duration-300">
-                    <div className="text-2xl font-black text-primary group-hover:text-white">15+</div>
-                    <div className="text-[0.65rem] text-gray-500 group-hover:text-white/80 uppercase mt-1 font-bold tracking-wider">Năm kinh nghiệm</div>
-                  </div>
-                  <div className="text-center p-5 bg-primary-light rounded-[12px] group hover:bg-primary transition-all duration-300">
-                    <div className="text-2xl font-black text-primary group-hover:text-white">200+</div>
-                    <div className="text-[0.65rem] text-gray-500 group-hover:text-white/80 uppercase mt-1 font-bold tracking-wider">Sản phẩm</div>
-                  </div>
-                  <div className="text-center p-5 bg-primary-light rounded-[12px] group hover:bg-primary transition-all duration-300">
-                    <div className="text-2xl font-black text-primary group-hover:text-white">50+</div>
-                    <div className="text-[0.65rem] text-gray-500 group-hover:text-white/80 uppercase mt-1 font-bold tracking-wider">Chuyên gia</div>
-                  </div>
-                  <div className="text-center p-5 bg-primary-light rounded-[12px] group hover:bg-primary transition-all duration-300">
-                    <div className="text-2xl font-black text-primary group-hover:text-white">63</div>
-                    <div className="text-[0.65rem] text-gray-500 group-hover:text-white/80 uppercase mt-1 font-bold tracking-wider">Tỉnh thành</div>
-                  </div>
+              <div className="w-full lg:w-7/12">
+                <div className="inline-flex items-center gap-2 px-4 py-2 rounded-full bg-primary/10 text-primary font-bold text-xs uppercase tracking-widest mb-6">
+                   <ShieldCheck size={16} /> Về chúng tôi
                 </div>
-
-                <div className="flex flex-wrap gap-4">
-                  <Link href="/gioi-thieu" className="inline-flex items-center gap-2 bg-primary hover:bg-primary-dark text-white px-7 py-3 rounded-full font-bold transition shadow-lg hover:-translate-y-1">
-                    Tìm hiểu thêm <ArrowRight size={18} />
+                <h3 className="text-4xl lg:text-5xl font-black mb-8 text-sanfovet-dark leading-tight uppercase tracking-tight">
+                  Công ty Cổ phần<br />
+                  <span className="text-primary-dark">Đầu tư Liên doanh Việt Anh</span>
+                </h3>
+                <p className="text-gray-600 mb-6 leading-relaxed text-lg font-medium">
+                  SANFOVET tự hào là đơn vị tiên phong trong lĩnh vực sản xuất và phân phối thuốc thú y tại Việt Nam. 
+                  Ứng dụng tiêu chuẩn công nghệ tiên tiến từ Hoa Kỳ, chúng tôi cam kết mang đến những giải pháp bảo vệ sức khỏe vật nuôi toàn diện.
+                </p>
+                <div className="flex flex-col sm:flex-row gap-8 sm:gap-12 mb-10 pb-10 border-b border-gray-100">
+                   <div className="flex items-start gap-4">
+                      <div className="w-14 h-14 rounded-[16px] bg-primary/10 flex items-center justify-center text-primary shrink-0 transition-transform hover:scale-110">
+                         <CheckCircle2 size={28} />
+                      </div>
+                      <div>
+                         <h4 className="font-black text-sanfovet-dark text-lg mb-1">Chất lượng GMP-WHO</h4>
+                         <p className="text-sm text-gray-500 font-medium leading-relaxed">Quy trình sản xuất đáp ứng tiêu chuẩn quốc tế khắt khe nhất.</p>
+                      </div>
+                   </div>
+                   <div className="flex items-start gap-4">
+                      <div className="w-14 h-14 rounded-[16px] bg-primary/10 flex items-center justify-center text-primary shrink-0 transition-transform hover:scale-110">
+                         <Users size={28} />
+                      </div>
+                      <div>
+                         <h4 className="font-black text-sanfovet-dark text-lg mb-1">Hỗ trợ kỹ thuật 24/7</h4>
+                         <p className="text-sm text-gray-500 font-medium leading-relaxed">Đội ngũ hơn 50 chuyên gia giàu kinh nghiệm túc trực.</p>
+                      </div>
+                   </div>
+                </div>
+                
+                <div className="flex flex-wrap gap-5 items-center">
+                  <Link href="/gioi-thieu" className="inline-flex items-center justify-center gap-2 bg-gradient-to-r from-primary to-primary-dark hover:from-sanfovet-dark hover:to-sanfovet-dark text-white px-8 py-4 rounded-full font-bold uppercase tracking-widest text-xs transition-all duration-300 shadow-xl hover:shadow-2xl hover:-translate-y-1">
+                    Hành trình của chúng tôi <ArrowRight size={16} />
                   </Link>
-                  <Link href="/catalogue" className="inline-flex items-center gap-2 border-2 border-primary text-primary hover:bg-primary hover:text-white px-7 py-3 rounded-full font-bold transition shadow-sm hover:-translate-y-1">
-                    <Download size={18} /> Xem Catalogue
+                  <Link href="/catalogue" className="inline-flex items-center justify-center gap-2 bg-gray-50 hover:bg-gray-100 text-sanfovet-dark px-8 py-4 rounded-full font-bold uppercase tracking-widest text-xs transition-all border border-gray-200 shadow-sm">
+                    Xem Catalogue 2026
                   </Link>
                 </div>
               </div>
@@ -85,78 +94,85 @@ export default async function HomePage() {
       </section>
 
       {/* Featured Products */}
-      <section className="py-20 md:py-28 bg-sanfovet-alt relative">
+      <section className="py-24 lg:py-32 bg-gray-50 relative border-t border-gray-100">
         <div className="container mx-auto px-4">
-          <div className="text-center max-w-2xl mx-auto mb-16">
-            <h2 className="text-3xl md:text-4xl font-bold mb-4 text-gray-900 relative inline-block">
-              Sản Phẩm Nổi Bật
-              <span className="absolute -bottom-3 left-1/2 -translate-x-1/2 w-16 h-1 bg-gradient-to-r from-primary to-accent rounded"></span>
-            </h2>
-            <p className="text-gray-500 mt-6 font-medium">Các sản phẩm thuốc thú y chất lượng cao được tin dùng trên toàn quốc</p>
+          <div className="flex flex-col md:flex-row justify-between items-end mb-16 gap-6">
+            <div className="max-w-2xl">
+              <div className="inline-flex items-center gap-2 px-4 py-2 rounded-full bg-white border border-gray-200 text-gray-500 font-bold text-xs uppercase tracking-widest mb-4 shadow-sm">
+                 <Gem size={16} className="text-primary" /> Sản phẩm chất lượng
+              </div>
+              <h2 className="text-4xl lg:text-5xl font-black text-sanfovet-dark uppercase tracking-tight">
+                Sản Phẩm <span className="text-primary-dark">Nổi Bật</span>
+              </h2>
+              <p className="text-gray-500 mt-4 text-lg font-medium">Các dòng dược phẩm thú y bán chạy nhất và được tin dùng rộng rãi trên thị trường</p>
+            </div>
+            <Link href="/san-pham" className="shrink-0 inline-flex items-center gap-2 bg-white text-sanfovet-dark px-8 py-4 rounded-full font-bold text-xs uppercase tracking-widest transition shadow-sm border border-gray-200 group hover:border-primary hover:text-primary">
+               Tất cả sản phẩm <ChevronRight size={18} className="group-hover:translate-x-1 transition-transform" />
+            </Link>
           </div>
 
-          <div className="grid grid-cols-2 lg:grid-cols-4 gap-6 md:gap-8">
+          <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-6 lg:gap-8">
             {featuredProducts.map((p: Product) => (
-              <article key={p.id} className="bg-white rounded-[16px] shadow-sm hover:shadow-xl border border-gray-100 overflow-hidden transition-all duration-500 group relative">
-                <div className="aspect-[4/3] bg-gray-50 flex items-center justify-center p-6 relative overflow-hidden">
-                   <img src={p.image} alt={p.name} className="max-h-full w-auto object-contain transition-transform duration-700 group-hover:scale-110" />
+              <article key={p.id} className="bg-white rounded-[32px] shadow-sm hover:shadow-2xl border border-gray-100 overflow-hidden transition-all duration-500 group flex flex-col relative hover:-translate-y-2">
+                <div className="absolute top-4 right-4 z-10 w-10 h-10 bg-white rounded-full flex items-center justify-center shadow-md font-black text-primary hover:bg-primary hover:text-white transition-colors cursor-pointer opacity-0 translate-y-2 group-hover:opacity-100 group-hover:translate-y-0">
+                   <Eye size={18} />
                 </div>
-                <div className="p-6">
-                  <div className="text-[0.7rem] font-bold text-primary bg-primary-light px-2.5 py-1 rounded-full w-fit mb-3 uppercase tracking-wider">
-                    {categories.find((c: Category) => c.id === p.categoryId)?.name?.split(' ').slice(0, 3).join(' ') || 'Danh mục'}
+                <div className="aspect-[4/3] bg-gradient-to-b from-gray-50/50 to-white flex items-center justify-center p-8 relative overflow-hidden">
+                   <img src={p.image} alt={p.name} className="max-h-full w-auto object-contain transition-transform duration-700 group-hover:scale-110 drop-shadow-xl" />
+                </div>
+                <div className="p-6 lg:p-8 flex-1 flex flex-col items-center text-center">
+                  <div className="text-[10px] font-bold text-gray-400 mb-3 uppercase tracking-widest">
+                    {categories.find((c: Category) => c.id === p.categoryId)?.name?.split(' ').slice(0, 3).join(' ') || 'Sản phẩm thú y'}
                   </div>
-                  <h3 className="font-bold text-gray-900 mb-2 leading-snug h-12 overflow-hidden group-hover:text-primary transition-colors">{p.name}</h3>
-                  <p className="text-[0.8rem] text-gray-500 line-clamp-2 mb-6 min-h-[40px]">{p.tagline}</p>
+                  <h3 className="font-black text-lg lg:text-xl text-sanfovet-dark mb-3 leading-tight group-hover:text-primary transition-colors flex-1">{p.name}</h3>
+                  <p className="text-[13px] text-gray-500 line-clamp-2 mb-6 font-medium px-2">{p.tagline}</p>
                   <Link 
                     href={`/san-pham/${p.slug}`} 
-                    className="w-full flex items-center justify-center gap-2 py-3 bg-gradient-to-r from-primary to-primary-dark text-white rounded-xl text-sm font-bold opacity-0 translate-y-4 group-hover:opacity-100 group-hover:translate-y-0 transition-all duration-300"
+                    className="w-full text-center py-3.5 bg-primary/5 text-primary hover:bg-primary hover:text-white rounded-2xl text-[11px] font-black uppercase tracking-widest transition-all duration-300"
                   >
-                    <Eye size={16} /> Xem chi tiết
+                    Xem chi tiết
                   </Link>
                 </div>
               </article>
             ))}
           </div>
-          
-          <div className="text-center mt-16">
-            <Link href="/san-pham" className="inline-flex items-center gap-2 bg-primary hover:bg-primary-dark text-white px-8 py-4 rounded-full font-bold transition shadow-xl hover:-translate-y-1">
-               Xem tất cả sản phẩm <ChevronRight size={18} />
-            </Link>
-          </div>
         </div>
       </section>
 
       {/* Disease & Treatment */}
-      <section className="py-20 md:py-28 bg-white overflow-hidden">
-        <div className="container mx-auto px-4">
-          <div className="flex justify-between items-end mb-12">
-            <div className="text-left max-w-2xl">
-              <h2 className="text-3xl md:text-4xl font-bold mb-4 text-gray-900 border-l-[6px] border-primary pl-5">Bệnh Và Điều Trị Bệnh</h2>
-              <p className="text-gray-500 font-medium">Kiến thức chuyên sâu về các bệnh thường gặp và phác đồ điều trị</p>
+      <section className="py-24 lg:py-32 bg-white relative overflow-hidden">
+        <div className="absolute right-0 top-0 w-[40rem] h-[40rem] bg-primary/5 rounded-full blur-[100px] pointer-events-none -mr-[20rem] -mt-[10rem]"></div>
+        <div className="container mx-auto px-4 relative z-10">
+          <div className="flex flex-col md:flex-row justify-between items-end mb-16 gap-6">
+            <div className="max-w-2xl">
+              <h2 className="text-4xl lg:text-5xl font-black text-sanfovet-dark uppercase tracking-tight">Kỹ Thuật <span className="text-primary-dark">Chăn Nuôi</span></h2>
+              <p className="text-gray-500 mt-4 text-lg font-medium">Kiến thức chuyên sâu về các bệnh thường gặp, cách phòng chống và phác đồ điều trị an toàn</p>
             </div>
-            <Link href="/benh-va-dieu-tri-benh" className="hidden md:flex items-center gap-1.5 text-primary font-bold hover:gap-3 transition-all duration-300">
-               Tất cả bài viết <ChevronRight size={18} />
+            <Link href="/benh-va-dieu-tri-benh" className="shrink-0 inline-flex items-center gap-2 text-primary font-black uppercase tracking-widest text-[11px] hover:text-sanfovet-dark group transition-colors">
+               Khám phá <ArrowRight size={16} className="group-hover:translate-x-2 transition-transform" />
             </Link>
           </div>
 
-          <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-8">
+          <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-6 lg:gap-8">
             {diseaseArticles.map((a: Article, i: number) => (
-              <article key={a.id} className="bg-white rounded-[16px] border border-gray-100 shadow-sm overflow-hidden hover:shadow-xl transition-all duration-500 flex flex-col group">
-                 <div className="aspect-video relative overflow-hidden bg-gray-100">
+              <article key={a.id} className="bg-white rounded-[32px] border border-gray-100 shadow-sm overflow-hidden hover:shadow-xl transition-all duration-500 flex flex-col group hover:-translate-y-2">
+                 <div className="aspect-[4/3] relative overflow-hidden bg-gray-100">
                     <img src={`/images/news-${(i % 3) + 1}.png`} alt={a.title} className="w-full h-full object-cover group-hover:scale-110 transition-transform duration-700" />
-                    <div className="absolute top-4 left-4 bg-primary text-white text-[0.65rem] font-black py-1 px-2.5 rounded uppercase tracking-[1px]">Kỹ thuật</div>
-                 </div>
-                 <div className="p-6 flex flex-col flex-1">
-                    <div className="flex items-center gap-2 text-[0.75rem] text-gray-400 mb-3">
-                      <Calendar size={14} /> {a.publishDate || '01/01/2026'}
+                    <div className="absolute top-4 left-4 bg-white/90 backdrop-blur-sm text-sanfovet-dark text-[10px] font-black py-1.5 px-3 rounded-full uppercase tracking-widest shadow-sm">
+                       Cẩm nang
                     </div>
-                    <h3 className="font-bold text-gray-900 mb-2 leading-relaxed min-h-[56px] group-hover:text-primary transition-colors">
-                      <Link href={`/bai-viet/${a.slug}`}>{a.title}</Link>
+                 </div>
+                 <div className="p-6 lg:p-8 flex flex-col flex-1">
+                    <h3 className="font-black text-lg text-sanfovet-dark mb-4 leading-snug group-hover:text-primary transition-colors flex-1">
+                      <Link href={`/bai-viet/${a.slug}`} className="line-clamp-2">{a.title}</Link>
                     </h3>
-                    <p className="text-[0.85rem] text-gray-500 line-clamp-3 mb-6 leading-relaxed flex-1">{a.excerpt}</p>
-                    <Link href={`/bai-viet/${a.slug}`} className="inline-flex items-center gap-1.5 text-primary font-bold text-[0.8rem] group-hover:gap-2.5 transition-all">
-                       Đọc tiếp <ArrowRight size={14} />
-                    </Link>
+                    <p className="text-sm text-gray-500 line-clamp-2 mb-8 font-medium leading-relaxed">{a.excerpt}</p>
+                    <div className="flex items-center justify-between mt-auto">
+                       <span className="text-[11px] font-bold text-gray-400 uppercase tracking-widest">{a.publishDate || '01/01/2026'}</span>
+                       <Link href={`/bai-viet/${a.slug}`} className="w-10 h-10 rounded-full bg-primary/10 flex items-center justify-center text-primary group-hover:bg-primary group-hover:text-white transition-colors">
+                          <ArrowRight size={16} />
+                       </Link>
+                    </div>
                  </div>
               </article>
             ))}
@@ -165,21 +181,28 @@ export default async function HomePage() {
       </section>
 
       {/* Why Choose Us */}
-      <section className="py-20 md:py-28 bg-gradient-to-br from-sanfovet-dark via-sanfovet-dark to-[#0d2b10] text-white">
-        <div className="container mx-auto px-4">
-          <div className="text-center max-w-2xl mx-auto mb-20">
-            <h2 className="text-3xl md:text-4xl font-bold mb-5">Tại Sao Nên Chọn SANFOVET?</h2>
-            <p className="text-primary-light font-medium opacity-80">Chúng tôi cam kết mang đến giải pháp chất lượng nhất cho ngành chăn nuôi</p>
+      <section className="py-24 lg:py-32 bg-sanfovet-dark text-white relative overflow-hidden">
+        {/* Background Decorative */}
+        <div className="absolute inset-0 bg-[url('/images/farm.png')] opacity-10 bg-cover bg-center mix-blend-overlay"></div>
+        <div className="absolute inset-0 bg-gradient-to-b from-sanfovet-dark via-sanfovet-dark/95 to-[#051408]"></div>
+        
+        <div className="container mx-auto px-4 relative z-10">
+          <div className="text-center max-w-3xl mx-auto mb-20 md:mb-24">
+            <div className="inline-flex items-center gap-2 px-4 py-2 rounded-full bg-white/10 backdrop-blur-md border border-white/20 text-primary-light font-bold text-[10px] uppercase tracking-widest mb-6">
+               <Award size={14} /> Giá trị cốt lõi
+            </div>
+            <h2 className="text-4xl lg:text-6xl font-black mb-6 uppercase tracking-tighter shadow-sm">Tại Sao Chọn <span className="text-primary-dark">SANFOVET</span>?</h2>
+            <p className="text-xl text-gray-300 font-medium leading-relaxed">Sứ mệnh của chúng tôi là cung cấp những giải pháp y tế tối ưu, giúp bảo vệ và nâng cao năng suất đàn vật nuôi tại Việt Nam.</p>
           </div>
 
-          <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-5 gap-8">
+          <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-5 gap-6 lg:gap-8">
              {features.map((f, i: number) => (
-               <div key={i} className="flex flex-col items-center text-center p-8 bg-white/5 rounded-[20px] border border-white/10 hover:bg-white/10 transition-all duration-300 hover:-translate-y-2">
-                 <div className="w-[70px] h-[70px] rounded-full bg-gradient-to-br from-primary to-accent flex items-center justify-center mb-8 text-white shadow-[0_4px_20px_rgba(26,140,63,0.3)]">
+               <div key={i} className="flex flex-col items-center text-center p-8 lg:p-10 bg-white/5 backdrop-blur-md rounded-[40px] border border-white/10 hover:bg-white/10 hover:border-primary/50 transition-all duration-500 hover:-translate-y-2 group shadow-2xl">
+                 <div className="w-20 h-20 rounded-[28px] bg-gradient-to-br from-primary/80 to-primary-dark flex items-center justify-center mb-8 text-white shadow-[0_10px_30px_rgba(26,140,63,0.3)] group-hover:scale-110 transition-transform duration-500 transform rotate-3 group-hover:rotate-0">
                    {f.icon}
                  </div>
-                 <h3 className="font-bold text-[1.05rem] mb-3 text-white">{f.title}</h3>
-                 <p className="text-[0.85rem] text-white/60 leading-relaxed font-medium">{f.desc}</p>
+                 <h3 className="font-black text-lg lg:text-xl mb-4 text-white tracking-wide">{f.title}</h3>
+                 <p className="text-sm text-gray-400 leading-relaxed font-medium">{f.desc}</p>
                </div>
              ))}
           </div>
@@ -187,29 +210,36 @@ export default async function HomePage() {
       </section>
 
       {/* Latest News */}
-      <section className="py-20 md:py-28 bg-sanfovet-alt overflow-hidden">
-        <div className="container mx-auto px-4">
-          <div className="text-center max-w-2xl mx-auto mb-16">
-            <h2 className="text-3xl md:text-4xl font-bold mb-4 text-gray-900 border-b-4 border-accent pb-3 inline-block">Tin Nổi Bật</h2>
-            <p className="text-gray-500 mt-5 font-medium">Cập nhật tin tức mới nhất từ SANFOVET và ngành chăn nuôi thú y</p>
+      <section className="py-24 lg:py-32 bg-gray-50 overflow-hidden relative">
+        <div className="container mx-auto px-4 relative z-10">
+          <div className="text-center max-w-3xl mx-auto mb-16 lg:mb-20">
+            <div className="inline-flex items-center justify-center w-16 h-1.5 bg-primary rounded-full mb-8 relative">
+               <div className="absolute w-4 h-4 bg-primary rounded-full animate-ping opacity-40"></div>
+            </div>
+            <h2 className="text-4xl lg:text-5xl font-black mb-6 text-sanfovet-dark uppercase tracking-tight">Tin Tức <span className="text-primary-dark">Nổi Bật</span></h2>
+            <p className="text-gray-500 text-lg font-medium">Bản tin thị trường chăn nuôi, hoạt động nổi bật của công ty và những cập nhật mới nhất</p>
           </div>
 
-          <div className="grid grid-cols-1 md:grid-cols-3 gap-8">
+          <div className="grid grid-cols-1 lg:grid-cols-3 gap-8">
             {latestNews.map((a: Article, i: number) => (
-              <article key={a.id} className="bg-white rounded-[20px] shadow-sm overflow-hidden hover:shadow-2xl transition-all duration-500 group flex flex-col">
-                 <div className="aspect-video relative overflow-hidden">
+              <article key={a.id} className="bg-white rounded-[40px] shadow-sm border border-gray-100 overflow-hidden hover:shadow-2xl transition-all duration-500 group flex flex-col hover:-translate-y-2">
+                 <div className="aspect-[16/10] relative overflow-hidden">
                     <img src={`/images/news-${(i % 3) + 1}.png`} alt={a.title} className="w-full h-full object-cover group-hover:scale-105 transition-transform duration-700" />
-                 </div>
-                 <div className="p-8 flex flex-col flex-1">
-                    <div className="text-[0.75rem] font-bold text-gray-400 mb-4 inline-flex items-center gap-2">
-                      <span className="w-6 h-px bg-gray-300"></span> {a.publishDate || '01/01/2026'}
+                    <div className="absolute bottom-4 left-4 right-4 text-white">
+                      <div className="bg-sanfovet-dark/80 backdrop-blur-md rounded-3xl p-5 border border-white/10 shadow-lg">
+                        <div className="text-[10px] font-bold text-primary-light mb-2 uppercase tracking-widest flex items-center gap-1.5">
+                          <Calendar size={12} /> {a.publishDate || '01/01/2026'}
+                        </div>
+                        <h3 className="font-black text-lg lg:text-xl leading-snug line-clamp-2">
+                          <Link href={`/bai-viet/${a.slug}`} className="hover:text-primary-light transition-colors">{a.title}</Link>
+                        </h3>
+                      </div>
                     </div>
-                    <h3 className="font-bold text-gray-900 text-lg mb-4 leading-snug group-hover:text-primary transition-colors h-14 overflow-hidden">
-                      <Link href={`/bai-viet/${a.slug}`}>{a.title}</Link>
-                    </h3>
-                    <p className="text-[0.9rem] text-gray-500 line-clamp-3 mb-8 leading-relaxed flex-1">{a.excerpt}</p>
-                    <Link href={`/bai-viet/${a.slug}`} className="inline-flex items-center gap-2 text-primary font-black text-sm uppercase tracking-wider group-hover:gap-4 transition-all">
-                       Tìm hiểu thêm <ChevronRight size={18} />
+                 </div>
+                 <div className="p-8 lg:p-10 flex flex-col flex-1">
+                    <p className="text-[15px] text-gray-500 line-clamp-3 mb-8 leading-relaxed font-medium flex-1">{a.excerpt}</p>
+                    <Link href={`/bai-viet/${a.slug}`} className="inline-flex items-center gap-2 text-sanfovet-dark hover:text-primary font-black text-[11px] uppercase tracking-widest group-hover:gap-4 transition-all w-fit rounded-full bg-gray-50 px-6 py-3 border border-gray-100 hover:border-primary/30">
+                       Đọc bản tin <ArrowRight size={14} />
                     </Link>
                  </div>
               </article>
@@ -222,5 +252,6 @@ export default async function HomePage() {
     </div>
   );
 }
+
 
 
