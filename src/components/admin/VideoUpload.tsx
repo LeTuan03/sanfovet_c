@@ -1,10 +1,10 @@
 "use client";
 
 import React, { useState, useEffect } from 'react';
-import { Upload, message, Progress } from 'antd';
+import { Upload, message, Progress, App as AntdApp } from 'antd';
 import { PlayCircleOutlined, DeleteOutlined, LoadingOutlined, VideoCameraOutlined } from '@ant-design/icons';
 import type { UploadProps } from 'antd';
-import { uploadFile } from '@/lib/firebase/storage';
+import { uploadFile } from '@/lib/supabase/storage';
 
 interface VideoUploadProps {
   value?: string;
@@ -17,6 +17,7 @@ const VideoUpload: React.FC<VideoUploadProps> = ({
   onChange,
   label = 'Tải video lên',
 }) => {
+  const { message: messageApi } = AntdApp.useApp();
   const [loading, setLoading] = useState(false);
   const [videoUrl, setVideoUrl] = useState<string | undefined>(value);
   const [percent, setPercent] = useState(0);
@@ -28,12 +29,12 @@ const VideoUpload: React.FC<VideoUploadProps> = ({
   const beforeUpload = (file: any) => {
     const isVideo = file.type.startsWith('video/');
     if (!isVideo) {
-      message.error('Bạn chỉ có thể tải lên file video!');
+      messageApi.error('Bạn chỉ có thể tải lên file video!');
       return false;
     }
     const isLt50M = file.size / 1024 / 1024 < 50;
     if (!isLt50M) {
-      message.error('Video phải nhỏ hơn 50MB!');
+      messageApi.error('Video phải nhỏ hơn 50MB!');
       return false;
     }
     return true;
@@ -58,7 +59,7 @@ const VideoUpload: React.FC<VideoUploadProps> = ({
       onSuccess('ok');
     } catch (error) {
       console.error('Upload error:', error);
-      message.error('Tải video lên thất bại!');
+      messageApi.error('Tải video lên thất bại!');
       onError(error);
     } finally {
       setLoading(false);

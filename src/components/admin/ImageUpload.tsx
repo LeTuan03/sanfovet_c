@@ -1,11 +1,11 @@
 "use client";
 
 import React, { useState, useEffect } from 'react';
-import { Upload, message } from 'antd';
+import { Upload, message, App as AntdApp } from 'antd';
 import { PlusOutlined, DeleteOutlined, LoadingOutlined } from '@ant-design/icons';
 import type { UploadChangeParam } from 'antd/es/upload';
 import type { RcFile, UploadFile, UploadProps } from 'antd/es/upload/interface';
-import { uploadFile } from '@/lib/firebase/storage';
+import { uploadFile } from '@/lib/supabase/storage';
 
 interface ImageUploadProps {
   value?: string;
@@ -20,25 +20,26 @@ const getBase64 = (img: RcFile, callback: (url: string) => void) => {
   reader.readAsDataURL(img);
 };
 
-const beforeUpload = (file: RcFile) => {
-  const isJpgOrPng =
-    file.type === 'image/jpeg' ||
-    file.type === 'image/png' ||
-    file.type === 'image/webp';
-  if (!isJpgOrPng) message.error('Bạn chỉ có thể tải lên file JPG/PNG/WEBP!');
-  const isLt2M = file.size / 1024 / 1024 < 2;
-  if (!isLt2M) message.error('Hình ảnh phải nhỏ hơn 2MB!');
-  return isJpgOrPng && isLt2M;
-};
-
 const ImageUpload: React.FC<ImageUploadProps> = ({
   value,
   onChange,
   label = 'Tải ảnh lên',
   aspectRatio = '1/1',
 }) => {
+  const { message: messageApi } = AntdApp.useApp();
   const [loading, setLoading] = useState(false);
   const [imageUrl, setImageUrl] = useState<string | undefined>(value);
+
+  const beforeUpload = (file: RcFile) => {
+    const isJpgOrPng =
+      file.type === 'image/jpeg' ||
+      file.type === 'image/png' ||
+      file.type === 'image/webp';
+    if (!isJpgOrPng) messageApi.error('Bạn chỉ có thể tải lên file JPG/PNG/WEBP!');
+    const isLt2M = file.size / 1024 / 1024 < 2;
+    if (!isLt2M) messageApi.error('Hình ảnh phải nhỏ hơn 2MB!');
+    return isJpgOrPng && isLt2M;
+  };
 
   useEffect(() => {
     setImageUrl(value);
@@ -72,7 +73,7 @@ const ImageUpload: React.FC<ImageUploadProps> = ({
       onSuccess('ok');
     } catch (error) {
       console.error('Upload error:', error);
-      message.error('Tải ảnh lên thất bại!');
+      messageApi.error('Tải ảnh lên thất bại!');
       onError(error);
     } finally {
       setLoading(false);

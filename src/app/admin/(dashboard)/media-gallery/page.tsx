@@ -473,8 +473,8 @@ function AdminMediaGalleryPageContent() {
       </Modal>
 
       <div style={{ display: 'none' }}>
-        <Image.PreviewGroup preview={{ visible: previewOpen, onVisibleChange: (vis) => setPreviewOpen(vis) }}>
-          <Image src={previewImage} />
+        <Image.PreviewGroup preview={{ open: previewOpen, onOpenChange: (vis) => setPreviewOpen(vis) }}>
+          {previewImage ? <Image src={previewImage} /> : null}
         </Image.PreviewGroup>
       </div>
     </motion.div>
