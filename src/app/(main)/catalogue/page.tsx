@@ -1,7 +1,7 @@
 import { Metadata } from 'next';
 import Link from 'next/link';
-import { FileText, Download, Eye, ShieldCheck, Award } from 'lucide-react';
-
+import { FileText, ShieldCheck, Award } from 'lucide-react';
+import DocumentList from './CatalogueClient';
 export const metadata: Metadata = {
   title: "Catalogue & Tài liệu",
   description: "Tải về Catalogue sản phẩm thú y 2026 và Hồ sơ năng lực mới nhất của SANFOVET. Tài liệu kỹ thuật chuyên sâu cho trang trại.",
@@ -11,9 +11,9 @@ export const metadata: Metadata = {
 
 export default function CataloguePage() {
   const documents = [
-    { title: "Catalogue Sản phẩm Sanfovet 2026", size: "24.5 MB", type: "PDF", link: "#" },
-    { title: "Hồ sơ năng lực công ty (Profile)", size: "12.8 MB", type: "PDF", link: "#" },
-    { title: "Hướng dẫn sử dụng thuốc thú y", size: "8.2 MB", type: "PDF", link: "#" }
+    { title: "Catalogue Sản phẩm Sanfovet 2026", size: "24.5 MB", type: "PDF", link: "/catalogue/mau1.pdf" },
+    { title: "Hồ sơ năng lực công ty (Profile)", size: "12.8 MB", type: "PDF", link: "/catalogue/mau1.pdf" },
+    { title: "Hướng dẫn sử dụng thuốc thú y", size: "8.2 MB", type: "PDF", link: "/catalogue/mau1.pdf" }
   ];
 
   return (
@@ -47,35 +47,7 @@ export default function CataloguePage() {
            </div>
 
            <div className="space-y-6">
-              {documents.map((doc) => (
-                <div key={doc.title} className="flex flex-col md:flex-row items-center gap-6 p-8 bg-white rounded-[32px] border border-gray-100 shadow-sm hover:shadow-xl transition-all group">
-                   <div className="w-16 h-16 bg-primary/10 rounded-2xl flex items-center justify-center text-primary shrink-0 group-hover:bg-primary group-hover:text-white transition-all">
-                      <FileText size={32} />
-                   </div>
-                   <div className="flex-1 text-center md:text-left">
-                      <h4 className="text-xl font-black text-sanfovet-dark mb-1">{doc.title}</h4>
-                      <p className="text-xs text-gray-400 font-bold uppercase tracking-widest flex items-center justify-center md:justify-start gap-3">
-                         {doc.type} • {doc.size}
-                      </p>
-                   </div>
-                    <div className="flex gap-4">
-                       <a 
-                         href="https://www.w3.org/WAI/ER/tests/xhtml/testfiles/resources/pdf/dummy.pdf" 
-                         target="_blank"
-                         className="flex items-center gap-2 bg-sanfovet-alt text-primary font-black py-3 px-6 rounded-full text-xs uppercase tracking-widest hover:bg-primary hover:text-white transition-all"
-                       >
-                          <Eye size={16} /> Xem
-                       </a>
-                       <a 
-                         href="https://www.w3.org/WAI/ER/tests/xhtml/testfiles/resources/pdf/dummy.pdf" 
-                         download
-                         className="flex items-center gap-2 bg-primary text-white font-black py-3 px-6 rounded-full text-xs uppercase tracking-widest hover:bg-primary-dark transition-all shadow-lg shadow-primary/20"
-                       >
-                          <Download size={16} /> Tải về
-                       </a>
-                    </div>
-                </div>
-              ))}
+              <DocumentList documents={documents} />
            </div>
 
            <div className="mt-20 p-12 bg-sanfovet-dark rounded-[48px] text-white text-center relative overflow-hidden">
