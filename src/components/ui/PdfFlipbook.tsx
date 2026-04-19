@@ -3,57 +3,67 @@
 import React, { useState, useRef, useEffect, forwardRef, useCallback } from 'react';
 import { Document, Page, pdfjs } from 'react-pdf';
 import HTMLFlipBook from 'react-pageflip';
-import { ChevronLeft, ChevronRight, X, Loader2 } from 'lucide-react';
+import { ChevronLeft, ChevronRight, X, Loader2, BookOpen } from 'lucide-react';
 import 'react-pdf/dist/Page/TextLayer.css';
 import 'react-pdf/dist/Page/AnnotationLayer.css';
 
 // Configure PDF worker
 pdfjs.GlobalWorkerOptions.workerSrc = `//unpkg.com/pdfjs-dist@${pdfjs.version}/build/pdf.worker.min.mjs`;
 
-// Create a wrapped Page component for react-pageflip to use as a ref
-const PageLayer = forwardRef(({ pageNumber, scale, width, height }: any, ref: React.Ref<HTMLDivElement>) => {
+const PageLayer = forwardRef(({ pageNumber, width, height }: any, ref: React.Ref<HTMLDivElement>) => {
   return (
-    <div ref={ref} className="bg-white relative flex justify-center items-center h-full w-full border border-gray-200 overflow-hidden shadow-inner">
-      <div className="absolute inset-0 z-10 pointer-events-none shadow-[inset_rgba(0,0,0,0.1)_-10px_0px_20px]" />
-      <Page 
-        pageNumber={pageNumber} 
-        scale={scale || 1} 
+    <div
+      ref={ref}
+      style={{ width, height }}
+      className="relative flex justify-center items-center overflow-hidden bg-white"
+    >
+      {/* Spine shadow (left edge) */}
+      <div className="absolute inset-y-0 left-0 w-8 z-10 pointer-events-none"
+        style={{ background: 'linear-gradient(to right, rgba(0,0,0,0.12), transparent)' }} />
+      {/* Page curl shadow (right edge) */}
+      <div className="absolute inset-y-0 right-0 w-6 z-10 pointer-events-none"
+        style={{ background: 'linear-gradient(to left, rgba(0,0,0,0.06), transparent)' }} />
+
+      <Page
+        pageNumber={pageNumber}
         width={width}
-        // renderTextLayer={false} 
-        // renderAnnotationLayer={false} 
-        className="pdf-page-container mx-auto"
-        loading={<div className="flex items-center justify-center h-full text-gray-400"><Loader2 className="animate-spin" /></div>}
+        className="pdf-page-container"
+        loading={
+          <div className="flex items-center justify-center" style={{ width, height }}>
+            <Loader2 className="animate-spin text-amber-400" size={28} />
+          </div>
+        }
       />
+
       {pageNumber && (
-         <div className="absolute bottom-4 right-4 text-xs font-medium text-gray-500 z-20">
-           {pageNumber}
-         </div>
+        <div className="absolute bottom-3 right-4 text-[10px] font-semibold tracking-widest text-gray-400 z-20 uppercase select-none">
+          {pageNumber}
+        </div>
       )}
     </div>
   );
 });
 PageLayer.displayName = 'PageLayer';
 
-export default function PdfFlipbook({ url, onClose }: { url: string, onClose: () => void }) {
+export default function PdfFlipbook({ url, onClose }: { url: string; onClose: () => void }) {
   const [numPages, setNumPages] = useState<number | null>(null);
-  const [pageNumber, setPageNumber] = useState(1);
+  const [currentPage, setCurrentPage] = useState(1);
   const [containerWidth, setContainerWidth] = useState(1000);
+  const [isLoaded, setIsLoaded] = useState(false);
   const bookRef = useRef<any>(null);
   const wrapperRef = useRef<HTMLDivElement>(null);
 
   function onDocumentLoadSuccess({ numPages }: { numPages: number }) {
     setNumPages(numPages);
+    setTimeout(() => setIsLoaded(true), 300);
   }
 
-  // Calculate book dimensions
-  const bookWidth = Math.min(containerWidth, 1000) / 2;
-  const bookHeight = bookWidth * 1.414; // A4 aspect ratio approximation
+  const bookWidth = Math.min(containerWidth * 0.45, 460);
+  const bookHeight = bookWidth * 1.414;
 
   useEffect(() => {
     const handleResize = () => {
-      if (wrapperRef.current) {
-        setContainerWidth(wrapperRef.current.clientWidth);
-      }
+      if (wrapperRef.current) setContainerWidth(wrapperRef.current.clientWidth);
     };
     handleResize();
     window.addEventListener('resize', handleResize);
@@ -61,91 +71,198 @@ export default function PdfFlipbook({ url, onClose }: { url: string, onClose: ()
   }, []);
 
   const onFlip = useCallback((e: any) => {
-    setPageNumber(e.data + 1); // e.data is the current 0-indexed page in flipbook
+    setCurrentPage(e.data + 1);
   }, []);
 
+  const progress = numPages ? ((currentPage - 1) / (numPages - 1)) * 100 : 0;
+
   return (
-    <div className="w-full flex justify-center items-center flex-col bg-gray-50/50 rounded-[48px] p-6 border border-gray-100 relative shadow-inner animate-in fade-in duration-500">
-      <div className="w-full flex justify-between items-center mb-6 px-4">
-        <div className="flex items-center gap-4">
-          <h3 className="font-black text-sanfovet-dark text-xl">Sách Catalogue</h3>
-          {numPages && (
-            <span className="bg-white px-4 py-1.5 rounded-full text-xs font-bold text-gray-500 border border-gray-200">
-              Trang {pageNumber} / {numPages}
-            </span>
-          )}
+    <div
+      className="w-full flex flex-col rounded-3xl overflow-hidden relative bg-sanfovet-dark"
+      style={{
+        boxShadow: '0 40px 80px rgba(0,0,0,0.6), inset 0 1px 0 rgba(255,255,255,0.06)',
+        fontFamily: "'Georgia', serif",
+      }}
+    >
+      {/* Ambient top glow */}
+      <div
+        className="absolute inset-x-0 top-0 h-64 pointer-events-none"
+        style={{ background: 'radial-gradient(ellipse at 50% -10%, rgba(210,160,80,0.18) 0%, transparent 70%)' }}
+      />
+
+      {/* ── HEADER ── */}
+      <div className="relative flex items-center justify-between px-8 py-5 border-b"
+        style={{ borderColor: 'rgba(210,160,80,0.15)' }}>
+        {/* Left: icon + title */}
+        <div className="flex items-center gap-3">
+          <div className="w-9 h-9 rounded-xl flex items-center justify-center"
+            style={{ background: 'rgba(210,160,80,0.15)', border: '1px solid rgba(210,160,80,0.3)' }}>
+            <BookOpen size={17} style={{ color: '#D2A050' }} />
+          </div>
+          <div>
+            <p className="text-xs tracking-[0.2em] uppercase font-medium mb-0.5"
+              style={{ color: 'rgba(210,160,80,0.6)', fontFamily: "'Helvetica Neue', sans-serif" }}>
+              Catalogue
+            </p>
+            <h3 className="text-white font-bold text-sm leading-none" style={{ fontFamily: "'Georgia', serif" }}>
+              Sách Catalogue
+            </h3>
+          </div>
         </div>
-        <button 
+
+        {/* Center: page indicator */}
+        {numPages && (
+          <div className="absolute left-1/2 -translate-x-1/2 flex items-center gap-2">
+            <span className="text-sm tabular-nums" style={{ color: '#D2A050', fontFamily: "'Helvetica Neue', sans-serif" }}>
+              {currentPage}
+            </span>
+            <span className="text-xs" style={{ color: 'rgba(255,255,255,0.25)' }}>／</span>
+            <span className="text-sm tabular-nums" style={{ color: 'rgba(255,255,255,0.4)', fontFamily: "'Helvetica Neue', sans-serif" }}>
+              {numPages}
+            </span>
+          </div>
+        )}
+
+        {/* Right: close */}
+        <button
           onClick={onClose}
-          className="bg-white text-gray-500 hover:text-red-500 hover:bg-red-50 w-10 h-10 rounded-full flex items-center justify-center transition-all border border-gray-200 shadow-sm"
+          className="w-9 h-9 rounded-xl flex items-center justify-center transition-all duration-200 hover:scale-105"
+          style={{
+            background: 'rgba(255,255,255,0.06)',
+            border: '1px solid rgba(255,255,255,0.1)',
+            color: 'rgba(255,255,255,0.5)',
+          }}
+          onMouseEnter={e => {
+            (e.currentTarget as HTMLButtonElement).style.background = 'rgba(220,60,60,0.2)';
+            (e.currentTarget as HTMLButtonElement).style.color = '#ff6b6b';
+          }}
+          onMouseLeave={e => {
+            (e.currentTarget as HTMLButtonElement).style.background = 'rgba(255,255,255,0.06)';
+            (e.currentTarget as HTMLButtonElement).style.color = 'rgba(255,255,255,0.5)';
+          }}
         >
-          <X size={20} />
+          <X size={16} />
         </button>
       </div>
 
-      <div ref={wrapperRef} className="w-full max-w-5xl flex justify-center items-center py-10 relative">
-        <div className="absolute top-1/2 left-0 -translate-y-1/2 -ml-4 z-10 hidden md:block">
-           <button 
-             onClick={() => bookRef.current?.pageFlip()?.flipPrev()}
-             className="w-12 h-12 bg-white rounded-full flex items-center justify-center text-primary shadow-lg border border-gray-100 hover:bg-primary-50 transition-all hover:-translate-x-1"
-             title="Trang trước"
-           >
-             <ChevronLeft size={24} />
-           </button>
-        </div>
+      {/* ── BOOK STAGE ── */}
+      <div ref={wrapperRef} className="relative flex justify-center items-center px-4 py-12">
 
-        <div className="absolute top-1/2 right-0 -translate-y-1/2 -mr-4 z-10 hidden md:block">
-           <button 
-             onClick={() => bookRef.current?.pageFlip()?.flipNext()}
-             className="w-12 h-12 bg-white rounded-full flex items-center justify-center text-primary shadow-lg border border-gray-100 hover:bg-primary-50 transition-all hover:translate-x-1"
-             title="Trang sau"
-           >
-             <ChevronRight size={24} />
-           </button>
-        </div>
+        {/* Desk surface glow under the book */}
+        <div
+          className="absolute bottom-0 left-1/2 -translate-x-1/2 pointer-events-none"
+          style={{
+            width: bookWidth * 2.4,
+            height: 80,
+            background: 'radial-gradient(ellipse, rgba(210,160,80,0.12) 0%, transparent 70%)',
+          }}
+        />
 
-        <Document
-          file={url}
-          onLoadSuccess={onDocumentLoadSuccess}
-          loading={
-            <div className="flex flex-col items-center justify-center py-20 text-primary">
-              <Loader2 size={40} className="animate-spin mb-4" />
-              <p className="font-bold">Đang tải sách...</p>
-            </div>
-          }
-          error={<p className="text-red-500 py-20">Không thể tải được PDF.</p>}
+        {/* Left arrow */}
+        <button
+          onClick={() => bookRef.current?.pageFlip()?.flipPrev()}
+          className="absolute left-6 top-1/2 -translate-y-1/2 z-20 hidden md:flex w-11 h-11 rounded-full items-center justify-center transition-all duration-200 hover:-translate-x-0.5 hover:scale-105"
+          style={{
+            background: 'rgba(210,160,80,0.12)',
+            border: '1px solid rgba(210,160,80,0.25)',
+            color: '#D2A050',
+            boxShadow: '0 4px 20px rgba(0,0,0,0.3)',
+          }}
         >
-          {numPages && (
-            <HTMLFlipBook
-              width={bookWidth}
-              height={bookHeight}
-              size="stretch"
-              minWidth={300}
-              maxWidth={1000}
-              minHeight={400}
-              maxHeight={1400}
-              maxShadowOpacity={0.5}
-              showCover={true}
-              mobileScrollSupport={true}
-              onFlip={onFlip}
-              ref={bookRef}
-              className="flipbook-wrapper shadow-2xl mx-auto"
-              style={{ margin: "0 auto" }}
-            >
-              <PageLayer pageNumber={1} width={bookWidth} height={bookHeight} />
-              
-              {/* Generate inside pages. Starts at 1 to numPages. 
-                  react-pageflip requires matching pairs to look like a book */}
-              {Array.from(new Array(numPages - 1), (el, index) => (
-                <PageLayer key={`page_${index + 2}`} pageNumber={index + 2} width={bookWidth} height={bookHeight} />
-              ))}
-            </HTMLFlipBook>
-          )}
-        </Document>
+          <ChevronLeft size={20} />
+        </button>
+
+        {/* Right arrow */}
+        <button
+          onClick={() => bookRef.current?.pageFlip()?.flipNext()}
+          className="absolute right-6 top-1/2 -translate-y-1/2 z-20 hidden md:flex w-11 h-11 rounded-full items-center justify-center transition-all duration-200 hover:translate-x-0.5 hover:scale-105"
+          style={{
+            background: 'rgba(210,160,80,0.12)',
+            border: '1px solid rgba(210,160,80,0.25)',
+            color: '#D2A050',
+            boxShadow: '0 4px 20px rgba(0,0,0,0.3)',
+          }}
+        >
+          <ChevronRight size={20} />
+        </button>
+
+        {/* Book container with drop shadow */}
+        <div
+          className="transition-all duration-700"
+          style={{
+            opacity: isLoaded ? 1 : 0,
+            transform: isLoaded ? 'translateY(0) scale(1)' : 'translateY(16px) scale(0.98)',
+            filter: 'drop-shadow(0 30px 60px rgba(0,0,0,0.7)) drop-shadow(0 10px 20px rgba(0,0,0,0.5))',
+          }}
+        >
+          <Document
+            file={url}
+            onLoadSuccess={onDocumentLoadSuccess}
+            loading={
+              <div
+                className="flex flex-col items-center justify-center"
+                style={{ width: bookWidth * 2, height: bookHeight }}
+              >
+                <Loader2 size={36} className="animate-spin mb-4" style={{ color: '#D2A050' }} />
+                <p className="text-sm tracking-widest uppercase font-medium"
+                  style={{ color: 'rgba(210,160,80,0.6)', fontFamily: "'Helvetica Neue', sans-serif" }}>
+                  Đang tải sách…
+                </p>
+              </div>
+            }
+            error={
+              <p className="text-red-400 py-20 text-sm" style={{ fontFamily: "'Helvetica Neue', sans-serif" }}>
+                Không thể tải được PDF.
+              </p>
+            }
+          >
+            {numPages && (
+              <HTMLFlipBook
+                width={bookWidth}
+                height={bookHeight}
+                size="fixed"
+                maxShadowOpacity={0.6}
+                showCover={true}
+                mobileScrollSupport={true}
+                onFlip={onFlip}
+                ref={bookRef}
+                className="flipbook-wrapper"
+                style={{ margin: '0 auto' }}
+              >
+                <PageLayer pageNumber={1} width={bookWidth} height={bookHeight} />
+                {Array.from(new Array(numPages - 1), (_, index) => (
+                  <PageLayer
+                    key={`page_${index + 2}`}
+                    pageNumber={index + 2}
+                    width={bookWidth}
+                    height={bookHeight}
+                  />
+                ))}
+              </HTMLFlipBook>
+            )}
+          </Document>
+        </div>
       </div>
 
-      <div className="mt-8 flex justify-center items-center gap-4 text-sm text-gray-500">
-         <p>💡 Chạm vào góc sách hoặc kéo thả để lật trang</p>
+      {/* ── FOOTER ── */}
+      <div className="px-8 pb-6 flex flex-col gap-3">
+        {/* Progress bar */}
+        <div className="w-full h-px rounded-full overflow-hidden" style={{ background: 'rgba(255,255,255,0.07)' }}>
+          <div
+            className="h-full rounded-full transition-all duration-500"
+            style={{
+              width: `${progress}%`,
+              background: 'linear-gradient(to right, rgba(210,160,80,0.5), #D2A050)',
+            }}
+          />
+        </div>
+
+        {/* Hint */}
+        <div className="flex items-center justify-center gap-2">
+          <span className="text-xs tracking-wider" style={{ color: 'rgba(255,255,255,0.2)', fontFamily: "'Helvetica Neue', sans-serif" }}>
+            Chạm góc trang hoặc kéo để lật
+          </span>
+        </div>
       </div>
     </div>
   );

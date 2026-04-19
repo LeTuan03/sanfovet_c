@@ -2,7 +2,11 @@
 
 import { useState } from 'react';
 import { FileText, Download, Eye } from 'lucide-react';
-import PdfFlipbook from '@/components/ui/PdfFlipbook';
+import dynamic from 'next/dynamic';
+
+const PdfFlipbook = dynamic(() => import('@/components/ui/PdfFlipbook'), {
+  ssr: false,
+});
 
 interface DocumentInfo {
   title: string;
