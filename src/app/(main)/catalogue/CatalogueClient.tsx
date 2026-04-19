@@ -1,6 +1,6 @@
 'use client';
 
-import { useState } from 'react';
+import { useState, useEffect } from 'react';
 import { FileText, Download, Eye } from 'lucide-react';
 import dynamic from 'next/dynamic';
 
@@ -18,13 +18,16 @@ interface DocumentInfo {
 export default function DocumentList({ documents }: { documents: DocumentInfo[] }) {
   const [selectedPdf, setSelectedPdf] = useState<string | null>(null);
 
-  if (selectedPdf) {
-    return (
-      <div className="w-full animate-in fade-in slide-in-from-bottom-8 duration-500">
-         <PdfFlipbook url={selectedPdf} onClose={() => setSelectedPdf(null)} />
-      </div>
-    );
-  }
+  useEffect(() => {
+    if (selectedPdf) {
+      document.body.style.overflow = 'hidden';
+    } else {
+      document.body.style.overflow = '';
+    }
+    return () => {
+      document.body.style.overflow = '';
+    };
+  }, [selectedPdf]);
 
   return (
     <>
@@ -40,17 +43,17 @@ export default function DocumentList({ documents }: { documents: DocumentInfo[] 
                 {doc.type} • {doc.size}
               </p>
             </div>
-            <div className="flex gap-4">
+            <div className="flex flex-wrap gap-3 md:gap-4 w-full md:w-auto">
               <button 
                 onClick={() => setSelectedPdf(doc.link)}
-                className="flex items-center gap-2 bg-sanfovet-alt text-primary font-black py-3 px-6 rounded-full text-xs uppercase tracking-widest hover:bg-primary hover:text-white transition-all"
+                className="flex items-center justify-center flex-1 md:flex-initial gap-2 bg-sanfovet-alt text-primary font-black py-3 px-6 rounded-full text-xs uppercase tracking-widest hover:bg-primary hover:text-white transition-all"
               >
                 <Eye size={16} /> Xem
               </button>
               <a 
                 href={doc.link} 
                 download
-                className="flex items-center gap-2 bg-primary text-white font-black py-3 px-6 rounded-full text-xs uppercase tracking-widest hover:bg-primary-dark transition-all shadow-lg shadow-primary/20"
+                className="flex items-center justify-center flex-1 md:flex-initial gap-2 bg-primary text-white font-black py-3 px-6 rounded-full text-xs uppercase tracking-widest hover:bg-primary-dark transition-all shadow-lg shadow-primary/20"
               >
                 <Download size={16} /> Tải về
               </a>
@@ -58,6 +61,20 @@ export default function DocumentList({ documents }: { documents: DocumentInfo[] 
           </div>
         ))}
       </div>
+
+      {selectedPdf && (
+        <div 
+          className="fixed inset-0 z-[100] flex items-center justify-center bg-black/80 backdrop-blur-sm p-3 md:p-6 lg:p-10 animate-in fade-in zoom-in-95 duration-300"
+          onClick={() => setSelectedPdf(null)}
+        >
+           <div 
+             className="w-full h-full max-w-[1400px] relative mx-auto flex flex-col shadow-2xl rounded-3xl" 
+             onClick={(e) => e.stopPropagation()}
+           >
+             <PdfFlipbook url={selectedPdf} onClose={() => setSelectedPdf(null)} />
+           </div>
+        </div>
+      )}
     </>
   );
 }
