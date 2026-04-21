@@ -54,6 +54,9 @@ export const metadata: Metadata = {
     description: "Tiên phong sản xuất thuốc thú y công nghệ USA tại Việt Nam.",
     images: ["/images/banner1.png"],
   },
+  icons: {
+    icon: '/images/logo.png',
+  },
 };
 
 export default function RootLayout({
