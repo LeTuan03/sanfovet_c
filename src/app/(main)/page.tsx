@@ -38,7 +38,7 @@ export default async function HomePage() {
            <div className="flex flex-col lg:flex-row gap-16 lg:gap-24 items-center">
               <div className="w-full lg:w-5/12 relative">
                 <div className="relative z-10 rounded-[40px] overflow-hidden shadow-[0_20px_50px_rgba(0,0,0,0.15)] group">
-                  <img src="/images/about.png" alt="Trụ sở SANFOVET" className="w-full h-[500px] object-cover group-hover:scale-105 transition-transform duration-1000" />
+                  <img src="/images/about.png" alt="Trụ sở BIOTECH-VET" className="w-full h-[500px] object-cover group-hover:scale-105 transition-transform duration-1000" />
                   <div className="absolute inset-0 bg-gradient-to-t from-black/60 via-black/10 to-transparent flex items-end p-10">
                      <div className="text-white">
                         <div className="font-black text-6xl mb-2 text-primary-light drop-shadow-lg">20+</div>
@@ -58,7 +58,7 @@ export default async function HomePage() {
                   <span className="text-primary-dark">Đầu tư Liên doanh Việt Anh</span>
                 </h3>
                 <p className="text-gray-600 mb-6 leading-relaxed text-lg font-medium">
-                  SANFOVET tự hào là đơn vị tiên phong trong lĩnh vực sản xuất và phân phối thuốc thú y tại Việt Nam. 
+                  BIOTECH-VET tự hào là đơn vị tiên phong trong lĩnh vực sản xuất và phân phối thuốc thú y tại Việt Nam. 
                   Ứng dụng tiêu chuẩn công nghệ tiên tiến từ Hoa Kỳ, chúng tôi cam kết mang đến những giải pháp bảo vệ sức khỏe vật nuôi toàn diện.
                 </p>
                 <div className="flex flex-col sm:flex-row gap-8 sm:gap-12 mb-10 pb-10 border-b border-gray-100">
@@ -194,7 +194,7 @@ export default async function HomePage() {
             <div className="inline-flex items-center gap-2 px-4 py-2 rounded-full bg-white/10 backdrop-blur-md border border-white/20 text-primary-light font-bold text-[10px] uppercase tracking-widest mb-6">
                <Award size={14} /> Giá trị cốt lõi
             </div>
-            <h2 className="text-4xl lg:text-6xl font-black mb-6 uppercase tracking-tighter shadow-sm">Tại Sao Chọn <span className="text-primary-dark">SANFOVET</span>?</h2>
+            <h2 className="text-4xl lg:text-6xl font-black mb-6 uppercase tracking-tighter shadow-sm">Tại Sao Chọn <span className="text-primary-dark">BIOTECH-VET</span>?</h2>
             <p className="text-xl text-gray-300 font-medium leading-relaxed">Sứ mệnh của chúng tôi là cung cấp những giải pháp y tế tối ưu, giúp bảo vệ và nâng cao năng suất đàn vật nuôi tại Việt Nam.</p>
           </FadeUp>
 

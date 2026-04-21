@@ -1,6 +1,6 @@
 # Phân Tích Website sanfovet.com.vn
 > **Tên website:** THUỐC THÚ Y TRANG TRẠI – TECHNOLOGY USA  
-> **Thương hiệu:** SANFOVET – Công ty CP Đầu tư Liên doanh Việt Anh  
+> **Thương hiệu:** BIOTECH-VET – Công ty CP Đầu tư Liên doanh Việt Anh  
 > **URL:** https://sanfovet.com.vn  
 > **Nền tảng:** WordPress (Custom Theme: `sanfovet`)  
 > **Ngôn ngữ:** Tiếng Việt / Tiếng Anh (song ngữ)  

@@ -110,9 +110,9 @@ export default function AboutContent() {
                     <div className="flex flex-col lg:flex-row gap-12 lg:gap-16 items-center">
                       <div className="flex-1 space-y-8">
                         <div className="border-l-4 border-primary pl-6">
-                           <h2 className="text-3xl lg:text-4xl font-black text-sanfovet-dark uppercase tracking-tight">Tổng quan về SANFOVET</h2>
+                           <h2 className="text-3xl lg:text-4xl font-black text-sanfovet-dark uppercase tracking-tight">Tổng quan về BIOTECH-VET</h2>
                            <p className="text-gray-500 font-medium leading-relaxed mt-6 text-lg">
-                             <strong className="text-sanfovet-dark">SANFOVET</strong> là thương hiệu thuốc thú y thuộc Công ty CP Đầu tư liên doanh Việt Anh. Với hơn 20 năm phát triển, chúng tôi tự hào mang đến các giải pháp dược phẩm chất lượng cao, ứng dụng công nghệ hiện đại từ Hoa Kỳ.
+                             <strong className="text-sanfovet-dark">BIOTECH-VET</strong> là thương hiệu thuốc thú y thuộc Công ty CP Đầu tư liên doanh Việt Anh. Với hơn 20 năm phát triển, chúng tôi tự hào mang đến các giải pháp dược phẩm chất lượng cao, ứng dụng công nghệ hiện đại từ Hoa Kỳ.
                            </p>
                            <p className="text-gray-500 font-medium leading-relaxed mt-4 text-lg">
                              Chúng tôi hướng đến việc liên tục đổi mới, cải tiến chất lượng và dịch vụ, đáp ứng nhu cầu ngày càng cao của ngành chăn nuôi trong và ngoài nước.
@@ -152,7 +152,7 @@ export default function AboutContent() {
                       <div className="md:hidden absolute left-[15px] top-0 bottom-0 w-1 bg-gray-100 rounded-full"></div>
                       <div className="space-y-12">
                          {[
-                           { year: "2002", text: "Công ty Cổ phần Đầu tư Liên doanh Việt Anh (Viet Anh Group) chính thức được thành lập, đặt nền móng cho sự ra đời của thương hiệu SANFOVET." },
+                           { year: "2002", text: "Công ty Cổ phần Đầu tư Liên doanh Việt Anh (Viet Anh Group) chính thức được thành lập, đặt nền móng cho sự ra đời của thương hiệu BIOTECH-VET." },
                            { year: "2010", text: "Khánh thành nhà máy sản xuất thuốc thú y đầu tiên đạt chuẩn GMP-WHO, khẳng định vị thế về chất lượng trên thị trường trong nước." },
                            { year: "2018", text: "Mở rộng hệ sinh thái Sanford Pharma USA và Viaprotic, ứng dụng công nghệ hiện đại từ Hoa Kỳ vào sản xuất chuyên sâu." },
                            { year: "Hiện tại", text: "Trở thành tập đoàn dược phẩm thú y hàng đầu Việt Nam với mạng lưới hơn 1.000 đại lý và xuất khẩu sang nhiều thị trường quốc tế." }
@@ -240,7 +240,7 @@ export default function AboutContent() {
                     <div className="border-l-4 border-primary pl-6">
                        <h2 className="text-3xl lg:text-4xl font-black text-sanfovet-dark uppercase tracking-tight">Cơ sở vật chất</h2>
                        <p className="text-gray-500 font-medium leading-relaxed mt-4 text-lg max-w-3xl">
-                         SANFOVET đầu tư hệ thống trang thiết bị máy móc tiên tiến, dây chuyền sản xuất khép kín vận hành theo tiêu chuẩn GMP-WHO nghiêm ngặt nhất.
+                         BIOTECH-VET đầu tư hệ thống trang thiết bị máy móc tiên tiến, dây chuyền sản xuất khép kín vận hành theo tiêu chuẩn GMP-WHO nghiêm ngặt nhất.
                        </p>
                     </div>
 

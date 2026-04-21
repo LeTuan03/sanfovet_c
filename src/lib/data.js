@@ -250,10 +250,10 @@ export const articles = [
   {
     id: 6, slug: 'tin-hoi-thao-chan-nuoi-2026', title: 'Sanfovet tham dự Hội thảo Chăn nuôi Quốc tế 2026 tại Hà Nội',
     category: 'tin-noi-bo', publishDate: '20/03/2026', thumbnail: '/images/news-3.png',
-    excerpt: 'Công ty SANFOVET vinh dự tham dự Hội thảo Chăn nuôi Quốc tế 2026 tại Trung tâm Hội nghị Quốc gia với nhiều sản phẩm mới.',
+    excerpt: 'Công ty BIOTECH-VET vinh dự tham dự Hội thảo Chăn nuôi Quốc tế 2026 tại Trung tâm Hội nghị Quốc gia với nhiều sản phẩm mới.',
     content: `
       <h2>Sự kiện nổi bật trong ngành chăn nuôi</h2>
-      <p>Từ ngày 18-20/03/2026, Công ty CP Đầu tư Liên doanh Việt Anh (SANFOVET) đã tham dự Hội thảo Chăn nuôi Quốc tế được tổ chức tại Hà Nội. Đây là cơ hội để Sanfovet giới thiệu các dòng sản phẩm mới nhất ứng dụng công nghệ đột phá từ Hoa Kỳ.</p>
+      <p>Từ ngày 18-20/03/2026, Công ty CP Đầu tư Liên doanh Việt Anh (BIOTECH-VET) đã tham dự Hội thảo Chăn nuôi Quốc tế được tổ chức tại Hà Nội. Đây là cơ hội để Sanfovet giới thiệu các dòng sản phẩm mới nhất ứng dụng công nghệ đột phá từ Hoa Kỳ.</p>
       <h2>Trưng bày sản phẩm và tư vấn kỹ thuật</h2>
       <p>Gian hàng của Sanfovet đã thu hút hàng ngàn lượt khách tham quan, bao gồm các chủ trang trại lớn, doanh nghiệp chăn nuôi và các chuyên gia thú y trong và ngoài nước.</p>
       <ul>

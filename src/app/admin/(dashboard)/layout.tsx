@@ -201,7 +201,7 @@ export default function AdminLayout({
                   <div className="w-11 h-11 bg-gradient-to-br from-primary to-primary-dark rounded-2xl flex items-center justify-center text-white font-black text-2xl shadow-lg shadow-primary/30 transform hover:scale-105 transition-transform duration-300">S</div>
                   {!collapsed && (
                     <h2 className="font-black tracking-tighter text-sanfovet-dark text-2xl mb-0 transition-opacity duration-300 bg-clip-text text-transparent bg-gradient-to-r from-sanfovet-dark to-primary">
-                      SANFOVET
+                      BIOTECH-VET
                     </h2>
                   )}
                </div>

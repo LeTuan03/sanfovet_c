@@ -113,7 +113,7 @@ export default async function ArticleDetailPage({ params }: Readonly<{ params: P
                          <img src="/images/logo.png" className="w-16 h-auto opacity-50 grayscale" alt="Sanfovet" />
                       </div>
                       <div>
-                         <h4 className="font-black text-xl text-sanfovet-dark mb-2">Đội ngũ Kỹ thuật SANFOVET</h4>
+                         <h4 className="font-black text-xl text-sanfovet-dark mb-2">Đội ngũ Kỹ thuật BIOTECH-VET</h4>
                          <p className="text-gray-500 font-medium leading-relaxed mb-4">
                             Bài viết được tham vấn chuyên môn bởi các bác sĩ thú y giàu kinh nghiệm của Hội đồng Kỹ thuật Sanfovet. Chúng tôi cam kết mang đến những kiến thức chính xác và giải pháp tối ưu cho người chăn nuôi.
                          </p>

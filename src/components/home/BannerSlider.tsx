@@ -38,7 +38,7 @@ export default function BannerSlider() {
   }, []);
 
   if (loading || banners.length === 0) {
-    return <section className="w-full h-[360px] md:h-[580px] lg:h-[780px] bg-sanfovet-dark flex items-center justify-center text-white font-bold uppercase tracking-widest italic opacity-50 animate-pulse">SANFOVET Loading...</section>;
+    return <section className="w-full h-[360px] md:h-[580px] lg:h-[780px] bg-sanfovet-dark flex items-center justify-center text-white font-bold uppercase tracking-widest italic opacity-50 animate-pulse">BIOTECH-VET Loading...</section>;
   }
 
   return (

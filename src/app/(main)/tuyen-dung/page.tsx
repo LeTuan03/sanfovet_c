@@ -8,7 +8,7 @@ import { MapPin, Calendar, Users, Target, CircleCheck, Heart, Mail } from 'lucid
 
 export const metadata: Metadata = {
   title: "Tuyển Dụng",
-  description: "Gia nhập SANFOVET – Môi trường làm việc năng động, chuyên nghiệp với chế độ đãi ngộ hấp dẫn. Xem các vị trí đang tuyển dụng ngay.",
+  description: "Gia nhập BIOTECH-VET – Môi trường làm việc năng động, chuyên nghiệp với chế độ đãi ngộ hấp dẫn. Xem các vị trí đang tuyển dụng ngay.",
   keywords: ["tuyển dụng sanfovet", "việc làm thú y", "tuyển nhân viên kinh doanh", "hành trình sự nghiệp"],
 };
 
@@ -26,7 +26,7 @@ export default async function RecruitmentPage() {
       <section className="bg-sanfovet-dark text-white py-24 relative overflow-hidden">
         <div className="absolute inset-0 opacity-10 bg-[url('/images/farm.png')] bg-cover bg-center"></div>
         <div className="container mx-auto px-4 relative z-10 text-center">
-           <h1 className="text-4xl md:text-6xl font-black mb-6 uppercase tracking-tighter italic">Gia Nhập SANFOVET</h1>
+           <h1 className="text-4xl md:text-6xl font-black mb-6 uppercase tracking-tighter italic">Gia Nhập BIOTECH-VET</h1>
            <p className="text-xl text-primary-light max-w-2xl mx-auto font-medium">Hành trình bảo vệ sức khỏe vật nuôi và xây dựng sự nghiệp bền vững cùng chúng tôi.</p>
         </div>
       </section>

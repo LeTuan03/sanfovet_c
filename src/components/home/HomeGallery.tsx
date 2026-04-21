@@ -44,7 +44,7 @@ export default function HomeGallery() {
             Video & Hình Ảnh
             <span className="absolute -bottom-2 left-0 w-1/2 h-1.5 bg-primary rounded-full"></span>
           </h2>
-          <p className="text-gray-500 font-medium text-lg italic">Khám phá quy mô nhà máy và các hoạt động nổi bật của SANFOVET</p>
+          <p className="text-gray-500 font-medium text-lg italic">Khám phá quy mô nhà máy và các hoạt động nổi bật của BIOTECH-VET</p>
         </motion.div>
 
         <div className="grid grid-cols-1 lg:grid-cols-2 gap-10">
@@ -68,7 +68,7 @@ export default function HomeGallery() {
                 </div>
                 <div className="absolute bottom-8 left-8">
                    <div className="bg-primary px-4 py-1.5 rounded-full text-[10px] text-white font-black uppercase tracking-[3px] mb-3 w-fit">Featured Video</div>
-                   <h3 className="text-2xl font-black text-white uppercase italic tracking-tight">{featuredVideo?.title || 'Phim giới thiệu SANFOVET'}</h3>
+                   <h3 className="text-2xl font-black text-white uppercase italic tracking-tight">{featuredVideo?.title || 'Phim giới thiệu BIOTECH-VET'}</h3>
                 </div>
              </div>
              <div className="bg-sanfovet-alt p-8 rounded-[32px] border border-gray-100 flex items-center justify-between group">
@@ -167,7 +167,7 @@ export default function HomeGallery() {
                     {selectedItem.title}
                   </h3>
                   <p className="text-gray-400 text-sm font-medium italic mb-10">
-                    Nội dung trực thuộc thư viện truyền thông chính thức của SANFOVET.
+                    Nội dung trực thuộc thư viện truyền thông chính thức của BIOTECH-VET.
                   </p>
                   <button 
                     onClick={() => setSelectedItem(null)}

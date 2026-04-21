@@ -17,7 +17,7 @@ export default function ContentProtection() {
   //              <ShieldX size={32} />
   //           </div>
   //           <p className="text-center font-bold text-gray-700 leading-relaxed">
-  //             Xin lỗi, nội dung trên website SANFOVET đã được bảo vệ bản quyền. 
+  //             Xin lỗi, nội dung trên website BIOTECH-VET đã được bảo vệ bản quyền. 
   //             Vui lòng không sao chép hoặc kiểm tra mã nguồn.
   //           </p>
   //         </div>

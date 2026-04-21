@@ -26,7 +26,7 @@ export default function AdminLoginPage() {
       <div className="w-full max-w-md relative z-10">
         <div className="text-center mb-10">
           <div className="inline-block p-4 bg-white rounded-3xl shadow-xl mb-6">
-             <h1 className="text-4xl font-black text-primary tracking-tighter italic">SANFOVET</h1>
+             <h1 className="text-4xl font-black text-primary tracking-tighter italic">BIOTECH-VET</h1>
           </div>
           <h2 className="text-2xl font-black text-sanfovet-dark uppercase tracking-tight">Hệ thống Quản trị</h2>
           <p className="text-gray-400 font-bold uppercase text-[10px] tracking-[4px] mt-2">Đăng nhập để tiếp tục</p>
@@ -86,7 +86,7 @@ export default function AdminLoginPage() {
 
         <div className="text-center mt-12">
           <p className="text-gray-400 text-xs font-medium italic">
-            &copy; 2024 Bản quyền thuộc về SANFOVET.
+            &copy; 2024 Bản quyền thuộc về BIOTECH-VET.
           </p>
         </div>
       </div>

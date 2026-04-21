@@ -68,7 +68,7 @@ export default async function JobDetailPage({ params }: Readonly<{ params: Promi
                 </h2>
                 <div className="text-gray-600 leading-relaxed space-y-4 font-medium">
                   <p>
-                    <strong>Công ty CP Đầu tư Liên doanh Việt Anh (SANFOVET)</strong> là doanh nghiệp hàng đầu trong lĩnh vực 
+                    <strong>Công ty CP Đầu tư Liên doanh Việt Anh (BIOTECH-VET)</strong> là doanh nghiệp hàng đầu trong lĩnh vực 
                     sản xuất và phân phối thuốc thú y trang trại tại Việt Nam. Với nhà máy đạt tiêu chuẩn GMP-WHO và công nghệ 
                     tiên tiến từ Hoa Kỳ, chúng tôi cam kết mang đến những sản phẩm chất lượng cao nhất cho ngành chăn nuôi.
                   </p>

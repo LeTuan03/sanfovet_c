@@ -4,7 +4,7 @@ import { FileText, ShieldCheck, Award } from 'lucide-react';
 import DocumentList from './CatalogueClient';
 export const metadata: Metadata = {
   title: "Catalogue & Tài liệu",
-  description: "Tải về Catalogue sản phẩm thú y 2026 và Hồ sơ năng lực mới nhất của SANFOVET. Tài liệu kỹ thuật chuyên sâu cho trang trại.",
+  description: "Tải về Catalogue sản phẩm thú y 2026 và Hồ sơ năng lực mới nhất của BIOTECH-VET. Tài liệu kỹ thuật chuyên sâu cho trang trại.",
   keywords: ["catalogue thuốc thú y", "hồ sơ năng lực sanfovet", "tải tài liệu thú y", "hướng dẫn sử dụng thuốc thú y"],
 };
 
