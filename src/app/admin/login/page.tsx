@@ -1,6 +1,6 @@
 "use client";
 
-import React from 'react';
+import React, { useEffect } from 'react';
 import { Form, Input, Button, Checkbox, Card, App } from 'antd';
 import { UserOutlined, LockOutlined, ArrowRightOutlined } from '@ant-design/icons';
 import { useRouter } from 'next/navigation';
@@ -9,9 +9,17 @@ export default function AdminLoginPage() {
   const { message: msg } = App.useApp();
   const router = useRouter();
 
+  useEffect(() => {
+    const token = localStorage.getItem('admin_token');
+    if (token) {
+      router.push('/admin');
+    }
+  }, [router]);
+
   const onFinish = (values: any) => {
     console.log('Success:', values);
     msg.success('Đăng nhập thành công!');
+    localStorage.setItem('admin_token', 'true');
     setTimeout(() => {
       router.push('/admin');
     }, 1000);

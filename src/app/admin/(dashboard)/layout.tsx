@@ -1,6 +1,6 @@
 "use client";
 
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
 import {
   MenuFoldOutlined,
   MenuUnfoldOutlined,
@@ -33,9 +33,19 @@ export default function AdminLayout({
   children: React.ReactNode;
 }) {
   const [collapsed, setCollapsed] = useState(false);
+  const [isAuthChecking, setIsAuthChecking] = useState(true);
   const pathname = usePathname();
   const router = useRouter();
   
+  useEffect(() => {
+    const token = localStorage.getItem('admin_token');
+    if (!token) {
+      router.push('/admin/login');
+    } else {
+      setIsAuthChecking(false);
+    }
+  }, [router]);
+
   const {
     token: { colorBgContainer, borderRadiusLG },
   } = theme.useToken();
@@ -145,8 +155,21 @@ export default function AdminLayout({
   ];
 
   const handleMenuClick = (e: { key: string }) => {
-    router.push(e.key);
+    if (e.key === 'logout') {
+      localStorage.removeItem('admin_token');
+      router.push('/admin/login');
+    } else {
+      router.push(e.key);
+    }
   };
+
+  if (isAuthChecking) {
+    return (
+      <div className="min-h-screen flex items-center justify-center bg-[#f8faf9]">
+        <div className="text-primary font-bold">Đang kiểm tra quyền truy cập...</div>
+      </div>
+    );
+  }
 
   return (
     <ConfigProvider
@@ -255,7 +278,7 @@ export default function AdminLayout({
                     className="text-gray-400 hover:text-primary transition-colors flex items-center justify-center w-11 h-11 rounded-2xl hover:bg-gray-50" 
                   />
                 </Badge>
-                <Dropdown menu={{ items: userMenuItems as any }} placement="bottomRight" arrow={{ pointAtCenter: true }}>
+                <Dropdown menu={{ items: userMenuItems as any, onClick: handleMenuClick }} placement="bottomRight" arrow={{ pointAtCenter: true }}>
                   <div className="flex items-center gap-3 cursor-pointer hover:bg-gray-50 px-4 py-2 rounded-2xl transition-all border border-transparent hover:border-gray-100 bg-gray-50/50">
                     <Avatar 
                       size={36}
