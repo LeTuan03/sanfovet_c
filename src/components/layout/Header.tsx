@@ -66,11 +66,30 @@ export default function Header() {
       <div className="bg-gradient-to-r from-sanfovet-dark to-[#0d2b10] text-white text-[0.82rem] py-1.5 hidden md:block border-b border-white/5">
         <div className="container mx-auto px-4 flex justify-between items-center">
           <div className="flex items-center gap-4 flex-wrap">
-            <span className="flex items-center gap-1.5 opacity-90 font-medium">
-              <Phone size={14} className="shrink-0 text-amber-500" /> {settings?.hotline1 || '024 66861629'} | {settings?.hotline2 || '097 499 9204'}
-            </span>
-            <span className="flex items-center gap-1.5 opacity-90 font-medium border-l border-white/20 pl-4">
-              <Mail size={14} className="shrink-0 text-amber-500" /> {settings?.email || 'pkd.sanfovet@gmail.com'}
+            {/* Hotline nổi bật - Tư vấn mua hàng */}
+            <a
+              href={`tel:${(settings?.hotline1 || '02466861629').replace(/\s/g, '')}`}
+              className="flex items-center gap-2 group"
+              title="Gọi tư vấn ngay"
+            >
+              <span className="relative flex items-center justify-center">
+                <span className="absolute inline-flex h-6 w-6 rounded-full bg-amber-400 opacity-40 animate-ping"></span>
+                <span className="relative flex items-center justify-center w-6 h-6 bg-amber-400 rounded-full">
+                  <Phone size={12} className="text-white" />
+                </span>
+              </span>
+              <span className="flex flex-col leading-[1.2]">
+                <span className="text-[0.6rem] font-black uppercase tracking-[2px] text-amber-400">Tư vấn mua hàng</span>
+                <span className="text-[0.85rem] font-black text-white group-hover:text-amber-300 transition-colors tracking-wide">
+                  {settings?.hotline1 || '024 6686 1629'}
+                  <span className="mx-1 text-white/40">-</span>
+                  {settings?.hotline2 || '097 499 9204'}
+                </span>
+              </span>
+            </a>
+            <span className="flex items-center gap-1.5 opacity-80 font-medium border-l border-white/20 pl-4">
+              <Mail size={13} className="shrink-0 text-amber-400" />
+              <span className="text-white/90">{settings?.email || 'pkd.sanfovet@gmail.com'}</span>
             </span>
           </div>
           <div className="flex items-center gap-4">
