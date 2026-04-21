@@ -7,6 +7,12 @@ export const metadata: Metadata = {
   keywords: ["giới thiệu sanfovet", "công ty việt anh", "nhà máy thuốc thú y", "lịch sử sanfovet", "tầm nhìn sứ mệnh"],
 };
 
+import { Suspense } from 'react';
+
 export default function Page() {
-  return <AboutContent />;
+  return (
+    <Suspense fallback={<div className="h-screen w-full flex items-center justify-center">Loading...</div>}>
+      <AboutContent />
+    </Suspense>
+  );
 }
