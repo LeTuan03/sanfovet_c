@@ -86,10 +86,10 @@ export default function Sidebar({ showProducts = true, showNews = true, showQuic
         <div className="bg-sanfovet-dark p-6 rounded-[24px] text-white">
           <h3 className="font-black text-lg mb-6 border-b border-white/10 pb-3 uppercase tracking-wider">Liên kết nhanh</h3>
           <ul className="space-y-3">
-            <li><Link href="/catalogue" className="flex items-center gap-2 text-white/70 hover:text-primary-light transition-colors font-medium text-sm">📄 Catalogue sản phẩm</Link></li>
-            <li><Link href="/gioi-thieu" className="flex items-center gap-2 text-white/70 hover:text-primary-light transition-colors font-medium text-sm">🏢 Giới thiệu công ty</Link></li>
-            <li><Link href="/lien-he" className="flex items-center gap-2 text-white/70 hover:text-primary-light transition-colors font-medium text-sm">📞 Liên hệ tư vấn</Link></li>
-            <li><Link href="/" className="flex items-center gap-2 text-white/70 hover:text-primary-light transition-colors font-medium text-sm">🏠 Trang chủ</Link></li>
+            <li><Link href="/catalogue" className="flex items-center gap-2 text-white/70 hover:text-primary-light transition-colors font-medium text-sm">Catalogue sản phẩm</Link></li>
+            <li><Link href="/gioi-thieu" className="flex items-center gap-2 text-white/70 hover:text-primary-light transition-colors font-medium text-sm">Giới thiệu công ty</Link></li>
+            <li><Link href="/lien-he" className="flex items-center gap-2 text-white/70 hover:text-primary-light transition-colors font-medium text-sm">Liên hệ tư vấn</Link></li>
+            <li><Link href="/" className="flex items-center gap-2 text-white/70 hover:text-primary-light transition-colors font-medium text-sm">Trang chủ</Link></li>
           </ul>
         </div>
       )}

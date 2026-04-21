@@ -3,11 +3,10 @@
 import React, { useState } from 'react';
 import Link from 'next/link';
 import { motion, AnimatePresence, Variants } from 'framer-motion';
-import { ChevronRight, Play, Pause, Building2, History, Target, Award, Heart, Factory, Users, FileText, Download, Eye } from 'lucide-react';
+import { ChevronRight, Building2, History, Target, Award, Heart, Factory, Users } from 'lucide-react';
 import Sidebar from '@/components/shared/Sidebar';
 
 const tabs = [
-  { id: 'catalogue', label: 'Catalogue', icon: <FileText size={18} /> },
   { id: 'gioi-thieu', label: 'Giới thiệu', icon: <Building2 size={18} /> },
   { id: 'lich-su', label: 'Lịch sử', icon: <History size={18} /> },
   { id: 'tam-nhin', label: 'Tầm nhìn – Sứ mệnh', icon: <Target size={18} /> },
@@ -16,7 +15,7 @@ const tabs = [
 ];
 
 export default function AboutContent() {
-  const [activeTab, setActiveTab] = useState('catalogue');
+  const [activeTab, setActiveTab] = useState('gioi-thieu');
 
   const tabVariants: Variants = {
     hidden: { opacity: 0, y: 20 },
@@ -97,48 +96,6 @@ export default function AboutContent() {
             {/* Tab Content */}
             <div className="min-h-[500px]">
               <AnimatePresence mode="wait">
-                {activeTab === 'catalogue' && (
-                  <motion.div key="catalogue" variants={tabVariants} initial="hidden" animate="visible" exit="exit" className="space-y-10">
-                    <div className="border-l-4 border-primary pl-6">
-                      <h2 className="text-3xl lg:text-4xl font-black text-sanfovet-dark uppercase tracking-tight">Hồ Sơ Năng Lực & Catalogue</h2>
-                      <p className="text-gray-500 font-medium leading-relaxed mt-4 text-lg">
-                        Khám phá chi tiết năng lực sản xuất và danh mục sản phẩm thuốc thú y đa dạng của SANFOVET qua các tài liệu được cập nhật mới nhất.
-                      </p>
-                    </div>
-                    
-                    <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
-                      {[
-                        { title: "Catalogue Sản phẩm 2026", type: "PDF", size: "24 MB" },
-                        { title: "Hồ sơ năng lực Sanfovet", type: "PDF", size: "12 MB" }
-                      ].map((doc, idx) => (
-                        <div key={idx} className="p-6 lg:p-8 bg-white rounded-[32px] border border-gray-100 shadow-sm hover:shadow-xl transition-all duration-500 flex items-center gap-5 group hover:-translate-y-1">
-                          <div className="w-16 h-16 rounded-2xl bg-gray-50 flex items-center justify-center text-gray-400 group-hover:bg-primary group-hover:text-white transition-all duration-500">
-                            <FileText size={32} />
-                          </div>
-                          <div className="flex-1">
-                            <h4 className="font-black text-sanfovet-dark text-lg mb-1 group-hover:text-primary transition-colors">{doc.title}</h4>
-                            <span className="text-xs font-bold text-gray-400 uppercase tracking-widest">{doc.type} • {doc.size}</span>
-                          </div>
-                          <div className="flex gap-2">
-                             <button className="w-10 h-10 flex items-center justify-center bg-gray-50 text-gray-400 hover:bg-primary hover:text-white rounded-full transition-all"><Eye size={18} /></button>
-                             <button className="w-10 h-10 flex items-center justify-center bg-gray-50 text-gray-400 hover:bg-primary hover:text-white rounded-full transition-all"><Download size={18} /></button>
-                          </div>
-                        </div>
-                      ))}
-                    </div>
-
-                    <div className="bg-gradient-to-br from-primary/5 to-primary/10 p-8 lg:p-10 rounded-[32px] border border-primary/20 flex flex-col md:flex-row items-center gap-8 shadow-inner">
-                      <div className="flex-1 text-center md:text-left">
-                        <h4 className="text-2xl font-black text-sanfovet-dark mb-3">Bạn muốn nhận bản in?</h4>
-                        <p className="text-gray-600 font-medium">Chúng tôi sẵn sàng gửi bộ Catalogue in màu chất lượng cao đến tận showroom/trang trại của bạn hoàn toàn miễn phí.</p>
-                      </div>
-                      <Link href="/lien-he" className="shrink-0 inline-flex items-center gap-2 bg-primary text-white px-8 py-4 rounded-full text-sm font-bold uppercase tracking-widest shadow-lg shadow-primary/30 hover:bg-sanfovet-dark hover:shadow-sanfovet-dark/30 transition-all hover:-translate-y-1">
-                         Liên hệ ngay <ChevronRight size={18} />
-                      </Link>
-                    </div>
-                  </motion.div>
-                )}
-
                 {activeTab === 'gioi-thieu' && (
                   <motion.div key="gioi-thieu" variants={tabVariants} initial="hidden" animate="visible" exit="exit" className="space-y-10">
                     <div className="flex flex-col lg:flex-row gap-12 lg:gap-16 items-center">
@@ -165,7 +122,7 @@ export default function AboutContent() {
                       </div>
                       <div className="flex-1 w-full">
                         <div className="relative rounded-[40px] overflow-hidden shadow-2xl">
-                           <img src="/images/about-factory.png" alt="Nhà máy Sanfovet" className="w-full h-[400px] object-cover hover:scale-105 transition-transform duration-700" />
+                           <img src="/images/about.png" alt="Nhà máy Sanfovet" className="w-full h-[400px] object-cover hover:scale-105 transition-transform duration-700" />
                            <div className="absolute inset-0 bg-gradient-to-t from-sanfovet-dark/60 to-transparent"></div>
                         </div>
                       </div>
@@ -230,7 +187,7 @@ export default function AboutContent() {
                         </div>
                         <div className="flex-1 space-y-10">
                           <div>
-                            <div className="w-16 h-16 bg-white/10 rounded-2xl flex items-center justify-center text-pink-400 mb-8 backdrop-blur-md">
+                            <div className="w-16 h-16 bg-white/10 rounded-2xl flex items-center justify-center text-primary-light mb-8 backdrop-blur-md">
                                <Heart size={32} />
                             </div>
                             <h4 className="text-2xl font-black uppercase tracking-tight text-white mb-4">
