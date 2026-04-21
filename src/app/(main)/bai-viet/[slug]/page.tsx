@@ -6,16 +6,24 @@ import { Article, Product } from '@/types';
 // import { articles, products } from '@/lib/data'; // Removed static imports
 import { Calendar, User, ChevronRight, ArrowLeft, Share2, Printer, Tag, List } from 'lucide-react';
 
-function extractHeadings(html: string): { id: string; text: string }[] {
-  const regex = /<h2[^>]*>(.*?)<\/h2>/gi;
+function processContentWithHeadings(html: string): { processedHtml: string, headings: { id: string; text: string }[] } {
   const headings: { id: string; text: string }[] = [];
-  let match;
-  while ((match = regex.exec(html)) !== null) {
-    const text = match[1].replace(/<[^>]*>/g, '').trim();
-    const id = text.toLowerCase().replace(/[^a-z0-9\u00C0-\u024F]+/gi, '-').replace(/^-|-$/g, '');
-    headings.push({ id, text });
+  let processedHtml = html;
+  
+  if (processedHtml) {
+    processedHtml = processedHtml.replace(/<h2([^>]*)>(.*?)<\/h2>/gi, (match, attrs, innerHtml) => {
+      const text = innerHtml.replace(/<[^>]*>/g, '').trim();
+      const id = text.toLowerCase().replace(/[^a-z0-9\u00C0-\u024F]+/gi, '-').replace(/^-|-$/g, '');
+      headings.push({ id, text });
+      
+      if (!attrs.includes('id=')) {
+        return `<h2${attrs} id="${id}">${innerHtml}</h2>`;
+      }
+      return match;
+    });
   }
-  return headings;
+  
+  return { processedHtml, headings };
 }
 
 function getCategoryLabel(category: string): string {
@@ -45,8 +53,8 @@ export default async function ArticleDetailPage({ params }: Readonly<{ params: P
   // Get suggested products
   const suggestedProducts = products.slice(0, 3);
 
-  // Extract TOC headings
-  const headings = extractHeadings(article.content);
+  // Process content to extract headings and inject IDs
+  const { processedHtml, headings } = processContentWithHeadings(article.content || "");
 
   return (
     <div className="bg-white min-h-screen">
@@ -97,7 +105,7 @@ export default async function ArticleDetailPage({ params }: Readonly<{ params: P
                    </div>
                 </header>
 
-                <div className="article-content" dangerouslySetInnerHTML={{ __html: article.content }} />
+                <div className="article-content prose-h2:scroll-mt-32" dangerouslySetInnerHTML={{ __html: processedHtml }} />
 
                 <footer className="mt-16 pt-10 border-t border-gray-100 not-prose">
                    <div className="bg-sanfovet-alt p-8 rounded-[32px] border border-primary/10 flex flex-col md:flex-row gap-8 items-center">
@@ -148,7 +156,7 @@ export default async function ArticleDetailPage({ params }: Readonly<{ params: P
                        {headings.map((h, i) => (
                          <li key={h.id}>
                            <a href={`#${h.id}`} className="text-sm font-medium text-gray-600 hover:text-primary transition-colors flex items-start gap-2">
-                             <span className="text-primary font-black text-xs mt-0.5">{i + 1}.</span> {h.text}
+                             {h.text}
                            </a>
                          </li>
                        ))}
