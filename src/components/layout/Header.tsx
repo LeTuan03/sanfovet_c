@@ -4,17 +4,21 @@ import React, { useState, useEffect } from 'react';
 import Link from 'next/link';
 import { 
   Phone, Mail, ChevronDown, ChevronRight, Menu, X, 
-  Syringe, FlaskConical, TestTube, Pill, Droplets, Bug, ShieldCheck, Leaf, FlaskRound, Beaker 
+  Syringe, FlaskConical, TestTube, Pill, Droplets, Bug, ShieldCheck, Leaf, FlaskRound, Beaker,
+  Search
 } from 'lucide-react';
 import { FacebookOutlined, YoutubeOutlined } from '@ant-design/icons';
+import { useRouter } from 'next/navigation';
 import { useLanguage } from '@/lib/LanguageContext';
 import { NavMenu, Category, Setting, AnimalTag } from '@/types';
 import { motion, AnimatePresence } from 'framer-motion';
 
 export default function Header() {
+  const router = useRouter();
   const { language, setLanguage, t } = useLanguage();
   const [isMobileMenuOpen, setIsMobileMenuOpen] = useState(false);
   const [isScrolled, setIsScrolled] = useState(false);
+  const [searchQuery, setSearchQuery] = useState('');
 
   const [menus, setMenus] = useState<NavMenu[]>([]);
   const [categories, setCategories] = useState<Category[]>([]);
@@ -37,7 +41,7 @@ export default function Header() {
         const menusData = await menusRes.json();
         const settingsData = await settingsRes.json();
         const categoriesData = await categoriesRes.json();
-        
+        console.log(menusData);
         if (Array.isArray(menusData)) {
           setMenus(menusData.filter((m: any) => m.position === 'header' || m.position === 'both'));
         }
@@ -174,6 +178,28 @@ export default function Header() {
                   </Link>
                 );
               })}
+
+              {/* Search Box */}
+              <form 
+                onSubmit={(e) => {
+                  e.preventDefault();
+                  if (searchQuery.trim()) {
+                    router.push(`/san-pham?search=${encodeURIComponent(searchQuery)}`);
+                  }
+                }}
+                className="relative flex items-center ml-4 group"
+              >
+                <input
+                  type="text"
+                  placeholder="Tìm kiếm..."
+                  value={searchQuery}
+                  onChange={(e) => setSearchQuery(e.target.value)}
+                  className="pl-4 pr-10 py-1.5 w-[160px] lg:w-[200px] text-[0.82rem] border border-primary rounded-full focus:outline-none focus:ring-1 focus:ring-primary/50 transition-all placeholder:text-gray-400 font-montserrat"
+                />
+                <button type="submit" className="absolute right-3 text-primary hover:scale-110 transition-transform">
+                  <Search size={18} />
+                </button>
+              </form>
             </nav>
 
             {/* Mobile Menu Button */}

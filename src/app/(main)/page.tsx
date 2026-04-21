@@ -121,15 +121,11 @@ export default async function HomePage() {
                 <div className="absolute top-4 right-4 z-10 w-10 h-10 bg-white rounded-full flex items-center justify-center shadow-md font-black text-primary hover:bg-primary hover:text-white transition-colors cursor-pointer opacity-0 translate-y-2 group-hover:opacity-100 group-hover:translate-y-0">
                    <Eye size={18} />
                 </div>
-                <div className="aspect-[4/3] bg-gradient-to-b from-gray-50/50 to-white flex items-center justify-center p-8 relative overflow-hidden">
+                <div className="bg-gradient-to-b from-gray-50/50 to-white flex items-center justify-center relative overflow-hidden">
                    <img src={p.image} alt={p.name} className="max-h-full w-auto object-contain transition-transform duration-700 group-hover:scale-110 drop-shadow-xl" />
                 </div>
                 <div className="p-6 lg:p-8 flex-1 flex flex-col items-center text-center">
-                  <div className="text-[10px] font-bold text-gray-400 mb-3 uppercase tracking-widest">
-                    {categories.find((c: Category) => c.id === p.categoryId)?.name?.split(' ').slice(0, 3).join(' ') || 'Sản phẩm thú y'}
-                  </div>
                   <h3 className="font-black text-lg lg:text-xl text-sanfovet-dark mb-3 leading-tight group-hover:text-primary transition-colors flex-1">{p.name}</h3>
-                  <p className="text-[13px] text-gray-500 line-clamp-2 mb-6 font-medium px-2">{p.tagline}</p>
                   <Link 
                     href={`/san-pham/${p.slug}`} 
                     className="w-full text-center py-3.5 bg-primary/5 text-primary hover:bg-primary hover:text-white rounded-2xl text-[11px] font-black uppercase tracking-widest transition-all duration-300"

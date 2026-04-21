@@ -102,11 +102,11 @@ export default function AdminLayout({
           icon: <VideoCameraOutlined />,
           label: 'Video & Hình ảnh',
         },
-        // {
-        //   key: '/admin/menus',
-        //   icon: <MenuOutlined />,
-        //   label: 'Quản lý Menu',
-        // },
+        {
+          key: '/admin/menus',
+          icon: <MenuOutlined />,
+          label: 'Quản lý Menu',
+        },
         {
           key: '/admin/settings',
           icon: <SettingOutlined />,

@@ -66,14 +66,31 @@ export class BaseService<T extends { id?: string | number }> {
   }
 
   async setAll(dataList: T[]): Promise<void> {
+    // Get all current documents in the collection to identify which ones to delete
+    const snapshot = await this.collection.get();
+    
+    // Get a set of IDs that should exist after this operation
+    const incomingIds = new Set(
+      dataList
+        .map(data => (data.id !== undefined && data.id !== null ? String(data.id) : null))
+        .filter((id): id is string => id !== null)
+    );
+
     const batch = adminDb.batch();
     
-    // Clear existing (optional - sometimes desired for full reset)
-    // For now, let's just add/update everything
-    
+    // Delete documents that are not in the incoming list
+    snapshot.docs.forEach(doc => {
+      if (!incomingIds.has(doc.id)) {
+        batch.delete(doc.ref);
+      }
+    });
+
+    // Add/Update documents from the incoming list
     dataList.forEach(data => {
       const { id, ...rest } = data;
-      const docRef = id ? this.collection.doc(String(id)) : this.collection.doc();
+      const docRef = (id !== undefined && id !== null) 
+        ? this.collection.doc(String(id)) 
+        : this.collection.doc();
       batch.set(docRef, rest);
     });
 
