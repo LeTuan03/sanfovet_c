@@ -115,69 +115,104 @@ export default function Header() {
 
             {/* Desktop Nav */}
             <nav className="hidden lg:flex items-center gap-1">
-              {menus.filter(m => m.status).sort((a, b) => a.order - b.order).map((menu) => {
-                if (menu.hasMega) {
-                  return (
-                    <div key={menu.id} className="relative group p-0">
-                      <Link href={menu.link} className="px-3 py-2 text-[0.82rem] font-black text-sanfovet-dark hover:text-primary uppercase tracking-tight flex items-center gap-1 group-hover:bg-sanfovet-alt rounded-lg transition-colors font-montserrat">
-                        {t(menu.name)} <ChevronDown size={14} className="group-hover:rotate-180 transition-transform" />
-                      </Link>
-                      {/* Mega Dropdown */}
-                      <div className="absolute top-full left-0 w-[440px] bg-white shadow-2xl rounded-2xl py-6 opacity-0 invisible group-hover:opacity-100 group-hover:visible transition-all translate-y-2 group-hover:translate-y-0 border border-gray-100 z-50 overflow-hidden">
-                        <div className="max-h-[600px] overflow-y-auto custom-scrollbar">
-                          <div className="px-6 mb-4 border-b border-gray-50 pb-4">
-                            <Link href="/san-pham" className="text-[0.7rem] font-black text-primary uppercase tracking-[2px] hover:text-primary-dark transition-colors flex items-center justify-between group/all">
-                               {t('all_products')} 
-                               <div className="w-6 h-6 rounded-full bg-primary/10 flex items-center justify-center group-hover/all:translate-x-1 transition-transform">
-                                  <ChevronRight size={12} />
-                               </div>
-                            </Link>
-                          </div>
-                          <div className="px-2 space-y-0.5">
-                            {categories.map((cat, idx) => {
-                              const icons = [
-                                <Syringe key="s1" size={20} />, <FlaskConical key="s2" size={20} />, <FlaskRound key="s3" size={20} />, 
-                                <TestTube key="s4" size={20} />, <Beaker key="s5" size={20} />, <Pill key="s6" size={20} />, 
-                                <Droplets key="s7" size={20} />, <Bug key="s8" size={20} />, <ShieldCheck key="s9" size={20} />, <Leaf key="s10" size={20} />
-                              ];
-                              return (
-                                <DropdownItem 
-                                  key={cat.id} 
-                                  href={`/san-pham/danh-muc/${cat.slug}`} 
-                                  icon={icons[idx % icons.length]} 
-                                  label={cat.name} 
-                                />
-                              );
-                            })}
+              {menus
+                .filter(m => m.status && (m.parent === null || m.parent === undefined))
+                .sort((a, b) => a.order - b.order)
+                .map((menu) => {
+                  const children = menus
+                    .filter(m => String(m.parent) === String(menu.id) && m.status)
+                    .sort((a, b) => a.order - b.order);
+                  const hasChildren = children.length > 0;
+                  
+                  if (menu.hasMega) {
+                    return (
+                      <div key={menu.id} className="relative group p-0">
+                        <Link href={menu.link} className="px-3 py-2 text-[0.82rem] font-black text-sanfovet-dark hover:text-primary uppercase tracking-tight flex items-center gap-1 group-hover:bg-sanfovet-alt rounded-lg transition-colors font-montserrat">
+                          {t(menu.name)} <ChevronDown size={14} className="group-hover:rotate-180 transition-transform" />
+                        </Link>
+                        {/* Mega Dropdown */}
+                        <div className="absolute top-full left-0 w-[440px] bg-white shadow-2xl rounded-2xl py-6 opacity-0 invisible group-hover:opacity-100 group-hover:visible transition-all translate-y-2 group-hover:translate-y-0 border border-gray-100 z-50 overflow-hidden">
+                          <div className="max-h-[600px] overflow-y-auto custom-scrollbar">
+                            <div className="px-6 mb-4 border-b border-gray-50 pb-4">
+                              <Link href="/san-pham" className="text-[0.7rem] font-black text-primary uppercase tracking-[2px] hover:text-primary-dark transition-colors flex items-center justify-between group/all">
+                                 {t('all_products')} 
+                                 <div className="w-6 h-6 rounded-full bg-primary/10 flex items-center justify-center group-hover/all:translate-x-1 transition-transform">
+                                    <ChevronRight size={12} />
+                                 </div>
+                              </Link>
+                            </div>
+                            <div className="px-2 space-y-0.5">
+                              {categories.map((cat, idx) => {
+                                const icons = [
+                                  <Syringe key="s1" size={20} />, <FlaskConical key="s2" size={20} />, <FlaskRound key="s3" size={20} />, 
+                                  <TestTube key="s4" size={20} />, <Beaker key="s5" size={20} />, <Pill key="s6" size={20} />, 
+                                  <Droplets key="s7" size={20} />, <Bug key="s8" size={20} />, <ShieldCheck key="s9" size={20} />, <Leaf key="s10" size={20} />
+                                ];
+                                return (
+                                  <DropdownItem 
+                                    key={cat.id} 
+                                    href={`/san-pham/danh-muc/${cat.slug}`} 
+                                    icon={icons[idx % icons.length]} 
+                                    label={cat.name} 
+                                  />
+                                );
+                              })}
+                            </div>
                           </div>
                         </div>
                       </div>
-                    </div>
-                  );
-                }
+                    );
+                  }
 
-                if (menu.isButton) {
+                  if (hasChildren) {
+                    return (
+                      <div key={menu.id} className="relative group p-0">
+                        <Link href={menu.link} className="px-3 py-2 text-[0.82rem] font-black text-sanfovet-dark hover:text-primary uppercase tracking-tight flex items-center gap-1 group-hover:bg-sanfovet-alt rounded-lg transition-colors font-montserrat">
+                          {t(menu.name)} <ChevronDown size={14} className="group-hover:rotate-180 transition-transform" />
+                        </Link>
+                        {/* Standard Dropdown */}
+                        <div className="absolute top-full left-0 w-[260px] bg-white shadow-2xl rounded-2xl py-3 opacity-0 invisible group-hover:opacity-100 group-hover:visible transition-all translate-y-2 group-hover:translate-y-0 border border-gray-100 z-50 overflow-hidden">
+                          <div className="px-2 space-y-0.5">
+                            {children.map((child) => (
+                              <Link 
+                                key={child.id} 
+                                href={child.link} 
+                                className="flex items-center gap-3 px-4 py-3 hover:bg-sanfovet-alt rounded-xl transition-all group/subitem"
+                              >
+                                <div className="w-1.5 h-1.5 rounded-full bg-primary/20 group-hover/subitem:bg-primary group-hover/subitem:scale-150 transition-all"></div>
+                                <span className="text-[0.82rem] font-bold text-gray-700 leading-snug group-hover/subitem:text-primary transition-colors">
+                                  {t(child.name)}
+                                </span>
+                              </Link>
+                            ))}
+                          </div>
+                        </div>
+                      </div>
+                    );
+                  }
+
+                  if (menu.isButton) {
+                    return (
+                      <Link 
+                        key={menu.id}
+                        href={menu.link} 
+                        className="ml-4 px-6 py-2.5 bg-primary text-white text-[0.82rem] font-black rounded-full hover:bg-primary-dark transition-all uppercase tracking-widest shadow-lg shadow-primary/20 active:scale-95 font-montserrat"
+                      >
+                        {t(menu.name)}
+                      </Link>
+                    );
+                  }
+
                   return (
                     <Link 
                       key={menu.id}
                       href={menu.link} 
-                      className="ml-4 px-6 py-2.5 bg-primary text-white text-[0.82rem] font-black rounded-full hover:bg-primary-dark transition-all uppercase tracking-widest shadow-lg shadow-primary/20 active:scale-95 font-montserrat"
+                      className="px-3 py-2 text-[0.82rem] font-black text-sanfovet-dark hover:text-primary uppercase tracking-tight font-montserrat"
                     >
                       {t(menu.name)}
                     </Link>
                   );
-                }
-
-                return (
-                  <Link 
-                    key={menu.id}
-                    href={menu.link} 
-                    className="px-3 py-2 text-[0.82rem] font-black text-sanfovet-dark hover:text-primary uppercase tracking-tight font-montserrat"
-                  >
-                    {t(menu.name)}
-                  </Link>
-                );
-              })}
+                })}
 
               {/* Search Box */}
               <form 
@@ -220,28 +255,37 @@ export default function Header() {
             className="lg:hidden fixed inset-0 top-[70px] bg-white z-50 overflow-y-auto border-t border-gray-100 pb-20"
           >
              <div className="p-6 flex flex-col gap-1">
-                {menus.filter(m => m.status).sort((a, b) => a.order - b.order).map((menu) => {
-                  if (menu.isButton) {
+                {menus
+                  .filter(m => m.status && m.parent === null)
+                  .sort((a, b) => a.order - b.order)
+                  .map((menu) => {
+                    const children = menus
+                      .filter(m => m.parent === menu.id && m.status)
+                      .sort((a, b) => a.order - b.order);
+
+                    if (menu.isButton) {
+                      return (
+                        <Link 
+                          key={menu.id}
+                          href={menu.link} 
+                          className="mt-8 py-4 bg-primary text-white text-center font-black rounded-xl uppercase tracking-widest shadow-lg shadow-primary/20 active:scale-95 font-montserrat" 
+                          onClick={() => setIsMobileMenuOpen(false)}
+                        >
+                          {t(menu.name)}
+                        </Link>
+                      );
+                    }
                     return (
-                      <Link 
+                      <MobileNavItem 
                         key={menu.id}
                         href={menu.link} 
-                        className="mt-8 py-4 bg-primary text-white text-center font-black rounded-xl uppercase tracking-widest shadow-lg shadow-primary/20 active:scale-95 font-montserrat" 
+                        label={t(menu.name)} 
                         onClick={() => setIsMobileMenuOpen(false)}
-                      >
-                        {t(menu.name)}
-                      </Link>
+                        childrenItems={children}
+                        t={t}
+                      />
                     );
-                  }
-                  return (
-                    <MobileNavItem 
-                      key={menu.id}
-                      href={menu.link} 
-                      label={t(menu.name)} 
-                      onClick={() => setIsMobileMenuOpen(false)} 
-                    />
-                  );
-                })}
+                  })}
              </div>
           </motion.div>
         )}
@@ -262,10 +306,50 @@ function DropdownItem({ href, icon, label }: { href: string, icon: React.ReactNo
   );
 }
 
-function MobileNavItem({ href, label, onClick }: { href: string, label: string, onClick: () => void }) {
+function MobileNavItem({ href, label, onClick, childrenItems, t }: { href: string, label: string, onClick: () => void, childrenItems?: NavMenu[], t: any }) {
+  const [isOpen, setIsOpen] = useState(false);
+  const hasChildren = childrenItems && childrenItems.length > 0;
+
+  if (!hasChildren) {
+    return (
+      <Link href={href} className="py-4 text-base font-black text-sanfovet-dark border-b border-gray-50 flex justify-between items-center uppercase tracking-tight font-montserrat" onClick={onClick}>
+        {label} <ChevronDown size={16} className="-rotate-90 text-gray-300" />
+      </Link>
+    );
+  }
+
   return (
-    <Link href={href} className="py-4 text-base font-black text-sanfovet-dark border-b border-gray-50 flex justify-between items-center uppercase tracking-tight font-montserrat" onClick={onClick}>
-      {label} <ChevronDown size={16} className="-rotate-90 text-gray-300" />
-    </Link>
+    <div className="border-b border-gray-50">
+      <button 
+        onClick={() => setIsOpen(!isOpen)}
+        className="w-full py-4 text-base font-black text-sanfovet-dark flex justify-between items-center uppercase tracking-tight font-montserrat"
+      >
+        {label} <ChevronDown size={16} className={`transition-transform duration-300 ${isOpen ? 'rotate-180 text-primary' : '-rotate-90 text-gray-300'}`} />
+      </button>
+      <AnimatePresence>
+        {isOpen && (
+          <motion.div 
+            initial={{ height: 0, opacity: 0 }}
+            animate={{ height: 'auto', opacity: 1 }}
+            exit={{ height: 0, opacity: 0 }}
+            className="overflow-hidden bg-gray-50/50 rounded-xl mb-4"
+          >
+            <div className="flex flex-col py-2">
+              {childrenItems.map((child) => (
+                <Link 
+                  key={child.id} 
+                  href={child.link}
+                  className="px-6 py-3 text-sm font-bold text-gray-600 hover:text-primary transition-colors flex items-center gap-3"
+                  onClick={onClick}
+                >
+                  <div className="w-1 h-1 rounded-full bg-primary/30"></div>
+                  {t(child.name)}
+                </Link>
+              ))}
+            </div>
+          </motion.div>
+        )}
+      </AnimatePresence>
+    </div>
   );
 }

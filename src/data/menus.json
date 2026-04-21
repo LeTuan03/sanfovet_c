@@ -8,5 +8,10 @@
   { "id": 7, "name": "Tuyển dụng", "link": "/tuyen-dung", "parent": null, "order": 7, "status": true, "position": "header" },
   { "id": 8, "name": "Liên hệ", "link": "/lien-he", "parent": null, "order": 8, "status": true, "position": "both", "isButton": true },
   { "id": 101, "name": "Privacy Policy", "link": "/privacy", "parent": null, "order": 10, "status": true, "position": "footer" },
-  { "id": 102, "name": "Terms of Service", "link": "/terms", "parent": null, "order": 11, "status": true, "position": "footer" }
+  { "id": 102, "name": "Terms of Service", "link": "/terms", "parent": null, "order": 11, "status": true, "position": "footer" },
+  { "id": 201, "name": "Giới thiệu chung", "link": "/gioi-thieu?tab=gioi-thieu", "parent": 2, "order": 1, "status": true, "position": "header" },
+  { "id": 202, "name": "Lịch sử hình thành", "link": "/gioi-thieu?tab=lich-su", "parent": 2, "order": 2, "status": true, "position": "header" },
+  { "id": 203, "name": "Tầm nhìn - Sứ mệnh", "link": "/gioi-thieu?tab=tam-nhin", "parent": 2, "order": 3, "status": true, "position": "header" },
+  { "id": 204, "name": "Cơ sở vật chất", "link": "/gioi-thieu?tab=co-so", "parent": 2, "order": 4, "status": true, "position": "header" },
+  { "id": 205, "name": "Cơ cấu tổ chức", "link": "/gioi-thieu?tab=co-cau", "parent": 2, "order": 5, "status": true, "position": "header" }
 ]

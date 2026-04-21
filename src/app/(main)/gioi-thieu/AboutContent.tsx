@@ -1,7 +1,8 @@
 "use client";
 
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
 import Link from 'next/link';
+import { useSearchParams } from 'next/navigation';
 import { motion, AnimatePresence, Variants } from 'framer-motion';
 import { ChevronRight, Building2, History, Target, Award, Heart, Factory, Users } from 'lucide-react';
 import Sidebar from '@/components/shared/Sidebar';
@@ -15,7 +16,15 @@ const tabs = [
 ];
 
 export default function AboutContent() {
+  const searchParams = useSearchParams();
+  const tabParam = searchParams.get('tab');
   const [activeTab, setActiveTab] = useState('gioi-thieu');
+
+  useEffect(() => {
+    if (tabParam && tabs.find(t => t.id === tabParam)) {
+      setActiveTab(tabParam);
+    }
+  }, [tabParam]);
 
   const tabVariants: Variants = {
     hidden: { opacity: 0, y: 20 },

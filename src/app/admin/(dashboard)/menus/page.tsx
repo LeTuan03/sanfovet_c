@@ -38,10 +38,34 @@ function AdminMenusPageContent() {
 
   // Derived filtered data
   const filteredData = useMemo(() => {
-    return menus.filter(item => 
+    const rawFiltered = menus.filter(item => 
       item.name.toLowerCase().includes(query.toLowerCase()) ||
       item.link.toLowerCase().includes(query.toLowerCase())
-    ).sort((a, b) => a.order - b.order);
+    );
+
+    const finalData: any[] = [];
+    const rawFilteredIds = new Set(rawFiltered.map(item => item.id));
+
+    // Lấy các menu gốc (không có parent, hoặc parent không nằm trong kết quả tìm kiếm)
+    const rootItems = rawFiltered.filter(item => !item.parent || !rawFilteredIds.has(item.parent));
+    
+    // Sắp xếp các menu gốc theo thứ tự
+    rootItems.sort((a, b) => a.order - b.order);
+
+    // Đệ quy để lấy các menu con và gộp ngay dưới menu cha
+    const buildTree = (parents: any[]) => {
+       parents.forEach(p => {
+          finalData.push(p);
+          const children = rawFiltered.filter(item => item.parent === p.id);
+          if (children.length > 0) {
+             children.sort((a, b) => a.order - b.order);
+             buildTree(children);
+          }
+       });
+    };
+
+    buildTree(rootItems);
+    return finalData;
   }, [menus, query]);
 
   const updateUrl = (params: { q?: string }) => {
@@ -60,6 +84,12 @@ function AdminMenusPageContent() {
   const handleAdd = () => {
     setEditingItem(null);
     form.resetFields();
+    form.setFieldsValue({
+      order: menus.length + 1,
+      position: 'header',
+      hasMega: false,
+      isButton: false,
+    });
     setIsModalOpen(true);
   };
 
@@ -71,14 +101,18 @@ function AdminMenusPageContent() {
 
   const handleOk = () => {
     form.validateFields().then(async (values) => {
+      const parsedValues = {
+        ...values,
+        order: values.order !== undefined && values.order !== '' ? Number(values.order) : menus.length + 1,
+      };
+
       let newData = [];
       if (editingItem) {
-        newData = menus.map(m => m.id === editingItem.id ? { ...m, ...values } : m);
+        newData = menus.map(m => m.id === editingItem.id ? { ...m, ...parsedValues } : m);
       } else {
         const newItem = {
-          ...values,
+          ...parsedValues,
           id: Date.now(),
-          order: menus.length + 1,
           status: true
         };
         newData = [...menus, newItem];
@@ -308,7 +342,7 @@ function AdminMenusPageContent() {
 
           <Row gutter={24}>
             <Col span={12}>
-               <Form.Item name="hasMega" label="Mega Menu (Sản phẩm)" valuePropName="checked">
+               <Form.Item name="hasMega" label="Mega Menu (Sản phẩm)">
                  <Select className="rounded-xl h-10">
                     <Select.Option value={false}>Không</Select.Option>
                     <Select.Option value={true}>Kích hoạt Mega Menu</Select.Option>
@@ -316,7 +350,7 @@ function AdminMenusPageContent() {
                </Form.Item>
             </Col>
             <Col span={12}>
-               <Form.Item name="isButton" label="Kiểu hiển thị (Nút bấm)" valuePropName="checked">
+               <Form.Item name="isButton" label="Kiểu hiển thị (Nút bấm)">
                   <Select className="rounded-xl h-10">
                     <Select.Option value={false}>Link bình thường</Select.Option>
                     <Select.Option value={true}>Dạng Nút nổi bật</Select.Option>
