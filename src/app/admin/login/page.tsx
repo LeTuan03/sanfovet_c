@@ -79,7 +79,7 @@ export default function AdminLoginPage() {
               <Form.Item name="remember" valuePropName="checked" noStyle>
                 <Checkbox className="text-xs font-bold text-gray-500">Ghi nhớ đăng nhập</Checkbox>
               </Form.Item>
-              <a className="text-xs font-bold text-primary hover:text-primary-dark" href="">
+              <a className="text-xs font-bold text-primary hover:text-primary-dark" href="#">
                 Quên mật khẩu?
               </a>
             </div>

@@ -127,11 +127,11 @@ export default function AdminLayout({
           icon: <SettingOutlined />,
           label: 'Thông tin chung',
         },
-        {
-          key: '/admin/users',
-          icon: <UserOutlined />,
-          label: 'Người dùng admin',
-        },
+        // {
+        //   key: '/admin/users',
+        //   icon: <UserOutlined />,
+        //   label: 'Người dùng admin',
+        // },
       ]
     }
   ];
@@ -293,7 +293,7 @@ export default function AdminLayout({
                     />
                     <div className="hidden lg:block">
                       <div className="text-[12px] font-black text-biotechvet-dark leading-none uppercase tracking-tight">Admin biotechvet</div>
-                      <div className="text-[10px] text-gray-400 font-bold uppercase tracking-[0.1em] mt-1.5 opacity-80">Quản trị viên</div>
+                      <div className="text-[10px] text-gray-400 font-bold uppercase tracking-[0.1em] mt-1.5 opacity-80 leading-[20px]">Quản trị viên</div>
                     </div>
                   </div>
                 </Dropdown>
