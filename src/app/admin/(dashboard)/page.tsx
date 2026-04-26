@@ -85,7 +85,7 @@ export default function AdminDashboard() {
                    <div className="flex-1">
                       <div className="text-[10px] font-black text-gray-400 uppercase tracking-[0.15em] mb-1">{stat.title}</div>
                       <div className="flex items-baseline gap-2">
-                        <span className="text-2xl font-black text-sanfovet-dark tracking-tighter">
+                        <span className="text-2xl font-black text-biotechvet-dark tracking-tighter">
                           {stat.value}
                         </span>
                         <span className="text-[10px] font-bold text-green-500">+12%</span>
@@ -124,7 +124,7 @@ export default function AdminDashboard() {
                             </div>
                             <div className="flex flex-col flex-1">
                                <span className="text-xs font-black text-primary uppercase tracking-widest mb-1 opacity-80">{a.category}</span>
-                               <span className="font-bold text-sanfovet-dark line-clamp-1 text-sm group-hover:text-primary transition-colors mb-1">{a.title}</span>
+                               <span className="font-bold text-biotechvet-dark line-clamp-1 text-sm group-hover:text-primary transition-colors mb-1">{a.title}</span>
                                <span className="text-[10px] text-gray-400 font-bold uppercase flex items-center gap-1.5">
                                  <ClockCircleOutlined /> {a.publishDate}
                                </span>
@@ -143,7 +143,7 @@ export default function AdminDashboard() {
               transition={{ delay: 0.5 }}
               className="h-full"
             >
-              <Card variant="borderless" className="shadow-xl rounded-[32px] bg-gradient-to-br from-sanfovet-dark to-primary text-white h-full relative overflow-hidden group">
+              <Card variant="borderless" className="shadow-xl rounded-[32px] bg-gradient-to-br from-biotechvet-dark to-primary text-white h-full relative overflow-hidden group">
                  <div className="absolute -top-10 -right-10 w-40 h-40 bg-white/10 rounded-full blur-3xl group-hover:bg-white/20 transition-all duration-700"></div>
                  <div className="relative z-1">
                     <h3 className="text-xl font-black mb-6 text-white uppercase tracking-[0.1em] italic">Trung tâm Hỗ trợ</h3>
@@ -153,11 +153,11 @@ export default function AdminDashboard() {
                     <div className="space-y-4">
                        <div className="p-5 bg-white/10 backdrop-blur-md rounded-2xl border border-white/10 hover:bg-white/15 transition-all">
                           <div className="text-[10px] font-black uppercase text-white/50 tracking-widest mb-1">Kỹ thuật viên</div>
-                          <div className="font-bold text-sm">Team Dev Sanfovet</div>
+                          <div className="font-bold text-sm">Team Dev biotechvet</div>
                        </div>
                        <div className="p-5 bg-white/10 backdrop-blur-md rounded-2xl border border-white/10 hover:bg-white/15 transition-all">
                           <div className="text-[10px] font-black uppercase text-white/50 tracking-widest mb-1">Kênh liên hệ 24/7</div>
-                          <div className="font-bold text-sm tracking-tight italic">support@sanfovet.com.vn</div>
+                          <div className="font-bold text-sm tracking-tight italic">support@biotechvet.com.vn</div>
                        </div>
                     </div>
                     

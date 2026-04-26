@@ -1,7 +1,7 @@
 # BẢNG HẠNG MỤC PHÁT TRIỂN – WEBSITE BIOTECH-VET.COM.VN
 
-> **Website:** https://sanfovet.com.vn  
-> **Thương hiệu:** BIOTECH-VET – Công ty CP Đầu tư Liên doanh Việt Anh  
+> **Website:** https://biotechvet.com.vn  
+> **Thương hiệu:** BIOTECH-VET – Công Ty CP Công Nghệ Sinh Học Thú Y  
 > **Nền tảng:** WordPress (Custom Theme)  
 > **Ngày lập:** 13/04/2026  
 > **Đơn vị chi phí:** nghìn đồng (VNĐ)

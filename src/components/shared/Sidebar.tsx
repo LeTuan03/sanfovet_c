@@ -43,8 +43,8 @@ export default function Sidebar({ showProducts = true, showNews = true, showQuic
     <div className="sticky top-24 space-y-10">
       {/* Featured Products */}
       {showProducts && (
-        <div className="bg-sanfovet-alt p-6 rounded-[24px] border border-gray-100">
-          <h3 className="font-black text-lg text-sanfovet-dark mb-6 border-b border-gray-200 pb-3 uppercase tracking-wider">Sản phẩm nổi bật</h3>
+        <div className="bg-biotechvet-alt p-6 rounded-[24px] border border-gray-100">
+          <h3 className="font-black text-lg text-biotechvet-dark mb-6 border-b border-gray-200 pb-3 uppercase tracking-wider">Sản phẩm nổi bật</h3>
           <div className="space-y-5">
             {featuredProducts.map((p: any) => (
               <Link href={`/san-pham/${p.slug}`} key={p.id} className="flex gap-4 group">
@@ -52,7 +52,7 @@ export default function Sidebar({ showProducts = true, showNews = true, showQuic
                   <img src={p.image} alt={p.name} className="max-h-full max-w-full object-contain" />
                 </div>
                 <div className="flex flex-col justify-center">
-                  <h4 className="font-bold text-sanfovet-dark group-hover:text-primary transition-colors line-clamp-2 text-sm leading-snug">{p.name}</h4>
+                  <h4 className="font-bold text-biotechvet-dark group-hover:text-primary transition-colors line-clamp-2 text-sm leading-snug">{p.name}</h4>
                   <p className="text-[0.65rem] text-gray-400 mt-1 line-clamp-1 font-medium">{p.tagline}</p>
                 </div>
               </Link>
@@ -64,7 +64,7 @@ export default function Sidebar({ showProducts = true, showNews = true, showQuic
       {/* Latest News */}
       {showNews && (
         <div className="bg-white p-6 rounded-[24px] border border-gray-100 shadow-sm">
-          <h3 className="font-black text-lg text-sanfovet-dark mb-6 border-b border-gray-200 pb-3 uppercase tracking-wider">Tin tức mới nhất</h3>
+          <h3 className="font-black text-lg text-biotechvet-dark mb-6 border-b border-gray-200 pb-3 uppercase tracking-wider">Tin tức mới nhất</h3>
           <div className="space-y-5">
             {latestNews.map((a: any) => (
               <Link href={`/bai-viet/${a.slug}`} key={a.id} className="flex gap-4 group">
@@ -72,7 +72,7 @@ export default function Sidebar({ showProducts = true, showNews = true, showQuic
                   <img src={a.thumbnail} alt={a.title} className="w-full h-full object-cover group-hover:scale-110 transition-transform duration-500" />
                 </div>
                 <div className="flex flex-col justify-center">
-                  <h4 className="font-bold text-sanfovet-dark group-hover:text-primary transition-colors line-clamp-2 text-sm leading-snug">{a.title}</h4>
+                  <h4 className="font-bold text-biotechvet-dark group-hover:text-primary transition-colors line-clamp-2 text-sm leading-snug">{a.title}</h4>
                   <span className="text-[10px] font-bold text-gray-400 mt-1 uppercase tracking-wider">{a.publishDate}</span>
                 </div>
               </Link>
@@ -83,7 +83,7 @@ export default function Sidebar({ showProducts = true, showNews = true, showQuic
 
       {/* Quick Links */}
       {showQuickLinks && (
-        <div className="bg-sanfovet-dark p-6 rounded-[24px] text-white">
+        <div className="bg-biotechvet-dark p-6 rounded-[24px] text-white">
           <h3 className="font-black text-lg mb-6 border-b border-white/10 pb-3 uppercase tracking-wider">Liên kết nhanh</h3>
           <ul className="space-y-3">
             <li><Link href="/catalogue" className="flex items-center gap-2 text-white/70 hover:text-primary-light transition-colors font-medium text-sm">Catalogue sản phẩm</Link></li>

@@ -68,7 +68,7 @@ export async function POST(
   
   // Basic security check for modification requests
   const authHeader = request.headers.get('authorization');
-  const expectedToken = process.env.ADMIN_SECRET_TOKEN || 'sanfovet-dev-token';
+  const expectedToken = process.env.ADMIN_SECRET_TOKEN || 'biotechvet-dev-token';
   
   if (authHeader !== `Bearer ${expectedToken}`) {
     return NextResponse.json({ error: 'Unauthorized' }, { status: 401 });

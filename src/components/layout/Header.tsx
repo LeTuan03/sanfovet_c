@@ -63,7 +63,7 @@ export default function Header() {
   return (
     <div className="w-full z-50 relative">
       {/* Top Bar - Disappears on scroll if we want, but let's keep it above Main Bar */}
-      <div className="bg-gradient-to-r from-sanfovet-dark to-[#0d2b10] text-white text-[0.82rem] py-1.5 hidden md:block border-b border-white/5">
+      <div className="bg-gradient-to-r from-biotechvet-dark to-[#0d2b10] text-white text-[0.82rem] py-1.5 hidden md:block border-b border-white/5">
         <div className="container mx-auto px-4 flex justify-between items-center">
           <div className="flex items-center gap-4 flex-wrap">
             {/* Hotline nổi bật - Tư vấn mua hàng */}
@@ -89,15 +89,15 @@ export default function Header() {
             </a>
             <span className="flex items-center gap-1.5 opacity-80 font-medium border-l border-white/20 pl-4">
               <Mail size={13} className="shrink-0 text-amber-400" />
-              <span className="text-white/90">{settings?.email || 'pkd.sanfovet@gmail.com'}</span>
+              <span className="text-white/90">{settings?.email || 'pkd.biotechvet@gmail.com'}</span>
             </span>
           </div>
           <div className="flex items-center gap-4">
             <div className="flex items-center gap-3 mr-2">
-              <Link href={settings?.social?.facebook || "https://facebook.com/sanfovet"} target="_blank" className="text-white/70 hover:text-amber-500 transition-all font-bold">
+              <Link href={settings?.social?.facebook || "https://facebook.com/biotechvet"} target="_blank" className="text-white/70 hover:text-amber-500 transition-all font-bold">
                 <FacebookOutlined />
               </Link>
-              <Link href={settings?.social?.youtube || "https://youtube.com/sanfovet"} target="_blank" className="text-white/70 hover:text-amber-500 transition-all font-bold">
+              <Link href={settings?.social?.youtube || "https://youtube.com/biotechvet"} target="_blank" className="text-white/70 hover:text-amber-500 transition-all font-bold">
                 <YoutubeOutlined />
               </Link>
             </div>
@@ -128,7 +128,7 @@ export default function Header() {
               <img src="/images/logo.png" alt="BIOTECH-VET" className={`transition-all duration-300 ${isScrolled ? 'h-10' : 'h-12 md:h-[52px]'}`} />
               <div className="hidden lg:block">
                 <div className="text-primary font-black text-xl leading-none tracking-tighter italic uppercase font-montserrat">BIOTECH-VET</div>
-                <div className="text-[0.6rem] text-sanfovet-dark font-black tracking-widest uppercase mt-0.5">{t('intro_slogan')}</div>
+                <div className="text-[0.6rem] text-biotechvet-dark font-black tracking-widest uppercase mt-0.5">{t('intro_slogan')}</div>
               </div>
             </Link>
 
@@ -146,7 +146,7 @@ export default function Header() {
                   if (menu.hasMega) {
                     return (
                       <div key={menu.id} className="relative group p-0">
-                        <Link href={menu.link} className="px-3 py-2 text-[0.82rem] font-black text-sanfovet-dark hover:text-primary uppercase tracking-tight flex items-center gap-1 group-hover:bg-sanfovet-alt rounded-lg transition-colors font-montserrat">
+                        <Link href={menu.link} className="px-3 py-2 text-[0.82rem] font-black text-biotechvet-dark hover:text-primary uppercase tracking-tight flex items-center gap-1 group-hover:bg-biotechvet-alt rounded-lg transition-colors font-montserrat">
                           {t(menu.name)} <ChevronDown size={14} className="group-hover:rotate-180 transition-transform" />
                         </Link>
                         {/* Mega Dropdown */}
@@ -186,7 +186,7 @@ export default function Header() {
                   if (hasChildren) {
                     return (
                       <div key={menu.id} className="relative group p-0">
-                        <Link href={menu.link} className="px-3 py-2 text-[0.82rem] font-black text-sanfovet-dark hover:text-primary uppercase tracking-tight flex items-center gap-1 group-hover:bg-sanfovet-alt rounded-lg transition-colors font-montserrat">
+                        <Link href={menu.link} className="px-3 py-2 text-[0.82rem] font-black text-biotechvet-dark hover:text-primary uppercase tracking-tight flex items-center gap-1 group-hover:bg-biotechvet-alt rounded-lg transition-colors font-montserrat">
                           {t(menu.name)} <ChevronDown size={14} className="group-hover:rotate-180 transition-transform" />
                         </Link>
                         {/* Standard Dropdown */}
@@ -196,7 +196,7 @@ export default function Header() {
                               <Link 
                                 key={child.id} 
                                 href={child.link} 
-                                className="flex items-center gap-3 px-4 py-3 hover:bg-sanfovet-alt rounded-xl transition-all group/subitem"
+                                className="flex items-center gap-3 px-4 py-3 hover:bg-biotechvet-alt rounded-xl transition-all group/subitem"
                               >
                                 <div className="w-1.5 h-1.5 rounded-full bg-primary/20 group-hover/subitem:bg-primary group-hover/subitem:scale-150 transition-all"></div>
                                 <span className="text-[0.82rem] font-bold text-gray-700 leading-snug group-hover/subitem:text-primary transition-colors">
@@ -226,7 +226,7 @@ export default function Header() {
                     <Link 
                       key={menu.id}
                       href={menu.link} 
-                      className="px-3 py-2 text-[0.82rem] font-black text-sanfovet-dark hover:text-primary uppercase tracking-tight font-montserrat"
+                      className="px-3 py-2 text-[0.82rem] font-black text-biotechvet-dark hover:text-primary uppercase tracking-tight font-montserrat"
                     >
                       {t(menu.name)}
                     </Link>
@@ -316,7 +316,7 @@ export default function Header() {
 
 function DropdownItem({ href, icon, label }: { href: string, icon: React.ReactNode, label: string }) {
   return (
-    <Link href={href} className="flex items-center gap-4 px-4 py-3 hover:bg-sanfovet-alt rounded-xl transition-all group/item">
+    <Link href={href} className="flex items-center gap-4 px-4 py-3 hover:bg-biotechvet-alt rounded-xl transition-all group/item">
        <div className="w-10 h-10 rounded-xl bg-primary/5 flex items-center justify-center text-primary group-hover/item:bg-primary group-hover/item:text-white group-hover/item:scale-110 transition-all shrink-0">
           {icon}
        </div>
@@ -331,7 +331,7 @@ function MobileNavItem({ href, label, onClick, childrenItems, t }: { href: strin
 
   if (!hasChildren) {
     return (
-      <Link href={href} className="py-4 text-base font-black text-sanfovet-dark border-b border-gray-50 flex justify-between items-center uppercase tracking-tight font-montserrat" onClick={onClick}>
+      <Link href={href} className="py-4 text-base font-black text-biotechvet-dark border-b border-gray-50 flex justify-between items-center uppercase tracking-tight font-montserrat" onClick={onClick}>
         {label} <ChevronDown size={16} className="-rotate-90 text-gray-300" />
       </Link>
     );
@@ -341,7 +341,7 @@ function MobileNavItem({ href, label, onClick, childrenItems, t }: { href: strin
     <div className="border-b border-gray-50">
       <button 
         onClick={() => setIsOpen(!isOpen)}
-        className="w-full py-4 text-base font-black text-sanfovet-dark flex justify-between items-center uppercase tracking-tight font-montserrat"
+        className="w-full py-4 text-base font-black text-biotechvet-dark flex justify-between items-center uppercase tracking-tight font-montserrat"
       >
         {label} <ChevronDown size={16} className={`transition-transform duration-300 ${isOpen ? 'rotate-180 text-primary' : '-rotate-90 text-gray-300'}`} />
       </button>

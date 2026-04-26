@@ -254,7 +254,7 @@ function HandbookManagementContent() {
              ]} 
              className="mb-2"
            />
-           <h2 className="text-2xl font-black text-sanfovet-dark uppercase tracking-tight italic">Cẩm nang chăn nuôi</h2>
+           <h2 className="text-2xl font-black text-biotechvet-dark uppercase tracking-tight italic">Cẩm nang chăn nuôi</h2>
 
         </div>
         <div className="flex gap-4">

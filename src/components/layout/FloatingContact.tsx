@@ -32,7 +32,7 @@ export default function FloatingContact() {
           <Phone size={22} />
         </a>
         <a 
-          href="mailto:pkd.sanfovet@gmail.com" 
+          href="mailto:pkd.biotechvet@gmail.com" 
           className="w-[52px] h-[52px] rounded-full flex items-center justify-center text-white shadow-lg transition-transform hover:scale-110 active:scale-95 bg-gradient-to-br from-accent to-[#e65100]"
           title="Gửi email"
         >
@@ -48,7 +48,7 @@ export default function FloatingContact() {
           <span className="text-[0.7rem] font-bold">Zalo</span>
         </a>
         <a 
-          href="https://facebook.com/sanfovet" 
+          href="https://facebook.com/biotechvet" 
           target="_blank" 
           rel="noopener"
           className="w-[52px] h-[52px] rounded-full flex items-center justify-center text-white shadow-lg transition-transform hover:scale-110 active:scale-95 bg-gradient-to-br from-[#1877f2] to-[#0d47a1]"
@@ -104,11 +104,11 @@ export default function FloatingContact() {
                </div>
                <div className="flex items-start gap-2.5 text-[0.9rem] text-gray-700">
                  <Mail size={16} className="mt-1 text-primary shrink-0" />
-                 <div><strong>Email:</strong> pkd.sanfovet@gmail.com</div>
+                 <div><strong>Email:</strong> pkd.biotechvet@gmail.com</div>
                </div>
                <div className="flex items-start gap-2.5 text-[0.9rem] text-gray-700">
                  <Globe size={16} className="mt-1 text-primary shrink-0" />
-                 <div><strong>Website:</strong> www.sanfovet.com.vn</div>
+                 <div><strong>Website:</strong> www.biotechvet.com.vn</div>
                </div>
                <div className="flex items-start gap-2.5 text-[0.9rem] text-gray-700">
                  <MapPin size={16} className="mt-1 text-primary shrink-0" />

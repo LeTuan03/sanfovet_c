@@ -6,8 +6,8 @@ import { Table, Button, Space, Tag, Modal, Form, Input, Select, Breadcrumb, Avat
 import { PlusOutlined, EditOutlined, DeleteOutlined, UserOutlined, LockOutlined, SafetyCertificateOutlined, SearchOutlined } from '@ant-design/icons';
 
 const initialUsers = [
-  { id: 1, name: 'Sanfovet Admin', email: 'admin@sanfovet.com.vn', role: 'SuperAdmin', lastActive: '10 phút trước', avatar: null },
-  { id: 2, name: 'Editor 01', email: 'editor@sanfovet.com.vn', role: 'Editor', lastActive: '2 giờ trước', avatar: null },
+  { id: 1, name: 'biotechvet Admin', email: 'admin@biotechvet.com.vn', role: 'SuperAdmin', lastActive: '10 phút trước', avatar: null },
+  { id: 2, name: 'Editor 01', email: 'editor@biotechvet.com.vn', role: 'Editor', lastActive: '2 giờ trước', avatar: null },
 ];
 
 function AdminUsersPageContent() {
@@ -105,7 +105,7 @@ function AdminUsersPageContent() {
         <Space size="middle">
           <Avatar icon={<UserOutlined />} style={{ backgroundColor: record.role === 'SuperAdmin' ? '#1a8c3f' : '#faad14' }} />
           <div>
-            <div className="font-bold text-sanfovet-dark">{record.name}</div>
+            <div className="font-bold text-biotechvet-dark">{record.name}</div>
             <div className="text-xs text-gray-400">{record.email}</div>
           </div>
         </Space>
@@ -167,7 +167,7 @@ function AdminUsersPageContent() {
       <div className="flex justify-between items-center">
         <div>
           <Breadcrumb items={[{ title: 'Admin', href: '/admin' }, { title: 'Quản lý Người dùng' }]} />
-          <h1 className="text-2xl font-black text-sanfovet-dark mt-2 tracking-tight">Tài khoản Quản trị viên</h1>
+          <h1 className="text-2xl font-black text-biotechvet-dark mt-2 tracking-tight">Tài khoản Quản trị viên</h1>
         </div>
         <div className="flex gap-4">
            <Input 
@@ -221,7 +221,7 @@ function AdminUsersPageContent() {
                <Input placeholder="VD: Nguyễn Văn A" />
             </Form.Item>
             <Form.Item label="Email đăng nhập" name="email" rules={[{ required: true, type: 'email', message: 'Vui lòng nhập email hợp lệ' }]}>
-               <Input placeholder="email@sanfovet.com.vn" />
+               <Input placeholder="email@biotechvet.com.vn" />
             </Form.Item>
             {!selectedUser && (
               <Form.Item label="Mật khẩu tạm thời" name="password" rules={[{ required: true, message: 'Vui lòng nhập mật khẩu' }]}>

@@ -84,7 +84,7 @@ function AdminNewsPageContent() {
              <img src={record.thumbnail} alt={text} className="w-full h-full object-cover" />
           </div>
           <div>
-            <div className="font-bold text-sanfovet-dark text-sm line-clamp-1">{text}</div>
+            <div className="font-bold text-biotechvet-dark text-sm line-clamp-1">{text}</div>
             <div className="flex items-center gap-2 mt-1">
               <span className="text-[10px] text-gray-400 font-bold uppercase tracking-wider">{record.publishDate}</span>
             </div>
@@ -268,7 +268,7 @@ function AdminNewsPageContent() {
             <div className="w-10 h-10 bg-primary/10 rounded-xl flex items-center justify-center text-primary">
               {editingNews ? <EditOutlined /> : <PlusOutlined />}
             </div>
-            <span className="text-2xl font-black uppercase italic tracking-tighter text-sanfovet-dark">
+            <span className="text-2xl font-black uppercase italic tracking-tighter text-biotechvet-dark">
               {editingNews ? 'Chỉnh sửa tin tức' : 'Thêm tin tức mới'}
             </span>
           </div>
@@ -311,7 +311,7 @@ function AdminNewsPageContent() {
                 rules={[{ required: true, message: 'Vui lòng chọn chuyên mục' }]}
               >
                 <Select className="w-full" placeholder="Chọn loại tin...">
-                  <Select.Option value="tin-noi-bo">Tin nội bộ Sanfovet</Select.Option>
+                  <Select.Option value="tin-noi-bo">Tin nội bộ biotechvet</Select.Option>
                   <Select.Option value="tin-nganh">Tin ngành chăn nuôi - thú y</Select.Option>
                 </Select>
               </Form.Item>

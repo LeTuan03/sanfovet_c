@@ -38,7 +38,7 @@ export default async function IndustryNewsPage() {
                   <div className="flex items-center gap-2 text-gray-400 text-xs font-bold mb-4 uppercase tracking-widest">
                      <Calendar size={14} className="text-primary" /> {a.publishDate}
                   </div>
-                  <h2 className="text-xl font-bold text-sanfovet-dark mb-4 line-clamp-2 leading-tight group-hover:text-primary transition-colors">
+                  <h2 className="text-xl font-bold text-biotechvet-dark mb-4 line-clamp-2 leading-tight group-hover:text-primary transition-colors">
                      {a.title}
                   </h2>
                   <p className="text-gray-500 text-sm font-medium line-clamp-3 mb-6">

@@ -5,6 +5,26 @@ import { Article } from '@/types';
 // import { articles } from '@/lib/data'; // Removed static import
 import { ChevronRight, Activity, ShieldAlert } from 'lucide-react';
 import Sidebar from '@/components/shared/Sidebar';
+import { Metadata } from 'next';
+
+export const metadata: Metadata = {
+  title: 'Bệnh & Điều Trị Bệnh - biotechvet',
+  description: 'Thông tin chi tiết về các bệnh thường gặp ở gia súc, gia cầm và các phương pháp điều trị hiệu quả từ các chuyên gia thú y biotechvet.',
+  keywords: ['bệnh thú y', 'điều trị bệnh', 'gia súc', 'gia cầm', 'phòng ngừa bệnh', 'kiến thức thú y'],
+  robots: 'index, follow',
+  openGraph: {
+    title: 'Bệnh & Điều Trị Bệnh - biotechvet',
+    description: 'Thông tin chi tiết về các bệnh thường gặp và phương pháp điều trị hiệu quả.',
+    url: 'https://biotechvet.com.vn/benh-va-dieu-tri-benh',
+    images: [
+      {
+        url: '/images/banner1.png',
+        width: 1200,
+        height: 630,
+      },
+    ],
+  },
+};
 
 export default async function DiseasesPage() {
   const articles = await readData<Article[]>('articles');
@@ -57,7 +77,7 @@ export default async function DiseasesPage() {
                       <div className="flex items-center gap-3 text-red-600 text-[10px] font-black mb-3 uppercase tracking-[2px]">
                          <span className="w-2 h-2 rounded-full bg-red-600 animate-pulse"></span> {a.publishDate}
                       </div>
-                      <h2 className="text-2xl font-black text-sanfovet-dark mb-4 line-clamp-2 leading-tight group-hover:text-red-600 transition-colors">
+                      <h2 className="text-2xl font-black text-biotechvet-dark mb-4 line-clamp-2 leading-tight group-hover:text-red-600 transition-colors">
                          {a.title}
                       </h2>
                       <p className="text-gray-500 text-sm font-medium line-clamp-3 mb-6">
@@ -72,15 +92,15 @@ export default async function DiseasesPage() {
             </div>
 
             {/* Support Banner */}
-            <div className="mt-24 bg-sanfovet-alt rounded-[48px] p-10 md:p-16 flex flex-col md:flex-row items-center gap-12 border border-primary/10">
+            <div className="mt-24 bg-biotechvet-alt rounded-[48px] p-10 md:p-16 flex flex-col md:flex-row items-center gap-12 border border-primary/10">
                <div className="shrink-0">
                   <div className="w-24 h-24 bg-primary rounded-full flex items-center justify-center text-white shadow-xl shadow-primary/30">
                      <ShieldAlert size={48} />
                   </div>
                </div>
                <div className="flex-1 text-center md:text-left">
-                  <h3 className="text-2xl font-black text-sanfovet-dark mb-4 uppercase italic">Cần hỗ trợ chẩn đoán ngay?</h3>
-                  <p className="text-gray-600 font-medium max-w-2xl">Đội ngũ Bác sĩ Thú y của Sanfovet luôn sẵn sàng lắng nghe và tư vấn miễn phí cho bạn 24/7.</p>
+                  <h3 className="text-2xl font-black text-biotechvet-dark mb-4 uppercase italic">Cần hỗ trợ chẩn đoán ngay?</h3>
+                  <p className="text-gray-600 font-medium max-w-2xl">Đội ngũ Bác sĩ Thú y của biotechvet luôn sẵn sàng lắng nghe và tư vấn miễn phí cho bạn 24/7.</p>
                </div>
                <Link href="/lien-he" className="bg-red-600 hover:bg-red-700 text-white font-black py-4 px-10 rounded-full text-sm uppercase tracking-widest transition-all shadow-lg shadow-red-200 active:scale-95 shrink-0">
                   Gửi yêu cầu hỗ trợ

@@ -223,7 +223,7 @@ export default function AdminLayout({
                <div className="flex items-center gap-3 justify-center mb-3">
                   <div className="w-11 h-11 bg-gradient-to-br from-primary to-primary-dark rounded-2xl flex items-center justify-center text-white font-black text-2xl shadow-lg shadow-primary/30 transform hover:scale-105 transition-transform duration-300">S</div>
                   {!collapsed && (
-                    <h2 className="font-black tracking-tighter text-sanfovet-dark text-2xl mb-0 transition-opacity duration-300 bg-clip-text text-transparent bg-gradient-to-r from-sanfovet-dark to-primary">
+                    <h2 className="font-black tracking-tighter text-biotechvet-dark text-2xl mb-0 transition-opacity duration-300 bg-clip-text text-transparent bg-gradient-to-r from-biotechvet-dark to-primary">
                       BIOTECH-VET
                     </h2>
                   )}
@@ -287,7 +287,7 @@ export default function AdminLayout({
                       className="shadow-lg shadow-primary/20 ring-2 ring-white"
                     />
                     <div className="hidden lg:block">
-                      <div className="text-[12px] font-black text-sanfovet-dark leading-none uppercase tracking-tight">Admin Sanfovet</div>
+                      <div className="text-[12px] font-black text-biotechvet-dark leading-none uppercase tracking-tight">Admin biotechvet</div>
                       <div className="text-[10px] text-gray-400 font-bold uppercase tracking-[0.1em] mt-1.5 opacity-80">Quản trị viên</div>
                     </div>
                   </div>

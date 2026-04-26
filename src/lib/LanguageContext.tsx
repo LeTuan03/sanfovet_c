@@ -60,7 +60,7 @@ export function LanguageProvider({ children }: { children: React.ReactNode }) {
 
   // Load language from localStorage on mount
   useEffect(() => {
-    const savedLang = localStorage.getItem('sanfovet_lang') as Language;
+    const savedLang = localStorage.getItem('biotechvet_lang') as Language;
     if (savedLang && (savedLang === 'vi' || savedLang === 'en')) {
       // Use requestAnimationFrame to avoid synchronous state update in effect
       requestAnimationFrame(() => {
@@ -71,7 +71,7 @@ export function LanguageProvider({ children }: { children: React.ReactNode }) {
 
   const handleSetLanguage = (lang: Language) => {
     setLanguage(lang);
-    localStorage.setItem('sanfovet_lang', lang);
+    localStorage.setItem('biotechvet_lang', lang);
   };
 
   const t = (key: string) => {

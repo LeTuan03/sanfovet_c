@@ -41,7 +41,7 @@ export default function Footer() {
     fetchData();
   }, []);
   return (
-    <footer className="bg-gradient-to-b from-sanfovet-dark to-[#061208] text-white/70 py-16 text-[0.85rem] mt-16 w-full relative">
+    <footer className="bg-gradient-to-b from-biotechvet-dark to-[#061208] text-white/70 py-16 text-[0.85rem] mt-16 w-full relative">
       <div className="container mx-auto px-4">
         <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-12 mb-12">
           {/* Col 1 - Company Info */}
@@ -53,11 +53,11 @@ export default function Footer() {
             className="space-y-4"
           >
             <h3 className="text-white text-lg font-bold mb-6 relative pb-2.5 after:content-[''] after:absolute after:bottom-0 after:left-0 after:w-10 after:height-0.5 after:bg-primary uppercase">BIOTECH-VET</h3>
-            <p className="font-semibold text-white/90">{settings?.companyName || 'Công ty CP Đầu tư Liên doanh Việt Anh'}</p>
+            <p className="font-semibold text-white/90">{settings?.companyName || 'Công Ty CP Công Nghệ Sinh Học Thú Y'}</p>
             <p><strong>Trụ sở:</strong> {settings?.addressHN || 'Cụm CN Liên Phương, Xã Hồng Vân, Hà Nội'}</p>
             <p><strong>Điện thoại:</strong> <a href={`tel:${settings?.hotline1}`} className="hover:text-primary transition-colors">{settings?.hotline1 || '024 66861629'}</a> | <a href={`tel:${settings?.hotline2}`} className="hover:text-primary transition-colors">{settings?.hotline2 || '097 499 9204'}</a></p>
-            <p><strong>Email:</strong> <a href={`mailto:${settings?.email}`} className="hover:text-primary transition-colors">{settings?.email || 'pkd.sanfovet@gmail.com'}</a></p>
-            <p><strong>Website:</strong> www.sanfovet.com.vn</p>
+            <p><strong>Email:</strong> <a href={`mailto:${settings?.email}`} className="hover:text-primary transition-colors">{settings?.email || 'pkd.biotechvet@gmail.com'}</a></p>
+            <p><strong>Website:</strong> www.biotechvet.com.vn</p>
             {settings?.addressHCM && (
               <p className="mt-4 pt-4 border-t border-white/10 text-white/80">
                 <strong>Chi nhánh miền Nam:</strong><br/>
@@ -102,7 +102,7 @@ export default function Footer() {
             <div className="pt-4 border-t border-white/5">
               <h4 className="text-white font-bold mb-4 uppercase text-xs tracking-widest">Kết nối với chúng tôi</h4>
               <div className="flex gap-3">
-                <a href={settings?.social?.facebook || "https://facebook.com/ThuocThuYSANFOVET"} target="_blank" rel="noopener" className="w-10 h-10 bg-white/10 hover:bg-blue-600 rounded-xl flex items-center justify-center text-white/60 hover:text-white transition-all text-lg">
+                <a href={settings?.social?.facebook || "https://facebook.com/ThuocThuYbiotechvet"} target="_blank" rel="noopener" className="w-10 h-10 bg-white/10 hover:bg-blue-600 rounded-xl flex items-center justify-center text-white/60 hover:text-white transition-all text-lg">
                   <FacebookOutlined />
                 </a>
                 <a href={settings?.social?.youtube || "https://youtube.com"} target="_blank" rel="noopener" className="w-10 h-10 bg-white/10 hover:bg-red-600 rounded-xl flex items-center justify-center text-white/60 hover:text-white transition-all text-lg">
@@ -136,7 +136,7 @@ export default function Footer() {
         </div>
 
         <div className="pt-8 border-t border-white/10 text-center text-white/40 text-[0.82rem]">
-          <p>&copy; 2024 Copyright by Sanfovet.com.vn - Công ty CP Đầu tư Liên doanh Việt Anh. All Rights Reserved.</p>
+          <p>&copy; 2024 Copyright by Biotechvet.com.vn - Công Ty CP Công Nghệ Sinh Học Thú Y. All Rights Reserved.</p>
         </div>
       </div>
     </footer>

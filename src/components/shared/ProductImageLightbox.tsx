@@ -33,7 +33,7 @@ export default function ProductImageLightbox({ src, alt }: ProductImageLightboxP
       {isOpen && (
         <div className="fixed inset-0 z-50 flex items-center justify-center p-4 sm:p-6 md:p-12 animate-fade-in">
           <div 
-            className="absolute inset-0 bg-sanfovet-dark/90 backdrop-blur-sm cursor-zoom-out"
+            className="absolute inset-0 bg-biotechvet-dark/90 backdrop-blur-sm cursor-zoom-out"
             onClick={() => setIsOpen(false)}
           ></div>
           <div className="relative z-10 w-full max-w-5xl max-h-full flex flex-col items-center justify-center bg-white rounded-3xl overflow-hidden shadow-2xl">
@@ -51,7 +51,7 @@ export default function ProductImageLightbox({ src, alt }: ProductImageLightboxP
                 className="max-w-full max-h-full object-contain"
               />
             </div>
-            <div className="bg-sanfovet-alt w-full p-4 text-center font-bold text-sanfovet-dark border-t border-gray-100">
+            <div className="bg-biotechvet-alt w-full p-4 text-center font-bold text-biotechvet-dark border-t border-gray-100">
               {alt}
             </div>
           </div>

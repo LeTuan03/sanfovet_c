@@ -21,7 +21,7 @@ export default async function AnimalTagPage({ params }: Readonly<{ params: Promi
   return (
     <div className="bg-white min-h-screen">
       {/* Hero */}
-      <section className="bg-sanfovet-dark text-white py-16 relative overflow-hidden">
+      <section className="bg-biotechvet-dark text-white py-16 relative overflow-hidden">
         <div className="absolute inset-0 opacity-10 bg-[url('/images/farm.png')] bg-cover bg-center"></div>
         <div className="container mx-auto px-4 relative z-10">
           <div className="flex items-center gap-2 text-sm text-white/60 font-bold mb-4 uppercase tracking-widest">
@@ -55,7 +55,7 @@ export default async function AnimalTagPage({ params }: Readonly<{ params: Promi
                 <div className="flex items-center gap-2 text-gray-400 text-xs font-bold mb-4 uppercase tracking-widest">
                   <Calendar size={14} className="text-primary" /> {a.publishDate}
                 </div>
-                <h2 className="text-xl font-bold text-sanfovet-dark mb-4 line-clamp-2 leading-tight group-hover:text-primary transition-colors">
+                <h2 className="text-xl font-bold text-biotechvet-dark mb-4 line-clamp-2 leading-tight group-hover:text-primary transition-colors">
                   {a.title}
                 </h2>
                 <p className="text-gray-500 text-sm font-medium line-clamp-3 mb-6 flex-1">
@@ -70,7 +70,7 @@ export default async function AnimalTagPage({ params }: Readonly<{ params: Promi
         </div>
 
         {tagArticles.length === 0 && (
-          <div className="text-center py-20 bg-sanfovet-alt rounded-[40px] border-2 border-dashed border-gray-200">
+          <div className="text-center py-20 bg-biotechvet-alt rounded-[40px] border-2 border-dashed border-gray-200">
             <span className="text-5xl block mb-4">{animalTag.icon}</span>
             <div className="text-gray-400 font-bold mb-2 uppercase tracking-widest">Chưa có bài viết nào về {animalTag.name}</div>
             <p className="text-gray-500 max-w-xs mx-auto text-sm">Chúng tôi đang cập nhật bài viết mới. Vui lòng quay lại sau.</p>

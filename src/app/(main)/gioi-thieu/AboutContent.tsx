@@ -35,9 +35,9 @@ export default function AboutContent() {
   return (
     <div className="bg-white">
       {/* Banner */}
-      <section className="bg-sanfovet-dark text-white py-24 lg:py-32 relative overflow-hidden">
+      <section className="bg-biotechvet-dark text-white py-24 lg:py-32 relative overflow-hidden">
         <div className="absolute inset-0 opacity-20 bg-[url('/images/farm.png')] bg-cover bg-center mix-blend-overlay"></div>
-        <div className="absolute inset-0 bg-gradient-to-r from-sanfovet-dark via-sanfovet-dark/90 to-transparent"></div>
+        <div className="absolute inset-0 bg-gradient-to-r from-biotechvet-dark via-biotechvet-dark/90 to-transparent"></div>
         
         <div className="container mx-auto px-4 relative z-10">
            <div className="flex flex-col lg:flex-row items-center gap-12 lg:gap-20">
@@ -48,10 +48,10 @@ export default function AboutContent() {
                 className="flex-1 text-center lg:text-left"
               >
                   <div className="inline-flex items-center gap-2 px-4 py-2 rounded-full bg-white/10 backdrop-blur-md border border-white/20 mb-6 text-sm font-bold text-primary-light uppercase tracking-widest">
-                     <Building2 size={16} /> Câu chuyện Sanfovet
+                     <Building2 size={16} /> Câu chuyện biotechvet
                   </div>
                  <h1 className="text-5xl lg:text-7xl font-black mb-6 uppercase tracking-tighter leading-tight">
-                    Về <span className="text-primary-dark">Sanfovet</span>
+                    Về <span className="text-primary-dark">biotechvet</span>
                  </h1>
                  <p className="text-xl text-gray-300 max-w-2xl font-medium leading-relaxed mx-auto lg:mx-0">
                     Hành trình 20 năm đồng hành cùng người chăn nuôi Việt Nam, kiến tạo những giá trị bền vững và mang lại giải pháp thú y toàn diện.
@@ -94,7 +94,7 @@ export default function AboutContent() {
                    className={`shrink-0 flex items-center gap-2 px-6 py-3.5 rounded-full text-sm font-bold uppercase tracking-wider transition-all duration-300 ${
                      activeTab === tab.id 
                      ? 'bg-primary text-white shadow-[0_8px_20px_rgb(var(--color-primary)/0.25)] scale-100' 
-                     : 'text-gray-500 hover:text-sanfovet-dark hover:bg-white hover:shadow-sm'
+                     : 'text-gray-500 hover:text-biotechvet-dark hover:bg-white hover:shadow-sm'
                    }`}
                  >
                    {tab.icon} {tab.label}
@@ -110,9 +110,9 @@ export default function AboutContent() {
                     <div className="flex flex-col lg:flex-row gap-12 lg:gap-16 items-center">
                       <div className="flex-1 space-y-8">
                         <div className="border-l-4 border-primary pl-6">
-                           <h2 className="text-3xl lg:text-4xl font-black text-sanfovet-dark uppercase tracking-tight">Tổng quan về BIOTECH-VET</h2>
+                           <h2 className="text-3xl lg:text-4xl font-black text-biotechvet-dark uppercase tracking-tight">Tổng quan về BIOTECH-VET</h2>
                            <p className="text-gray-500 font-medium leading-relaxed mt-6 text-lg">
-                             <strong className="text-sanfovet-dark">BIOTECH-VET</strong> là thương hiệu thuốc thú y thuộc Công ty CP Đầu tư liên doanh Việt Anh. Với hơn 20 năm phát triển, chúng tôi tự hào mang đến các giải pháp dược phẩm chất lượng cao, ứng dụng công nghệ hiện đại từ Hoa Kỳ.
+                             <strong className="text-biotechvet-dark">BIOTECH-VET</strong> là thương hiệu thuốc thú y thuộc Công Ty CP Công Nghệ Sinh Học Thú Y. Với hơn 20 năm phát triển, chúng tôi tự hào mang đến các giải pháp dược phẩm chất lượng cao, ứng dụng công nghệ hiện đại từ Hoa Kỳ.
                            </p>
                            <p className="text-gray-500 font-medium leading-relaxed mt-4 text-lg">
                              Chúng tôi hướng đến việc liên tục đổi mới, cải tiến chất lượng và dịch vụ, đáp ứng nhu cầu ngày càng cao của ngành chăn nuôi trong và ngoài nước.
@@ -131,8 +131,8 @@ export default function AboutContent() {
                       </div>
                       <div className="flex-1 w-full">
                         <div className="relative rounded-[40px] overflow-hidden shadow-2xl">
-                           <img src="/images/about.png" alt="Nhà máy Sanfovet" className="w-full h-[400px] object-cover hover:scale-105 transition-transform duration-700" />
-                           <div className="absolute inset-0 bg-gradient-to-t from-sanfovet-dark/60 to-transparent"></div>
+                           <img src="/images/about.png" alt="Nhà máy biotechvet" className="w-full h-[400px] object-cover hover:scale-105 transition-transform duration-700" />
+                           <div className="absolute inset-0 bg-gradient-to-t from-biotechvet-dark/60 to-transparent"></div>
                         </div>
                       </div>
                     </div>
@@ -142,9 +142,9 @@ export default function AboutContent() {
                 {activeTab === 'lich-su' && (
                   <motion.div key="lich-su" variants={tabVariants} initial="hidden" animate="visible" exit="exit" className="space-y-10">
                     <div className="border-l-4 border-primary pl-6 mb-12">
-                       <h2 className="text-3xl lg:text-4xl font-black text-sanfovet-dark uppercase tracking-tight">Lịch sử hình thành</h2>
+                       <h2 className="text-3xl lg:text-4xl font-black text-biotechvet-dark uppercase tracking-tight">Lịch sử hình thành</h2>
                        <p className="text-gray-500 font-medium leading-relaxed mt-4 text-lg">
-                         Hành trình đầy tự hào của Sanfovet trong suốt hơn hai thập kỷ cống hiến cho ngành chăn nuôi Việt Nam.
+                         Hành trình đầy tự hào của biotechvet trong suốt hơn hai thập kỷ cống hiến cho ngành chăn nuôi Việt Nam.
                        </p>
                     </div>
                     <div className="relative pl-8 md:pl-0">
@@ -164,7 +164,7 @@ export default function AboutContent() {
                               <div className={`w-full md:w-1/2 ${index % 2 === 0 ? 'md:pl-12' : 'md:pr-12 md:text-right'}`}>
                                  <div className="bg-white p-8 md:p-10 rounded-[32px] border border-gray-100 shadow-sm hover:shadow-xl transition-shadow duration-500 group">
                                      <div className="text-4xl font-black text-primary-dark mb-4 inline-block">{item.year}</div>
-                                     <p className="text-gray-600 font-medium leading-relaxed group-hover:text-sanfovet-dark transition-colors">{item.text}</p>
+                                     <p className="text-gray-600 font-medium leading-relaxed group-hover:text-biotechvet-dark transition-colors">{item.text}</p>
                                  </div>
                               </div>
                            </div>
@@ -176,7 +176,7 @@ export default function AboutContent() {
 
                 {activeTab === 'tam-nhin' && (
                   <motion.div key="tam-nhin" variants={tabVariants} initial="hidden" animate="visible" exit="exit" className="space-y-8">
-                    <div className="bg-sanfovet-dark text-white p-10 lg:p-16 rounded-[40px] relative overflow-hidden shadow-2xl">
+                    <div className="bg-biotechvet-dark text-white p-10 lg:p-16 rounded-[40px] relative overflow-hidden shadow-2xl">
                       <div className="absolute top-0 right-0 w-[500px] h-[500px] bg-primary/20 rounded-full blur-3xl -mr-64 -mt-64 pointer-events-none"></div>
                       <div className="absolute bottom-0 left-0 w-[500px] h-[500px] bg-primary/10 rounded-full blur-3xl -ml-64 -mb-64 pointer-events-none"></div>
                       
@@ -213,21 +213,21 @@ export default function AboutContent() {
                     <div className="grid grid-cols-1 md:grid-cols-2 gap-8">
                       <div className="p-10 bg-white rounded-[32px] border border-gray-100 shadow-sm relative overflow-hidden group hover:border-primary/30 transition-colors">
                          <QuoteIcon className="absolute right-6 bottom-6 w-24 h-24 text-gray-50 opacity-50 group-hover:text-primary/5 transition-colors" />
-                         <p className="text-xl font-bold text-sanfovet-dark leading-relaxed italic relative z-10">
-                           "Chất lượng là danh dự, sự hài lòng của bà con là thước đo thành công của Sanfovet."
+                         <p className="text-xl font-bold text-biotechvet-dark leading-relaxed italic relative z-10">
+                           "Chất lượng là danh dự, sự hài lòng của bà con là thước đo thành công của biotechvet."
                          </p>
                          <div className="mt-6 flex items-center gap-4">
                             <div className="w-12 h-12 bg-gray-100 rounded-full flex items-center justify-center font-bold text-gray-400">CEO</div>
                             <div>
-                               <div className="font-black text-sanfovet-dark">Ban Lãnh Đạo</div>
-                               <div className="text-xs uppercase font-bold text-gray-400">Sanfovet Group</div>
+                               <div className="font-black text-biotechvet-dark">Ban Lãnh Đạo</div>
+                               <div className="text-xs uppercase font-bold text-gray-400">biotechvet Group</div>
                             </div>
                          </div>
                       </div>
                       <div className="p-10 bg-gradient-to-br from-primary to-primary-dark rounded-[32px] text-white shadow-lg flex flex-col justify-center items-center text-center">
                          <Award size={48} className="mb-6 opacity-80" />
                          <h4 className="text-2xl font-black mb-4">Tìm hiểu triết lý của chúng tôi</h4>
-                         <Link href="/cam-nang-chan-nuoi" className="inline-flex items-center gap-2 bg-white text-sanfovet-dark px-8 py-3.5 rounded-full text-sm font-bold uppercase tracking-widest hover:bg-gray-100 transition-colors shadow-xl">
+                         <Link href="/cam-nang-chan-nuoi" className="inline-flex items-center gap-2 bg-white text-biotechvet-dark px-8 py-3.5 rounded-full text-sm font-bold uppercase tracking-widest hover:bg-gray-100 transition-colors shadow-xl">
                             Khám phá ngay <ChevronRight size={18} />
                          </Link>
                       </div>
@@ -238,7 +238,7 @@ export default function AboutContent() {
                 {activeTab === 'co-so' && (
                   <motion.div key="co-so" variants={tabVariants} initial="hidden" animate="visible" exit="exit" className="space-y-10">
                     <div className="border-l-4 border-primary pl-6">
-                       <h2 className="text-3xl lg:text-4xl font-black text-sanfovet-dark uppercase tracking-tight">Cơ sở vật chất</h2>
+                       <h2 className="text-3xl lg:text-4xl font-black text-biotechvet-dark uppercase tracking-tight">Cơ sở vật chất</h2>
                        <p className="text-gray-500 font-medium leading-relaxed mt-4 text-lg max-w-3xl">
                          BIOTECH-VET đầu tư hệ thống trang thiết bị máy móc tiên tiến, dây chuyền sản xuất khép kín vận hành theo tiêu chuẩn GMP-WHO nghiêm ngặt nhất.
                        </p>
@@ -247,7 +247,7 @@ export default function AboutContent() {
                     <div className="grid grid-cols-1 md:grid-cols-2 gap-8">
                       <div className="group rounded-[32px] overflow-hidden shadow-lg relative aspect-[4/3]">
                         <img src="/images/farm.png" className="absolute inset-0 w-full h-full object-cover group-hover:scale-110 transition-transform duration-1000" alt="Nhà máy GMP" />
-                        <div className="absolute inset-0 bg-gradient-to-t from-sanfovet-dark via-sanfovet-dark/40 to-transparent flex flex-col justify-end p-8 text-white">
+                        <div className="absolute inset-0 bg-gradient-to-t from-biotechvet-dark via-biotechvet-dark/40 to-transparent flex flex-col justify-end p-8 text-white">
                           <span className="w-12 h-1 bg-primary mb-4 rounded-full"></span>
                           <h4 className="text-2xl font-black uppercase tracking-tight mb-2">Dây chuyền Tiêm</h4>
                           <p className="text-sm text-gray-300 font-medium">Đạt chuẩn GMP-WHO quốc tế với công nghệ tự động hóa 100%.</p>
@@ -255,7 +255,7 @@ export default function AboutContent() {
                       </div>
                       <div className="group rounded-[32px] overflow-hidden shadow-lg relative aspect-[4/3]">
                         <img src="/images/news-2.png" className="absolute inset-0 w-full h-full object-cover group-hover:scale-110 transition-transform duration-1000" alt="Phòng thí nghiệm" />
-                        <div className="absolute inset-0 bg-gradient-to-t from-sanfovet-dark via-sanfovet-dark/40 to-transparent flex flex-col justify-end p-8 text-white">
+                        <div className="absolute inset-0 bg-gradient-to-t from-biotechvet-dark via-biotechvet-dark/40 to-transparent flex flex-col justify-end p-8 text-white">
                           <span className="w-12 h-1 bg-primary mb-4 rounded-full"></span>
                           <h4 className="text-2xl font-black uppercase tracking-tight mb-2">Phòng Lab R&D</h4>
                           <p className="text-sm text-gray-300 font-medium">Trung tâm nghiên cứu và kiểm soát chất lượng đầu ra khắt khe.</p>
@@ -270,7 +270,7 @@ export default function AboutContent() {
                             <div className="text-xs uppercase font-bold text-gray-400 tracking-widest">Nhà máy lớn</div>
                          </div>
                          <div className="text-center px-4">
-                            <div className="text-5xl font-black text-transparent bg-clip-text bg-gradient-to-br from-sanfovet-dark to-slate-600 mb-3">10+</div>
+                            <div className="text-5xl font-black text-transparent bg-clip-text bg-gradient-to-br from-biotechvet-dark to-slate-600 mb-3">10+</div>
                             <div className="text-xs uppercase font-bold text-gray-400 tracking-widest">Dây chuyền</div>
                          </div>
                          <div className="text-center px-4">
@@ -278,7 +278,7 @@ export default function AboutContent() {
                             <div className="text-xs uppercase font-bold text-gray-400 tracking-widest">Diện tích m²</div>
                          </div>
                          <div className="text-center px-4">
-                            <div className="text-5xl font-black text-transparent bg-clip-text bg-gradient-to-br from-sanfovet-dark to-slate-600 mb-3">Top</div>
+                            <div className="text-5xl font-black text-transparent bg-clip-text bg-gradient-to-br from-biotechvet-dark to-slate-600 mb-3">Top</div>
                             <div className="text-xs uppercase font-bold text-gray-400 tracking-widest">Thương hiệu</div>
                          </div>
                       </div>
@@ -289,7 +289,7 @@ export default function AboutContent() {
                 {activeTab === 'co-cau' && (
                   <motion.div key="co-cau" variants={tabVariants} initial="hidden" animate="visible" exit="exit" className="space-y-10">
                     <div className="border-l-4 border-primary pl-6 mb-12">
-                       <h2 className="text-3xl lg:text-4xl font-black text-sanfovet-dark uppercase tracking-tight">Cơ cấu tổ chức</h2>
+                       <h2 className="text-3xl lg:text-4xl font-black text-biotechvet-dark uppercase tracking-tight">Cơ cấu tổ chức</h2>
                        <p className="text-gray-500 font-medium leading-relaxed mt-4 text-lg">
                          Hệ thống quản trị tinh gọn với đội ngũ nhân sự chất lượng cao, tận tâm và chuyên nghiệp.
                        </p>
@@ -297,11 +297,11 @@ export default function AboutContent() {
 
                     <div className="space-y-6 max-w-3xl mx-auto py-8">
                       {[
-                        { role: "Hội đồng Quản trị", color: "bg-gradient-to-r from-sanfovet-dark to-slate-800 text-white shadow-xl" },
+                        { role: "Hội đồng Quản trị", color: "bg-gradient-to-r from-biotechvet-dark to-slate-800 text-white shadow-xl" },
                         { role: "Tổng Giám đốc", color: "bg-gradient-to-r from-primary to-primary-dark text-white shadow-lg" },
-                        { role: "Khối Sản xuất - Kỹ thuật", color: "bg-white text-sanfovet-dark border border-gray-100 shadow-sm" },
-                        { role: "Khối Kinh doanh - Marketing", color: "bg-white text-sanfovet-dark border border-gray-100 shadow-sm" },
-                        { role: "Khối Hành chính - Nhân sự", color: "bg-white text-sanfovet-dark border border-gray-100 shadow-sm" }
+                        { role: "Khối Sản xuất - Kỹ thuật", color: "bg-white text-biotechvet-dark border border-gray-100 shadow-sm" },
+                        { role: "Khối Kinh doanh - Marketing", color: "bg-white text-biotechvet-dark border border-gray-100 shadow-sm" },
+                        { role: "Khối Hành chính - Nhân sự", color: "bg-white text-biotechvet-dark border border-gray-100 shadow-sm" }
                       ].map((node, i) => (
                         <div key={i} className="relative">
                           {i > 1 && <div className="absolute left-1/2 -top-8 w-0.5 h-8 bg-gray-200 -translate-x-1/2"></div>}
@@ -314,12 +314,12 @@ export default function AboutContent() {
 
                     <div className="mt-16 p-10 md:p-16 bg-gradient-to-br from-primary/5 to-transparent rounded-[40px] flex flex-col md:flex-row items-center gap-10 border border-primary/10">
                       <div className="w-24 h-24 shrink-0 rounded-3xl bg-white flex items-center justify-center p-4 shadow-sm">
-                         <img src="/images/logo.png" className="w-full h-full object-contain opacity-40 grayscale" alt="Sanfovet" />
+                         <img src="/images/logo.png" className="w-full h-full object-contain opacity-40 grayscale" alt="biotechvet" />
                       </div>
                       <div className="relative">
                          <QuoteIcon className="absolute -left-6 -top-6 w-12 h-12 text-primary/10" />
                          <p className="text-xl text-gray-600 font-medium italic leading-relaxed relative z-10">
-                           "Chúng tôi tin rằng con người là tài sản quý giá nhất. Tại Sanfovet, mỗi cá nhân đều là một mắt xích quan trọng trong hành trình bảo vệ sự phát triển rực rỡ của ngành chăn nuôi."
+                           "Chúng tôi tin rằng con người là tài sản quý giá nhất. Tại biotechvet, mỗi cá nhân đều là một mắt xích quan trọng trong hành trình bảo vệ sự phát triển rực rỡ của ngành chăn nuôi."
                          </p>
                       </div>
                     </div>

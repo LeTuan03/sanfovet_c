@@ -55,7 +55,7 @@ export default function AdminSettingsPage() {
     <div className="space-y-6">
       <div>
         <Breadcrumb items={[{ title: 'Admin' }, { title: 'Thông tin chung' }]} />
-        <h1 className="text-2xl font-black text-sanfovet-dark mt-2 tracking-tight uppercase italic">Cài đặt Website & Liên hệ</h1>
+        <h1 className="text-2xl font-black text-biotechvet-dark mt-2 tracking-tight uppercase italic">Cài đặt Website & Liên hệ</h1>
       </div>
 
       <div className="bg-white p-2 rounded-2xl shadow-sm border border-gray-100 min-h-[600px]">

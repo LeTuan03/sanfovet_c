@@ -145,7 +145,7 @@ function AdminMenusPageContent() {
       render: (text: string, record: any) => (
         <span style={{ paddingLeft: record.parent ? 32 : 0, fontWeight: record.parent ? 'normal' : 'bold' }}>
           {record.parent && <span className="text-gray-300 mr-2 text-xs">└─</span>}
-          <span className="text-sanfovet-dark">{text}</span>
+          <span className="text-biotechvet-dark">{text}</span>
         </span>
       ),
     },
@@ -231,7 +231,7 @@ function AdminMenusPageContent() {
       <div className="flex justify-between items-center mb-10">
         <div>
           <Breadcrumb items={[{ title: 'Admin' }, { title: 'Quản lý Menu' }]} />
-          <h1 className="text-2xl font-black text-sanfovet-dark mt-2 tracking-tight uppercase italic">Cơ cấu Điều hướng Web</h1>
+          <h1 className="text-2xl font-black text-biotechvet-dark mt-2 tracking-tight uppercase italic">Cơ cấu Điều hướng Web</h1>
         </div>
         <div className="flex gap-4">
            <Input 

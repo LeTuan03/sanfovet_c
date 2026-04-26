@@ -183,7 +183,7 @@ function CategoryAndTagManagementContent() {
       title: 'Tên danh mục', 
       dataIndex: 'name', 
       key: 'name', 
-      render: (text: string) => <span className="font-black text-sanfovet-dark">{text}</span> 
+      render: (text: string) => <span className="font-black text-biotechvet-dark">{text}</span> 
     },
     { 
       title: 'Slug (URL)', 
@@ -224,7 +224,7 @@ function CategoryAndTagManagementContent() {
       title: 'Tên loài vật', 
       dataIndex: 'name', 
       key: 'name', 
-      render: (text: string) => <span className="font-black text-sanfovet-dark">{text}</span> 
+      render: (text: string) => <span className="font-black text-biotechvet-dark">{text}</span> 
     },
     { 
       title: 'Slug', 
@@ -334,7 +334,7 @@ function CategoryAndTagManagementContent() {
             <div className="w-10 h-10 bg-primary/10 rounded-xl flex items-center justify-center text-primary">
               {editingItem ? <EditOutlined /> : <PlusOutlined />}
             </div>
-            <span className="text-2xl font-black uppercase italic tracking-tighter text-sanfovet-dark">
+            <span className="text-2xl font-black uppercase italic tracking-tighter text-biotechvet-dark">
               {editingItem ? 'Chỉnh sửa' : 'Thêm mới'} Phân loại
             </span>
           </div>

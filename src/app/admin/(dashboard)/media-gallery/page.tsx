@@ -287,7 +287,7 @@ function AdminMediaGalleryPageContent() {
                           cover={
                             <div className="h-44 overflow-hidden bg-gray-50 flex items-center justify-center relative group">
                               <img alt={img.title} src={img.url} className={`w-full h-full object-cover transition-all duration-500 group-hover:scale-110 ${img.status === 'hidden' ? 'opacity-40 grayscale' : ''}`} />
-                              <div className="absolute inset-0 bg-sanfovet-dark/60 opacity-0 group-hover:opacity-100 transition-opacity flex items-center justify-center gap-3 backdrop-blur-[2px]">
+                              <div className="absolute inset-0 bg-biotechvet-dark/60 opacity-0 group-hover:opacity-100 transition-opacity flex items-center justify-center gap-3 backdrop-blur-[2px]">
                                  <Button shape="circle" size="large" icon={<EyeOutlined />} onClick={() => handleView(img.url)} className="border-none shadow-lg" />
                                  <Button shape="circle" size="large" icon={<EditOutlined />} onClick={() => handleEdit(img)} className="border-none shadow-lg text-blue-500" />
                                  <Button shape="circle" size="large" icon={<DeleteOutlined />} danger onClick={() => handleDeleteImage(img.id)} className="border-none shadow-lg" />
@@ -308,7 +308,7 @@ function AdminMediaGalleryPageContent() {
                         >
                           <div className="flex justify-between items-start mb-3">
                              <div className="flex-1 mr-2">
-                                <h4 className="text-sm font-black text-sanfovet-dark truncate m-0 italic">{img.title}</h4>
+                                <h4 className="text-sm font-black text-biotechvet-dark truncate m-0 italic">{img.title}</h4>
                              </div>
                              <Tag className="m-0 text-[10px] font-black tracking-tighter bg-amber-50 text-amber-600 border-none px-2 py-0.5 rounded-lg">#{img.order || 0}</Tag>
                           </div>
@@ -342,7 +342,7 @@ function AdminMediaGalleryPageContent() {
                           bodyStyle={{ padding: 0 }}
                         >
                           <div className="flex flex-col sm:flex-row h-full">
-                            <div className="w-full sm:w-56 h-48 bg-sanfovet-dark shrink-0 flex items-center justify-center relative overflow-hidden group">
+                            <div className="w-full sm:w-56 h-48 bg-biotechvet-dark shrink-0 flex items-center justify-center relative overflow-hidden group">
                                <img src={vid.thumbnail} className={`absolute inset-0 w-full h-full object-cover transition-all duration-700 group-hover:scale-110 ${vid.status === 'hidden' ? 'opacity-20 grayscale' : 'opacity-60'}`} />
                                <div className="relative z-10 w-16 h-16 bg-white/20 backdrop-blur-md rounded-full flex items-center justify-center text-white text-3xl group-hover:scale-110 group-hover:bg-primary transition-all shadow-xl">
                                   <PlayCircleOutlined />
@@ -356,7 +356,7 @@ function AdminMediaGalleryPageContent() {
                             <div className="flex flex-1 flex-col justify-between p-6">
                                <div>
                                   <div className="flex justify-between items-start gap-4 mb-4">
-                                     <h4 className={`font-black text-sanfovet-dark text-lg italic leading-tight ${vid.status === 'hidden' ? 'text-gray-400' : ''}`}>{vid.title}</h4>
+                                     <h4 className={`font-black text-biotechvet-dark text-lg italic leading-tight ${vid.status === 'hidden' ? 'text-gray-400' : ''}`}>{vid.title}</h4>
                                      <Tag className="m-0 text-[10px] font-black tracking-tighter bg-amber-50 text-amber-600 border-none px-2 py-0.5 rounded-lg shrink-0">#{vid.order || 0}</Tag>
                                   </div>
                                   <code className="text-[10px] text-gray-400 bg-gray-50 px-3 py-1.5 rounded-lg border border-gray-100 block truncate w-full italic mb-6">
@@ -400,7 +400,7 @@ function AdminMediaGalleryPageContent() {
             <div className="w-10 h-10 bg-primary/10 rounded-xl flex items-center justify-center text-primary">
               {editingId ? <EditOutlined /> : <PlusOutlined />}
             </div>
-            <span className="text-2xl font-black uppercase italic tracking-tighter text-sanfovet-dark">
+            <span className="text-2xl font-black uppercase italic tracking-tighter text-biotechvet-dark">
               {editingId ? (activeTab === 'images' ? 'Cập nhật hình ảnh' : 'Cập nhật video') : (activeTab === 'images' ? 'Thêm hình ảnh Gallery' : 'Thêm video mới')}
             </span>
           </div>

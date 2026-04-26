@@ -209,7 +209,7 @@ function AdminJobsPageContent() {
       <div className="flex justify-between items-center mb-10">
         <div>
           <Breadcrumb items={[{ title: 'Admin', href: '/admin' }, { title: 'Quản lý Tuyển dụng' }]} />
-          <h1 className="text-2xl font-black text-sanfovet-dark mt-2 tracking-tight uppercase italic">Quản lý Tuyển dụng</h1>
+          <h1 className="text-2xl font-black text-biotechvet-dark mt-2 tracking-tight uppercase italic">Quản lý Tuyển dụng</h1>
 
         </div>
         <Button 

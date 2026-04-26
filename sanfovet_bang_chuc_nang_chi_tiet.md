@@ -1,7 +1,7 @@
 # BẢNG CHỨC NĂNG CHI TIẾT – WEBSITE BIOTECH-VET.COM.VN
 
-> **Website:** https://sanfovet.com.vn  
-> **Thương hiệu:** BIOTECH-VET – Công ty CP Đầu tư Liên doanh Việt Anh  
+> **Website:** https://biotechvet.com.vn  
+> **Thương hiệu:** BIOTECH-VET – Công Ty CP Công Nghệ Sinh Học Thú Y  
 > **Nền tảng:** WordPress (Custom Theme)  
 > **Ngày lập:** 13/04/2026  
 
@@ -40,8 +40,8 @@
 
 | STT | Chức năng | Mô tả chi tiết | Input | Output | Ghi chú |
 |-----|-----------|----------------|-------|--------|---------|
-| H-01 | Hiển thị logo | Hiển thị logo Sanfovet ở góc trên bên trái | — | Render ảnh logo | Click logo → về trang chủ `/` |
-| H-02 | Topbar – Email liên hệ | Hiển thị `pkd.sanfovet@gmail.com` dạng link `mailto:` | — | Mở email client | Click → `mailto:pkd.sanfovet@gmail.com` |
+| H-01 | Hiển thị logo | Hiển thị logo biotechvet ở góc trên bên trái | — | Render ảnh logo | Click logo → về trang chủ `/` |
+| H-02 | Topbar – Email liên hệ | Hiển thị `pkd.biotechvet@gmail.com` dạng link `mailto:` | — | Mở email client | Click → `mailto:pkd.biotechvet@gmail.com` |
 | H-03 | Topbar – Hotline | Hiển thị `097 499 9204` dạng link `tel:` | — | Gọi điện trực tiếp | Click → `tel:0974999204` |
 | H-04 | Chuyển ngôn ngữ EN | Icon cờ Anh + text "en" | Click | Reload trang bản tiếng Anh | Đa ngôn ngữ VI/EN |
 | H-05 | Chuyển ngôn ngữ VI | Icon cờ Việt Nam + text "vi" | Click | Reload trang bản tiếng Việt | Mặc định là VI |
@@ -72,16 +72,16 @@
 | F-02 | Thông tin công ty – Địa chỉ trụ sở | Cụm CN Liên Phương, Xã Hồng Vân, Hà Nội | — | Text tĩnh | — |
 | F-03 | Thông tin công ty – Chi nhánh miền Nam | Hố Nai, Trảng Bom, Đồng Nai | — | Text tĩnh | — |
 | F-04 | Thông tin công ty – Điện thoại | `024 66861629 - 097 499 9204` | — | Text tĩnh | — |
-| F-05 | Thông tin công ty – Email | `pkd.sanfovet@gmail.com` | — | Text tĩnh | — |
-| F-06 | Thông tin công ty – Website | `www.sanfovet.com.vn` | — | Text tĩnh | — |
+| F-05 | Thông tin công ty – Email | `pkd.biotechvet@gmail.com` | — | Text tĩnh | — |
+| F-06 | Thông tin công ty – Website | `www.biotechvet.com.vn` | — | Text tĩnh | — |
 | F-07 | Danh sách sản phẩm nhanh (10 link) | Các link tắt đến 10 danh mục sản phẩm | Click | Chuyển trang danh mục | — |
 | F-08 | Hỗ trợ kỹ thuật – Tên BSTY | BSTY. Hoàng Đăng Trạng | — | Text tĩnh | — |
 | F-09 | Hỗ trợ kỹ thuật – Email | `dangtrang19877@gmail.com` | — | Text tĩnh | — |
 | F-10 | Hỗ trợ kỹ thuật – SĐT | `038 3814838` | — | Text tĩnh | — |
-| F-11 | Icon mạng xã hội – Facebook | Link đến page Facebook Sanfovet | Click | Mở tab mới `facebook.com/ThuocThuYSANFOVET` | — |
+| F-11 | Icon mạng xã hội – Facebook | Link đến page Facebook biotechvet | Click | Mở tab mới `facebook.com/ThuocThuYbiotechvet` | — |
 | F-12 | Icon mạng xã hội – YouTube | Link đến kênh YouTube chăn nuôi | Click | Mở tab mới YouTube | — |
 | F-13 | Icon mạng xã hội – Zalo | Link đến Zalo OA của công ty | Click | Mở Zalo / Zalo Web | — |
-| F-14 | Copyright | © 2024 Copyright by Sanfovet.com.vn | — | Text tĩnh | — |
+| F-14 | Copyright | © 2024 Copyright by biotechvet.com.vn | — | Text tĩnh | — |
 
 ---
 
@@ -105,7 +105,7 @@
 |-----|-----------|----------------|-------|--------|---------|
 | TC-01 | Banner Slider tự động | Trình chiếu 3–4 banner hình ảnh xoay vòng tự động | Tự động / Swipe | Hiển thị lần lượt từng banner | Auto-play slideshow |
 | TC-02 | Banner – Click điều hướng | Mỗi banner có thể link đến trang sản phẩm/bài viết | Click banner | Chuyển đến trang đích | Tùy từng banner |
-| TC-03 | Block "Về chúng tôi" – Đọc giới thiệu | Đoạn giới thiệu ngắn về Sanfovet | — | Hiển thị text mô tả | — |
+| TC-03 | Block "Về chúng tôi" – Đọc giới thiệu | Đoạn giới thiệu ngắn về biotechvet | — | Hiển thị text mô tả | — |
 | TC-04 | Block "Về chúng tôi" – Nút Xem thêm | Link đến trang giới thiệu đầy đủ | Click | Chuyển trang `/gioi-thieu/` | — |
 | TC-05 | Block "Về chúng tôi" – Nút Hồ sơ năng lực | Link đến catalogue | Click | Chuyển trang `/catalogue/` | — |
 | TC-06 | Thumbnail video – Xem video giới thiệu | Hình ảnh kèm nút play | Click | Chuyển trang `/gioi-thieu/` (có video) | Video MP4 self-hosted |
@@ -117,7 +117,7 @@
 | TC-12 | Block "Bệnh và điều trị bệnh" – Click bài | Click vào bài viết | Click | Chuyển trang bài viết chi tiết | — |
 | TC-13 | Block "Tin nổi bật" – Danh sách | 5 bài viết tin tức/blog mới nhất | — | Render list: ảnh + tiêu đề + ngày + excerpt | — |
 | TC-14 | Block "Tin nổi bật" – Click bài | Click vào bài viết | Click | Chuyển trang bài viết chi tiết | — |
-| TC-15 | Block "Tại sao nên chọn chúng tôi" | 5 icon + tiêu đề điểm mạnh của Sanfovet | — | Render dạng icon grid | Nội dung tĩnh |
+| TC-15 | Block "Tại sao nên chọn chúng tôi" | 5 icon + tiêu đề điểm mạnh của biotechvet | — | Render dạng icon grid | Nội dung tĩnh |
 
 ---
 
@@ -125,10 +125,10 @@
 
 | STT | Chức năng | Mô tả chi tiết | Input | Output | Ghi chú |
 |-----|-----------|----------------|-------|--------|---------|
-| GT-01 | Video giới thiệu thương hiệu | Nhúng file MP4 trực tiếp, có nút play/pause | Click Play | Phát video giới thiệu Sanfovet | Self-hosted MP4 |
+| GT-01 | Video giới thiệu thương hiệu | Nhúng file MP4 trực tiếp, có nút play/pause | Click Play | Phát video giới thiệu biotechvet | Self-hosted MP4 |
 | GT-02 | Tab / Section: Catalogue | Nội dung hoặc link tải catalogue công ty | Click | Hiện nội dung/link catalogue | — |
 | GT-03 | Tab / Section: Lịch sử hình thành | Mốc thời gian lịch sử phát triển công ty | — | Hiển thị timeline / text | — |
-| GT-04 | Tab / Section: Giới thiệu về Sanfovet | Mô tả chi tiết thương hiệu, sứ mệnh | — | Hiển thị text + hình ảnh | — |
+| GT-04 | Tab / Section: Giới thiệu về biotechvet | Mô tả chi tiết thương hiệu, sứ mệnh | — | Hiển thị text + hình ảnh | — |
 | GT-05 | Tab / Section: Tầm nhìn – Sứ mệnh | Tầm nhìn dài hạn và sứ mệnh công ty | — | Hiển thị text | — |
 | GT-06 | Tab / Section: Cơ sở vật chất | Hình ảnh nhà máy, thiết bị sản xuất | — | Hiển thị ảnh + mô tả | GMP-GLP-GSP |
 | GT-07 | Tab / Section: Cơ cấu tổ chức | Sơ đồ/danh sách bộ phận tổ chức | — | Hiển thị sơ đồ tổ chức | — |
@@ -328,7 +328,7 @@
 | BW-04 | Ảnh đại diện (thumbnail) | Hình ảnh đầu bài viết | — | Render ảnh | — |
 | BW-05 | Mục lục (Table of Contents) | Danh sách anchor link tự động từ các heading trong bài | Click mục | Scroll đến phần tương ứng | Tự động sinh từ heading H2/H3 |
 | BW-06 | Nội dung bài viết | HTML đầy đủ: text, ảnh, bảng, danh sách | — | Render nội dung | — |
-| BW-07 | Link nội bộ trong bài | Các link dẫn đến sản phẩm/bài khác của Sanfovet | Click | Chuyển trang sản phẩm hoặc bài liên quan | Cross-linking |
+| BW-07 | Link nội bộ trong bài | Các link dẫn đến sản phẩm/bài khác của biotechvet | Click | Chuyển trang sản phẩm hoặc bài liên quan | Cross-linking |
 | BW-08 | Ảnh minh họa trong bài | Hình ảnh chèn giữa nội dung | — | Render ảnh | — |
 | BW-09 | Bảng trong bài | Bảng thống kê, bảng thành phần... | — | Render bảng HTML | — |
 | BW-10 | Sidebar: Sản phẩm nổi bật | 7 sản phẩm nổi bật | Click | Chuyển trang sản phẩm | — |
@@ -346,7 +346,7 @@
 | TD-02 | Breadcrumb | Home > TUYỂN DỤNG | Click | Điều hướng | — |
 | TD-03 | Danh sách tin tuyển dụng | Grid/list các bài đăng tuyển dụng | — | Render: ảnh poster + tiêu đề + ngày | — |
 | TD-04 | Card tuyển dụng – Ảnh poster | Ảnh poster thiết kế đẹp thông tin tuyển dụng | Click | Chuyển trang chi tiết tin tuyển dụng | — |
-| TD-05 | Card tuyển dụng – Tiêu đề | Tên vị trí + khu vực tuyển | Click | Chuyển trang chi tiết | VD: "Sanfovet tuyển NVKD: Ninh Bình, Thanh Hoá..." |
+| TD-05 | Card tuyển dụng – Tiêu đề | Tên vị trí + khu vực tuyển | Click | Chuyển trang chi tiết | VD: "biotechvet tuyển NVKD: Ninh Bình, Thanh Hoá..." |
 | TD-06 | Card tuyển dụng – Ngày đăng | Ngày đăng tin | — | Text | — |
 | TD-07 | Card tuyển dụng – Excerpt | Đoạn giới thiệu ngắn về vị trí | — | Text | — |
 | TD-08 | Phân trang | — | Click | Tải trang tiếp | — |
@@ -379,8 +379,8 @@
 | LH-03 | Hiển thị địa chỉ trụ sở | Cụm CN Liên Phương, Xã Hồng Vân, Hà Nội | — | Text tĩnh | — |
 | LH-04 | Hiển thị địa chỉ chi nhánh miền Nam | Hố Nai, Trảng Bom, Đồng Nai | — | Text tĩnh | — |
 | LH-05 | Số điện thoại click-to-call | `024 66861629 - 097 499 9204` | Click | Gọi điện | — |
-| LH-06 | Email click-to-email | `pkd.sanfovet@gmail.com` | Click | Mở email client | — |
-| LH-07 | Website | `www.sanfovet.com.vn` | — | Text tĩnh | — |
+| LH-06 | Email click-to-email | `pkd.biotechvet@gmail.com` | Click | Mở email client | — |
+| LH-07 | Website | `www.biotechvet.com.vn` | — | Text tĩnh | — |
 | LH-08 | Google Maps embed | Bản đồ nhúng iframe hiển thị vị trí công ty | Tương tác bản đồ | Phóng to, thu nhỏ, xem đường đi | Iframe Google Maps |
 | LH-09 | Form liên hệ – Trường Họ và tên | Input text bắt buộc | Nhập text | Lưu giá trị | Required |
 | LH-10 | Form liên hệ – Trường Số điện thoại | Input tel bắt buộc | Nhập số | Lưu giá trị | Required |
@@ -389,7 +389,7 @@
 | LH-13 | Form liên hệ – Nút Gửi | Submit button | Click | Gửi form đến server | — |
 | LH-14 | Form liên hệ – Validation | Kiểm tra trường bắt buộc trước khi gửi | Submit | Thông báo lỗi nếu thiếu/sai định dạng | Client-side + Server-side |
 | LH-15 | Form liên hệ – Gửi thành công | Sau khi submit hợp lệ | — | Thông báo "Gửi thành công" trên trang | — |
-| LH-16 | Form liên hệ – Email admin | Server gửi email đến `pkd.sanfovet@gmail.com` | — | Email chứa: Họ tên, SĐT, Email, Nội dung | WP Contact Form plugin |
+| LH-16 | Form liên hệ – Email admin | Server gửi email đến `pkd.biotechvet@gmail.com` | — | Email chứa: Họ tên, SĐT, Email, Nội dung | WP Contact Form plugin |
 | LH-17 | Form liên hệ – Email confirm | Server có thể gửi xác nhận đến người dùng | — | Email xác nhận đã nhận liên hệ | Tùy config plugin |
 
 ---
@@ -402,8 +402,8 @@
 |-----|-----------|----------------|-------|--------|---------|
 | POP-01 | Mở popup | Click nút "Liên hệ với chúng tôi" fixed | Click | Overlay popup mở trên màn hình | — |
 | POP-02 | Tiêu đề popup | "Liên hệ với chúng tôi" | — | Text | — |
-| POP-03 | Mô tả trong popup | "Hãy liên hệ ngay với đội ngũ chuyên gia của Sanfovet để được hỗ trợ kịp thời" | — | Text | — |
-| POP-04 | Tên công ty trong popup | Công ty CP Đầu tư Liên doanh Việt Anh (Sanfovet) | — | Text | — |
+| POP-03 | Mô tả trong popup | "Hãy liên hệ ngay với đội ngũ chuyên gia của biotechvet để được hỗ trợ kịp thời" | — | Text | — |
+| POP-04 | Tên công ty trong popup | Công Ty CP Công Nghệ Sinh Học Thú Y (biotechvet) | — | Text | — |
 | POP-05 | Đóng popup – Nút X | Nút đóng góc popup | Click X | Đóng overlay, quay lại trang | — |
 | POP-06 | Đóng popup – Click ngoài | Click ra vùng ngoài popup | Click overlay | Đóng popup | — |
 
@@ -453,4 +453,4 @@
 
 ---
 
-*Tài liệu được phân tích và tổng hợp từ website thực tế https://sanfovet.com.vn – Ngày 13/04/2026*
+*Tài liệu được phân tích và tổng hợp từ website thực tế https://biotechvet.com.vn – Ngày 13/04/2026*

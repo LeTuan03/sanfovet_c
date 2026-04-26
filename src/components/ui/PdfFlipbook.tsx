@@ -166,7 +166,7 @@ export default function PdfFlipbook({ url, onClose }: { url: string; onClose: ()
 
   return (
     <div
-      className="w-full h-full flex flex-col rounded-3xl overflow-hidden bg-sanfovet-dark relative"
+      className="w-full h-full flex flex-col rounded-3xl overflow-hidden bg-biotechvet-dark relative"
       style={{
         boxShadow: '0 40px 80px rgba(0,0,0,0.65), inset 0 1px 0 rgba(255,255,255,0.05)',
         fontFamily: 'Georgia, serif',

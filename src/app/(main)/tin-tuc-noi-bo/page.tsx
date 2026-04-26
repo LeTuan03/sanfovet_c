@@ -23,7 +23,7 @@ export default async function InternalNewsPage() {
              <span className="text-white">Tin tức nội bộ</span>
            </div>
            <h1 className="text-4xl font-black mb-4 uppercase italic">Tin tức nội bộ</h1>
-           <p className="text-blue-100 max-w-xl font-medium">Hoạt động, sự kiện và văn hóa doanh nghiệp tại Sanfovet.</p>
+           <p className="text-blue-100 max-w-xl font-medium">Hoạt động, sự kiện và văn hóa doanh nghiệp tại biotechvet.</p>
         </div>
       </section>
 
@@ -38,7 +38,7 @@ export default async function InternalNewsPage() {
                   <div className="flex items-center gap-2 text-gray-400 text-xs font-bold mb-4 uppercase tracking-widest">
                      <Calendar size={14} className="text-blue-600" /> {a.publishDate}
                   </div>
-                  <h2 className="text-xl font-bold text-sanfovet-dark mb-4 line-clamp-2 leading-tight group-hover:text-blue-600 transition-colors">
+                  <h2 className="text-xl font-bold text-biotechvet-dark mb-4 line-clamp-2 leading-tight group-hover:text-blue-600 transition-colors">
                      {a.title}
                   </h2>
                   <p className="text-gray-500 text-sm font-medium line-clamp-3 mb-6">

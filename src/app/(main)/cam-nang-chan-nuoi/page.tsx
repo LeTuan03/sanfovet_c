@@ -4,6 +4,26 @@ import { readData } from '@/lib/storage';
 import { Article, AnimalTag } from '@/types';
 // import { articles, animalTags } from '@/lib/data'; // Removed static imports
 import { Calendar, ChevronRight, Search } from 'lucide-react';
+import { Metadata } from 'next';
+
+export const metadata: Metadata = {
+  title: 'Cẩm Nang Chăn Nuôi - Kiến Thức & Kỹ Thuật - biotechvet',
+  description: 'Chia sẻ kiến thức, kỹ thuật và kinh nghiệm chăn nuôi hiệu quả từ các chuyên gia hàng đầu. Hướng dẫn chi tiết cho gia súc, gia cầm.',
+  keywords: ['cẩm nang chăn nuôi', 'kỹ thuật chăn nuôi', 'kiến thức gia súc', 'gia cầm', 'biotechvet', 'hướng dẫn nuôi cấp'],
+  robots: 'index, follow',
+  openGraph: {
+    title: 'Cẩm Nang Chăn Nuôi - biotechvet',
+    description: 'Chia sẻ kiến thức, kỹ thuật và kinh nghiệm chăn nuôi hiệu quả từ các chuyên gia hàng đầu.',
+    url: 'https://biotechvet.com.vn/cam-nang-chan-nuoi',
+    images: [
+      {
+        url: '/images/banner1.png',
+        width: 1200,
+        height: 630,
+      },
+    ],
+  },
+};
 
 export default async function HandbookPage() {
   const articles = await readData<Article[]>('articles');
@@ -13,7 +33,7 @@ export default async function HandbookPage() {
   return (
     <div className="bg-white min-h-screen">
       {/* Hero Section */}
-      <section className="bg-sanfovet-dark text-white py-16 relative overflow-hidden">
+      <section className="bg-biotechvet-dark text-white py-16 relative overflow-hidden">
         <div className="absolute inset-0 opacity-10 bg-[url('/images/farm.png')] bg-cover bg-center"></div>
         <div className="container mx-auto px-4 relative z-10">
            <div className="flex flex-col md:flex-row md:items-end justify-between gap-6">
@@ -42,7 +62,7 @@ export default async function HandbookPage() {
                 <div className="flex items-center gap-4">
                   {/* <span className="text-4xl">{tag.icon}</span> */}
                   <div>
-                    <h2 className="text-2xl font-black text-sanfovet-dark uppercase tracking-tight">{tag.name}</h2>
+                    <h2 className="text-2xl font-black text-biotechvet-dark uppercase tracking-tight">{tag.name}</h2>
                     <p className="text-sm text-gray-400 font-medium">{tag.description}</p>
                   </div>
                 </div>
@@ -68,7 +88,7 @@ export default async function HandbookPage() {
                       <div className="flex items-center gap-2 text-gray-400 text-xs font-bold mb-4 uppercase tracking-widest">
                         <Calendar size={14} className="text-primary" /> {a.publishDate}
                       </div>
-                      <h3 className="text-xl font-bold text-sanfovet-dark mb-4 line-clamp-2 leading-tight group-hover:text-primary transition-colors">
+                      <h3 className="text-xl font-bold text-biotechvet-dark mb-4 line-clamp-2 leading-tight group-hover:text-primary transition-colors">
                         {a.title}
                       </h3>
                       <p className="text-gray-500 text-sm font-medium line-clamp-3 mb-6 flex-1">
@@ -97,7 +117,7 @@ export default async function HandbookPage() {
 
         {/* Empty State */}
         {allHandbook.length === 0 && (
-          <div className="text-center py-20 bg-sanfovet-alt rounded-[40px] border-2 border-dashed border-gray-200">
+          <div className="text-center py-20 bg-biotechvet-alt rounded-[40px] border-2 border-dashed border-gray-200">
              <div className="text-gray-400 font-bold mb-4 uppercase tracking-widest">Chưa có bài viết nào</div>
              <p className="text-gray-500 max-w-xs mx-auto">Chúng tôi đang cập nhật thêm kiến thức mới. Vui lòng quay lại sau.</p>
           </div>

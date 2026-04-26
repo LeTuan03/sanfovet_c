@@ -13,9 +13,38 @@ export async function generateMetadata({ params }: { params: Promise<{ slug: str
   const { slug } = await params;
   const product = await productService.getBySlug(slug);
   
+  if (!product) {
+    return {
+      title: 'Sản phẩm không tìm thấy - biotechvet',
+      description: 'Sản phẩm bạn tìm kiếm không tồn tại.',
+    };
+  }
+
   return {
-    title: product ? `${product.name} - Sanfovet` : 'Sản phẩm - Sanfovet',
-    description: product?.tagline || 'Chi tiết sản phẩm thuốc thú y Sanfovet',
+    title: `${product.name} - Thuốc Thú Y biotechvet`,
+    description: product?.tagline || `Chi tiết sản phẩm ${product.name} từ biotechvet - Công nghệ USA`,
+    keywords: ['thuốc thú y', 'biotechvet', product.name, 'chăn nuôi', product.category || 'sản phẩm'],
+    robots: 'index, follow',
+    openGraph: {
+      type: "product",
+      title: `${product.name} - biotechvet`,
+      description: product?.tagline || `Chi tiết sản phẩm ${product.name}`,
+      url: `https://biotechvet.com.vn/san-pham/${product.slug}`,
+      images: [
+        {
+          url: product.image || '/images/default-product.png',
+          width: 1200,
+          height: 630,
+          alt: product.name,
+        },
+      ],
+    },
+    twitter: {
+      card: "summary_large_image",
+      title: `${product.name} - biotechvet`,
+      description: product?.tagline || 'Sản phẩm thuốc thú y chất lượng cao',
+      images: [product.image || '/images/default-product.png'],
+    },
   };
 }
 
@@ -34,7 +63,7 @@ export default async function ProductDetailPage({ params }: Readonly<{ params: P
   return (
     <div className="bg-white min-h-[100vh] pb-24">
       {/* Breadcrumbs */}
-      <div className="bg-sanfovet-alt py-4">
+      <div className="bg-biotechvet-alt py-4">
         <div className="container mx-auto px-4 flex items-center text-sm text-gray-500">
           <Link href="/" className="hover:text-primary transition-colors">Trang chủ</Link>
           <ChevronRight size={14} className="mx-2 text-gray-300" />
@@ -52,7 +81,7 @@ export default async function ProductDetailPage({ params }: Readonly<{ params: P
         {/* Product Hero */}
         <div className="grid grid-cols-1 lg:grid-cols-2 gap-12 lg:gap-20 mb-16">
           {/* Image */}
-          <div className="bg-sanfovet-alt rounded-[24px] p-8 md:p-12 flex items-center justify-center relative shadow-inner">
+          <div className="bg-biotechvet-alt rounded-[24px] p-8 md:p-12 flex items-center justify-center relative shadow-inner">
              <ProductImageLightbox src={product.image} alt={product.name} />
              <div className="absolute top-6 left-6 bg-white/80 backdrop-blur-sm p-3 rounded-full shadow-sm">
                 <ShieldCheck className="text-primary" size={24} />
@@ -64,7 +93,7 @@ export default async function ProductDetailPage({ params }: Readonly<{ params: P
             <div className="text-xs font-black text-primary bg-primary-light px-3 py-1 rounded-full w-fit mb-4 uppercase tracking-[2px]">
               {category?.name}
             </div>
-            <h1 className="text-3xl md:text-5xl font-black text-sanfovet-dark mb-4 leading-tight">{product.name}</h1>
+            <h1 className="text-3xl md:text-5xl font-black text-biotechvet-dark mb-4 leading-tight">{product.name}</h1>
             <p className="text-xl text-gray-500 mb-8 font-medium leading-relaxed italic border-l-4 border-gray-100 pl-6">{product.tagline}</p>
             
             <div className="grid grid-cols-1 md:grid-cols-2 gap-6 mb-10">
@@ -151,14 +180,14 @@ export default async function ProductDetailPage({ params }: Readonly<{ params: P
                   <div className="bg-white p-7 rounded-2xl border border-gray-100 shadow-sm flex flex-col flex-1">
                      <div className="mb-6 pb-6 border-b border-gray-50">
                         <p className="mb-2 flex items-center gap-2 text-sm text-gray-400 font-bold uppercase tracking-widest leading-none">Đường cấp thuốc</p>
-                        <p className="text-sanfovet-dark font-black text-lg">{product.dosage?.route}</p>
+                        <p className="text-biotechvet-dark font-black text-lg">{product.dosage?.route}</p>
                      </div>
                      <div className="mb-8">
                         <p className="mb-2 flex items-center gap-2 text-sm text-gray-400 font-bold uppercase tracking-widest leading-none">Liệu trình</p>
-                        <p className="text-sanfovet-dark font-black text-lg">{product.dosage?.duration}</p>
+                        <p className="text-biotechvet-dark font-black text-lg">{product.dosage?.duration}</p>
                      </div>
                      
-                     <div className="space-y-3 mt-auto bg-sanfovet-alt p-5 rounded-xl">
+                     <div className="space-y-3 mt-auto bg-biotechvet-alt p-5 rounded-xl">
                         {product.dosage?.byAnimal?.map((a: { animal: string; dose: string }) => (
                           <div key={a.animal} className="flex justify-between items-center border-b border-gray-200/50 last:border-0 pb-2.5 last:pb-0">
                             <span className="font-bold text-gray-600 text-sm">{a.animal}</span>
@@ -190,7 +219,7 @@ export default async function ProductDetailPage({ params }: Readonly<{ params: P
                     <Package size={20} /> Dạng bào chế
                   </h2>
                   <div className="bg-white p-7 rounded-2xl border border-gray-100 shadow-sm flex-1">
-                    <p className="text-sanfovet-dark font-black text-lg">{product.formulation}</p>
+                    <p className="text-biotechvet-dark font-black text-lg">{product.formulation}</p>
                   </div>
                 </div>
                 <div className="flex flex-col">
@@ -206,8 +235,8 @@ export default async function ProductDetailPage({ params }: Readonly<{ params: P
           </div>
 
           <aside className="lg:col-span-1">
-             <div className="bg-sanfovet-alt p-8 rounded-[24px] border border-gray-100 shadow-inner sticky top-24">
-                <h3 className="font-black text-lg text-sanfovet-dark mb-8 border-b border-gray-200 pb-4 uppercase tracking-wider">Sản phẩm cùng loại</h3>
+             <div className="bg-biotechvet-alt p-8 rounded-[24px] border border-gray-100 shadow-inner sticky top-24">
+                <h3 className="font-black text-lg text-biotechvet-dark mb-8 border-b border-gray-200 pb-4 uppercase tracking-wider">Sản phẩm cùng loại</h3>
                 <div className="space-y-6">
                   {relatedProducts.map((p: Product) => (
                     <Link href={`/san-pham/${p.slug}`} key={p.id} className="flex gap-5 group">
@@ -215,7 +244,7 @@ export default async function ProductDetailPage({ params }: Readonly<{ params: P
                         <img src={p.image} alt={p.name} className="max-h-full max-w-full object-contain" />
                       </div>
                       <div className="flex flex-col justify-center">
-                        <h4 className="font-bold text-sanfovet-dark group-hover:text-primary transition-colors line-clamp-2 text-[0.9rem] leading-snug">{p.name}</h4>
+                        <h4 className="font-bold text-biotechvet-dark group-hover:text-primary transition-colors line-clamp-2 text-[0.9rem] leading-snug">{p.name}</h4>
                         <p className="text-[0.7rem] text-gray-400 mt-1.5 line-clamp-1 font-medium">{p.tagline}</p>
                       </div>
                     </Link>

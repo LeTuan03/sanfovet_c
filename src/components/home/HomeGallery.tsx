@@ -40,7 +40,7 @@ export default function HomeGallery() {
           transition={{ duration: 0.6 }}
           className="text-center max-w-2xl mx-auto mb-16"
         >
-          <h2 className="text-3xl md:text-5xl font-black mb-6 text-sanfovet-dark uppercase italic tracking-wider relative inline-block">
+          <h2 className="text-3xl md:text-5xl font-black mb-6 text-biotechvet-dark uppercase italic tracking-wider relative inline-block">
             Video & Hình Ảnh
             <span className="absolute -bottom-2 left-0 w-1/2 h-1.5 bg-primary rounded-full"></span>
           </h2>
@@ -61,7 +61,7 @@ export default function HomeGallery() {
                onClick={() => setSelectedItem({ ...featuredVideo, type: 'video' })}
              >
                 <img src={featuredVideo?.thumbnail || '/images/about.png'} alt="Video cover" className="w-full h-full object-cover transition-transform duration-700 group-hover:scale-110" />
-                <div className="absolute inset-0 bg-sanfovet-dark/40 group-hover:bg-sanfovet-dark/20 transition-all flex items-center justify-center">
+                <div className="absolute inset-0 bg-biotechvet-dark/40 group-hover:bg-biotechvet-dark/20 transition-all flex items-center justify-center">
                    <div className="w-24 h-24 bg-white/20 backdrop-blur-md rounded-full flex items-center justify-center text-white border border-white/30 group-hover:scale-110 transition-transform">
                       <PlayCircle size={64} fill="currentColor" className="text-white" />
                    </div>
@@ -71,12 +71,12 @@ export default function HomeGallery() {
                    <h3 className="text-2xl font-black text-white uppercase italic tracking-tight">{featuredVideo?.title || 'Phim giới thiệu BIOTECH-VET'}</h3>
                 </div>
              </div>
-             <div className="bg-sanfovet-alt p-8 rounded-[32px] border border-gray-100 flex items-center justify-between group">
+             <div className="bg-biotechvet-alt p-8 rounded-[32px] border border-gray-100 flex items-center justify-between group">
                 <div>
-                   <h4 className="font-black text-sanfovet-dark text-lg uppercase mb-1">Kênh YouTube chính thức</h4>
+                   <h4 className="font-black text-biotechvet-dark text-lg uppercase mb-1">Kênh YouTube chính thức</h4>
                    <p className="text-gray-400 text-sm font-medium italic">Cập nhật kỹ thuật chăn nuôi hàng tuần</p>
                 </div>
-                <a href="https://youtube.com/sanfovet" target="_blank" className="bg-red-600 text-white p-4 rounded-2xl hover:bg-red-700 transition-all shadow-lg shadow-red-200">
+                <a href="https://youtube.com/biotechvet" target="_blank" className="bg-red-600 text-white p-4 rounded-2xl hover:bg-red-700 transition-all shadow-lg shadow-red-200">
                    <PlayCircle size={24} />
                 </a>
              </div>
@@ -101,7 +101,7 @@ export default function HomeGallery() {
                     i % 3 === 0 ? 'aspect-[3/4]' : i % 3 === 1 ? 'aspect-square' : 'aspect-[4/3]'
                   }`} 
                 />
-                <div className="absolute inset-0 bg-gradient-to-t from-sanfovet-dark/80 via-transparent to-transparent opacity-0 group-hover:opacity-100 transition-all duration-500 flex flex-col justify-end p-6">
+                <div className="absolute inset-0 bg-gradient-to-t from-biotechvet-dark/80 via-transparent to-transparent opacity-0 group-hover:opacity-100 transition-all duration-500 flex flex-col justify-end p-6">
                    <div className="bg-primary/90 text-white p-2.5 rounded-xl w-fit mb-3 transform -translate-y-4 group-hover:translate-y-0 transition-transform">
                       <ZoomIn size={18} />
                    </div>
@@ -123,7 +123,7 @@ export default function HomeGallery() {
           className="fixed inset-0 z-[2000] flex items-center justify-center p-4 md:p-12"
         >
           <div 
-            className="absolute inset-0 bg-sanfovet-dark/95 backdrop-blur-md cursor-pointer"
+            className="absolute inset-0 bg-biotechvet-dark/95 backdrop-blur-md cursor-pointer"
             onClick={() => setSelectedItem(null)}
           ></div>
           <motion.div 
@@ -163,7 +163,7 @@ export default function HomeGallery() {
                   <div className="bg-primary/10 text-primary px-3 py-1 rounded-full text-[10px] font-black uppercase tracking-widest leading-none w-fit mb-4">
                      {selectedItem.type === 'video' ? 'Video giới thiệu' : 'Hình ảnh thư viện'}
                   </div>
-                  <h3 className="text-2xl font-black text-sanfovet-dark leading-tight uppercase italic mb-6">
+                  <h3 className="text-2xl font-black text-biotechvet-dark leading-tight uppercase italic mb-6">
                     {selectedItem.title}
                   </h3>
                   <p className="text-gray-400 text-sm font-medium italic mb-10">

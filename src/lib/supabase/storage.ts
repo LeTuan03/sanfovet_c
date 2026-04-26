@@ -6,7 +6,7 @@ export const uploadFile = async (
   onProgress?: (percent: number) => void
 ): Promise<string> => {
   try {
-    const bucketName = process.env.NEXT_PUBLIC_SUPABASE_BUCKET || 'sanfovet';
+    const bucketName = process.env.NEXT_PUBLIC_SUPABASE_BUCKET || 'biotechvet';
     
     // Simulating progress for better UX since Supabase standard upload doesn't provide it
     // For real progress, one would need TUS or a custom XHR/Fetch with progress
@@ -46,7 +46,7 @@ export const uploadFile = async (
 
 export const deleteFile = async (path: string): Promise<void> => {
   try {
-    const bucketName = process.env.NEXT_PUBLIC_SUPABASE_BUCKET || 'sanfovet';
+    const bucketName = process.env.NEXT_PUBLIC_SUPABASE_BUCKET || 'biotechvet';
     const { error } = await supabase.storage
       .from(bucketName)
       .remove([path]);

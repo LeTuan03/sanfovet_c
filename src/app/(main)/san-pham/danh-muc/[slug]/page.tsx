@@ -67,7 +67,7 @@ export default async function CategoryPage({ params, searchParams }: {
   return (
     <div className="bg-gray-50 min-h-screen pb-20">
       {/* Dynamic Header */}
-      <section className="bg-sanfovet-dark text-white py-20 relative overflow-hidden">
+      <section className="bg-biotechvet-dark text-white py-20 relative overflow-hidden">
         <div className="absolute inset-0 opacity-10 bg-[url('/images/farm.png')] bg-cover bg-center"></div>
         <div className="container mx-auto px-4 relative z-10 text-center">
            <div className="inline-flex items-center gap-2 bg-primary/20 backdrop-blur-sm px-4 py-1.5 rounded-full text-primary-light text-xs font-bold uppercase tracking-widest mb-6 border border-primary/20">
@@ -91,12 +91,12 @@ export default async function CategoryPage({ params, searchParams }: {
             <div className="sticky top-24 space-y-6">
               {/* Search Bar */}
               <div className="bg-white p-8 rounded-[32px] shadow-sm border border-gray-100">
-                <h3 className="text-lg font-black text-sanfovet-dark mb-6 uppercase tracking-tight italic border-b border-gray-50 pb-4">Tìm kiếm</h3>
+                <h3 className="text-lg font-black text-biotechvet-dark mb-6 uppercase tracking-tight italic border-b border-gray-50 pb-4">Tìm kiếm</h3>
                 <ProductSearch />
               </div>
 
               <div className="bg-white p-8 rounded-[32px] shadow-sm border border-gray-100">
-                <h3 className="text-lg font-black text-sanfovet-dark mb-6 uppercase tracking-tight italic border-b border-gray-50 pb-4">Phân loại khác</h3>
+                <h3 className="text-lg font-black text-biotechvet-dark mb-6 uppercase tracking-tight italic border-b border-gray-50 pb-4">Phân loại khác</h3>
               <ul className="space-y-2">
                 <li>
                     <Link href="/san-pham" className={`block py-3 px-4 rounded-xl transition-all font-bold text-sm ${!currentCategory ? 'bg-primary text-white shadow-lg' : 'text-gray-600 hover:bg-gray-100'}`}>
@@ -107,7 +107,7 @@ export default async function CategoryPage({ params, searchParams }: {
                   <li key={c.id}>
                     <Link 
                       href={`/san-pham/danh-muc/${c.slug}`}
-                      className={`block py-3.5 px-5 rounded-2xl transition-all font-bold text-[0.85rem] ${c.slug === slug ? 'bg-primary text-white shadow-lg shadow-primary/20' : 'text-gray-500 hover:bg-sanfovet-alt hover:text-primary'}`}
+                      className={`block py-3.5 px-5 rounded-2xl transition-all font-bold text-[0.85rem] ${c.slug === slug ? 'bg-primary text-white shadow-lg shadow-primary/20' : 'text-gray-500 hover:bg-biotechvet-alt hover:text-primary'}`}
                     >
                       {c.name}
                     </Link>
@@ -143,7 +143,7 @@ export default async function CategoryPage({ params, searchParams }: {
                      <img src={p.image} alt={p.name} className="max-h-full w-auto object-contain transition-transform duration-700 group-hover:scale-110" />
                   </div>
                   <div className="p-8 flex-1 flex flex-col">
-                    <h3 className="font-black text-sanfovet-dark mb-3 group-hover:text-primary transition-colors text-xl leading-tight h-14 overflow-hidden">{p.name}</h3>
+                    <h3 className="font-black text-biotechvet-dark mb-3 group-hover:text-primary transition-colors text-xl leading-tight h-14 overflow-hidden">{p.name}</h3>
                     <p className="text-sm text-gray-400 line-clamp-2 mb-8 flex-1 font-medium italic">{p.tagline}</p>
                     <Link href={`/san-pham/${p.slug}`} className="mt-auto inline-flex items-center gap-2 bg-gradient-to-r from-primary to-primary-dark text-white font-black hover:shadow-xl px-6 py-4 rounded-full transition-all justify-center w-full uppercase tracking-widest text-[0.65rem] active:scale-95">
                       <Eye size={16} /> Xem chi tiết

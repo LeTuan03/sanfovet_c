@@ -240,7 +240,7 @@ function ArticleManagementContent() {
              ]} 
              className="mb-2"
            />
-           <h2 className="text-2xl font-black text-sanfovet-dark uppercase tracking-tight italic">Quản lý Bệnh học</h2>
+           <h2 className="text-2xl font-black text-biotechvet-dark uppercase tracking-tight italic">Quản lý Bệnh học</h2>
 
         </div>
         <div className="flex gap-4">

@@ -24,7 +24,7 @@ export default async function JobDetailPage({ params }: Readonly<{ params: Promi
   return (
     <div className="bg-white min-h-screen">
       {/* Breadcrumb */}
-      <div className="bg-sanfovet-alt py-4">
+      <div className="bg-biotechvet-alt py-4">
         <div className="container mx-auto px-4 flex items-center text-sm text-gray-500">
           <Link href="/" className="hover:text-primary transition-colors font-medium">Trang chủ</Link>
           <ChevronRight size={14} className="mx-2 text-gray-300" />
@@ -43,7 +43,7 @@ export default async function JobDetailPage({ params }: Readonly<{ params: Promi
           {/* Main Content */}
           <div className="lg:col-span-3">
             {/* Job Header */}
-            <div className="bg-gradient-to-br from-sanfovet-dark to-[#0d2b10] rounded-[32px] p-8 md:p-12 text-white mb-10 relative overflow-hidden">
+            <div className="bg-gradient-to-br from-biotechvet-dark to-[#0d2b10] rounded-[32px] p-8 md:p-12 text-white mb-10 relative overflow-hidden">
               <div className="absolute top-0 right-0 w-64 h-64 bg-primary/20 rounded-full blur-3xl -mr-32 -mt-32"></div>
               <div className="relative z-10">
                 <div className="flex flex-wrap gap-3 mb-6">
@@ -68,12 +68,12 @@ export default async function JobDetailPage({ params }: Readonly<{ params: Promi
                 </h2>
                 <div className="text-gray-600 leading-relaxed space-y-4 font-medium">
                   <p>
-                    <strong>Công ty CP Đầu tư Liên doanh Việt Anh (BIOTECH-VET)</strong> là doanh nghiệp hàng đầu trong lĩnh vực 
+                    <strong>Công Ty CP Công Nghệ Sinh Học Thú Y (BIOTECH-VET)</strong> là doanh nghiệp hàng đầu trong lĩnh vực 
                     sản xuất và phân phối thuốc thú y trang trại tại Việt Nam. Với nhà máy đạt tiêu chuẩn GMP-WHO và công nghệ 
                     tiên tiến từ Hoa Kỳ, chúng tôi cam kết mang đến những sản phẩm chất lượng cao nhất cho ngành chăn nuôi.
                   </p>
                   <p>
-                    Hiện tại, mạng lưới phân phối của Sanfovet đã phủ khắp 63 tỉnh thành, với hơn 200 mã sản phẩm đa dạng 
+                    Hiện tại, mạng lưới phân phối của biotechvet đã phủ khắp 63 tỉnh thành, với hơn 200 mã sản phẩm đa dạng 
                     phục vụ mọi nhu cầu điều trị và bổ sung dinh dưỡng cho gia súc, gia cầm.
                   </p>
                 </div>
@@ -86,7 +86,7 @@ export default async function JobDetailPage({ params }: Readonly<{ params: Promi
                 </h2>
                 <ul className="space-y-4 text-gray-600 font-medium">
                   <li className="flex gap-3 items-start"><CheckCircle size={18} className="text-primary shrink-0 mt-0.5" /> Tìm kiếm và phát triển khách hàng mới (đại lý, cửa hàng, trang trại) tại khu vực được phân công.</li>
-                  <li className="flex gap-3 items-start"><CheckCircle size={18} className="text-primary shrink-0 mt-0.5" /> Giới thiệu và tư vấn sản phẩm thuốc thú y Sanfovet cho khách hàng.</li>
+                  <li className="flex gap-3 items-start"><CheckCircle size={18} className="text-primary shrink-0 mt-0.5" /> Giới thiệu và tư vấn sản phẩm thuốc thú y biotechvet cho khách hàng.</li>
                   <li className="flex gap-3 items-start"><CheckCircle size={18} className="text-primary shrink-0 mt-0.5" /> Duy trì và phát triển mối quan hệ với khách hàng hiện tại, đảm bảo doanh số theo chỉ tiêu.</li>
                   <li className="flex gap-3 items-start"><CheckCircle size={18} className="text-primary shrink-0 mt-0.5" /> Thu thập thông tin thị trường, phản hồi khách hàng và báo cáo định kỳ.</li>
                   <li className="flex gap-3 items-start"><CheckCircle size={18} className="text-primary shrink-0 mt-0.5" /> Hỗ trợ kỹ thuật cơ bản cho khách hàng về cách sử dụng sản phẩm.</li>
@@ -114,26 +114,26 @@ export default async function JobDetailPage({ params }: Readonly<{ params: Promi
                 </h2>
                 <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
                   <div className="bg-white p-5 rounded-2xl border border-gray-100 shadow-sm">
-                    <h4 className="font-bold text-sanfovet-dark mb-2">💰 Thu nhập hấp dẫn</h4>
+                    <h4 className="font-bold text-biotechvet-dark mb-2">💰 Thu nhập hấp dẫn</h4>
                     <p className="text-sm text-gray-500 font-medium">Lương cơ bản + thưởng doanh số không giới hạn. Thu nhập từ 12-25 triệu/tháng.</p>
                   </div>
                   <div className="bg-white p-5 rounded-2xl border border-gray-100 shadow-sm">
-                    <h4 className="font-bold text-sanfovet-dark mb-2">🏥 Bảo hiểm đầy đủ</h4>
+                    <h4 className="font-bold text-biotechvet-dark mb-2">🏥 Bảo hiểm đầy đủ</h4>
                     <p className="text-sm text-gray-500 font-medium">BHXH, BHYT, BHTN theo quy định. Bảo hiểm sức khỏe bổ sung cho nhân viên.</p>
                   </div>
                   <div className="bg-white p-5 rounded-2xl border border-gray-100 shadow-sm">
-                    <h4 className="font-bold text-sanfovet-dark mb-2">📚 Đào tạo chuyên sâu</h4>
+                    <h4 className="font-bold text-biotechvet-dark mb-2">📚 Đào tạo chuyên sâu</h4>
                     <p className="text-sm text-gray-500 font-medium">Được đào tạo bài bản về sản phẩm, kỹ năng bán hàng và kiến thức thú y chuyên sâu.</p>
                   </div>
                   <div className="bg-white p-5 rounded-2xl border border-gray-100 shadow-sm">
-                    <h4 className="font-bold text-sanfovet-dark mb-2">✈️ Du lịch hàng năm</h4>
+                    <h4 className="font-bold text-biotechvet-dark mb-2">✈️ Du lịch hàng năm</h4>
                     <p className="text-sm text-gray-500 font-medium">Du lịch trong và ngoài nước. Team building, sự kiện nội bộ phong phú.</p>
                   </div>
                 </div>
               </section>
 
               {/* How to Apply */}
-              <section className="bg-sanfovet-dark rounded-[32px] p-8 md:p-12 text-white relative overflow-hidden">
+              <section className="bg-biotechvet-dark rounded-[32px] p-8 md:p-12 text-white relative overflow-hidden">
                 <div className="absolute top-0 right-0 w-64 h-64 bg-primary/20 rounded-full blur-3xl -mr-32 -mt-32"></div>
                 <div className="relative z-10">
                   <h2 className="text-2xl font-black mb-6 uppercase tracking-wider flex items-center gap-3">
@@ -144,13 +144,13 @@ export default async function JobDetailPage({ params }: Readonly<{ params: Promi
                     Hồ sơ bao gồm: CV, bằng cấp liên quan, ảnh chân dung 4x6.
                   </p>
                   <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
-                    <a href="mailto:pkd.sanfovet@gmail.com" className="flex items-center gap-4 bg-white/10 border border-white/20 rounded-2xl p-5 hover:bg-white/20 transition-all group">
+                    <a href="mailto:pkd.biotechvet@gmail.com" className="flex items-center gap-4 bg-white/10 border border-white/20 rounded-2xl p-5 hover:bg-white/20 transition-all group">
                       <div className="w-12 h-12 bg-primary rounded-xl flex items-center justify-center shrink-0 group-hover:scale-110 transition-transform">
                         <Mail size={22} />
                       </div>
                       <div>
                         <div className="text-[10px] font-bold uppercase tracking-widest opacity-60 mb-1">Email ứng tuyển</div>
-                        <div className="font-black">pkd.sanfovet@gmail.com</div>
+                        <div className="font-black">pkd.biotechvet@gmail.com</div>
                       </div>
                     </a>
                     <a href="tel:0974999204" className="flex items-center gap-4 bg-white/10 border border-white/20 rounded-2xl p-5 hover:bg-white/20 transition-all group">
@@ -172,8 +172,8 @@ export default async function JobDetailPage({ params }: Readonly<{ params: Promi
           <aside className="lg:col-span-1">
             <div className="sticky top-24 space-y-10">
               {/* Featured Products */}
-              <div className="bg-sanfovet-alt p-6 rounded-[24px] border border-gray-100">
-                <h3 className="font-black text-lg text-sanfovet-dark mb-6 border-b border-gray-200 pb-3 uppercase tracking-wider">Sản phẩm nổi bật</h3>
+              <div className="bg-biotechvet-alt p-6 rounded-[24px] border border-gray-100">
+                <h3 className="font-black text-lg text-biotechvet-dark mb-6 border-b border-gray-200 pb-3 uppercase tracking-wider">Sản phẩm nổi bật</h3>
                 <div className="space-y-5">
                   {featuredProducts.map((p: Product) => (
                     <Link href={`/san-pham/${p.slug}`} key={p.id} className="flex gap-4 group">
@@ -181,7 +181,7 @@ export default async function JobDetailPage({ params }: Readonly<{ params: Promi
                         <img src={p.image} alt={p.name} className="max-h-full max-w-full object-contain" />
                       </div>
                       <div className="flex flex-col justify-center">
-                        <h4 className="font-bold text-sanfovet-dark group-hover:text-primary transition-colors line-clamp-2 text-sm leading-snug">{p.name}</h4>
+                        <h4 className="font-bold text-biotechvet-dark group-hover:text-primary transition-colors line-clamp-2 text-sm leading-snug">{p.name}</h4>
                         <p className="text-[0.65rem] text-gray-400 mt-1 line-clamp-1 font-medium">{p.tagline}</p>
                       </div>
                     </Link>
@@ -191,7 +191,7 @@ export default async function JobDetailPage({ params }: Readonly<{ params: Promi
 
               {/* Latest News */}
               <div className="bg-white p-6 rounded-[24px] border border-gray-100 shadow-sm">
-                <h3 className="font-black text-lg text-sanfovet-dark mb-6 border-b border-gray-200 pb-3 uppercase tracking-wider">Tin tức mới</h3>
+                <h3 className="font-black text-lg text-biotechvet-dark mb-6 border-b border-gray-200 pb-3 uppercase tracking-wider">Tin tức mới</h3>
                 <div className="space-y-5">
                   {latestNews.map((a: Article) => (
                     <Link href={`/bai-viet/${a.slug}`} key={a.id} className="flex gap-4 group">
@@ -199,7 +199,7 @@ export default async function JobDetailPage({ params }: Readonly<{ params: Promi
                         <img src={a.thumbnail} alt={a.title} className="w-full h-full object-cover group-hover:scale-110 transition-transform duration-500" />
                       </div>
                       <div className="flex flex-col justify-center">
-                        <h4 className="font-bold text-sanfovet-dark group-hover:text-primary transition-colors line-clamp-2 text-sm leading-snug">{a.title}</h4>
+                        <h4 className="font-bold text-biotechvet-dark group-hover:text-primary transition-colors line-clamp-2 text-sm leading-snug">{a.title}</h4>
                         <span className="text-[10px] font-bold text-gray-400 mt-1 uppercase tracking-wider">{a.publishDate}</span>
                       </div>
                     </Link>

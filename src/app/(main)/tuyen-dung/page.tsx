@@ -7,9 +7,22 @@ import { Job } from '@/types';
 import { MapPin, Calendar, Users, Target, CircleCheck, Heart, Mail } from 'lucide-react';
 
 export const metadata: Metadata = {
-  title: "Tuyển Dụng",
+  title: "Tuyển Dụng - Gia Nhập biotechvet",
   description: "Gia nhập BIOTECH-VET – Môi trường làm việc năng động, chuyên nghiệp với chế độ đãi ngộ hấp dẫn. Xem các vị trí đang tuyển dụng ngay.",
-  keywords: ["tuyển dụng sanfovet", "việc làm thú y", "tuyển nhân viên kinh doanh", "hành trình sự nghiệp"],
+  keywords: ["tuyển dụng biotechvet", "việc làm thú y", "tuyển nhân viên kinh doanh", "hành trình sự nghiệp", "công ty việt anh"],
+  robots: "index, follow",
+  openGraph: {
+    title: "Tuyển Dụng - Gia Nhập biotechvet",
+    description: "Môi trường làm việc năng động, chuyên nghiệp với chế độ đãi ngộ hấp dẫn.",
+    url: "https://biotechvet.com.vn/tuyen-dung",
+    images: [
+      {
+        url: "/images/banner1.png",
+        width: 1200,
+        height: 630,
+      },
+    ],
+  },
 };
 
 
@@ -23,7 +36,7 @@ export default async function RecruitmentPage() {
 
   return (
     <div className="bg-white min-h-screen">
-      <section className="bg-sanfovet-dark text-white py-24 relative overflow-hidden">
+      <section className="bg-biotechvet-dark text-white py-24 relative overflow-hidden">
         <div className="absolute inset-0 opacity-10 bg-[url('/images/farm.png')] bg-cover bg-center"></div>
         <div className="container mx-auto px-4 relative z-10 text-center">
            <h1 className="text-4xl md:text-6xl font-black mb-6 uppercase tracking-tighter italic">Gia Nhập BIOTECH-VET</h1>
@@ -35,10 +48,10 @@ export default async function RecruitmentPage() {
         <div className="grid grid-cols-1 md:grid-cols-3 gap-12 mb-20 text-center">
            {benefits.map((b) => (
              <div key={b.title} className="flex flex-col items-center">
-                <div className="w-16 h-16 bg-sanfovet-alt rounded-2xl flex items-center justify-center mb-6 shadow-sm border border-primary/10">
+                <div className="w-16 h-16 bg-biotechvet-alt rounded-2xl flex items-center justify-center mb-6 shadow-sm border border-primary/10">
                    {b.icon}
                 </div>
-                <h3 className="text-xl font-black text-sanfovet-dark mb-3 uppercase tracking-wider">{b.title}</h3>
+                <h3 className="text-xl font-black text-biotechvet-dark mb-3 uppercase tracking-wider">{b.title}</h3>
                 <p className="text-gray-500 text-sm font-medium leading-relaxed">{b.desc}</p>
              </div>
            ))}
@@ -47,7 +60,7 @@ export default async function RecruitmentPage() {
         <div className="pt-20">
           <div className="flex flex-col md:flex-row items-end justify-between mb-12 gap-6">
              <div>
-                <h2 className="text-3xl font-black text-sanfovet-dark uppercase italic mb-2 tracking-tight">Vị trí đang tuyển dụng</h2>
+                <h2 className="text-3xl font-black text-biotechvet-dark uppercase italic mb-2 tracking-tight">Vị trí đang tuyển dụng</h2>
                 <div className="w-24 h-2 bg-primary rounded-full"></div>
              </div>
              <div className="text-sm font-bold text-gray-400 uppercase tracking-widest flex items-center gap-2">
@@ -59,14 +72,14 @@ export default async function RecruitmentPage() {
              {jobs.map((job: Job) => (
                <div key={job.id} className="group bg-white rounded-[40px] p-8 border border-gray-100 shadow-sm hover:shadow-2xl transition-all duration-500 flex flex-col md:flex-row items-center gap-8 border-l-[12px] border-l-primary hover:border-l-primary-dark">
                   <div className="flex-1 text-center md:text-left">
-                     <h4 className="text-2xl font-black text-sanfovet-dark mb-4 group-hover:text-primary transition-colors">{job.title}</h4>
+                     <h4 className="text-2xl font-black text-biotechvet-dark mb-4 group-hover:text-primary transition-colors">{job.title}</h4>
                      <div className="flex flex-wrap justify-center md:justify-start gap-6 text-sm text-gray-400 font-bold uppercase tracking-widest">
                         <span className="flex items-center gap-2"><MapPin size={16} className="text-primary" /> {job.location}</span>
                         <span className="flex items-center gap-2"><Calendar size={16} className="text-primary" /> {job.date}</span>
                      </div>
                   </div>
                   <div className="shrink-0 flex gap-4 w-full md:w-auto">
-                     <button className="flex-1 md:shrink-0 bg-sanfovet-alt text-primary font-black py-4 px-10 rounded-full text-xs uppercase tracking-widest hover:bg-primary-light transition-all active:scale-95">Xem mô tả</button>
+                     <button className="flex-1 md:shrink-0 bg-biotechvet-alt text-primary font-black py-4 px-10 rounded-full text-xs uppercase tracking-widest hover:bg-primary-light transition-all active:scale-95">Xem mô tả</button>
                      <Link href="/lien-he" className="flex-1 md:shrink-0 bg-primary hover:bg-primary-dark text-white font-black py-4 px-10 rounded-full text-xs uppercase tracking-widest transition-all shadow-lg shadow-primary/20 text-center active:scale-95">Ứng tuyển ngay</Link>
                   </div>
                </div>

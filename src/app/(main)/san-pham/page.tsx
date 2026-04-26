@@ -9,8 +9,22 @@ import ProductSort from '@/components/shared/ProductSort';
 import Link from 'next/link';
 
 export const metadata: Metadata = {
-  title: 'Danh mục Sản phẩm - Sanfovet',
-  description: 'Danh mục các loại thuốc thú y, thuốc bổ trợ, kháng sinh chất lượng cao từ Sanfovet.',
+  title: 'Danh mục Sản phẩm - biotechvet',
+  description: 'Danh mục các loại thuốc thú y, thuốc bổ trợ, kháng sinh chất lượng cao từ biotechvet. Sản phẩm đạt chuẩn GMP-WHO với công nghệ tiên tiến từ USA.',
+  keywords: ['thuốc thú y', 'thuốc bổ trợ', 'kháng sinh', 'biotechvet', 'sản phẩm chăn nuôi'],
+  robots: 'index, follow',
+  openGraph: {
+    title: 'Danh mục Sản phẩm - biotechvet',
+    description: 'Danh mục các loại thuốc thú y, thuốc bổ trợ, kháng sinh chất lượng cao từ biotechvet.',
+    url: 'https://biotechvet.com.vn/san-pham',
+    images: [
+      {
+        url: '/images/banner1.png',
+        width: 1200,
+        height: 630,
+      },
+    ],
+  },
 };
 
 const ITEMS_PER_PAGE = 6;
@@ -91,14 +105,14 @@ export default async function ProductsPage({ searchParams }: { searchParams: Pro
           <div className="sticky top-24 space-y-6">
             {/* Search Bar */}
             <div className="bg-white p-6 rounded-[32px] shadow-sm border border-gray-100">
-               <h2 className="font-black text-sanfovet-dark mb-4 flex items-center gap-2 uppercase tracking-tight text-sm">
+               <h2 className="font-black text-biotechvet-dark mb-4 flex items-center gap-2 uppercase tracking-tight text-sm">
                 Tìm kiếm
               </h2>
               <ProductSearch />
             </div>
 
             <div className="bg-white p-6 rounded-[32px] shadow-sm border border-gray-100">
-              <h2 className="font-black text-sanfovet-dark mb-4 flex items-center gap-2 uppercase tracking-tight text-sm">
+              <h2 className="font-black text-biotechvet-dark mb-4 flex items-center gap-2 uppercase tracking-tight text-sm">
                  Danh mục sản phẩm
               </h2>
               <ul className="space-y-2">
@@ -143,7 +157,7 @@ export default async function ProductsPage({ searchParams }: { searchParams: Pro
                      <img src={p.image} alt={p.name} className="max-h-[80%] w-auto object-contain transition-transform duration-700 group-hover:scale-110" />
                   </div>
                   <div className="p-6 md:p-8 flex-1 flex flex-col">
-                    <h3 className="font-black text-sanfovet-dark mb-2 group-hover:text-primary transition-colors text-lg leading-tight h-14 overflow-hidden text-center text-ellipsis">{p.name}</h3>
+                    <h3 className="font-black text-biotechvet-dark mb-2 group-hover:text-primary transition-colors text-lg leading-tight h-14 overflow-hidden text-center text-ellipsis">{p.name}</h3>
                     <Link href={`/san-pham/${p.slug}`} className="mt-auto inline-flex items-center gap-2 bg-gradient-to-r from-primary to-primary-dark text-white font-black hover:shadow-xl px-6 py-4 rounded-2xl transition-all justify-center w-full uppercase tracking-widest text-xs active:scale-95">
                       <Eye size={18} /> Chi tiết
                     </Link>

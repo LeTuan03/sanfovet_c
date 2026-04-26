@@ -167,7 +167,7 @@ function ProductManagementContent() {
              <img src={record.image} alt={text} className="w-full h-full object-contain p-1" />
           </div>
           <div>
-            <div className="font-bold text-sanfovet-dark text-sm">{text}</div>
+            <div className="font-bold text-biotechvet-dark text-sm">{text}</div>
             <div className="flex items-center gap-2 mt-1">
               {record.featured && <Tag color="gold" className="text-[9px] px-1.5 font-black border-none bg-amber-100 text-amber-700 m-0">NỔI BẬT</Tag>}
               <span className="text-[10px] text-gray-400 font-bold uppercase tracking-wider">{record.volume}</span>
@@ -269,7 +269,7 @@ function ProductManagementContent() {
             <div className="w-10 h-10 bg-primary/10 rounded-xl flex items-center justify-center text-primary">
               {editingId ? <EditOutlined /> : <PlusOutlined />}
             </div>
-            <span className="text-2xl font-black uppercase italic tracking-tighter text-sanfovet-dark">
+            <span className="text-2xl font-black uppercase italic tracking-tighter text-biotechvet-dark">
               {editingId ? 'Chỉnh sửa Sản phẩm' : 'Thêm Sản phẩm mới'}
             </span>
           </div>

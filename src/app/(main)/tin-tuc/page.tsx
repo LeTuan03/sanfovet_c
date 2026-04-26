@@ -5,6 +5,26 @@ import { Article } from '@/types';
 // import { articles } from '@/lib/data'; // Removed static import
 import FadeUp from '@/components/shared/FadeUp';
 import { Calendar, ChevronRight, Newspaper, Users, Globe } from 'lucide-react';
+import { Metadata } from 'next';
+
+export const metadata: Metadata = {
+  title: 'Tin Tức & Bài Viết - biotechvet',
+  description: 'Cập nhật tin tức mới nhất về các hoạt động của biotechvet, sự kiện ngành thú y và xu hướng chuyển đổi số trong chăn nuôi hiện đại.',
+  keywords: ['tin tức biotechvet', 'bài viết thú y', 'chăn nuôi', 'sự kiện ngành', 'kiến thức thú y'],
+  robots: 'index, follow',
+  openGraph: {
+    title: 'Tin Tức & Bài Viết - biotechvet',
+    description: 'Cập nhật tin tức mới nhất về các hoạt động của biotechvet và sự kiện ngành thú y.',
+    url: 'https://biotechvet.com.vn/tin-tuc',
+    images: [
+      {
+        url: '/images/banner1.png',
+        width: 1200,
+        height: 630,
+      },
+    ],
+  },
+};
 
 export default async function NewsPage() {
   const articles = await readData<Article[]>('articles');
@@ -15,10 +35,10 @@ export default async function NewsPage() {
   return (
     <div className="bg-white min-h-screen pb-20">
       {/* Hero Section */}
-      <section className="bg-sanfovet-alt py-24 relative overflow-hidden">
+      <section className="bg-biotechvet-alt py-24 relative overflow-hidden">
         <div className="container mx-auto px-4 relative z-10 text-center">
-           <h1 className="text-4xl md:text-6xl font-black text-sanfovet-dark mb-6 uppercase tracking-tighter italic">Tin Tức Sanfovet</h1>
-           <p className="text-gray-500 max-w-2xl mx-auto font-medium">Cập nhật tin tức mới nhất về các hoạt động của Sanfovet, sự kiện ngành thú y và xu hướng chuyển đổi số trong chăn nuôi hiện đại.</p>
+           <h1 className="text-4xl md:text-6xl font-black text-biotechvet-dark mb-6 uppercase tracking-tighter italic">Tin Tức biotechvet</h1>
+           <p className="text-gray-500 max-w-2xl mx-auto font-medium">Cập nhật tin tức mới nhất về các hoạt động của biotechvet, sự kiện ngành thú y và xu hướng chuyển đổi số trong chăn nuôi hiện đại.</p>
         </div>
       </section>
 
@@ -41,7 +61,7 @@ export default async function NewsPage() {
                      <div className="flex items-center gap-2 text-gray-400 text-xs font-bold mb-4 uppercase tracking-[2px]">
                         <Calendar size={14} className="text-primary" /> {a.publishDate}
                      </div>
-                     <h2 className="text-2xl font-black text-sanfovet-dark mb-4 line-clamp-2 leading-tight group-hover:text-primary transition-colors">
+                     <h2 className="text-2xl font-black text-biotechvet-dark mb-4 line-clamp-2 leading-tight group-hover:text-primary transition-colors">
                         {a.title}
                      </h2>
                      <p className="text-gray-500 text-sm font-medium line-clamp-2 mb-6">
@@ -59,7 +79,7 @@ export default async function NewsPage() {
           {/* Side Panels */}
           <aside className="lg:col-span-1 space-y-12">
              {/* Category Stats */}
-             <div className="bg-sanfovet-dark p-10 rounded-[48px] text-white">
+             <div className="bg-biotechvet-dark p-10 rounded-[48px] text-white">
                 <h3 className="text-xl font-black mb-8 border-b border-white/10 pb-4 uppercase tracking-wider">Chuyên mục</h3>
                 <div className="space-y-6">
                    <Link href="/tin-tuc-noi-bo" className="flex items-center justify-between group">
@@ -87,17 +107,17 @@ export default async function NewsPage() {
              </div>
 
              {/* Featured Box */}
-             <div className="bg-sanfovet-alt p-8 rounded-[40px] border border-primary/10">
-                <h3 className="text-lg font-black text-sanfovet-dark mb-6 uppercase tracking-wider">Hỗ trợ truyền thông</h3>
-                <p className="text-sm text-gray-500 font-medium mb-8 leading-relaxed italic">"Chúng tôi luôn lắng nghe và sẵn sàng chia sẻ thông tin về ngành chăn nuôi cũng như các hoạt động hợp tác quốc tế của Sanfovet."</p>
+             <div className="bg-biotechvet-alt p-8 rounded-[40px] border border-primary/10">
+                <h3 className="text-lg font-black text-biotechvet-dark mb-6 uppercase tracking-wider">Hỗ trợ truyền thông</h3>
+                <p className="text-sm text-gray-500 font-medium mb-8 leading-relaxed italic">"Chúng tôi luôn lắng nghe và sẵn sàng chia sẻ thông tin về ngành chăn nuôi cũng như các hoạt động hợp tác quốc tế của biotechvet."</p>
                 <div className="space-y-4">
                    <div className="p-4 bg-white rounded-2xl flex items-center gap-4 border border-gray-100">
                       <div className="text-primary font-black uppercase text-[10px]">Hotline</div>
-                      <div className="text-sanfovet-dark font-black">097 499 9204</div>
+                      <div className="text-biotechvet-dark font-black">097 499 9204</div>
                    </div>
                    <div className="p-4 bg-white rounded-2xl flex items-center gap-4 border border-gray-100">
                       <div className="text-primary font-black uppercase text-[10px]">Email</div>
-                      <div className="text-sanfovet-dark font-black text-xs">pkd.sanfovet@gmail.com</div>
+                      <div className="text-biotechvet-dark font-black text-xs">pkd.biotechvet@gmail.com</div>
                    </div>
                 </div>
              </div>

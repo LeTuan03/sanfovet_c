@@ -38,7 +38,7 @@ export default function DocumentList({ documents }: { documents: DocumentInfo[] 
               <FileText size={32} />
             </div>
             <div className="flex-1 text-center md:text-left">
-              <h4 className="text-xl font-black text-sanfovet-dark mb-1">{doc.title}</h4>
+              <h4 className="text-xl font-black text-biotechvet-dark mb-1">{doc.title}</h4>
               <p className="text-xs text-gray-400 font-bold uppercase tracking-widest flex items-center justify-center md:justify-start gap-3">
                 {doc.type} • {doc.size}
               </p>
@@ -46,7 +46,7 @@ export default function DocumentList({ documents }: { documents: DocumentInfo[] 
             <div className="flex flex-wrap gap-3 md:gap-4 w-full md:w-auto">
               <button 
                 onClick={() => setSelectedPdf(doc.link)}
-                className="flex items-center justify-center flex-1 md:flex-initial gap-2 bg-sanfovet-alt text-primary font-black py-3 px-6 rounded-full text-xs uppercase tracking-widest hover:bg-primary hover:text-white transition-all"
+                className="flex items-center justify-center flex-1 md:flex-initial gap-2 bg-biotechvet-alt text-primary font-black py-3 px-6 rounded-full text-xs uppercase tracking-widest hover:bg-primary hover:text-white transition-all"
               >
                 <Eye size={16} /> Xem
               </button>

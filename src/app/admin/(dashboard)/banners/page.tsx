@@ -96,7 +96,7 @@ function AdminBannersPageContent() {
       title: 'Tên Banner / Ghi chú',
       dataIndex: 'title',
       key: 'title',
-      render: (text: string) => <span className="font-black text-sanfovet-dark text-sm italic">{text}</span>
+      render: (text: string) => <span className="font-black text-biotechvet-dark text-sm italic">{text}</span>
     },
     {
       title: 'Link',
@@ -272,7 +272,7 @@ function AdminBannersPageContent() {
             <div className="w-10 h-10 bg-primary/10 rounded-xl flex items-center justify-center text-primary">
               {editingBanner ? <EditOutlined /> : <PlusOutlined />}
             </div>
-            <span className="text-2xl font-black uppercase italic tracking-tighter text-sanfovet-dark">
+            <span className="text-2xl font-black uppercase italic tracking-tighter text-biotechvet-dark">
               {editingBanner ? 'Cập nhật Banner' : 'Tải lên Banner mới'}
             </span>
           </div>
