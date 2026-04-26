@@ -87,6 +87,11 @@ export default function AdminLayout({
           label: 'Cẩm nang chăn nuôi',
         },
         {
+          key: '/admin/catalogue',
+          icon: <ReadOutlined />,
+          label: 'Catalogue & Tài liệu',
+        },
+        {
           key: '/admin/news',
           icon: <ReadOutlined />,
           label: 'Quản lý Tin tức',
