@@ -19,12 +19,15 @@ export default function Header() {
   const [isMobileMenuOpen, setIsMobileMenuOpen] = useState(false);
   const [isScrolled, setIsScrolled] = useState(false);
   const [searchQuery, setSearchQuery] = useState('');
+  const [isHydrated, setIsHydrated] = useState(false);
 
   const [menus, setMenus] = useState<NavMenu[]>([]);
   const [categories, setCategories] = useState<Category[]>([]);
   const [settings, setSettings] = useState<Setting | null>(null);
 
   useEffect(() => {
+    setIsHydrated(true);
+    
     const handleScroll = () => {
       setIsScrolled(window.scrollY > 40);
     };
@@ -71,6 +74,7 @@ export default function Header() {
               href={`tel:${(settings?.hotline1 || '02466861629').replace(/\s/g, '')}`}
               className="flex items-center gap-2 group"
               title="Gọi tư vấn ngay"
+              suppressHydrationWarning
             >
               <span className="relative flex items-center justify-center">
                 <span className="absolute inline-flex h-6 w-6 rounded-full bg-amber-400 opacity-40 animate-ping"></span>
@@ -80,7 +84,7 @@ export default function Header() {
               </span>
               <span className="flex flex-col leading-[1.2]">
                 <span className="text-[0.6rem] font-black uppercase tracking-[2px] text-amber-400">Tư vấn mua hàng</span>
-                <span className="text-[0.85rem] font-black text-white group-hover:text-amber-300 transition-colors tracking-wide">
+                <span className="text-[0.85rem] font-black text-white group-hover:text-amber-300 transition-colors tracking-wide" suppressHydrationWarning>
                   {settings?.hotline1 || '024 6686 1629'}
                   <span className="mx-1 text-white/40">-</span>
                   {settings?.hotline2 || '097 499 9204'}
