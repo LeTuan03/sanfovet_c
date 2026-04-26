@@ -17,12 +17,17 @@ export default function AdminLoginPage() {
   }, [router]);
 
   const onFinish = (values: any) => {
-    console.log('Success:', values);
-    msg.success('Đăng nhập thành công!');
-    localStorage.setItem('admin_token', 'true');
-    setTimeout(() => {
-      router.push('/admin');
-    }, 1000);
+    const user = values.username;
+    const password = values.password;
+    if (user === process.env.NEXT_PUBLIC_ADMIN_USERNAME && password === process.env.NEXT_PUBLIC_ADMIN_PASSWORD) {
+      msg.success('Đăng nhập thành công!');
+      localStorage.setItem('admin_token', 'true');
+      setTimeout(() => {
+        router.push('/admin');
+      }, 1000);
+    } else {
+      msg.error('Tên đăng nhập hoặc mật khẩu không đúng!');
+    }
   };
 
   return (
