@@ -152,7 +152,7 @@ export default function AboutContent() {
                       <div className="md:hidden absolute left-[15px] top-0 bottom-0 w-1 bg-gray-100 rounded-full"></div>
                       <div className="space-y-12">
                          {[
-                           { year: "2002", text: "Công ty Cổ phần Đầu tư Liên doanh Việt Anh (Viet Anh Group) chính thức được thành lập, đặt nền móng cho sự ra đời của thương hiệu BIOTECH-VET." },
+                           { year: "2002", text: "Công ty Cổ phần Công Nghệ Sinh Học Thú Y chính thức được thành lập, đặt nền móng cho sự ra đời của thương hiệu BIOTECH-VET." },
                            { year: "2010", text: "Khánh thành nhà máy sản xuất thuốc thú y đầu tiên đạt chuẩn GMP-WHO, khẳng định vị thế về chất lượng trên thị trường trong nước." },
                            { year: "2018", text: "Mở rộng hệ sinh thái Sanford Pharma USA và Viaprotic, ứng dụng công nghệ hiện đại từ Hoa Kỳ vào sản xuất chuyên sâu." },
                            { year: "Hiện tại", text: "Trở thành tập đoàn dược phẩm thú y hàng đầu Việt Nam với mạng lưới hơn 1.000 đại lý và xuất khẩu sang nhiều thị trường quốc tế." }

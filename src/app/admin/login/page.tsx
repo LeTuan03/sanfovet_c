@@ -94,7 +94,7 @@ export default function AdminLoginPage() {
 
         <div className="text-center mt-12">
           <p className="text-gray-400 text-xs font-medium italic">
-            &copy; 2024 Bản quyền thuộc về BIOTECH-VET.
+            &copy; 2026 Bản quyền thuộc về BIOTECH-VET.
           </p>
         </div>
       </div>

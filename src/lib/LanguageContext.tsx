@@ -29,7 +29,8 @@ const translations: Record<Language, Record<string, string>> = {
     'all_products': 'Tất cả sản phẩm',
     'tech_support': 'Hỗ trợ kỹ thuật',
     'free_catalogue': 'Đăng ký nhận bản in',
-    'intro_slogan': 'Công nghệ USA - Chất lượng vượt trội'
+    'intro_slogan': 'Công nghệ USA - Chất lượng vượt trội',
+    'products': 'Sản phẩm'
   },
   en: {
     'Trang chủ': 'Home',
@@ -49,7 +50,8 @@ const translations: Record<Language, Record<string, string>> = {
     'all_products': 'All Products',
     'tech_support': 'Technical Support',
     'free_catalogue': 'Request Printed Copy',
-    'intro_slogan': 'USA Technology - Superior Quality'
+    'intro_slogan': 'USA Technology - Superior Quality',
+    'products': 'Products'
   }
 };
 

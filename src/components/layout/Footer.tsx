@@ -136,7 +136,7 @@ export default function Footer() {
         </div>
 
         <div className="pt-8 border-t border-white/10 text-center text-white/40 text-[0.82rem]">
-          <p>&copy; 2024 Copyright by Biotechvet.com.vn - Công Ty CP Công Nghệ Sinh Học Thú Y. All Rights Reserved.</p>
+          <p>&copy; 2026 Copyright by Biotechvet.com.vn - Công Ty CP Công Nghệ Sinh Học Thú Y. All Rights Reserved.</p>
         </div>
       </div>
     </footer>
