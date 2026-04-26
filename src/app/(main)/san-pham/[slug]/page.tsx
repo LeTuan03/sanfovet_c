@@ -23,10 +23,10 @@ export async function generateMetadata({ params }: { params: Promise<{ slug: str
   return {
     title: `${product.name} - Thuốc Thú Y biotechvet`,
     description: product?.tagline || `Chi tiết sản phẩm ${product.name} từ biotechvet - Công nghệ USA`,
-    keywords: ['thuốc thú y', 'biotechvet', product.name, 'chăn nuôi', product.category || 'sản phẩm'],
+    keywords: ['thuốc thú y', 'biotechvet', product.name, 'chăn nuôi', 'sản phẩm'],
     robots: 'index, follow',
     openGraph: {
-      type: "product",
+      type: "website",
       title: `${product.name} - biotechvet`,
       description: product?.tagline || `Chi tiết sản phẩm ${product.name}`,
       url: `https://biotechvet.com.vn/san-pham/${product.slug}`,
