@@ -13,7 +13,6 @@ import FadeUp from '@/components/shared/FadeUp';
 export default async function HomePage() {
   const products = await productService.getAll();
   const articles = await articleService.getAll();
-  const categories = await categoryService.getAll();
 
   const featuredProducts = Array.isArray(products) ? products.filter((p: Product) => p.featured).slice(0, 8) : [];
   const diseaseArticles = Array.isArray(articles) ? articles.filter((a: Article) => a.category === 'benh-dieu-tri').slice(0, 4) : [];
@@ -58,7 +57,7 @@ export default async function HomePage() {
                 </div>
                 <h3 className="text-4xl lg:text-5xl font-black mb-8 text-biotechvet-dark leading-tight uppercase tracking-tight">
                   Công ty Cổ phần<br />
-                  <span className="text-primary-dark">Công Nghệ Sinh Học Thú Y</span>
+                  <span className="text-secondary tracking-tighter">Công Nghệ Sinh Học Thú Y</span>
                 </h3>
                 <p className="text-gray-600 mb-6 leading-relaxed text-lg font-medium">
                   BIOTECH-VET tự hào là đơn vị tiên phong trong lĩnh vực sản xuất và phân phối thuốc thú y tại Việt Nam. 
@@ -89,7 +88,7 @@ export default async function HomePage() {
                   <Link href="/gioi-thieu" className="inline-flex items-center justify-center gap-2 bg-gradient-to-r from-primary to-primary-dark hover:from-biotechvet-dark hover:to-biotechvet-dark text-white px-8 py-4 rounded-full font-bold uppercase tracking-widest text-xs transition-all duration-300 shadow-xl hover:shadow-2xl hover:-translate-y-1">
                     Hành trình của chúng tôi <ArrowRight size={16} />
                   </Link>
-                  <Link href="/catalogue" className="inline-flex items-center justify-center gap-2 bg-gray-50 hover:bg-gray-100 text-biotechvet-dark px-8 py-4 rounded-full font-bold uppercase tracking-widest text-xs transition-all border border-gray-200 shadow-sm">
+                  <Link href="/catalogue" className="inline-flex items-center justify-center gap-2 bg-secondary/5 hover:bg-secondary/10 text-secondary border-2 border-secondary/20 px-8 py-4 rounded-full font-bold uppercase tracking-widest text-xs transition-all shadow-sm">
                     Xem Catalogue 2026
                   </Link>
                 </div>
@@ -149,7 +148,7 @@ export default async function HomePage() {
         <div className="container mx-auto px-4 relative z-10">
           <FadeUp className="flex flex-col md:flex-row justify-between items-end mb-16 gap-6">
             <div className="max-w-2xl">
-              <h2 className="text-4xl lg:text-5xl font-black text-biotechvet-dark uppercase tracking-tight">Kỹ Thuật <span className="text-primary-dark">Chăn Nuôi</span></h2>
+              <h2 className="text-4xl lg:text-5xl font-black text-biotechvet-dark uppercase tracking-tight">Kỹ Thuật <span className="text-secondary">Chăn Nuôi</span></h2>
               <p className="text-gray-500 mt-4 text-lg font-medium">Kiến thức chuyên sâu về các bệnh thường gặp, cách phòng chống và phác đồ điều trị an toàn</p>
             </div>
             <Link href="/benh-va-dieu-tri-benh" className="shrink-0 inline-flex items-center gap-2 text-primary font-black uppercase tracking-widest text-[11px] hover:text-biotechvet-dark group transition-colors">
@@ -163,7 +162,7 @@ export default async function HomePage() {
               <article className="bg-white rounded-[32px] border border-gray-100 shadow-sm overflow-hidden hover:shadow-xl transition-all duration-500 flex flex-col group hover:-translate-y-2 h-full">
                  <div className="aspect-[4/3] relative overflow-hidden bg-gray-100">
                     <img src={`/images/news-${(i % 3) + 1}.png`} alt={a.title} className="w-full h-full object-cover group-hover:scale-110 transition-transform duration-700" />
-                    <div className="absolute top-4 left-4 bg-white/90 backdrop-blur-sm text-biotechvet-dark text-[10px] font-black py-1.5 px-3 rounded-full uppercase tracking-widest shadow-sm">
+                    <div className="absolute top-4 left-4 bg-secondary text-white text-[10px] font-black py-1.5 px-3 rounded-full uppercase tracking-widest shadow-sm">
                        Cẩm nang
                     </div>
                  </div>
@@ -190,7 +189,7 @@ export default async function HomePage() {
       <section className="py-24 lg:py-32 bg-biotechvet-dark text-white relative overflow-hidden">
         {/* Background Decorative */}
         <div className="absolute inset-0 bg-[url('/images/farm.png')] opacity-10 bg-cover bg-center mix-blend-overlay"></div>
-        <div className="absolute inset-0 bg-gradient-to-b from-biotechvet-dark via-biotechvet-dark/95 to-[#051408]"></div>
+        <div className="absolute inset-0 bg-gradient-to-b from-biotechvet-dark via-biotechvet-dark/95 to-[#021016]"></div>
         
         <div className="container mx-auto px-4 relative z-10">
           <FadeUp className="text-center max-w-3xl mx-auto mb-20 md:mb-24">
@@ -221,10 +220,10 @@ export default async function HomePage() {
       <section className="py-24 lg:py-32 bg-gray-50 overflow-hidden relative">
         <div className="container mx-auto px-4 relative z-10">
           <FadeUp className="text-center max-w-3xl mx-auto mb-16 lg:mb-20">
-            <div className="inline-flex items-center justify-center w-16 h-1.5 bg-primary rounded-full mb-8 relative">
-               <div className="absolute w-4 h-4 bg-primary rounded-full animate-ping opacity-40"></div>
+            <div className="inline-flex items-center justify-center w-16 h-1.5 bg-secondary rounded-full mb-8 relative">
+               <div className="absolute w-4 h-4 bg-secondary rounded-full animate-ping opacity-40"></div>
             </div>
-            <h2 className="text-4xl lg:text-5xl font-black mb-6 text-biotechvet-dark uppercase tracking-tight">Tin Tức <span className="text-primary-dark">Nổi Bật</span></h2>
+            <h2 className="text-4xl lg:text-5xl font-black mb-6 text-biotechvet-dark uppercase tracking-tight">Tin Tức <span className="text-secondary">Nổi Bật</span></h2>
             <p className="text-gray-500 text-lg font-medium">Bản tin thị trường chăn nuôi, hoạt động nổi bật của công ty và những cập nhật mới nhất</p>
           </FadeUp>
 

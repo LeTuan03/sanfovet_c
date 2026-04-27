@@ -103,7 +103,7 @@ function AdminUsersPageContent() {
       key: 'user',
       render: (_: any, record: any) => (
         <Space size="middle">
-          <Avatar icon={<UserOutlined />} style={{ backgroundColor: record.role === 'SuperAdmin' ? '#1a8c3f' : '#faad14' }} />
+          <Avatar icon={<UserOutlined />} style={{ backgroundColor: record.role === 'SuperAdmin' ? '#199ad6' : '#faad14' }} />
           <div>
             <div className="font-bold text-biotechvet-dark">{record.name}</div>
             <div className="text-xs text-gray-400">{record.email}</div>

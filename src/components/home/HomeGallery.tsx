@@ -42,7 +42,7 @@ export default function HomeGallery() {
         >
           <h2 className="text-3xl md:text-5xl font-black mb-6 text-biotechvet-dark uppercase italic tracking-wider relative inline-block">
             Video & Hình Ảnh
-            <span className="absolute -bottom-2 left-0 w-1/2 h-1.5 bg-primary rounded-full"></span>
+            <span className="absolute -bottom-2 left-0 w-1/2 h-1.5 bg-secondary rounded-full"></span>
           </h2>
           <p className="text-gray-500 font-medium text-lg italic">Khám phá quy mô nhà máy và các hoạt động nổi bật của BIOTECH-VET</p>
         </motion.div>
@@ -102,7 +102,7 @@ export default function HomeGallery() {
                   }`} 
                 />
                 <div className="absolute inset-0 bg-gradient-to-t from-biotechvet-dark/80 via-transparent to-transparent opacity-0 group-hover:opacity-100 transition-all duration-500 flex flex-col justify-end p-6">
-                   <div className="bg-primary/90 text-white p-2.5 rounded-xl w-fit mb-3 transform -translate-y-4 group-hover:translate-y-0 transition-transform">
+                   <div className="bg-secondary/90 text-white p-2.5 rounded-xl w-fit mb-3 transform -translate-y-4 group-hover:translate-y-0 transition-transform">
                       <ZoomIn size={18} />
                    </div>
                    <p className="text-white font-bold text-sm leading-tight line-clamp-2 transform translate-y-4 group-hover:translate-y-0 transition-transform delay-75">{img.title}</p>
@@ -160,7 +160,7 @@ export default function HomeGallery() {
                   )}
                </div>
                <div className="w-full md:w-80 bg-white p-10 flex flex-col justify-center">
-                  <div className="bg-primary/10 text-primary px-3 py-1 rounded-full text-[10px] font-black uppercase tracking-widest leading-none w-fit mb-4">
+                  <div className="bg-secondary/10 text-secondary px-3 py-1 rounded-full text-[10px] font-black uppercase tracking-widest leading-none w-fit mb-4">
                      {selectedItem.type === 'video' ? 'Video giới thiệu' : 'Hình ảnh thư viện'}
                   </div>
                   <h3 className="text-2xl font-black text-biotechvet-dark leading-tight uppercase italic mb-6">

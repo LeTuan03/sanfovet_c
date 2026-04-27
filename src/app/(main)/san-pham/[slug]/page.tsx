@@ -68,7 +68,7 @@ export default async function ProductDetailPage({ params }: Readonly<{ params: P
           <ChevronRight size={14} className="mx-2 text-gray-300" />
           <Link href="/san-pham" className="hover:text-primary transition-colors">Sản phẩm</Link>
           <ChevronRight size={14} className="mx-2 text-gray-300" />
-          <span className="text-primary font-bold">{product.name}</span>
+          <span className="text-secondary font-bold">{product.name}</span>
         </div>
       </div>
 
@@ -82,7 +82,7 @@ export default async function ProductDetailPage({ params }: Readonly<{ params: P
           <div className="lg:col-span-2 space-y-4">
             {/* Product Hero Content */}
             <div className="flex flex-col">
-              <div className="text-xs font-black text-primary bg-primary-light px-3 py-1 rounded-full w-fit mb-4 uppercase tracking-[2px]">
+              <div className="text-xs font-black text-secondary bg-secondary/10 px-3 py-1 rounded-full w-fit mb-4 uppercase tracking-[2px]">
                 {category?.name}
               </div>
               <h1 className="text-3xl md:text-5xl font-black text-biotechvet-dark leading-tight">{product.name}</h1>
@@ -97,7 +97,7 @@ export default async function ProductDetailPage({ params }: Readonly<{ params: P
               </div>
             </div>
             <div className="flex flex-wrap gap-4">
-              <Link href="/lien-he" className="bg-gradient-to-r from-primary to-primary-dark hover:shadow-xl hover:-translate-y-1 text-white px-10 py-4 rounded-full font-black transition-all flex-1 text-center shadow-lg active:scale-95 uppercase">
+              <Link href="/lien-he" className="bg-gradient-to-r from-primary to-secondary hover:shadow-xl hover:-translate-y-1 text-white px-10 py-4 rounded-full font-black transition-all flex-1 text-center shadow-lg active:scale-95 uppercase tracking-widest border border-white/20">
                 LIÊN HỆ ĐẶT HÀNG
               </Link>
             </div>
@@ -106,7 +106,7 @@ export default async function ProductDetailPage({ params }: Readonly<{ params: P
               {product.specifications && product.specifications.length > 0 ? (
                 product.specifications.map((spec) => (
                   <section key={spec.title}>
-                    <h2 className="text-[1.1rem] font-black text-primary mb-6 flex items-center gap-3 bg-primary-light px-5 py-3.5 border-l-[6px] border-primary uppercase tracking-wider shadow-sm">
+                    <h2 className="text-[1.1rem] font-black text-secondary mb-6 flex items-center gap-3 bg-secondary/5 px-5 py-3.5 border-l-[6px] border-secondary uppercase tracking-wider shadow-sm">
                       {spec.title}
                     </h2>
                     <div className="bg-white p-7 rounded-2xl border border-gray-100 shadow-sm leading-relaxed text-gray-700 whitespace-pre-wrap">

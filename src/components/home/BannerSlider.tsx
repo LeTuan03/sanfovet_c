@@ -2,7 +2,7 @@
 
 import React, { useState, useEffect } from 'react';
 import Link from 'next/link';
-import { Eye, ArrowRight, Download } from 'lucide-react';
+import { Eye } from 'lucide-react';
 import { motion, AnimatePresence } from 'framer-motion';
 
 export default function BannerSlider() {
@@ -38,11 +38,11 @@ export default function BannerSlider() {
   }, []);
 
   if (loading || banners.length === 0) {
-    return <section className="w-full h-[360px] md:h-[580px] lg:h-[780px] bg-biotechvet-dark flex items-center justify-center text-white font-bold uppercase tracking-widest italic opacity-50 animate-pulse">BIOTECH-VET Loading...</section>;
+    return <section className="w-full h-[260px] md:h-[480px] lg:h-[680px] bg-biotechvet-dark flex items-center justify-center text-white font-bold uppercase tracking-widest italic opacity-50 animate-pulse">BIOTECH-VET Loading...</section>;
   }
 
   return (
-    <section className="relative w-full h-[360px] md:h-[580px] lg:h-[780px] bg-biotechvet-dark overflow-hidden">
+    <section className="relative w-full h-[260px] md:h-[480px] lg:h-[680px] bg-biotechvet-dark overflow-hidden">
       <AnimatePresence initial={false}>
         {banners.map((slide, index) => {
           if (index !== currentSlide) return null;
@@ -60,7 +60,7 @@ export default function BannerSlider() {
                 alt={slide.title}
                 className="w-full h-full object-cover"
               />
-              <div className="absolute inset-0 bg-gradient-to-r from-biotechvet-dark/75 to-biotechvet-dark/30 flex items-center">
+              <div className="absolute inset-0 bg-biotechvet-dark/30 flex items-center">
                 <div className="container mx-auto px-4">
                    <div className="max-w-2xl text-white">
                       <motion.h1 

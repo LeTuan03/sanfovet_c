@@ -42,7 +42,7 @@ export default async function JobDetailPage({ params }: Readonly<{ params: Promi
           {/* Main Content */}
           <div className="lg:col-span-3">
             {/* Job Header */}
-            <div className="bg-gradient-to-br from-biotechvet-dark to-[#0d2b10] rounded-[32px] p-8 md:p-12 text-white mb-10 relative overflow-hidden">
+            <div className="bg-gradient-to-br from-biotechvet-dark to-[#0a2e3f] rounded-[32px] p-8 md:p-12 text-white mb-10 relative overflow-hidden">
               <div className="absolute top-0 right-0 w-64 h-64 bg-primary/20 rounded-full blur-3xl -mr-32 -mt-32"></div>
               <div className="relative z-10">
                 <div className="flex flex-wrap gap-3 mb-6">

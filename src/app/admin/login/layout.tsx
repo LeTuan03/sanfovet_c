@@ -14,7 +14,7 @@ export default function LoginLayout({
       locale={viVN}
       theme={{
         token: {
-          colorPrimary: '#1a8c3f',
+          colorPrimary: '#199ad6',
           borderRadius: 16,
           fontFamily: "'Inter', sans-serif",
         },

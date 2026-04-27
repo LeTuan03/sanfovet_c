@@ -27,9 +27,9 @@ export const metadata: Metadata = {
 export default async function RecruitmentPage() {
   const jobs = await jobService.getAll();
   const benefits = [
-    { icon: <Target className="text-primary" />, title: "Môi trường năng động", desc: "Đội ngũ trẻ trung, sáng tạo và nhiệt huyết trong công việc." },
-    { icon: <Heart className="text-primary" />, title: "Chế độ đãi ngộ tốt", desc: "Lương thưởng hấp dẫn, bảo hiểm đầy đủ và du lịch hàng năm." },
-    { icon: <CircleCheck className="text-primary" />, title: "Đào tạo chuyên sâu", desc: "Cơ hội học tập và nâng cao chuyên môn từ các chuyên gia." }
+    { icon: <Target className="text-secondary" />, title: "Môi trường năng động", desc: "Đội ngũ trẻ trung, sáng tạo and nhiệt huyết trong công việc." },
+    { icon: <Heart className="text-secondary" />, title: "Chế độ đãi ngộ tốt", desc: "Lương thưởng hấp dẫn, bảo hiểm đầy đủ and du lịch hàng năm." },
+    { icon: <CircleCheck className="text-secondary" />, title: "Đào tạo chuyên sâu", desc: "Cơ hội học tập and nâng cao chuyên môn từ các chuyên gia." }
   ];
 
   return (
@@ -46,7 +46,7 @@ export default async function RecruitmentPage() {
         <div className="grid grid-cols-1 md:grid-cols-3 gap-12 mb-20 text-center">
            {benefits.map((b) => (
              <div key={b.title} className="flex flex-col items-center">
-                <div className="w-16 h-16 bg-biotechvet-alt rounded-2xl flex items-center justify-center mb-6 shadow-sm border border-primary/10">
+                <div className="w-16 h-16 bg-biotechvet-alt rounded-2xl flex items-center justify-center mb-6 shadow-sm border border-secondary/10">
                    {b.icon}
                 </div>
                 <h3 className="text-xl font-black text-biotechvet-dark mb-3 uppercase tracking-wider">{b.title}</h3>

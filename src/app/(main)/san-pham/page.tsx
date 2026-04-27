@@ -90,7 +90,7 @@ export default async function ProductsPage({ searchParams }: { searchParams: Pro
   return (
     <div className="bg-gray-50 min-h-screen">
       {/* Header Banner */}
-      <div className="bg-primary-dark text-white py-16">
+      <div className="bg-gradient-to-r from-primary-dark via-primary to-secondary text-white py-16">
         <div className="container mx-auto px-4 text-center">
           <h1 className="text-4xl font-black mb-4 uppercase tracking-wider italic">
             {activeCategory ? activeCategory.name : 'Sản Phẩm Thú Y'}
@@ -127,7 +127,7 @@ export default async function ProductsPage({ searchParams }: { searchParams: Pro
                     <li key={c.id}>
                       <Link 
                         href={`/san-pham/danh-muc/${c.slug}`} 
-                        className={`block py-3 px-4 rounded-xl transition-all font-bold text-sm ${currentCategory === c.slug ? 'bg-primary text-white shadow-lg' : 'text-gray-600 hover:bg-gray-100'}`}
+                        className={`block py-3 px-4 rounded-xl transition-all font-bold text-sm ${currentCategory === c.slug ? 'bg-secondary text-white shadow-lg' : 'text-gray-600 hover:bg-gray-100'}`}
                       >
                         {c.name}
                       </Link>
@@ -160,7 +160,7 @@ export default async function ProductsPage({ searchParams }: { searchParams: Pro
                   </div>
                   <div className="p-6 md:p-8 flex-1 flex flex-col">
                     <h3 className="font-black text-biotechvet-dark mb-2 group-hover:text-primary transition-colors text-lg leading-tight h-14 overflow-hidden text-center text-ellipsis">{p.name}</h3>
-                    <Link href={`/san-pham/${p.slug}`} className="mt-auto inline-flex items-center gap-2 bg-gradient-to-r from-primary to-primary-dark text-white font-black hover:shadow-xl px-6 py-4 rounded-2xl transition-all justify-center w-full uppercase tracking-widest text-xs active:scale-95">
+                    <Link href={`/san-pham/${p.slug}`} className="mt-auto inline-flex items-center gap-2 bg-gradient-to-r from-primary to-secondary text-white font-black hover:shadow-xl px-6 py-4 rounded-2xl transition-all justify-center w-full uppercase tracking-widest text-xs active:scale-95">
                       <Eye size={18} /> Chi tiết
                     </Link>
                   </div>

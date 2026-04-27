@@ -12,6 +12,11 @@ interface ImageUploadProps {
   onChange?: (value: string) => void;
   label?: string;
   aspectRatio?: string;
+  maxWidth?: number;
+  maxHeight?: number;
+  quality?: number;
+  onFileChange?: (file: File | Blob) => void;
+  maxSize?: number;
 }
 
 const getBase64 = (img: RcFile, callback: (url: string) => void) => {
@@ -20,11 +25,79 @@ const getBase64 = (img: RcFile, callback: (url: string) => void) => {
   reader.readAsDataURL(img);
 };
 
+/**
+ * Tối ưu hóa dung lượng và kích thước hình ảnh (WebP)
+ */
+const optimizeImage = async (file: File, options: { 
+  quality?: number; 
+  maxWidth?: number; 
+  maxHeight?: number; 
+}): Promise<File | Blob> => {
+  const { quality = 0.82, maxWidth = 1920, maxHeight = 1080 } = options;
+  
+  try {
+    const bitmap = await createImageBitmap(file);
+    const canvas = document.createElement('canvas');
+    let width = bitmap.width;
+    let height = bitmap.height;
+
+    // Tính toán tỉ lệ để giữ nguyên aspect ratio khi tối ưu
+    const ratio = width / height;
+
+    if (width > maxWidth) {
+      width = maxWidth;
+      height = width / ratio;
+    }
+
+    if (height > maxHeight) {
+      height = maxHeight;
+      width = height * ratio;
+    }
+
+    canvas.width = width;
+    canvas.height = height;
+    const ctx = canvas.getContext('2d');
+    if (!ctx) return file;
+    
+    ctx.imageSmoothingEnabled = true;
+    ctx.imageSmoothingQuality = 'high';
+    ctx.drawImage(bitmap, 0, 0, width, height);
+
+    return new Promise((resolve) => {
+      // Chuyển đổi sang WebP để giảm dung lượng tối đa
+      canvas.toBlob(
+        (blob) => {
+          if (blob) {
+            const fileName = (file.name || 'image').replace(/\.[^/.]+$/, "") + ".webp";
+            const processedFile = new File([blob], fileName, {
+              type: 'image/webp',
+              lastModified: Date.now(),
+            });
+            resolve(processedFile);
+          } else {
+            resolve(file);
+          }
+        },
+        'image/webp',
+        quality
+      );
+    });
+  } catch (error) {
+    console.warn('Image optimization failed, using original file:', error);
+    return file;
+  }
+};
+
 const ImageUpload: React.FC<ImageUploadProps> = ({
   value,
   onChange,
   label = 'Tải ảnh lên',
   aspectRatio = '1/1',
+  maxWidth = 2000,
+  maxHeight = 2000,
+  quality = 0.8,
+  onFileChange,
+  maxSize = 10,
 }) => {
   const { message: messageApi } = AntdApp.useApp();
   const [loading, setLoading] = useState(false);
@@ -37,9 +110,9 @@ const ImageUpload: React.FC<ImageUploadProps> = ({
       file.type === 'image/png' ||
       file.type === 'image/webp';
     if (!isJpgOrPng) messageApi.error('Bạn chỉ có thể tải lên file JPG/PNG/WEBP!');
-    const isLt2M = file.size / 1024 / 1024 < 5;
-    if (!isLt2M) messageApi.error('Hình ảnh phải nhỏ hơn 5MB!');
-    return isJpgOrPng && isLt2M;
+    const isLt10M = file.size / 1024 / 1024 < maxSize;
+    if (!isLt10M) messageApi.error(`Hình ảnh gốc không được vượt quá ${maxSize}MB!`);
+    return isJpgOrPng && isLt10M;
   };
 
   useEffect(() => {
@@ -58,18 +131,32 @@ const ImageUpload: React.FC<ImageUploadProps> = ({
     const { file, onSuccess, onError, onProgress } = options;
     try {
       setLoading(true);
-      const path = `uploads/${Date.now()}-${file.name}`;
-      // Use originFileObj if available (recommended by Ant Design)
-      const rawFile = (file as any).originFileObj || file;
-      const url = await uploadFile(rawFile as File, path, (progress) => {
+      
+      // Khởi chạy thông báo xử lý
+      messageApi.loading({ content: 'Đang tối ưu dung lượng ảnh...', key: 'upload_status' });
+      
+      const rawFile = file.originFileObj || file;
+      
+      // Thực hiện tối ưu hóa ảnh
+      const resultFile = await optimizeImage(rawFile, { quality, maxWidth, maxHeight });
+      
+      // Thông báo cho component cha về file đã xử lý (để lấy size, name,...)
+      onFileChange?.(resultFile);
+
+      const fileName = (resultFile instanceof File ? resultFile.name : (rawFile.name || 'image.webp')).replaceAll(/\s+/g, '-');
+      const path = `uploads/${Date.now()}-${fileName}`;
+      
+      const url = await uploadFile(resultFile as File, path, (progress) => {
         onProgress({ percent: progress });
       });
+
       setImageUrl(url);
       onChange?.(url);
       onSuccess?.('ok');
+      messageApi.success({ content: 'Tải lên và tối ưu thành công!', key: 'upload_status', duration: 2 });
     } catch (error) {
       console.error('Upload error:', error);
-      messageApi.error('Tải ảnh lên thất bại!');
+      messageApi.error({ content: 'Tải ảnh lên thất bại!', key: 'upload_status' });
       onError(error);
     } finally {
       setLoading(false);
@@ -83,20 +170,11 @@ const ImageUpload: React.FC<ImageUploadProps> = ({
   };
 
   return (
-    /*
-     * Outer div: tạo aspect-ratio bằng cách set width + aspect-ratio.
-     * Vì aspect-ratio chỉ hoạt động khi height chưa bị fix, ta dùng
-     * position: relative + padding trick thay thế để đảm bảo cross-browser.
-     */
     <div
       className="relative w-full rounded-2xl border-2 border-dashed border-gray-100 
                  hover:border-primary transition-all bg-gray-50/50 overflow-hidden group"
       style={{ aspectRatio }}
     >
-      {/* 
-        * Layer fill: absolute full-size, chứa toàn bộ nội dung.
-        * Ant Design Upload sẽ render bên trong div này với width/height rõ ràng.
-        */}
       <div className="absolute inset-0">
         <Upload
           accept="image/*"
@@ -106,7 +184,6 @@ const ImageUpload: React.FC<ImageUploadProps> = ({
           onChange={handleChange}
           className="upload-fill"
         >
-          {/* Trigger area: fill toàn bộ */}
           <div
             className="flex items-center justify-center cursor-pointer w-full h-full"
             style={{ width: '100%', height: '100%' }}
@@ -172,7 +249,7 @@ const ImageUpload: React.FC<ImageUploadProps> = ({
                   className="mt-2 text-[10px] text-gray-300 font-bold 
                              uppercase tracking-tighter"
                 >
-                  JPG, PNG, WEBP • MAX 5MB
+                  JPG, PNG, WEBP • Auto WebP
                 </div>
               </div>
             )}
@@ -180,7 +257,6 @@ const ImageUpload: React.FC<ImageUploadProps> = ({
         </Upload>
       </div>
 
-      {/* Hidden image for preview */}
       {imageUrl && (
         <AntImage
           src={imageUrl}
@@ -192,10 +268,6 @@ const ImageUpload: React.FC<ImageUploadProps> = ({
         />
       )}
 
-      {/*
-       * CSS global để Ant Design Upload fill container.
-       * Đặt trực tiếp trong component để tránh file CSS riêng.
-       */}
       <style>{`
         .upload-fill,
         .upload-fill .ant-upload-wrapper,

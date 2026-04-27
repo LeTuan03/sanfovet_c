@@ -40,7 +40,7 @@ export default function Footer() {
     fetchData();
   }, []);
   return (
-    <footer className="bg-gradient-to-b from-biotechvet-dark to-[#061208] text-white/70 py-16 text-[0.85rem] mt-16 w-full relative">
+    <footer className="bg-gradient-to-b from-biotechvet-dark to-[#030e14] text-white/70 py-16 text-[0.85rem] mt-16 w-full relative">
       <div className="container mx-auto px-4">
         <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-12 mb-12">
           {/* Col 1 - Company Info */}
@@ -51,7 +51,7 @@ export default function Footer() {
             transition={{ duration: 0.5, delay: 0 }}
             className="space-y-4"
           >
-            <h3 className="text-white text-lg font-bold mb-6 relative pb-2.5 after:content-[''] after:absolute after:bottom-0 after:left-0 after:w-10 after:height-0.5 after:bg-primary uppercase">BIOTECH-VET</h3>
+            <h3 className="text-white text-lg font-bold mb-6 relative pb-2.5 after:content-[''] after:absolute after:bottom-0 after:left-0 after:w-10 after:height-0.5 after:bg-secondary uppercase">BIOTECH-VET</h3>
             <p className="font-semibold text-white/90">{settings?.companyName || 'Công Ty CP Công Nghệ Sinh Học Thú Y'}</p>
             <p><strong>Trụ sở:</strong> {settings?.addressHN || 'Cụm CN Liên Phương, Xã Hồng Vân, Hà Nội'}</p>
             <p><strong>Điện thoại:</strong> <a href={`tel:${settings?.hotline1}`} className="hover:text-primary transition-colors">{settings?.hotline1 || '024 66861629'}</a> | <a href={`tel:${settings?.hotline2}`} className="hover:text-primary transition-colors">{settings?.hotline2 || '097 499 9204'}</a></p>
@@ -72,7 +72,7 @@ export default function Footer() {
             viewport={{ once: true }}
             transition={{ duration: 0.5, delay: 0.1 }}
           >
-            <h3 className="text-white text-lg font-bold mb-6 relative pb-2.5 after:content-[''] after:absolute after:bottom-0 after:left-0 after:w-10 after:height-0.5 after:bg-primary uppercase">{t('products')}</h3>
+            <h3 className="text-white text-lg font-bold mb-6 relative pb-2.5 after:content-[''] after:absolute after:bottom-0 after:left-0 after:w-10 after:height-0.5 after:bg-secondary uppercase">{t('products')}</h3>
             <ul className="space-y-2">
               {categories.map((cat) => (
                 <li key={cat.id}><Link href={`/san-pham?category=${cat.id}`} className="hover:text-primary transition-colors">{cat.name}</Link></li>
@@ -90,7 +90,7 @@ export default function Footer() {
             viewport={{ once: true }}
             transition={{ duration: 0.5, delay: 0.2 }}
           >
-            <h3 className="text-white text-lg font-bold mb-6 relative pb-2.5 after:content-[''] after:absolute after:bottom-0 after:left-0 after:w-10 after:height-0.5 after:bg-primary uppercase">{t('tech_support')}</h3>
+            <h3 className="text-white text-lg font-bold mb-6 relative pb-2.5 after:content-[''] after:absolute after:bottom-0 after:left-0 after:w-10 after:height-0.5 after:bg-secondary uppercase">{t('tech_support')}</h3>
             <div className="mb-6">
               <p className="text-white font-bold mb-1">{settings?.support?.doctorName || 'Ths.Bs Phùng Thanh Sơn'}</p>
               <p>Email: <a href={`mailto:${settings?.support?.doctorEmail}`} className="hover:text-primary transition-colors">{settings?.support?.doctorEmail || 'thanhson256@gmail.com'}</a></p>
@@ -119,7 +119,7 @@ export default function Footer() {
             viewport={{ once: true }}
             transition={{ duration: 0.5, delay: 0.3 }}
           >
-            <h3 className="text-white text-lg font-bold mb-6 relative pb-2.5 after:content-[''] after:absolute after:bottom-0 after:left-0 after:w-10 after:height-0.5 after:bg-primary uppercase">Liên kết nhanh</h3>
+            <h3 className="text-white text-lg font-bold mb-6 relative pb-2.5 after:content-[''] after:absolute after:bottom-0 after:left-0 after:w-10 after:height-0.5 after:bg-secondary uppercase">Liên kết nhanh</h3>
             <ul className="space-y-2">
               {menus.filter(m => m.status).sort((a, b) => a.order - b.order).map((menu) => (
                 <li key={menu.id}>

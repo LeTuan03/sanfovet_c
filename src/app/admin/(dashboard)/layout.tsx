@@ -170,7 +170,7 @@ export default function AdminLayout({
 
   if (isAuthChecking) {
     return (
-      <div className="min-h-screen flex items-center justify-center bg-[#f8faf9]">
+      <div className="min-h-screen flex items-center justify-center bg-[#f8fafb]">
         <div className="text-primary font-bold">Đang kiểm tra quyền truy cập...</div>
       </div>
     );
@@ -181,7 +181,7 @@ export default function AdminLayout({
       locale={viVN}
       theme={{
         token: {
-          colorPrimary: '#1a8c3f',
+          colorPrimary: '#199ad6',
           borderRadius: 16,
           fontFamily: "'Inter', sans-serif",
           colorBgBase: '#ffffff',
@@ -189,9 +189,9 @@ export default function AdminLayout({
         },
         components: {
           Menu: {
-            itemSelectedBg: '#f0f9f2',
-            itemSelectedColor: '#1a8c3f',
-            itemHoverBg: '#f8faf9',
+            itemSelectedBg: '#e8f5fb',
+            itemSelectedColor: '#199ad6',
+            itemHoverBg: '#f0f9ff',
             groupTitleFontSize: 11,
             groupTitleColor: '#a0aec0',
             itemColor: '#4a5568',
@@ -288,7 +288,7 @@ export default function AdminLayout({
                   <div className="flex items-center gap-3 cursor-pointer hover:bg-gray-50 px-4 py-2 rounded-2xl transition-all border border-transparent hover:border-gray-100 bg-gray-50/50">
                     <Avatar 
                       size={36}
-                      style={{ backgroundColor: '#1a8c3f' }} 
+                      style={{ backgroundColor: '#199ad6' }} 
                       icon={<UserOutlined />} 
                       className="shadow-lg shadow-primary/20 ring-2 ring-white"
                     />
@@ -304,7 +304,7 @@ export default function AdminLayout({
               style={{
                 padding: 24,
                 minHeight: 280,
-                background: '#f8faf9',
+                background: '#f8fafb',
                 flex: 'auto',
               }}
             >

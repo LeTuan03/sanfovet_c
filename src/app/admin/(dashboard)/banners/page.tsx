@@ -99,6 +99,17 @@ function AdminBannersPageContent() {
       render: (text: string) => <span className="font-black text-biotechvet-dark text-sm italic">{text}</span>
     },
     {
+      title: 'Kích thước',
+      dataIndex: 'imageSize',
+      key: 'imageSize',
+      width: 100,
+      render: (size: number) => size ? (
+        <span className="text-[10px] font-bold text-gray-400 bg-gray-100 px-2 py-0.5 rounded-full">
+          { (size / 1024).toFixed(0) } KB
+        </span>
+      ) : <span className="text-[10px] text-gray-300">-</span>
+    },
+    {
       title: 'Link',
       dataIndex: 'link',
       key: 'link',
@@ -193,7 +204,6 @@ function AdminBannersPageContent() {
       } else {
         const newBanner = {
           id: Date.now(),
-          image: '/images/banner1.png', // Placeholder or use value from form if integrated
           ...values,
           order: values.order || banners.length + 1,
         };
@@ -295,8 +305,21 @@ function AdminBannersPageContent() {
         cancelButtonProps={{ className: "rounded-xl h-11 px-8 font-bold uppercase tracking-widest text-[11px]" }}
       >
         <Form form={form} layout="vertical" className="mt-6 px-4">
+          <Form.Item name="imageSize" hidden>
+            <Input />
+          </Form.Item>
+          
           <Form.Item name="image" label="Hình ảnh Banner" rules={[{ required: true }]}>
-            <ImageUpload label="Tải lên Banner" aspectRatio="2/1" />
+            <ImageUpload 
+              label="Tải lên Banner" 
+              aspectRatio="1920/800" 
+              maxWidth={1920} 
+              maxHeight={800}
+              onFileChange={(file) => {
+                form.setFieldsValue({ imageSize: file.size });
+              }}
+              maxSize={25}
+            />
           </Form.Item>
 
           <Form.Item name="title" label="Tiêu đề / Ghi chú" rules={[{ required: true }]}>
