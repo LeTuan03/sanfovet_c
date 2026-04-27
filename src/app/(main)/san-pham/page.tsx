@@ -4,7 +4,7 @@ import Pagination from '@/components/shared/Pagination';
 import FadeUp from '@/components/shared/FadeUp';
 import ProductSearch from '@/components/shared/ProductSearch';
 import { Metadata } from 'next';
-import { Eye, Filter, SearchX } from 'lucide-react';
+import { Eye, SearchX } from 'lucide-react';
 import ProductSort from '@/components/shared/ProductSort';
 import Link from 'next/link';
 
@@ -32,7 +32,7 @@ const ITEMS_PER_PAGE = 6;
 export default async function ProductsPage({ searchParams }: { searchParams: Promise<{ category?: string; page?: string; search?: string; sort?: string }> }) {
   const params = await searchParams;
   const currentCategory = params.category;
-  const currentPage = parseInt(params.page || '1', 10);
+  const currentPage = Number.parseInt(params.page || '1', 10);
   const searchTerm = params.search?.toLowerCase() || '';
   const sort = params.sort || 'newest';
 
@@ -53,8 +53,7 @@ export default async function ProductsPage({ searchParams }: { searchParams: Pro
   // Filter by search term
   if (searchTerm) {
     filteredProducts = filteredProducts.filter((p: Product) => 
-      p.name.toLowerCase().includes(searchTerm) || 
-      (p.tagline && p.tagline.toLowerCase().includes(searchTerm))
+      p.name.toLowerCase().includes(searchTerm)
     );
   }
 

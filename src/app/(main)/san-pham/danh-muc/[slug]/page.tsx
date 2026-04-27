@@ -28,7 +28,7 @@ export default async function CategoryPage({ params, searchParams }: {
     notFound();
   }
 
-  const currentPage = parseInt(page || '1', 10);
+  const currentPage = Number.parseInt(page || '1', 10);
   
   // Filter by category
   let filteredProducts = products.filter((p: Product) => p.categoryId.toString() === currentCategory.id.toString());
@@ -36,8 +36,7 @@ export default async function CategoryPage({ params, searchParams }: {
   // Filter by search term
   if (searchTerm) {
     filteredProducts = filteredProducts.filter((p: Product) => 
-      p.name.toLowerCase().includes(searchTerm) || 
-      (p.tagline && p.tagline.toLowerCase().includes(searchTerm))
+      p.name.toLowerCase().includes(searchTerm)
     );
   }
 
@@ -99,7 +98,7 @@ export default async function CategoryPage({ params, searchParams }: {
                 <h3 className="text-lg font-black text-biotechvet-dark mb-6 uppercase tracking-tight italic border-b border-gray-50 pb-4">Phân loại khác</h3>
               <ul className="space-y-2">
                 <li>
-                    <Link href="/san-pham" className={`block py-3 px-4 rounded-xl transition-all font-bold text-sm ${!currentCategory ? 'bg-primary text-white shadow-lg' : 'text-gray-600 hover:bg-gray-100'}`}>
+                    <Link href="/san-pham" className={`block py-3 px-4 rounded-xl transition-all font-bold text-sm ${slug ? 'text-gray-600 hover:bg-gray-100' : 'bg-primary text-white shadow-lg'}`}>
                       Tất cả sản phẩm
                     </Link>
                 </li>
@@ -143,8 +142,7 @@ export default async function CategoryPage({ params, searchParams }: {
                      <img src={p.image} alt={p.name} className="max-h-full w-auto object-contain transition-transform duration-700 group-hover:scale-110" />
                   </div>
                   <div className="p-8 flex-1 flex flex-col">
-                    <h3 className="font-black text-biotechvet-dark mb-3 group-hover:text-primary transition-colors text-xl leading-tight h-14 overflow-hidden">{p.name}</h3>
-                    <p className="text-sm text-gray-400 line-clamp-2 mb-8 flex-1 font-medium italic">{p.tagline}</p>
+                    <h3 className="font-black text-biotechvet-dark mb-8 group-hover:text-primary transition-colors text-xl leading-tight h-14 overflow-hidden">{p.name}</h3>
                     <Link href={`/san-pham/${p.slug}`} className="mt-auto inline-flex items-center gap-2 bg-gradient-to-r from-primary to-primary-dark text-white font-black hover:shadow-xl px-6 py-4 rounded-full transition-all justify-center w-full uppercase tracking-widest text-[0.65rem] active:scale-95">
                       <Eye size={16} /> Xem chi tiết
                     </Link>

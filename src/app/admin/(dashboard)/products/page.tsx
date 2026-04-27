@@ -3,15 +3,14 @@
 import React, { useState, useMemo } from 'react';
 import { 
   Table, Button, Space, Modal, Form, Input, Select, 
-  Tag, Tooltip, Row, Col, Tabs, Divider, Switch, App 
+  Tag, Tooltip, Row, Col, Divider, Switch, App 
 } from 'antd';
 import { 
   PlusOutlined, EditOutlined, DeleteOutlined, 
-  EyeOutlined, SearchOutlined, MinusCircleOutlined 
+  EyeOutlined
 } from '@ant-design/icons';
 import { useRouter, useSearchParams, usePathname } from 'next/navigation';
-// import { products, categories } from '@/lib/data'; // Removed static import
-import CKEditor from '@/components/admin/CKEditor';
+
 import ImageUpload from '@/components/admin/ImageUpload';
 import AdminPageHeader from '@/components/admin/AdminPageHeader';
 import { motion } from 'framer-motion';
@@ -48,6 +47,7 @@ function ProductManagementContent() {
         setData(prodData);
         setCategories(catData);
       } catch (error) {
+        console.log(error);
         message.error('Không thể tải dữ liệu');
       } finally {
         setLoading(false);
@@ -62,8 +62,7 @@ function ProductManagementContent() {
       const cat = categories.find(c => c.id === item.categoryId);
       return (
         item.name.toLowerCase().includes(query.toLowerCase()) ||
-        cat?.name.toLowerCase().includes(query.toLowerCase()) ||
-        item.registrationNo?.toLowerCase().includes(query.toLowerCase())
+        cat?.name.toLowerCase().includes(query.toLowerCase())
       );
     });
   }, [data, query]);
@@ -121,9 +120,10 @@ function ProductManagementContent() {
           message.success(editingId ? 'Cập nhật sản phẩm thành công' : 'Thêm sản phẩm mới thành công');
           setIsModalOpen(false);
         } else {
-          throw new Error();
+          throw new Error('Lỗi khi lưu dữ liệu');
         }
       } catch (error) {
+        console.log(error);
         message.error('Lỗi khi lưu dữ liệu');
       }
     });
@@ -148,9 +148,10 @@ function ProductManagementContent() {
             setData(newData);
             message.success('Đã xóa sản phẩm');
           } else {
-            throw new Error();
+            throw new Error('Lỗi khi xóa dữ liệu  ');
           }
         } catch (error) {
+          console.log(error);
           message.error('Lỗi khi xóa dữ liệu');
         }
       },
@@ -171,7 +172,6 @@ function ProductManagementContent() {
             <div className="font-bold text-biotechvet-dark text-sm">{text}</div>
             <div className="flex items-center gap-2 mt-1">
               {record.featured && <Tag color="gold" className="text-[9px] px-1.5 font-black border-none bg-amber-100 text-amber-700 m-0">NỔI BẬT</Tag>}
-              <span className="text-[10px] text-gray-400 font-bold uppercase tracking-wider">{record.volume}</span>
             </div>
           </div>
         </div>
@@ -186,12 +186,7 @@ function ProductManagementContent() {
         return <Tag className="font-black px-3 py-1 rounded-lg uppercase text-[10px] border-none bg-emerald-50 text-emerald-700 m-0 tracking-wider shadow-sm">{cat?.name.split(',')[0] || 'Khác'}</Tag>;
       },
     },
-    {
-       title: 'Đăng ký số',
-       dataIndex: 'registrationNo',
-       key: 'registrationNo',
-       render: (v: string) => <span className="font-bold text-gray-400 text-[11px] tracking-tight bg-gray-50 px-2 py-1 rounded-md border border-gray-100">{v}</span>
-    },
+
     {
       title: 'Thao tác',
       key: 'action',
@@ -292,216 +287,93 @@ function ProductManagementContent() {
         okButtonProps={{ className: "rounded-xl h-11 px-8 font-bold uppercase tracking-widest text-[11px] border-none shadow-lg shadow-primary/20" }}
         cancelButtonProps={{ className: "rounded-xl h-11 px-8 font-bold uppercase tracking-widest text-[11px]" }}
       >
-        <Form form={form} layout="vertical" className="mt-6 px-4">
-          <Tabs defaultActiveKey="1" className="admin-tabs custom-admin-tabs" items={[
-            {
-              key: '1',
-              label: <span className="font-black px-2 uppercase text-[11px] tracking-widest">Thông tin cơ bản</span>,
-              children: (
-                <div className="py-4">
-                  <Row gutter={24}>
-                    <Col span={10}>
-                      <Form.Item name="name" label="Tên sản phẩm" rules={[{ required: true }]}>
-                        <Input className="rounded-xl py-2 font-bold" />
-                      </Form.Item>
-                    </Col>
-                    <Col span={8}>
-                      <Form.Item name="categoryId" label="Danh mục" rules={[{ required: true }]}>
-                        <Select 
-                          options={categories.map(c => ({ label: c.name, value: c.id }))}
-                          className="w-full"
-                        />
-                      </Form.Item>
-                    </Col>
-                    <Col span={6}>
-                       <Form.Item name="featured" label="Nổi bật" valuePropName="checked">
-                          <Switch className="bg-gray-200" />
-                       </Form.Item>
-                    </Col>
-                  </Row>
-                  <Row gutter={24}>
-                    <Col span={12}>
-                       <Form.Item name="tagline" label="Khẩu hiệu / Tóm tắt">
-                          <Input className="rounded-xl py-2" />
-                       </Form.Item>
-                    </Col>
-                    <Col span={12}>
-                       <Form.Item name="registrationNo" label="Số đăng ký">
-                          <Input className="rounded-xl py-2" />
-                       </Form.Item>
-                    </Col>
-                  </Row>
-                  <Row gutter={24}>
-                    <Col span={12}>
-                       <Form.Item name="image" label="Hình ảnh sản phẩm">
-                          <ImageUpload label="Chọn ảnh sản phẩm" />
-                       </Form.Item>
-                    </Col>
-                    <Col span={12}>
-                       <Form.Item name="volume" label="Quy cách đóng gói">
-                          <TextArea rows={5} placeholder="Nhập quy cách đóng gói" className="rounded-xl py-2" />
-                       </Form.Item>
-                    </Col>
-                  </Row>
-                </div>
-              )
-            },
-            {
-              key: '2',
-              label: <span className="font-black px-2 uppercase text-[11px] tracking-widest">Thành phần & Công dụng</span>,
-              children: (
-                <div className="py-4">
-                  <Form.Item label="Danh sách thành phần">
-                    <Form.List name="ingredients">
-                      {(fields, { add, remove }) => (
-                        <>
-                          <Table
-                            dataSource={fields.map((field, index) => ({ ...field, index }))}
-                            columns={[
-                              {
-                                title: 'Tên chất',
-                                width: '45%',
-                                render: (_, { name, ...restField }) => (
-                                  <Form.Item {...restField} name={[name, 'name']} rules={[{ required: true, message: 'Bắt buộc' }]} style={{ marginBottom: 0 }}>
-                                    <Input placeholder="Tên chất" className="rounded-lg py-1.5 px-3" size="small" />
-                                  </Form.Item>
-                                ),
-                              },
-                              {
-                                title: 'Lượng',
-                                width: '25%',
-                                render: (_, { name, ...restField }) => (
-                                  <Form.Item {...restField} name={[name, 'amount']} rules={[{ required: true, message: 'Bắt buộc' }]} style={{ marginBottom: 0 }}>
-                                    <Input placeholder="100" className="rounded-lg py-1.5 px-3" size="small" />
-                                  </Form.Item>
-                                ),
-                              },
-                              {
-                                title: 'Đơn vị',
-                                width: '20%',
-                                render: (_, { name, ...restField }) => (
-                                  <Form.Item {...restField} name={[name, 'unit']} rules={[{ required: true, message: 'Bắt buộc' }]} style={{ marginBottom: 0 }}>
-                                    <Input placeholder="mg" className="rounded-lg py-1.5 px-3" size="small" />
-                                  </Form.Item>
-                                ),
-                              },
-                              {
-                                title: '',
-                                width: '10%',
-                                align: 'center' as const,
-                                render: (_, { name }) => (
-                                  <Button 
-                                    type="text" 
-                                    onClick={() => remove(name)} 
-                                    icon={<MinusCircleOutlined />} 
-                                    danger 
-                                    size="small"
-                                  />
-                                ),
-                              },
-                            ]}
-                            rowKey="key"
-                            pagination={false}
-                            locale={{ emptyText: 'Chưa có thành phần nào, nhấn "Thêm thành phần" để bắt đầu' }}
-                            className="rounded-xl border border-gray-200"
+        <Form form={form} layout="vertical" className="mt-6 px-4 pb-8">
+          <Row gutter={24}>
+            <Col span={10}>
+              <Form.Item name="name" label="Tên sản phẩm" rules={[{ required: true }]}>
+                <Input className="rounded-xl py-2 font-bold" />
+              </Form.Item>
+            </Col>
+            <Col span={10}>
+              <Form.Item name="categoryId" label="Danh mục" rules={[{ required: true }]}>
+                <Select 
+                  options={categories.map(c => ({ label: c.name, value: c.id }))}
+                  className="w-full"
+                  placeholder="Chọn danh mục"
+                />
+              </Form.Item>
+            </Col>
+            <Col span={4}>
+               <Form.Item name="featured" label="Nổi bật" valuePropName="checked">
+                  <Switch className="bg-gray-200" />
+               </Form.Item>
+            </Col>
+          </Row>
+
+          <Row gutter={24}>
+            <Col span={24}>
+               <Form.Item name="image" label="Hình ảnh sản phẩm">
+                  <ImageUpload label="Chọn ảnh sản phẩm" />
+               </Form.Item>
+            </Col>
+          </Row>
+
+          <Divider>
+            <span className="text-[11px] font-black uppercase tracking-widest text-primary">Thông số sản phẩm</span>
+          </Divider>
+
+          <Form.List name="specifications">
+            {(fields, { add, remove }) => (
+              <div className="space-y-4">
+                {fields.map(({ key, name, ...restField }) => (
+                  <div key={key} className="p-4 bg-gray-50 rounded-2xl border border-gray-100 relative group">
+                    <Row gutter={16}>
+                      <Col span={24}>
+                        <Form.Item
+                          {...restField}
+                          name={[name, 'title']}
+                          label="Tên thông số (VD: THÀNH PHẦN)"
+                          rules={[{ required: true, message: 'Nhập tên thông số' }]}
+                        >
+                          <Input placeholder="Nhập tiêu đề..." className="rounded-xl font-bold text-primary" />
+                        </Form.Item>
+                      </Col>
+                      <Col span={24}>
+                        <Form.Item
+                          {...restField}
+                          name={[name, 'content']}
+                          label="Mô tả chi tiết"
+                          rules={[{ required: true, message: 'Nhập mô tả' }]}
+                        >
+                          <TextArea 
+                            rows={4} 
+                            placeholder="Nhập chi tiết thông số..." 
+                            className="rounded-xl" 
                           />
-                          <Button type="dashed" onClick={() => add()} block icon={<PlusOutlined />} className="rounded-xl mt-4">
-                            Thêm thành phần
-                          </Button>
-                        </>
-                      )}
-                    </Form.List>
-                  </Form.Item>
-                  <Divider />
-                  <Form.Item name="characteristics" label="Đặc tính sản phẩm">
-                    <CKEditor placeholder="Nhập các đặc tính nổi bật của sản phẩm..." />
-                  </Form.Item>
-                  <Form.Item name="indications" label="Chỉ định / Công dụng">
-                    <CKEditor placeholder="Nhập chi tiết các chỉ định và công dụng điều trị..." />
-                  </Form.Item>
-                </div>
-              )
-            },
-            {
-              key: '3',
-              label: <span className="font-black px-2 uppercase text-[11px] tracking-widest">Liều lượng & Hướng dẫn</span>,
-              children: (
-                <div className="py-4">
-                  <Form.Item name={['dosage', 'route']} label="Đường dùng (Tiêm bắp, uống...)">
-                     <TextArea rows={3} className="rounded-xl py-2" />
-                  </Form.Item>
-                  <Form.Item label="Chi tiết liều lượng theo loài">
-                    <Form.List name={['dosage', 'byAnimal']}>
-                      {(fields, { add, remove }) => (
-                        <>
-                          <Table
-                            dataSource={fields.map((field, index) => ({ ...field, index }))}
-                            columns={[
-                              {
-                                title: 'Loài',
-                                width: '50%',
-                                render: (_, { name, ...restField }) => (
-                                  <Form.Item {...restField} name={[name, 'animal']} rules={[{ required: true, message: 'Bắt buộc' }]} style={{ marginBottom: 0 }}>
-                                    <Input placeholder="Heo con" className="rounded-lg py-1.5 px-3" size="small" />
-                                  </Form.Item>
-                                ),
-                              },
-                              {
-                                title: 'Liều',
-                                width: '40%',
-                                render: (_, { name, ...restField }) => (
-                                  <Form.Item {...restField} name={[name, 'dose']} rules={[{ required: true, message: 'Bắt buộc' }]} style={{ marginBottom: 0 }}>
-                                    <Input placeholder="1ml/10kg TT" className="rounded-lg py-1.5 px-3" size="small" />
-                                  </Form.Item>
-                                ),
-                              },
-                              {
-                                title: '',
-                                width: '10%',
-                                align: 'center' as const,
-                                render: (_, { name }) => (
-                                  <Button 
-                                    type="text" 
-                                    onClick={() => remove(name)} 
-                                    icon={<MinusCircleOutlined />} 
-                                    danger 
-                                    size="small"
-                                  />
-                                ),
-                              },
-                            ]}
-                            rowKey="key"
-                            pagination={false}
-                            locale={{ emptyText: 'Chưa có liều lượng nào, nhấn "Thêm liều theo loài" để bắt đầu' }}
-                            className="rounded-xl border border-gray-200"
-                          />
-                          <Button type="dashed" onClick={() => add()} block icon={<PlusOutlined />} className="rounded-xl mt-4">
-                            Thêm liều theo loài
-                          </Button>
-                        </>
-                      )}
-                    </Form.List>
-                  </Form.Item>
-                  <Divider />
-                  <Row gutter={24}>
-                    <Col span={12}>
-                       <Form.Item name="formulation" label="Dạng bào chế">
-                          <TextArea rows={3} className="rounded-xl py-2" />
-                       </Form.Item>
-                    </Col>
-                    <Col span={12}>
-                       <Form.Item name="withdrawalPeriod" label="Thời gian ngưng thuốc">
-                          <TextArea rows={3} className="rounded-xl py-2" />
-                       </Form.Item>
-                    </Col>
-                  </Row>
-                  <Form.Item name="storage" label="Bảo quản">
-                     <TextArea rows={3} className="rounded-xl py-2" />
-                  </Form.Item>
-                </div>
-              )
-            }
-          ]} />
+                        </Form.Item>
+                      </Col>
+                    </Row>
+                    <Button 
+                      type="text" 
+                      danger 
+                      icon={<DeleteOutlined />} 
+                      onClick={() => remove(name)}
+                      className="absolute top-2 right-2 opacity-0 group-hover:opacity-100 transition-opacity"
+                    />
+                  </div>
+                ))}
+                <Button 
+                  type="dashed" 
+                  onClick={() => add()} 
+                  block 
+                  icon={<PlusOutlined />}
+                  className="rounded-xl h-12 border-2 border-dashed border-gray-200 text-gray-400 hover:text-primary hover:border-primary transition-all"
+                >
+                  THÊM THUỘC TÍNH / THÔNG SỐ
+                </Button>
+              </div>
+            )}
+          </Form.List>
         </Form>
       </Modal>
     </motion.div>

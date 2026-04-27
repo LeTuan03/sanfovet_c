@@ -5,7 +5,6 @@ import Link from 'next/link';
 import { FacebookOutlined, YoutubeOutlined } from '@ant-design/icons';
 import { useLanguage } from '@/lib/LanguageContext';
 import { motion } from 'framer-motion';
-// import { footerMenus } from '@/lib/data'; // Removed static import
 
 export default function Footer() {
   const { t } = useLanguage();
@@ -79,9 +78,7 @@ export default function Footer() {
                 <li key={cat.id}><Link href={`/san-pham?category=${cat.id}`} className="hover:text-primary transition-colors">{cat.name}</Link></li>
               ))}
               {categories.length === 0 && (
-                <>
-                  <li><Link href="/san-pham" className="hover:text-primary transition-colors">Tất cả sản phẩm</Link></li>
-                </>
+                <li><Link href="/san-pham" className="hover:text-primary transition-colors">Tất cả sản phẩm</Link></li>
               )}
             </ul>
           </motion.div>

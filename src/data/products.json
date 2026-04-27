@@ -4,188 +4,169 @@
     "slug": "thuoc-thu-y-hemopro",
     "name": "HEMOPRO",
     "categoryId": 1,
-    "tagline": "Bổ sung sắt, đồng, vitamin B12 cho gia súc, gia cầm",
     "image": "/images/product1.png",
     "featured": true,
-    "ingredients": [
-      { "name": "Iron Dextran", "amount": "100", "unit": "mg" },
-      { "name": "Copper Gluconate", "amount": "5", "unit": "mg" },
-      { "name": "Vitamin B12", "amount": "150", "unit": "μg" }
-    ],
-    "characteristics": "HEMOPRO là dung dịch tiêm bổ sung sắt thế hệ mới, giúp phòng và trị bệnh thiếu máu do thiếu sắt ở heo con, bê, nghé. Sắt dạng Dextran có sinh khả dụng cao, được hấp thu nhanh và an toàn.",
-    "indications": "Phòng và trị bệnh thiếu máu do thiếu sắt ở heo con, bê, nghé. Kích thích tăng trưởng, tăng sức đề kháng. Bổ sung sắt cho heo nái mang thai và cho con bú.",
-    "dosage": {
-      "route": "Tiêm bắp sâu",
-      "duration": "1 liều duy nhất",
-      "byAnimal": [
-        { "animal": "Heo con (3-5 ngày tuổi)", "dose": "1-2 ml/con" },
-        { "animal": "Heo nái", "dose": "5-10 ml/con" },
-        { "animal": "Bê, nghé", "dose": "4-8 ml/con" }
-      ]
-    },
-    "formulation": "Dung dịch tiêm",
-    "withdrawalPeriod": "28 ngày",
-    "storage": "Nơi khô ráo, thoáng mát, tránh ánh nắng trực tiếp. Nhiệt độ 15-25°C",
-    "volume": "100 ml",
-    "registrationNo": "VN-2024-0156"
+    "specifications": [
+      {
+        "title": "Công dụng",
+        "content": "Phòng và trị bệnh thiếu máu do thiếu sắt ở heo con, bê, nghé. Kích thích tăng trưởng, tăng sức đề kháng. Bổ sung sắt cho heo nái mang thai và cho con bú."
+      },
+      {
+        "title": "Dạng bào chế",
+        "content": "Dung dịch tiêm"
+      },
+      {
+        "title": "Liều lượng & Cách dùng",
+        "content": "Tiêm bắp sâu, 1 liều duy nhất:\n- Heo con (3-5 ngày tuổi): 1-2 ml/con\n- Heo nái: 5-10 ml/con\n- Bê, nghé: 4-8 ml/con"
+      },
+      {
+        "title": "Thời gian ngưng thuốc",
+        "content": "28 ngày"
+      },
+      {
+        "title": "Bảo quản",
+        "content": "Nơi khô ráo, thoáng mát, tránh ánh nắng trực tiếp. Nhiệt độ 15-25°C"
+      },
+      {
+        "title": "Quy cách",
+        "content": "100 ml"
+      }
+    ]
   },
   {
     "id": 2,
     "slug": "thuoc-thu-y-amox-inject",
     "name": "AMOX-INJECT",
     "categoryId": 2,
-    "tagline": "Kháng sinh Amoxicillin tiêm hiệu lực mạnh",
     "image": "/images/product2.png",
     "featured": true,
-    "ingredients": [
-      { "name": "Amoxicillin trihydrate", "amount": "150", "unit": "mg" }
-    ],
-    "characteristics": "AMOX-INJECT chứa Amoxicillin dạng trihydrate, kháng sinh nhóm β-lactam phổ rộng, tác dụng diệt khuẩn nhanh trên cả vi khuẩn Gram (+) và vi khuẩn Gram (-).",
-    "indications": "Điều trị viêm phổi, viêm ruột, viêm tử cung, viêm vú, nhiễm trùng đường tiết niệu ở gia súc.",
-    "dosage": {
-      "route": "Tiêm bắp",
-      "duration": "3-5 ngày",
-      "byAnimal": [
-        { "animal": "Heo", "dose": "1ml/10kg TT" },
-        { "animal": "Trâu, bò", "dose": "1ml/10kg TT" }
-      ]
-    },
-    "formulation": "Hỗn dịch tiêm",
-    "withdrawalPeriod": "15 ngày",
-    "storage": "Nơi khô ráo, thoáng mát. Nhiệt độ 15-25°C",
-    "volume": "100 ml",
-    "registrationNo": "VN-2024-0203"
+    "specifications": [
+      {
+        "title": "Công dụng",
+        "content": "Điều trị viêm phổi, viêm ruột, viêm tử cung, viêm vú, nhiễm trùng đường tiết niệu ở gia súc."
+      },
+      {
+        "title": "Thành phần",
+        "content": "Amoxicillin trihydrate: 150 mg"
+      },
+      {
+        "title": "Liều lượng & Cách dùng",
+        "content": "Tiêm bắp, 3-5 ngày:\n- Heo: 1ml/10kg TT\n- Trâu, bò: 1ml/10kg TT"
+      },
+      {
+        "title": "Thời gian ngưng thuốc",
+        "content": "15 ngày"
+      },
+      {
+        "title": "Bảo quản",
+        "content": "Nơi khô ráo, thoáng mát. Nhiệt độ 15-25°C"
+      }
+    ]
   },
   {
     "id": 3,
     "slug": "thuoc-thu-y-electrolyte-c",
     "name": "ELECTROLYTE-C",
     "categoryId": 6,
-    "tagline": "Bổ sung điện giải, Vitamin C, chống stress",
     "image": "/images/product3.png",
     "featured": true,
-    "ingredients": [
-      { "name": "Vitamin C", "amount": "5000", "unit": "mg" },
-      { "name": "Sodium Chloride", "amount": "2000", "unit": "mg" },
-      { "name": "Potassium Chloride", "amount": "1000", "unit": "mg" },
-      { "name": "Glucose", "amount": "50000", "unit": "mg" }
-    ],
-    "characteristics": "ELECTROLYTE-C cung cấp điện giải và vitamin C, giúp phục hồi nhanh chóng cân bằng nước và điện giải trong cơ thể vật nuôi.",
-    "indications": "Phòng chống stress do vận chuyển, thời tiết thay đổi. Bổ sung điện giải khi tiêu chảy, mất nước. Tăng sức đề kháng.",
-    "dosage": {
-      "route": "Pha nước uống",
-      "duration": "3-5 ngày liên tục",
-      "byAnimal": [
-        { "animal": "Gà, vịt", "dose": "1g/lít nước uống" },
-        { "animal": "Heo", "dose": "2g/lít nước uống" }
-      ]
-    },
-    "formulation": "Bột hòa tan",
-    "withdrawalPeriod": "Không",
-    "storage": "Nơi khô ráo, thoáng mát",
-    "volume": "1 kg",
-    "registrationNo": "VN-2024-0089"
+    "specifications": [
+      {
+        "title": "Công dụng",
+        "content": "Phòng chống stress do vận chuyển, thời tiết thay đổi. Bổ sung điện giải khi tiêu chảy, mất nước. Tăng sức đề kháng."
+      },
+      {
+        "title": "Liều lượng & Cách dùng",
+        "content": "Pha nước uống, 3-5 ngày liên tục:\n- Gà, vịt: 1g/lít nước uống\n- Heo: 2g/lít nước uống"
+      },
+      {
+        "title": "Quy cách",
+        "content": "1 kg"
+      }
+    ]
   },
   {
     "id": 4,
     "slug": "thuoc-thu-y-tylosin-50",
     "name": "TYLOSIN-50",
     "categoryId": 3,
-    "tagline": "Kháng sinh Tylosin dạng dung dịch uống",
     "image": "/images/product1.png",
     "featured": true,
-    "ingredients": [{ "name": "Tylosin tartrate", "amount": "50", "unit": "mg" }],
-    "characteristics": "TYLOSIN-50 chứa Tylosin tartrate, kháng sinh nhóm Macrolide có tác dụng kìm khuẩn mạnh trên vi khuẩn Gram (+) và Mycoplasma.",
-    "indications": "Điều trị CRD, viêm phổi do Mycoplasma, viêm ruột hoại tử ở gia cầm.",
-    "dosage": {
-      "route": "Pha nước uống",
-      "duration": "3-5 ngày",
-      "byAnimal": [
-        { "animal": "Gà, vịt", "dose": "1ml/lít nước" }
-      ]
-    },
-    "formulation": "Dung dịch uống",
-    "withdrawalPeriod": "5 ngày",
-    "storage": "Nơi khô ráo, thoáng mát",
-    "volume": "1 lít",
-    "registrationNo": "VN-2024-0112"
+    "specifications": [
+      {
+        "title": "Công dụng",
+        "content": "Điều trị CRD, viêm phổi do Mycoplasma, viêm ruột hoại tử ở gia cầm."
+      },
+      {
+        "title": "Liều lượng & Cách dùng",
+        "content": "Pha nước uống, 3-5 ngày:\n- Gà, vịt: 1ml/lít nước"
+      },
+      {
+        "title": "Thời gian ngưng thuốc",
+        "content": "5 ngày"
+      }
+    ]
   },
   {
     "id": 5,
     "slug": "thuoc-thu-y-flor-premix",
     "name": "FLOR-PREMIX",
     "categoryId": 4,
-    "tagline": "Kháng sinh Florfenicol dạng premix siêu bám dính",
     "image": "/images/product2.png",
     "featured": true,
-    "ingredients": [{ "name": "Florfenicol", "amount": "40", "unit": "g/kg" }],
-    "characteristics": "FLOR-PREMIX sử dụng công nghệ siêu bám dính, giúp thuốc phân bổ đều trong thức ăn, tăng hiệu quả điều trị.",
-    "indications": "Điều trị viêm phổi, các bệnh đường hô hấp do vi khuẩn nhạy cảm với Florfenicol.",
-    "dosage": {
-      "route": "Trộn thức ăn",
-      "duration": "5-7 ngày",
-      "byAnimal": [
-        { "animal": "Heo", "dose": "2-4 kg/tấn thức ăn" }
-      ]
-    },
-    "formulation": "Premix",
-    "withdrawalPeriod": "20 ngày",
-    "storage": "Nơi khô ráo, thoáng mát",
-    "volume": "25 kg",
-    "registrationNo": "VN-2024-0178"
+    "specifications": [
+      {
+        "title": "Công dụng",
+        "content": "Điều trị viêm phổi, các bệnh đường hô hấp do vi khuẩn nhạy cảm với Florfenicol."
+      },
+      {
+        "title": "Liều lượng & Cách dùng",
+        "content": "Trộn thức ăn, 5-7 ngày:\n- Heo: 2-4 kg/tấn thức ăn"
+      },
+      {
+        "title": "Đặc tính kỹ thuật",
+        "content": "Sử dụng công nghệ siêu bám dính, giúp thuốc phân bổ đều trong thức ăn, tăng hiệu quả điều trị."
+      }
+    ]
   },
   {
     "id": 6,
     "slug": "thuoc-thu-y-colistin-powder",
     "name": "COLISTIN POWDER",
     "categoryId": 5,
-    "tagline": "Kháng sinh Colistin dạng bột hòa tan",
     "image": "/images/product3.png",
     "featured": true,
-    "ingredients": [{ "name": "Colistin sulfate", "amount": "10,000,000", "unit": "IU" }],
-    "characteristics": "COLISTIN POWDER chứa Colistin sulfate, kháng sinh nhóm Polypeptide, tác dụng diệt khuẩn mạnh trên vi khuẩn Gram (-).",
-    "indications": "Điều trị tiêu chảy do E.coli, Salmonella. Viêm ruột, viêm phổi ở gia súc, gia cầm.",
-    "dosage": {
-      "route": "Pha nước uống / trộn thức ăn",
-      "duration": "3-5 ngày",
-      "byAnimal": [
-        { "animal": "Gà, vịt", "dose": "0.5g/lít nước" },
-        { "animal": "Heo", "dose": "1g/lít nước" }
-      ]
-    },
-    "formulation": "Bột hòa tan",
-    "withdrawalPeriod": "7 ngày",
-    "storage": "Nơi khô ráo, thoáng mát",
-    "volume": "100 g",
-    "registrationNo": "VN-2024-0095"
+    "specifications": [
+      {
+        "title": "Công dụng",
+        "content": "Điều trị tiêu chảy do E.coli, Salmonella. Viêm ruột, viêm phổi ở gia súc, gia cầm."
+      },
+      {
+        "title": "Liều lượng & Cách dùng",
+        "content": "Pha nước uống / trộn thức ăn, 3-5 ngày:\n- Gà, vịt: 0.5g/lít nước\n- Heo: 1g/lít nước"
+      }
+    ]
   },
   {
     "id": 7,
     "slug": "thuoc-thu-y-liver-tonic",
     "name": "LIVER TONIC",
     "categoryId": 7,
-    "tagline": "Bổ gan thận, giải độc, tăng cường chức năng gan",
     "image": "/images/product1.png",
     "featured": true,
-    "ingredients": [
-      { "name": "Sorbitol", "amount": "250", "unit": "mg/ml" },
-      { "name": "DL-Methionine", "amount": "20", "unit": "mg/ml" },
-      { "name": "Choline Chloride", "amount": "10", "unit": "mg/ml" }
-    ],
-    "characteristics": "LIVER TONIC là dung dịch uống bổ gan thận, giúp tăng cường chức năng gan, thải độc kim loại nặng và mycotoxin.",
-    "indications": "Bổ gan, giải độc gan cho gia súc, gia cầm. Hỗ trợ phục hồi sau bệnh, sau dùng kháng sinh kéo dài.",
-    "dosage": {
-      "route": "Pha nước uống",
-      "duration": "5-7 ngày",
-      "byAnimal": [
-        { "animal": "Gia cầm", "dose": "1ml/lít nước" },
-        { "animal": "Heo", "dose": "2ml/lít nước" }
-      ]
-    },
-    "formulation": "Dung dịch uống",
-    "withdrawalPeriod": "Không",
-    "storage": "Nơi khô ráo, thoáng mát",
-    "volume": "1 lít",
-    "registrationNo": "VN-2024-0201"
+    "specifications": [
+      {
+        "title": "Công dụng",
+        "content": "Bổ gan, giải độc gan cho gia súc, gia cầm. Hỗ trợ phục hồi sau bệnh, sau dùng kháng sinh kéo dài."
+      },
+      {
+        "title": "Liều lượng & Cách dùng",
+        "content": "Pha nước uống, 5-7 ngày:\n- Gia cầm: 1ml/lít nước\n- Heo: 2ml/lít nước"
+      },
+      {
+        "title": "Đặc tính",
+        "content": "LIVER TONIC là dung dịch uống bổ gan thận, giúp tăng cường chức năng gan, thải độc kim loại nặng và mycotoxin."
+      }
+    ]
   }
 ]

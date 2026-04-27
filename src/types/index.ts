@@ -1,24 +1,16 @@
+export interface ProductSpecification {
+  title: string;
+  content: string;
+}
+
 export interface Product {
   id: number;
   slug: string;
   name: string;
   categoryId: number;
-  tagline: string;
   image: string;
   featured?: boolean;
-  ingredients?: { name: string; amount: string; unit: string }[];
-  characteristics?: string;
-  indications?: string;
-  dosage?: {
-    route: string;
-    duration: string;
-    byAnimal: { animal: string; dose: string }[];
-  };
-  formulation?: string;
-  withdrawalPeriod?: string;
-  storage?: string;
-  volume?: string;
-  registrationNo?: string;
+  specifications: ProductSpecification[];
 }
 
 export interface Category {

@@ -67,7 +67,7 @@ export default function RootLayout({
   children: React.ReactNode;
 }>) {
   return (
-    <html lang="vi" className={`${inter.variable} ${montserrat.variable}`} suppressHydrationWarning>
+    <html lang="vi" className={`${inter.variable} ${montserrat.variable}`} data-scroll-behavior="smooth" suppressHydrationWarning>
       <head>
         {/* JSON-LD Schema Markup */}
         <Script

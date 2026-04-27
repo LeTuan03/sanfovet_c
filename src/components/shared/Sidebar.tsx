@@ -53,7 +53,6 @@ export default function Sidebar({ showProducts = true, showNews = true, showQuic
                 </div>
                 <div className="flex flex-col justify-center">
                   <h4 className="font-bold text-biotechvet-dark group-hover:text-primary transition-colors line-clamp-2 text-sm leading-snug">{p.name}</h4>
-                  <p className="text-[0.65rem] text-gray-400 mt-1 line-clamp-1 font-medium">{p.tagline}</p>
                 </div>
               </Link>
             ))}

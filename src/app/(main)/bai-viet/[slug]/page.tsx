@@ -3,7 +3,6 @@ import Link from 'next/link';
 import { notFound } from 'next/navigation';
 import { readData } from '@/lib/storage';
 import { Article, Product } from '@/types';
-// import { articles, products } from '@/lib/data'; // Removed static imports
 import { Calendar, User, ChevronRight, ArrowLeft, Share2, Printer, Tag, List } from 'lucide-react';
 import { Metadata } from 'next';
 
@@ -12,9 +11,9 @@ function processContentWithHeadings(html: string): { processedHtml: string, head
   let processedHtml = html;
   
   if (processedHtml) {
-    processedHtml = processedHtml.replace(/<h2([^>]*)>(.*?)<\/h2>/gi, (match, attrs, innerHtml) => {
-      const text = innerHtml.replace(/<[^>]*>/g, '').trim();
-      const id = text.toLowerCase().replace(/[^a-z0-9\u00C0-\u024F]+/gi, '-').replace(/^-|-$/g, '');
+    processedHtml = processedHtml.replaceAll(/<h2([^>]*)>(.*?)<\/h2>/gi, (match, attrs, innerHtml) => {
+      const text = innerHtml.replaceAll(/<[^>]*>/g, '').trim();
+      const id = text.toLowerCase().replaceAll(/[^a-z0-9\u00C0-\u024F]+/gi, '-').replaceAll(/^-|-$/g, '');
       headings.push({ id, text });
       
       if (!attrs.includes('id=')) {
@@ -49,7 +48,7 @@ export async function generateMetadata({ params }: { params: Promise<{ slug: str
     };
   }
 
-  const plainTextContent = article.content?.replace(/<[^>]*>/g, '').substring(0, 160) || article.title;
+  const plainTextContent = article.content?.replaceAll(/<[^>]*>/g, '').substring(0, 160) || article.title;
   const articleImage = article.thumbnail || "/images/default-article.png";
   
   return {
@@ -184,8 +183,7 @@ export default async function ArticleDetailPage({ params }: Readonly<{ params: P
                          <div className="aspect-square mb-4 bg-biotechvet-alt rounded-xl p-4 flex items-center justify-center group-hover:bg-primary-light transition-colors">
                             <img src={p.image} alt={p.name} className="max-h-full w-auto" />
                          </div>
-                         <h4 className="font-bold text-biotechvet-dark group-hover:text-primary transition-colors line-clamp-1 mb-2">{p.name}</h4>
-                         <p className="text-xs text-gray-400 line-clamp-2">{p.tagline}</p>
+                         <h4 className="font-bold text-biotechvet-dark group-hover:text-primary transition-colors line-clamp-1 h-12 flex items-center justify-center text-center">{p.name}</h4>
                       </Link>
                    ))}
                 </div>

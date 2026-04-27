@@ -3,7 +3,6 @@ import Link from 'next/link';
 import { notFound } from 'next/navigation';
 import { readData } from '@/lib/storage';
 import { Job, Product, Article } from '@/types';
-// import { jobs, products, articles } from '@/lib/data'; // Removed static imports
 import { ChevronRight, ArrowLeft, MapPin, Calendar, Mail, Phone, Briefcase, CheckCircle, Gift, Send } from 'lucide-react';
 
 export default async function JobDetailPage({ params }: Readonly<{ params: Promise<{ slug: string }> }>) {
@@ -182,7 +181,6 @@ export default async function JobDetailPage({ params }: Readonly<{ params: Promi
                       </div>
                       <div className="flex flex-col justify-center">
                         <h4 className="font-bold text-biotechvet-dark group-hover:text-primary transition-colors line-clamp-2 text-sm leading-snug">{p.name}</h4>
-                        <p className="text-[0.65rem] text-gray-400 mt-1 line-clamp-1 font-medium">{p.tagline}</p>
                       </div>
                     </Link>
                   ))}
