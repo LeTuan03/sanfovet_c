@@ -10,9 +10,11 @@ import ImageUpload from '@/components/admin/ImageUpload';
 import dayjs from 'dayjs';
 import 'dayjs/locale/vi';
 import { adminFetch } from '@/lib/api';
+import { useAdminLoading } from '@/lib/AdminLoadingContext';
 
 function AdminJobsPageContent() {
   const { modal, message } = App.useApp();
+  const { setLoading: setGlobalLoading } = useAdminLoading();
   const router = useRouter();
   const pathname = usePathname();
   const searchParams = useSearchParams();
@@ -107,6 +109,7 @@ function AdminJobsPageContent() {
       }
 
       // Save to API
+      setGlobalLoading(true);
       try {
         const res = await adminFetch('/api/data/jobs', {
           method: 'POST',
@@ -122,12 +125,15 @@ function AdminJobsPageContent() {
         }
       } catch (error) {
         message.error('Lỗi khi lưu dữ liệu');
+      } finally {
+        setGlobalLoading(false);
       }
     });
   };
 
   const handleRemove = async (id: number) => {
     const newData = data.filter(j => j.id !== id);
+    setGlobalLoading(true);
     try {
       const res = await adminFetch('/api/data/jobs', {
         method: 'POST',
@@ -142,6 +148,8 @@ function AdminJobsPageContent() {
       }
     } catch (error) {
       message.error('Lỗi khi gỡ tin');
+    } finally {
+      setGlobalLoading(false);
     }
   };
 

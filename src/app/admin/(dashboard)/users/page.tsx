@@ -4,6 +4,7 @@ import React, { useState, useMemo } from 'react';
 import { useRouter, useSearchParams, usePathname } from 'next/navigation';
 import { Table, Button, Space, Tag, Modal, Form, Input, Select, Breadcrumb, Avatar, Tooltip, App } from 'antd';
 import { PlusOutlined, EditOutlined, DeleteOutlined, UserOutlined, LockOutlined, SafetyCertificateOutlined, SearchOutlined } from '@ant-design/icons';
+import { useAdminLoading } from '@/lib/AdminLoadingContext';
 
 const initialUsers = [
   { id: 1, name: 'biotechvet Admin', email: 'admin@biotechvet.com.vn', role: 'SuperAdmin', lastActive: '10 phút trước', avatar: null },
@@ -12,6 +13,7 @@ const initialUsers = [
 
 function AdminUsersPageContent() {
   const { message: msg, modal } = App.useApp();
+  const { setLoading: setGlobalLoading } = useAdminLoading();
   const router = useRouter();
   const pathname = usePathname();
   const searchParams = useSearchParams();
@@ -66,21 +68,26 @@ function AdminUsersPageContent() {
   };
 
   const handleOk = () => {
-    form.validateFields().then((values) => {
-      if (selectedUser && !isPassModalOpen) {
-        setUsers(users.map((u) => (u.id === selectedUser.id ? { ...u, ...values } : u)));
-        msg.success('Cập nhật tài khoản thành công');
-      } else {
-        const newUser = {
-          ...values,
-          id: Math.max(...users.map((u) => u.id), 0) + 1,
-          lastActive: 'Vừa xong',
-          avatar: null,
-        };
-        setUsers([...users, newUser]);
-        msg.success('Thêm tài khoản mới thành công');
+    form.validateFields().then(async (values) => {
+      setGlobalLoading(true);
+      try {
+        if (selectedUser && !isPassModalOpen) {
+          setUsers(users.map((u) => (u.id === selectedUser.id ? { ...u, ...values } : u)));
+          msg.success('Cập nhật tài khoản thành công');
+        } else {
+          const newUser = {
+            ...values,
+            id: Math.max(...users.map((u) => u.id), 0) + 1,
+            lastActive: 'Vừa xong',
+            avatar: null,
+          };
+          setUsers([...users, newUser]);
+          msg.success('Thêm tài khoản mới thành công');
+        }
+        setIsModalOpen(false);
+      } finally {
+        setGlobalLoading(false);
       }
-      setIsModalOpen(false);
     });
   };
 
@@ -91,9 +98,14 @@ function AdminUsersPageContent() {
   };
 
   const handleChangePassword = () => {
-    passForm.validateFields().then(() => {
-      msg.success(`Đã đổi mật khẩu cho tài khoản ${selectedUser.email}`);
-      setIsPassModalOpen(false);
+    passForm.validateFields().then(async () => {
+      setGlobalLoading(true);
+      try {
+        msg.success(`Đã đổi mật khẩu cho tài khoản ${selectedUser.email}`);
+        setIsPassModalOpen(false);
+      } finally {
+        setGlobalLoading(false);
+      }
     });
   };
 
@@ -149,9 +161,14 @@ function AdminUsersPageContent() {
                       okText: 'Xóa ngay',
                       cancelText: 'Hủy',
                       okType: 'danger',
-                      onOk: () => {
-                         setUsers(users.filter(u => u.id !== record.id));
-                         msg.success('Đã xóa tài khoản');
+                      onOk: async () => {
+                         setGlobalLoading(true);
+                         try {
+                            setUsers(users.filter(u => u.id !== record.id));
+                            msg.success('Đã xóa tài khoản');
+                         } finally {
+                            setGlobalLoading(false);
+                         }
                       }
                    });
                 }} 

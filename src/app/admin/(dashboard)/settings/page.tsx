@@ -4,9 +4,11 @@ import React, { useState } from 'react';
 import { Form, Input, Button, Card, Tabs, Space, Divider, Breadcrumb, Spin, App } from 'antd';
 import { SettingOutlined, PhoneOutlined, MailOutlined, HomeOutlined, FacebookOutlined, YoutubeOutlined, UserOutlined } from '@ant-design/icons';
 import { adminFetch } from '@/lib/api';
+import { useAdminLoading } from '@/lib/AdminLoadingContext';
 
 export default function AdminSettingsPage() {
   const { message: msg } = App.useApp();
+  const { setLoading: setGlobalLoading } = useAdminLoading();
   const [form] = Form.useForm();
   const [loading, setLoading] = useState(true);
 
@@ -29,7 +31,7 @@ export default function AdminSettingsPage() {
 
   const handleSave = () => {
     form.validateFields().then(async (values) => {
-      const hide = msg.loading('Đang lưu cài đặt...');
+      setGlobalLoading(true);
       try {
         const res = await adminFetch('/api/data/settings', {
           method: 'POST',
@@ -44,7 +46,7 @@ export default function AdminSettingsPage() {
       } catch (e) {
         msg.error('Lỗi khi lưu cài đặt');
       } finally {
-        hide();
+        setGlobalLoading(false);
       }
     });
   };

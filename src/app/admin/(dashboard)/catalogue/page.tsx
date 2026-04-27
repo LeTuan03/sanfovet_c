@@ -8,6 +8,7 @@ import AdminPageHeader from '@/components/admin/AdminPageHeader';
 import { motion } from 'framer-motion';
 import { supabase } from '@/lib/supabase/config';
 import { uploadFile } from '@/lib/supabase/storage';
+import { useAdminLoading } from '@/lib/AdminLoadingContext';
 
 export interface Catalogue {
   id?: number;
@@ -20,6 +21,7 @@ export interface Catalogue {
 
 function AdminCatalogueContent() {
   const { modal, message } = App.useApp();
+  const { setLoading: setGlobalLoading } = useAdminLoading();
   const router = useRouter();
   const pathname = usePathname();
   const searchParams = useSearchParams();
@@ -163,6 +165,7 @@ function AdminCatalogueContent() {
       okType: 'danger',
       cancelText: 'Hủy',
       onOk: async () => {
+        setGlobalLoading(true);
         try {
           const { error } = await supabase.from('catalogues').delete().eq('id', record.id);
           if (error) throw error;
@@ -172,6 +175,8 @@ function AdminCatalogueContent() {
         } catch (error) {
           console.error(error);
           message.error('Lỗi khi xóa tài liệu');
+        } finally {
+          setGlobalLoading(false);
         }
       },
     });
@@ -188,6 +193,7 @@ function AdminCatalogueContent() {
   const handleUploadFile = async (options: any) => {
     const { file, onSuccess, onError, onProgress } = options;
     setUploading(true);
+    setGlobalLoading(true);
     try {
       const url = await uploadFile(file as File, 'catalogues', onProgress);
       
@@ -205,11 +211,13 @@ function AdminCatalogueContent() {
       message.error('Lỗi tải lên tài liệu');
     } finally {
       setUploading(false);
+      setGlobalLoading(false);
     }
   };
 
   const handleModalOk = () => {
     form.validateFields().then(async (values) => {
+      setGlobalLoading(true);
       try {
         if (editingItem?.id) {
           const { error } = await supabase
@@ -233,6 +241,8 @@ function AdminCatalogueContent() {
       } catch (error) {
         console.error(error);
         message.error('Lỗi khi lưu dữ liệu');
+      } finally {
+        setGlobalLoading(false);
       }
     });
   };

@@ -13,11 +13,13 @@ import ImageUpload from '@/components/admin/ImageUpload';
 import { motion } from 'framer-motion';
 import { adminFetch } from '@/lib/api';
 import { Banner } from '@/types';
+import { useAdminLoading } from '@/lib/AdminLoadingContext';
 
 // import { initialBanners } from '@/lib/data'; // Removed static data
 
 function AdminBannersPageContent() {
   const { modal, message } = App.useApp();
+  const { setLoading: setGlobalLoading } = useAdminLoading();
   const router = useRouter();
   const pathname = usePathname();
   const searchParams = useSearchParams();
@@ -171,6 +173,7 @@ function AdminBannersPageContent() {
       okType: 'danger',
       onOk: async () => {
         const newData = banners.filter(b => b.id !== id);
+        setGlobalLoading(true);
         try {
           const res = await adminFetch('/api/data/banners', {
             method: 'POST',
@@ -185,6 +188,8 @@ function AdminBannersPageContent() {
           }
         } catch (error) {
           message.error('Lỗi khi xóa dữ liệu');
+        } finally {
+          setGlobalLoading(false);
         }
       }
     });
@@ -211,6 +216,7 @@ function AdminBannersPageContent() {
       }
 
       // Save to API
+      setGlobalLoading(true);
       try {
         const res = await adminFetch('/api/data/banners', {
           method: 'POST',
@@ -226,6 +232,8 @@ function AdminBannersPageContent() {
         }
       } catch (error) {
         message.error('Lỗi khi lưu dữ liệu');
+      } finally {
+        setGlobalLoading(false);
       }
     });
   };

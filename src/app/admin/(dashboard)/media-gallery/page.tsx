@@ -17,12 +17,14 @@ import ImageUpload from '@/components/admin/ImageUpload';
 import VideoUpload from '@/components/admin/VideoUpload';
 import { motion } from 'framer-motion';
 import { adminFetch } from '@/lib/api';
+import { useAdminLoading } from '@/lib/AdminLoadingContext';
 
 // const initialImages = [...]; 
 // const initialVideos = [...];
 
 function AdminMediaGalleryPageContent() {
   const { modal, message } = App.useApp();
+  const { setLoading: setGlobalLoading } = useAdminLoading();
   const router = useRouter();
   const pathname = usePathname();
   const searchParams = useSearchParams();
@@ -115,6 +117,7 @@ function AdminMediaGalleryPageContent() {
       okType: 'danger',
       onOk: async () => {
         const newImages = images.filter(img => img.id !== id);
+        setGlobalLoading(true);
         try {
           const res = await adminFetch('/api/data/media-gallery', {
             method: 'POST',
@@ -129,6 +132,8 @@ function AdminMediaGalleryPageContent() {
           }
         } catch (error) {
           message.error('Lỗi khi xóa dữ liệu');
+        } finally {
+          setGlobalLoading(false);
         }
       }
     });
@@ -142,6 +147,7 @@ function AdminMediaGalleryPageContent() {
       okType: 'danger',
       onOk: async () => {
         const newVideos = videos.filter(v => v.id !== id);
+        setGlobalLoading(true);
         try {
           const res = await adminFetch('/api/data/media-gallery', {
             method: 'POST',
@@ -156,6 +162,8 @@ function AdminMediaGalleryPageContent() {
           }
         } catch (error) {
           message.error('Lỗi khi xóa dữ liệu');
+        } finally {
+          setGlobalLoading(false);
         }
       }
     });
@@ -186,11 +194,14 @@ function AdminMediaGalleryPageContent() {
       }
     } catch (error) {
       message.error('Lỗi khi cập nhật trạng thái');
+    } finally {
+      setGlobalLoading(false);
     }
   };
 
   const handleModalOk = () => {
     form.validateFields().then(async (values) => {
+      setGlobalLoading(true);
       let updatedImages = [...images];
       let updatedVideos = [...videos];
 
@@ -240,6 +251,8 @@ function AdminMediaGalleryPageContent() {
         }
       } catch (error) {
         message.error('Lỗi khi lưu dữ liệu');
+      } finally {
+        setGlobalLoading(false);
       }
     });
   };

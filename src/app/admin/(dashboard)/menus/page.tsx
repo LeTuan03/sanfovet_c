@@ -5,9 +5,11 @@ import { Table, Button, Space, Tag, Modal, Form, Input, Select, Breadcrumb, Divi
 import { PlusOutlined, EditOutlined, DeleteOutlined, MenuOutlined, GlobalOutlined, LinkOutlined, ArrowUpOutlined, ArrowDownOutlined, SearchOutlined } from '@ant-design/icons';
 import { useRouter, useSearchParams, usePathname } from 'next/navigation';
 import { adminFetch } from '@/lib/api';
+import { useAdminLoading } from '@/lib/AdminLoadingContext';
 
 function AdminMenusPageContent() {
   const { message: msg, modal } = App.useApp();
+  const { setLoading: setGlobalLoading } = useAdminLoading();
   const router = useRouter();
   const pathname = usePathname();
   const searchParams = useSearchParams();
@@ -118,6 +120,7 @@ function AdminMenusPageContent() {
         newData = [...menus, newItem];
       }
 
+      setGlobalLoading(true);
       try {
         const res = await adminFetch('/api/data/menus', {
           method: 'POST',
@@ -133,6 +136,8 @@ function AdminMenusPageContent() {
         }
       } catch (error) {
         msg.error('Lỗi khi lưu dữ liệu');
+      } finally {
+        setGlobalLoading(false);
       }
     });
   };
@@ -201,6 +206,7 @@ function AdminMenusPageContent() {
                       okType: 'danger',
                       onOk: async () => {
                          const newData = menus.filter((m: any) => m.id !== record.id);
+                         setGlobalLoading(true);
                          try {
                            const res = await adminFetch('/api/data/menus', {
                              method: 'POST',
@@ -215,6 +221,8 @@ function AdminMenusPageContent() {
                            }
                          } catch (error) {
                            msg.error('Lỗi khi xóa dữ liệu');
+                         } finally {
+                           setGlobalLoading(false);
                          }
                       }
                    });
