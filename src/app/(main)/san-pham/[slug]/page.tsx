@@ -97,7 +97,7 @@ export default async function ProductDetailPage({ params }: Readonly<{ params: P
               </div>
             </div>
             <div className="flex flex-wrap gap-4">
-              <Link href="/lien-he" className="bg-gradient-to-r from-primary to-secondary hover:shadow-xl hover:-translate-y-1 text-white px-10 py-4 rounded-full font-black transition-all flex-1 text-center shadow-lg active:scale-95 uppercase tracking-widest border border-white/20">
+              <Link href="/lien-he" className="bg-primary hover:shadow-xl hover:-translate-y-1 text-white px-10 py-4 rounded-full font-black transition-all flex-1 text-center shadow-lg active:scale-95 uppercase tracking-widest border border-white/20">
                 LIÊN HỆ ĐẶT HÀNG
               </Link>
             </div>
