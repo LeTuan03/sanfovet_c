@@ -12,6 +12,21 @@ export default function ContactContent() {
     messageBox: '',
   });
 
+  const [settings, setSettings] = React.useState<any>(null);
+
+  React.useEffect(() => {
+    const fetchSettings = async () => {
+      try {
+        const res = await fetch('/api/data/settings');
+        const data = await res.json();
+        setSettings(data);
+      } catch (error) {
+        console.error('Failed to fetch settings:', error);
+      }
+    };
+    fetchSettings();
+  }, []);
+
   const handleInputChange = (e: React.ChangeEvent<HTMLInputElement | HTMLTextAreaElement>) => {
     const { name, value } = e.target;
     setFormData(prev => ({ ...prev, [name]: value }));
@@ -21,7 +36,7 @@ export default function ContactContent() {
     e.preventDefault();
     
     const { fullName, phoneNumber, emailAddress, messageBox } = formData;
-    const emailTo = 'pkd.biotechvet@gmail.com';
+    const emailTo = settings?.email || 'pkd.biotechvet@gmail.com';
     const subject = encodeURIComponent(`Yêu cầu từ ${fullName}`);
     const body = encodeURIComponent(
       `Họ tên: ${fullName}\n` +
@@ -58,7 +73,7 @@ export default function ContactContent() {
                    </div>
                    <div>
                       <h4 className="text-xs font-bold text-gray-400 uppercase tracking-widest mb-2">Địa chỉ trụ sở chính</h4>
-                      <p className="text-lg font-bold text-biotechvet-dark leading-relaxed">Cụm CN Liên Phương, Xã Hồng Vân, Thường Tín, Hà Nội</p>
+                      <p className="text-lg font-bold text-biotechvet-dark leading-relaxed">{settings?.addressHN || 'Cụm CN Liên Phương, Xã Hồng Vân, Thường Tín, Hà Nội'}</p>
                    </div>
                 </div>
 
@@ -68,7 +83,7 @@ export default function ContactContent() {
                    </div>
                    <div>
                       <h4 className="text-xs font-bold text-gray-400 uppercase tracking-widest mb-2">Điện thoại hỗ trợ</h4>
-                      <p className="text-lg font-bold text-biotechvet-dark leading-relaxed">024 66861629 / 097 499 9204</p>
+                      <p className="text-lg font-bold text-biotechvet-dark leading-relaxed">{settings?.hotline1 || '024 66861629'} / {settings?.hotline2 || '097 499 9204'}</p>
                    </div>
                 </div>
 
@@ -78,28 +93,34 @@ export default function ContactContent() {
                    </div>
                    <div>
                       <h4 className="text-xs font-bold text-gray-400 uppercase tracking-widest mb-2">Email phản hồi</h4>
-                      <p className="text-lg font-bold text-biotechvet-dark leading-relaxed underline">pkd.biotechvet@gmail.com</p>
+                      <p className="text-lg font-bold text-biotechvet-dark leading-relaxed underline">{settings?.email || 'pkd.biotechvet@gmail.com'}</p>
                    </div>
                 </div>
              </div>
 
              {/* Branch Information */}
-             <div className="bg-biotechvet-alt p-10 rounded-[40px] border border-gray-100 shadow-sm">
-                <h3 className="text-xl font-black text-biotechvet-dark mb-4 uppercase tracking-wider">Chi nhánh Miền Nam</h3>
-                <div className="space-y-4">
-                   <p className="text-gray-600 font-medium leading-relaxed flex items-center gap-3"><MapPin size={16} className="text-primary" /> Hố Nai, Trảng Bom, Đồng Nai</p>
-                   <p className="text-gray-600 font-medium flex items-center gap-3"><Phone size={16} className="text-primary" /> 0936 100 008</p>
-                </div>
-             </div>
+             {settings?.addressHCM && (
+               <div className="bg-biotechvet-alt p-10 rounded-[40px] border border-gray-100 shadow-sm">
+                  <h3 className="text-xl font-black text-biotechvet-dark mb-4 uppercase tracking-wider">Chi nhánh Miền Nam</h3>
+                  <div className="space-y-4">
+                     <p className="text-gray-600 font-medium leading-relaxed flex items-center gap-3"><MapPin size={16} className="text-primary" /> {settings.addressHCM}</p>
+                     {settings.hotline2 && <p className="text-gray-600 font-medium flex items-center gap-3"><Phone size={16} className="text-primary" /> {settings.hotline2}</p>}
+                  </div>
+               </div>
+             )}
 
              {/* Social Links */}
              <div className="flex gap-4">
-                <a href="https://facebook.com/biotechvet" target="_blank" className="flex items-center gap-3 bg-blue-600 text-white font-black py-4 px-8 rounded-full text-xs uppercase tracking-widest hover:bg-blue-700 transition-all shadow-lg shadow-blue-200">
-                   <FacebookOutlined className="text-xl" /> Kết nối Facebook
-                </a>
-                <a href="https://youtube.com/biotechvet" target="_blank" className="flex items-center gap-3 bg-red-600 text-white font-black py-4 px-8 rounded-full text-xs uppercase tracking-widest hover:bg-red-700 transition-all shadow-lg shadow-red-200">
-                   <YoutubeOutlined className="text-xl" /> Kênh YouTube
-                </a>
+                {settings?.social?.facebook && (
+                  <a href={settings.social.facebook} target="_blank" className="flex items-center gap-3 bg-blue-600 text-white font-black py-4 px-8 rounded-full text-xs uppercase tracking-widest hover:bg-blue-700 transition-all shadow-lg shadow-blue-200">
+                     <FacebookOutlined className="text-xl" /> Kết nối Facebook
+                  </a>
+                )}
+                {settings?.social?.youtube && (
+                  <a href={settings.social.youtube} target="_blank" className="flex items-center gap-3 bg-red-600 text-white font-black py-4 px-8 rounded-full text-xs uppercase tracking-widest hover:bg-red-700 transition-all shadow-lg shadow-red-200">
+                     <YoutubeOutlined className="text-xl" /> Kênh YouTube
+                  </a>
+                )}
              </div>
           </div>
 
