@@ -2,9 +2,8 @@ import React from 'react';
 import Link from 'next/link';
 import { notFound } from 'next/navigation';
 import { productService, categoryService } from '@/services';
-import { Product, Category } from '@/types';
-// import { products, articles, categories } from '@/lib/data'; // Removed static imports
-import { ChevronRight, ArrowLeft, CheckCircle, FileText, Info, Package, AlertCircle, ShieldCheck, Download, Microscope, Calendar } from 'lucide-react';
+import { Product } from '@/types';
+import { ChevronRight, ArrowLeft, CheckCircle, FileText, Info, Package, AlertCircle, ShieldCheck, Microscope, Calendar } from 'lucide-react';
 import { Metadata } from 'next';
 
 import ProductImageLightbox from '@/components/shared/ProductImageLightbox';
@@ -96,7 +95,9 @@ export default async function ProductDetailPage({ params }: Readonly<{ params: P
             <h1 className="text-3xl md:text-5xl font-black text-biotechvet-dark mb-4 leading-tight">{product.name}</h1>
             <p className="text-xl text-gray-500 mb-8 font-medium leading-relaxed italic border-l-4 border-gray-100 pl-6">{product.tagline}</p>
             
-            <div className="grid grid-cols-1 md:grid-cols-2 gap-6 mb-10">
+            {(product.volume || product.registrationNo) && (
+            <div className={`grid grid-cols-1 ${product.volume && product.registrationNo ? 'md:grid-cols-2' : ''} gap-6 mb-10`}>
+               {product.volume && (
                <div className="bg-primary-light/50 border border-primary-light rounded-2xl p-6">
                  <h3 className="font-bold text-primary-dark mb-3 flex items-center gap-2 text-sm uppercase tracking-wider">
                    <Package size={18} /> Quy cách đóng gói
@@ -105,6 +106,8 @@ export default async function ProductDetailPage({ params }: Readonly<{ params: P
                    {product.volume}
                  </div>
                </div>
+               )}
+               {product.registrationNo && (
                <div className="bg-orange-50/50 border border-orange-100 rounded-2xl p-6">
                  <h3 className="font-bold text-orange-700 mb-3 flex items-center gap-2 text-sm uppercase tracking-wider">
                    <AlertCircle size={18} /> Số Đăng ký
@@ -113,8 +116,11 @@ export default async function ProductDetailPage({ params }: Readonly<{ params: P
                    {product.registrationNo}
                  </div>
                </div>
+               )}
             </div>
+            )}
 
+            {product.characteristics && (
             <div className="space-y-5 mb-10 bg-white p-6 rounded-2xl border border-gray-100 shadow-sm">
                <div className="flex gap-4 items-start">
                  <div className="w-8 h-8 rounded-full bg-green-50 flex items-center justify-center shrink-0">
@@ -123,14 +129,12 @@ export default async function ProductDetailPage({ params }: Readonly<{ params: P
                  <p className="text-gray-700 text-[0.95rem] leading-relaxed"><strong>Đặc tính:</strong> {product.characteristics}</p>
                </div>
             </div>
+            )}
 
             <div className="flex flex-wrap gap-4 mt-auto">
-               <button className="bg-gradient-to-r from-primary to-primary-dark hover:shadow-xl hover:-translate-y-1 text-white px-10 py-4 rounded-full font-black transition-all flex-1 text-center shadow-lg active:scale-95">
+               <Link href="/lien-he" className="bg-gradient-to-r from-primary to-primary-dark hover:shadow-xl hover:-translate-y-1 text-white px-10 py-4 rounded-full font-black transition-all flex-1 text-center shadow-lg active:scale-95">
                  LIÊN HỆ ĐẶT HÀNG
-               </button>
-               <button className="bg-white border-2 border-gray-100 hover:border-primary hover:text-primary text-gray-500 px-6 py-4 rounded-full font-bold transition-all shadow-sm active:scale-95 flex items-center justify-center gap-2">
-                 <Download size={20} /> PDF
-               </button>
+               </Link>
             </div>
           </div>
         </div>
@@ -138,6 +142,7 @@ export default async function ProductDetailPage({ params }: Readonly<{ params: P
         {/* Detailed Info */}
         <div className="grid grid-cols-1 lg:grid-cols-3 gap-12 lg:gap-16">
           <div className="lg:col-span-2 space-y-12">
+            {product.ingredients && product.ingredients.length > 0 && (
             <section>
               <h2 className="text-[1.1rem] font-black text-primary mb-6 flex items-center gap-3 bg-primary-light px-5 py-3.5 border-l-[6px] border-primary uppercase tracking-wider shadow-sm">
                 <FileText size={20} /> Thành phần hoạt chất
@@ -161,8 +166,10 @@ export default async function ProductDetailPage({ params }: Readonly<{ params: P
                 </table>
               </div>
             </section>
+            )}
 
             <section className="space-y-10">
+              {product.indications && (
               <div>
                 <h2 className="text-[1.1rem] font-black text-primary mb-6 flex items-center gap-3 bg-primary-light px-5 py-3.5 border-l-[6px] border-primary uppercase tracking-wider shadow-sm">
                   <Info size={20} /> Chỉ định điều trị
@@ -171,8 +178,11 @@ export default async function ProductDetailPage({ params }: Readonly<{ params: P
                   {product.indications}
                 </div>
               </div>
+              )}
               
-              <div className="grid grid-cols-1 md:grid-cols-2 gap-8">
+              {(product.dosage || product.withdrawalPeriod) && (
+              <div className={`grid grid-cols-1 ${product.dosage && product.withdrawalPeriod ? 'md:grid-cols-2' : ''} gap-8`}>
+                {product.dosage && (
                 <div className="flex flex-col">
                    <h2 className="text-[1.1rem] font-black text-primary mb-6 flex items-center gap-3 bg-primary-light px-5 py-3.5 border-l-[6px] border-primary uppercase tracking-wider shadow-sm">
                     <Microscope size={20} /> Liều & Cách dùng
@@ -187,6 +197,7 @@ export default async function ProductDetailPage({ params }: Readonly<{ params: P
                         <p className="text-biotechvet-dark font-black text-lg whitespace-pre-wrap">{product.dosage?.duration}</p>
                      </div>
                      
+                     {product.dosage?.byAnimal && product.dosage?.byAnimal.length > 0 && (
                      <div className="space-y-3 mt-auto bg-biotechvet-alt p-5 rounded-xl">
                         {product.dosage?.byAnimal?.map((a: { animal: string; dose: string }) => (
                           <div key={a.animal} className="flex justify-between items-center border-b border-gray-200/50 last:border-0 pb-2.5 last:pb-0">
@@ -195,9 +206,12 @@ export default async function ProductDetailPage({ params }: Readonly<{ params: P
                           </div>
                         ))}
                      </div>
+                     )}
                   </div>
                 </div>
+                )}
 
+                {product.withdrawalPeriod && (
                 <div className="flex flex-col">
                    <h2 className="text-[1.1rem] font-black text-orange-600 mb-6 flex items-center gap-3 bg-orange-50 px-5 py-3.5 border-l-[6px] border-orange-600 uppercase tracking-wider shadow-sm">
                     <Calendar size={20} /> Ngưng thuốc
@@ -210,10 +224,14 @@ export default async function ProductDetailPage({ params }: Readonly<{ params: P
                      </div>
                   </div>
                 </div>
+                )}
               </div>
+              )}
 
               {/* Additional Info: Formulation & Storage */}
-              <div className="grid grid-cols-1 md:grid-cols-2 gap-8">
+              {(product.formulation || product.storage) && (
+              <div className={`grid grid-cols-1 ${product.formulation && product.storage ? 'md:grid-cols-2' : ''} gap-8`}>
+                {product.formulation && (
                 <div className="flex flex-col">
                   <h2 className="text-[1.1rem] font-black text-primary mb-6 flex items-center gap-3 bg-primary-light px-5 py-3.5 border-l-[6px] border-primary uppercase tracking-wider shadow-sm">
                     <Package size={20} /> Dạng bào chế
@@ -222,6 +240,8 @@ export default async function ProductDetailPage({ params }: Readonly<{ params: P
                     <p className="text-biotechvet-dark font-black text-lg whitespace-pre-wrap">{product.formulation}</p>
                   </div>
                 </div>
+                )}
+                {product.storage && (
                 <div className="flex flex-col">
                   <h2 className="text-[1.1rem] font-black text-blue-600 mb-6 flex items-center gap-3 bg-blue-50 px-5 py-3.5 border-l-[6px] border-blue-600 uppercase tracking-wider shadow-sm">
                     <ShieldCheck size={20} /> Bảo quản
@@ -230,7 +250,9 @@ export default async function ProductDetailPage({ params }: Readonly<{ params: P
                     <p className="text-gray-700 font-medium leading-relaxed whitespace-pre-wrap">{product.storage}</p>
                   </div>
                 </div>
+                )}
               </div>
+              )}
             </section>
           </div>
 

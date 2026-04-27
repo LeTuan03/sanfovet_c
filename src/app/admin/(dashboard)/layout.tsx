@@ -215,14 +215,15 @@ export default function AdminLayout({
       }}
     >
       <App>
-        <Layout className="min-h-screen bg-white">
+        <Layout hasSider className="min-h-screen bg-white">
           <Sider 
             trigger={null} 
             collapsible 
             collapsed={collapsed} 
             theme="light" 
             width={260}
-            className="shadow-[4px_0_24px_rgba(0,0,0,0.02)] border-r border-gray-50 sticky top-0 h-screen"
+            className="shadow-[4px_0_24px_rgba(0,0,0,0.02)] border-r border-gray-50"
+            style={{ overflow: 'auto', height: '100vh', position: 'sticky', top: 0, left: 0 }}
           >
             <div className="px-6 py-8 mb-2 flex flex-col items-center">
                <div className="flex items-center gap-3 justify-center mb-3">

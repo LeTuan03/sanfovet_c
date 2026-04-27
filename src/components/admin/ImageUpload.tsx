@@ -1,8 +1,8 @@
 "use client";
 
 import React, { useState, useEffect } from 'react';
-import { Upload, message, App as AntdApp } from 'antd';
-import { PlusOutlined, DeleteOutlined, LoadingOutlined } from '@ant-design/icons';
+import { Upload, message, App as AntdApp, Image as AntImage } from 'antd';
+import { PlusOutlined, DeleteOutlined, LoadingOutlined, EyeOutlined } from '@ant-design/icons';
 import type { UploadChangeParam } from 'antd/es/upload';
 import type { RcFile, UploadFile, UploadProps } from 'antd/es/upload/interface';
 import { uploadFile } from '@/lib/supabase/storage';
@@ -29,6 +29,7 @@ const ImageUpload: React.FC<ImageUploadProps> = ({
   const { message: messageApi } = AntdApp.useApp();
   const [loading, setLoading] = useState(false);
   const [imageUrl, setImageUrl] = useState<string | undefined>(value);
+  const [previewVisible, setPreviewVisible] = useState(false);
 
   const beforeUpload = (file: RcFile) => {
     const isJpgOrPng =
@@ -137,6 +138,17 @@ const ImageUpload: React.FC<ImageUploadProps> = ({
                       <PlusOutlined className="text-lg" />
                     </div>
                     <div
+                      className="w-9 h-9 bg-white rounded-xl flex items-center 
+                                 justify-center text-blue-500 shadow-lg cursor-pointer 
+                                 hover:scale-110 transition-transform"
+                      onClick={(e) => {
+                        e.stopPropagation();
+                        setPreviewVisible(true);
+                      }}
+                    >
+                      <EyeOutlined className="text-lg" />
+                    </div>
+                    <div
                       className="w-9 h-9 bg-red-500 rounded-xl flex items-center 
                                  justify-center text-white shadow-lg cursor-pointer 
                                  hover:scale-110 transition-transform"
@@ -177,6 +189,18 @@ const ImageUpload: React.FC<ImageUploadProps> = ({
           </div>
         </Upload>
       </div>
+
+      {/* Hidden image for preview */}
+      {imageUrl && (
+        <AntImage
+          src={imageUrl}
+          style={{ display: 'none' }}
+          preview={{
+            visible: previewVisible,
+            onVisibleChange: (visible) => setPreviewVisible(visible),
+          }}
+        />
+      )}
 
       {/*
        * CSS global để Ant Design Upload fill container.
