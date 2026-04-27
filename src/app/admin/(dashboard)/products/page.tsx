@@ -355,21 +355,57 @@ function ProductManagementContent() {
                     <Form.List name="ingredients">
                       {(fields, { add, remove }) => (
                         <>
-                          {fields.map(({ key, name, ...restField }) => (
-                            <Space key={key} style={{ display: 'flex', marginBottom: 8 }} align="baseline">
-                              <Form.Item {...restField} name={[name, 'name']} rules={[{ required: true, message: 'Tên thành phần' }]}>
-                                <Input placeholder="Tên chất" className="rounded-lg py-1.5 px-3 min-w-[200px]" />
-                              </Form.Item>
-                              <Form.Item {...restField} name={[name, 'amount']} rules={[{ required: true, message: 'Lượng' }]}>
-                                <Input placeholder="100" className="rounded-lg py-1.5 px-3 w-[100px]" />
-                              </Form.Item>
-                              <Form.Item {...restField} name={[name, 'unit']} rules={[{ required: true, message: 'Đv' }]}>
-                                <Input placeholder="mg" className="rounded-lg py-1.5 px-3 w-[80px]" />
-                              </Form.Item>
-                              <Button type="text" onClick={() => remove(name)} icon={<MinusCircleOutlined />} danger />
-                            </Space>
-                          ))}
-                          <Button type="dashed" onClick={() => add()} block icon={<PlusOutlined />} className="rounded-xl mt-2">
+                          <Table
+                            dataSource={fields.map((field, index) => ({ ...field, index }))}
+                            columns={[
+                              {
+                                title: 'Tên chất',
+                                width: '45%',
+                                render: (_, { name, ...restField }) => (
+                                  <Form.Item {...restField} name={[name, 'name']} rules={[{ required: true, message: 'Bắt buộc' }]} style={{ marginBottom: 0 }}>
+                                    <Input placeholder="Tên chất" className="rounded-lg py-1.5 px-3" size="small" />
+                                  </Form.Item>
+                                ),
+                              },
+                              {
+                                title: 'Lượng',
+                                width: '25%',
+                                render: (_, { name, ...restField }) => (
+                                  <Form.Item {...restField} name={[name, 'amount']} rules={[{ required: true, message: 'Bắt buộc' }]} style={{ marginBottom: 0 }}>
+                                    <Input placeholder="100" className="rounded-lg py-1.5 px-3" size="small" />
+                                  </Form.Item>
+                                ),
+                              },
+                              {
+                                title: 'Đơn vị',
+                                width: '20%',
+                                render: (_, { name, ...restField }) => (
+                                  <Form.Item {...restField} name={[name, 'unit']} rules={[{ required: true, message: 'Bắt buộc' }]} style={{ marginBottom: 0 }}>
+                                    <Input placeholder="mg" className="rounded-lg py-1.5 px-3" size="small" />
+                                  </Form.Item>
+                                ),
+                              },
+                              {
+                                title: '',
+                                width: '10%',
+                                align: 'center' as const,
+                                render: (_, { name }) => (
+                                  <Button 
+                                    type="text" 
+                                    onClick={() => remove(name)} 
+                                    icon={<MinusCircleOutlined />} 
+                                    danger 
+                                    size="small"
+                                  />
+                                ),
+                              },
+                            ]}
+                            rowKey="key"
+                            pagination={false}
+                            locale={{ emptyText: 'Chưa có thành phần nào, nhấn "Thêm thành phần" để bắt đầu' }}
+                            className="rounded-xl border border-gray-200"
+                          />
+                          <Button type="dashed" onClick={() => add()} block icon={<PlusOutlined />} className="rounded-xl mt-4">
                             Thêm thành phần
                           </Button>
                         </>
@@ -394,12 +430,12 @@ function ProductManagementContent() {
                   <Row gutter={24}>
                      <Col span={12}>
                         <Form.Item name={['dosage', 'route']} label="Đường dùng (Tiêm bắp, uống...)">
-                           <Input className="rounded-xl py-2" />
+                           <TextArea rows={3} className="rounded-xl py-2" />
                         </Form.Item>
                      </Col>
                      <Col span={12}>
                         <Form.Item name={['dosage', 'duration']} label="Liệu trình">
-                           <Input className="rounded-xl py-2" />
+                           <TextArea rows={3} className="rounded-xl py-2" />
                         </Form.Item>
                      </Col>
                   </Row>
@@ -407,18 +443,48 @@ function ProductManagementContent() {
                     <Form.List name={['dosage', 'byAnimal']}>
                       {(fields, { add, remove }) => (
                         <>
-                          {fields.map(({ key, name, ...restField }) => (
-                            <Space key={key} style={{ display: 'flex', marginBottom: 8 }} align="baseline">
-                              <Form.Item {...restField} name={[name, 'animal']} rules={[{ required: true, message: 'Loài' }]}>
-                                <Input placeholder="Heo con" className="rounded-lg py-1.5 px-3 min-w-[200px]" />
-                              </Form.Item>
-                              <Form.Item {...restField} name={[name, 'dose']} rules={[{ required: true, message: 'Liều' }]}>
-                                <Input placeholder="1ml/10kg TT" className="rounded-lg py-1.5 px-3 min-w-[200px]" />
-                              </Form.Item>
-                              <Button type="text" onClick={() => remove(name)} icon={<MinusCircleOutlined />} danger />
-                            </Space>
-                          ))}
-                          <Button type="dashed" onClick={() => add()} block icon={<PlusOutlined />} className="rounded-xl mt-2">
+                          <Table
+                            dataSource={fields.map((field, index) => ({ ...field, index }))}
+                            columns={[
+                              {
+                                title: 'Loài',
+                                width: '50%',
+                                render: (_, { name, ...restField }) => (
+                                  <Form.Item {...restField} name={[name, 'animal']} rules={[{ required: true, message: 'Bắt buộc' }]} style={{ marginBottom: 0 }}>
+                                    <Input placeholder="Heo con" className="rounded-lg py-1.5 px-3" size="small" />
+                                  </Form.Item>
+                                ),
+                              },
+                              {
+                                title: 'Liều',
+                                width: '40%',
+                                render: (_, { name, ...restField }) => (
+                                  <Form.Item {...restField} name={[name, 'dose']} rules={[{ required: true, message: 'Bắt buộc' }]} style={{ marginBottom: 0 }}>
+                                    <Input placeholder="1ml/10kg TT" className="rounded-lg py-1.5 px-3" size="small" />
+                                  </Form.Item>
+                                ),
+                              },
+                              {
+                                title: '',
+                                width: '10%',
+                                align: 'center' as const,
+                                render: (_, { name }) => (
+                                  <Button 
+                                    type="text" 
+                                    onClick={() => remove(name)} 
+                                    icon={<MinusCircleOutlined />} 
+                                    danger 
+                                    size="small"
+                                  />
+                                ),
+                              },
+                            ]}
+                            rowKey="key"
+                            pagination={false}
+                            locale={{ emptyText: 'Chưa có liều lượng nào, nhấn "Thêm liều theo loài" để bắt đầu' }}
+                            className="rounded-xl border border-gray-200"
+                          />
+                          <Button type="dashed" onClick={() => add()} block icon={<PlusOutlined />} className="rounded-xl mt-4">
                             Thêm liều theo loài
                           </Button>
                         </>
@@ -429,17 +495,17 @@ function ProductManagementContent() {
                   <Row gutter={24}>
                     <Col span={12}>
                        <Form.Item name="formulation" label="Dạng bào chế">
-                          <Input className="rounded-xl py-2" />
+                          <TextArea rows={3} className="rounded-xl py-2" />
                        </Form.Item>
                     </Col>
                     <Col span={12}>
                        <Form.Item name="withdrawalPeriod" label="Thời gian ngưng thuốc">
-                          <Input className="rounded-xl py-2" />
+                          <TextArea rows={3} className="rounded-xl py-2" />
                        </Form.Item>
                     </Col>
                   </Row>
                   <Form.Item name="storage" label="Bảo quản">
-                     <Input className="rounded-xl py-2" />
+                     <TextArea rows={3} className="rounded-xl py-2" />
                   </Form.Item>
                 </div>
               )

@@ -101,7 +101,7 @@ export default async function ProductDetailPage({ params }: Readonly<{ params: P
                  <h3 className="font-bold text-primary-dark mb-3 flex items-center gap-2 text-sm uppercase tracking-wider">
                    <Package size={18} /> Quy cách đóng gói
                  </h3>
-                 <div className="bg-white px-4 py-2 rounded-xl font-bold text-primary shadow-sm inline-block border border-primary/10">
+                 <div className="bg-white px-4 py-2 rounded-xl font-bold text-primary shadow-sm inline-block border border-primary/10 whitespace-pre-wrap">
                    {product.volume}
                  </div>
                </div>
@@ -180,11 +180,11 @@ export default async function ProductDetailPage({ params }: Readonly<{ params: P
                   <div className="bg-white p-7 rounded-2xl border border-gray-100 shadow-sm flex flex-col flex-1">
                      <div className="mb-6 pb-6 border-b border-gray-50">
                         <p className="mb-2 flex items-center gap-2 text-sm text-gray-400 font-bold uppercase tracking-widest leading-none">Đường cấp thuốc</p>
-                        <p className="text-biotechvet-dark font-black text-lg">{product.dosage?.route}</p>
+                        <p className="text-biotechvet-dark font-black text-lg whitespace-pre-wrap">{product.dosage?.route}</p>
                      </div>
                      <div className="mb-8">
                         <p className="mb-2 flex items-center gap-2 text-sm text-gray-400 font-bold uppercase tracking-widest leading-none">Liệu trình</p>
-                        <p className="text-biotechvet-dark font-black text-lg">{product.dosage?.duration}</p>
+                        <p className="text-biotechvet-dark font-black text-lg whitespace-pre-wrap">{product.dosage?.duration}</p>
                      </div>
                      
                      <div className="space-y-3 mt-auto bg-biotechvet-alt p-5 rounded-xl">
@@ -219,7 +219,7 @@ export default async function ProductDetailPage({ params }: Readonly<{ params: P
                     <Package size={20} /> Dạng bào chế
                   </h2>
                   <div className="bg-white p-7 rounded-2xl border border-gray-100 shadow-sm flex-1">
-                    <p className="text-biotechvet-dark font-black text-lg">{product.formulation}</p>
+                    <p className="text-biotechvet-dark font-black text-lg whitespace-pre-wrap">{product.formulation}</p>
                   </div>
                 </div>
                 <div className="flex flex-col">
@@ -227,7 +227,7 @@ export default async function ProductDetailPage({ params }: Readonly<{ params: P
                     <ShieldCheck size={20} /> Bảo quản
                   </h2>
                   <div className="bg-white p-7 rounded-2xl border border-gray-100 shadow-sm flex-1">
-                    <p className="text-gray-700 font-medium leading-relaxed">{product.storage}</p>
+                    <p className="text-gray-700 font-medium leading-relaxed whitespace-pre-wrap">{product.storage}</p>
                   </div>
                 </div>
               </div>
