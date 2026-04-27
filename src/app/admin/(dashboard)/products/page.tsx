@@ -17,6 +17,7 @@ import AdminPageHeader from '@/components/admin/AdminPageHeader';
 import { motion } from 'framer-motion';
 import { adminFetch } from '@/lib/api';
 import { Product, Category } from '@/types';
+import TextArea from 'antd/es/input/TextArea';
 
 function ProductManagementContent() {
   const { modal, message } = App.useApp();
@@ -338,7 +339,7 @@ function ProductManagementContent() {
                     </Col>
                     <Col span={12}>
                        <Form.Item name="volume" label="Quy cách đóng gói">
-                          <Input className="rounded-xl py-2" />
+                          <TextArea rows={5} placeholder="Nhập quy cách đóng gói" className="rounded-xl py-2" />
                        </Form.Item>
                     </Col>
                   </Row>

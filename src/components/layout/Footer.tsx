@@ -95,9 +95,9 @@ export default function Footer() {
           >
             <h3 className="text-white text-lg font-bold mb-6 relative pb-2.5 after:content-[''] after:absolute after:bottom-0 after:left-0 after:w-10 after:height-0.5 after:bg-primary uppercase">{t('tech_support')}</h3>
             <div className="mb-6">
-              <p className="text-white font-bold mb-1">{settings?.support?.doctorName || 'BSTY. Hoàng Đăng Trạng'}</p>
-              <p>Email: <a href={`mailto:${settings?.support?.doctorEmail}`} className="hover:text-primary transition-colors">{settings?.support?.doctorEmail || 'dangtrang19877@gmail.com'}</a></p>
-              <p>SĐT: <a href={`tel:${settings?.support?.doctorPhone}`} className="hover:text-primary transition-colors">{settings?.support?.doctorPhone || '038 3814838'}</a></p>
+              <p className="text-white font-bold mb-1">{settings?.support?.doctorName || 'Ths.Bs Phùng Thanh Sơn'}</p>
+              <p>Email: <a href={`mailto:${settings?.support?.doctorEmail}`} className="hover:text-primary transition-colors">{settings?.support?.doctorEmail || 'thanhson256@gmail.com'}</a></p>
+              <p>SĐT: <a href={`tel:${settings?.support?.doctorPhone}`} className="hover:text-primary transition-colors">{settings?.support?.doctorPhone || '0984 051 978'}</a></p>
             </div>
             <div className="pt-4 border-t border-white/5">
               <h4 className="text-white font-bold mb-4 uppercase text-xs tracking-widest">Kết nối với chúng tôi</h4>

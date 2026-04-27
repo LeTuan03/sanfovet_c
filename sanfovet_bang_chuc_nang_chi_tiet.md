@@ -75,9 +75,9 @@
 | F-05 | Thông tin công ty – Email | `pkd.biotechvet@gmail.com` | — | Text tĩnh | — |
 | F-06 | Thông tin công ty – Website | `www.biotechvet.com.vn` | — | Text tĩnh | — |
 | F-07 | Danh sách sản phẩm nhanh (10 link) | Các link tắt đến 10 danh mục sản phẩm | Click | Chuyển trang danh mục | — |
-| F-08 | Hỗ trợ kỹ thuật – Tên BSTY | BSTY. Hoàng Đăng Trạng | — | Text tĩnh | — |
-| F-09 | Hỗ trợ kỹ thuật – Email | `dangtrang19877@gmail.com` | — | Text tĩnh | — |
-| F-10 | Hỗ trợ kỹ thuật – SĐT | `038 3814838` | — | Text tĩnh | — |
+| F-08 | Hỗ trợ kỹ thuật – Tên BSTY | BSTY. Phùng Thanh Sơn | — | Text tĩnh | — |
+| F-09 | Hỗ trợ kỹ thuật – Email | `thanhson256@gmail.com` | — | Text tĩnh | — |
+| F-10 | Hỗ trợ kỹ thuật – SĐT | `0984 051 978` | — | Text tĩnh | — |
 | F-11 | Icon mạng xã hội – Facebook | Link đến page Facebook biotechvet | Click | Mở tab mới `facebook.com/ThuocThuYbiotechvet` | — |
 | F-12 | Icon mạng xã hội – YouTube | Link đến kênh YouTube chăn nuôi | Click | Mở tab mới YouTube | — |
 | F-13 | Icon mạng xã hội – Zalo | Link đến Zalo OA của công ty | Click | Mở Zalo / Zalo Web | — |
