@@ -40,8 +40,8 @@ export default function Footer() {
     fetchData();
   }, []);
   return (
-    <footer className="bg-gradient-to-b from-biotechvet-dark to-[#030e14] text-white/70 py-16 text-[0.85rem] mt-16 w-full relative">
-      <div className="container mx-auto px-4">
+    <footer className="bg-gradient-to-b from-biotechvet-dark to-[#030e14] text-white/70 py-16 text-[0.85rem] mt-16 w-full relative" suppressHydrationWarning>
+      <div className="container mx-auto px-4" suppressHydrationWarning>
         <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-12 mb-12">
           {/* Col 1 - Company Info */}
           <motion.div 

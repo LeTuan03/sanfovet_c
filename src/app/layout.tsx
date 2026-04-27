@@ -85,7 +85,9 @@ export default function RootLayout({
         <AntdRegistry>
           <LanguageProvider>
             <ContentProtection />
-            {children}
+            <div suppressHydrationWarning>
+              {children}
+            </div>
           </LanguageProvider>
         </AntdRegistry>
       </body>

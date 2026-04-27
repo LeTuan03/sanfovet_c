@@ -23,7 +23,7 @@ export default function FloatingContact() {
   return (
     <>
       {/* Floating Action Buttons */}
-      <div className="hidden md:flex fixed bottom-6 right-6 flex-col gap-3 z-[999]">
+      <div className="hidden md:flex fixed bottom-6 right-6 flex-col gap-3 z-[999]" suppressHydrationWarning>
         <a 
           href="tel:0974999204" 
           className="w-[52px] h-[52px] rounded-full flex items-center justify-center text-white shadow-lg transition-transform hover:scale-110 active:scale-95 bg-gradient-to-br from-[#e53935] to-[#c62828] animate-bounce-slow"

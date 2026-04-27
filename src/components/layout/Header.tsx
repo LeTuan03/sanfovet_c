@@ -64,10 +64,10 @@ export default function Header() {
   }, []);
 
   return (
-    <div className="w-full z-50 relative">
+    <div className="w-full z-50 relative" suppressHydrationWarning>
       {/* Top Bar - Disappears on scroll if we want, but let's keep it above Main Bar */}
-      <div className="bg-gradient-to-r from-biotechvet-dark to-[#0d2b10] text-white text-[0.82rem] py-1.5 hidden md:block border-b border-white/5">
-        <div className="container mx-auto px-4 flex justify-between items-center">
+      <div className="bg-gradient-to-r from-biotechvet-dark to-[#0d2b10] text-white text-[0.82rem] py-1.5 hidden md:block border-b border-white/5" suppressHydrationWarning>
+        <div className="container mx-auto px-4 flex justify-between items-center" suppressHydrationWarning>
           <div className="flex items-center gap-4 flex-wrap">
             {/* Hotline nổi bật - Tư vấn mua hàng */}
             <a
@@ -124,9 +124,9 @@ export default function Header() {
       </div>
 
       {/* Main Bar - Sticky */}
-      <header className={`w-full sticky top-0 z-50 transition-all duration-300 ${isScrolled ? 'bg-white/95 backdrop-blur-md shadow-xl py-2' : 'bg-white py-4'}`}>
-        <div className="container mx-auto px-4">
-          <div className="flex justify-between items-center">
+      <header className={`w-full sticky top-0 z-50 transition-all duration-300 ${isScrolled ? 'bg-white/95 backdrop-blur-md shadow-xl py-2' : 'bg-white py-4'}`} suppressHydrationWarning>
+        <div className="container mx-auto px-4" suppressHydrationWarning>
+          <div className="flex justify-between items-center" suppressHydrationWarning>
             {/* Logo */}
             <Link href="/" className="shrink-0 flex items-center gap-3">
               <img src="/images/logo.png" alt="BIOTECH-VET" className={`transition-all duration-300 ${isScrolled ? 'h-10' : 'h-12 md:h-[52px]'}`} />
