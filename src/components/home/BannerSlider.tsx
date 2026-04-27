@@ -38,29 +38,33 @@ export default function BannerSlider() {
   }, []);
 
   if (loading || banners.length === 0) {
-    return <section className="w-full h-[260px] md:h-[480px] lg:h-[680px] bg-biotechvet-dark flex items-center justify-center text-white font-bold uppercase tracking-widest italic opacity-50 animate-pulse">BIOTECH-VET Loading...</section>;
+    return <section className="w-full min-h-[300px] md:min-h-[400px] bg-biotechvet-dark flex items-center justify-center text-white font-bold uppercase tracking-widest italic opacity-50 animate-pulse">BIOTECH-VET Loading...</section>;
   }
 
   return (
-    <section className="relative w-full h-[260px] md:h-[480px] lg:h-[680px] bg-biotechvet-dark overflow-hidden">
-      <AnimatePresence initial={false}>
-        {banners.map((slide, index) => {
-          if (index !== currentSlide) return null;
-          return (
-            <motion.div 
-              key={slide.id}
-              initial={{ opacity: 0, scale: 1.05 }}
-              animate={{ opacity: 1, scale: 1 }}
-              exit={{ opacity: 0 }}
-              transition={{ duration: 1 }}
-              className="absolute inset-0 z-10"
-            >
-              <img 
-                src={slide.image} 
-                alt={slide.title}
-                className="w-full h-full object-cover"
-              />
-              <div className="absolute inset-0 bg-biotechvet-dark/30 flex items-center">
+    <section className="relative w-full bg-biotechvet-dark overflow-hidden">
+      <div className="grid grid-cols-1">
+        <AnimatePresence initial={false}>
+          {banners.map((slide, index) => {
+            if (index !== currentSlide) return null;
+            return (
+              <motion.div 
+                key={slide.id}
+                initial={{ opacity: 0 }}
+                animate={{ opacity: 1 }}
+                exit={{ opacity: 0 }}
+                transition={{ duration: 1 }}
+                className="col-start-1 row-start-1 relative z-10 w-full"
+              >
+                {/* Main Image - Dynamic Height */}
+                <img 
+                  src={slide.image} 
+                  alt={slide.title}
+                  className="w-full h-auto block"
+                />
+
+                {/* Enhanced Overlay for Text Visibility */}
+                <div className="absolute inset-0 bg-gradient-to-r from-biotechvet-dark/80 via-biotechvet-dark/40 to-transparent flex items-center">
                 <div className="container mx-auto px-4">
                    <div className="max-w-2xl text-white">
                       <motion.h1 
@@ -98,6 +102,7 @@ export default function BannerSlider() {
           );
         })}
       </AnimatePresence>
+      </div>
 
       {/* Slide dots */}
       <div className="absolute bottom-6 left-1/2 -translate-x-1/2 flex items-center gap-3 z-20">
