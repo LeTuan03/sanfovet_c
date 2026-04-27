@@ -5,33 +5,37 @@ import { Phone, Mail, MapPin, Send, MessageSquare } from 'lucide-react';
 import { FacebookOutlined, YoutubeOutlined } from '@ant-design/icons';
 
 export default function ContactContent() {
-  const [formData, setFormData] = React.useState({
-    fullName: '',
-    phoneNumber: '',
-    emailAddress: '',
-    messageBox: '',
-  });
+  const [status, setStatus] = React.useState<'idle' | 'sending' | 'success'>('idle');
 
-  const handleInputChange = (e: React.ChangeEvent<HTMLInputElement | HTMLTextAreaElement>) => {
-    const { name, value } = e.target;
-    setFormData(prev => ({ ...prev, [name]: value }));
-  };
-
-  const handleSubmit = (e: React.FormEvent<HTMLFormElement>) => {
+  const handleSubmit = async (e: React.FormEvent<HTMLFormElement>) => {
     e.preventDefault();
+    setStatus('sending');
     
-    const { fullName, phoneNumber, emailAddress, messageBox } = formData;
-    const emailTo = 'pkd.biotechvet@gmail.com';
-    const subject = encodeURIComponent(`Yêu cầu từ ${fullName}`);
-    const body = encodeURIComponent(
-      `Họ tên: ${fullName}\n` +
-      `Số điện thoại: ${phoneNumber}\n` +
-      `Email: ${emailAddress}\n` +
-      `\n--- Nội dung yêu cầu ---\n` +
-      `${messageBox}`
-    );
-    
-    window.location.href = `mailto:${emailTo}?subject=${subject}&body=${body}`;
+    const formData = new FormData(e.currentTarget);
+    const data = {
+      fullName: formData.get('fullName'),
+      phoneNumber: formData.get('phoneNumber'),
+      emailAddress: formData.get('emailAddress'),
+      messageBox: formData.get('messageBox'),
+    };
+
+    try {
+      const response = await fetch('/api/contact', {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify(data),
+      });
+
+      if (response.ok) {
+        setStatus('success');
+      } else {
+        throw new Error('Failed to send');
+      }
+    } catch (error) {
+      console.error(error);
+      setStatus('idle');
+      alert('Đã có lỗi xảy ra khi gửi tin nhắn. Vui lòng thử lại sau.');
+    }
   };
 
   return (
@@ -107,7 +111,22 @@ export default function ContactContent() {
           <div className="bg-white rounded-[48px] p-10 md:p-14 border border-gray-100 shadow-2xl relative overflow-hidden group">
              <div className="absolute top-0 right-0 w-32 h-32 bg-primary/10 rounded-full blur-3xl -mr-16 -mt-16"></div>
              
-             <>
+             {status === 'success' ? (
+                <div className="relative z-10 h-full flex flex-col items-center justify-center text-center py-20 animate-fade-in">
+                   <div className="w-20 h-20 bg-primary/10 rounded-full flex items-center justify-center text-primary mb-6">
+                      <Send size={40} className="animate-bounce" />
+                   </div>
+                   <h3 className="text-3xl font-black text-biotechvet-dark uppercase italic mb-4">Gửi Thành Công!</h3>
+                   <p className="text-gray-500 font-medium max-w-xs leading-relaxed">Cảm ơn bạn đã liên hệ. Chúng tôi đã nhận được thông tin và sẽ phản hồi sớm nhất có thể.</p>
+                   <button 
+                      onClick={() => setStatus('idle')}
+                      className="mt-10 text-primary font-black uppercase tracking-widest text-sm hover:underline"
+                   >
+                      Gửi tin nhắn khác
+                   </button>
+                </div>
+             ) : (
+                <>
                   <div className="flex items-center gap-4 mb-10">
                     <div className="w-12 h-12 bg-primary/10 rounded-xl flex items-center justify-center text-primary">
                        <MessageSquare size={24} />
@@ -119,29 +138,35 @@ export default function ContactContent() {
                     <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
                        <div>
                           <label htmlFor="fullName" className="block text-[10px] font-black uppercase text-gray-400 tracking-[2px] mb-2 px-4 italic">Họ và tên *</label>
-                          <input id="fullName" name="fullName" type="text" placeholder="Nhập họ tên của bạn" value={formData.fullName} onChange={handleInputChange} className="w-full bg-gray-50 border-none rounded-2xl px-6 py-4 text-sm focus:ring-2 focus:ring-primary focus:bg-white transition-all placeholder:text-gray-300" required={true} />
+                          <input id="fullName" name="fullName" type="text" placeholder="Nhập họ tên của bạn" className="w-full bg-gray-50 border-none rounded-2xl px-6 py-4 text-sm focus:ring-2 focus:ring-primary focus:bg-white transition-all placeholder:text-gray-300" required />
                        </div>
                        <div>
                           <label htmlFor="phoneNumber" className="block text-[10px] font-black uppercase text-gray-400 tracking-[2px] mb-2 px-4 italic">Số điện thoại *</label>
-                          <input id="phoneNumber" name="phoneNumber" type="tel" placeholder="Nhập số điện thoại" value={formData.phoneNumber} onChange={handleInputChange} className="w-full bg-gray-50 border-none rounded-2xl px-6 py-4 text-sm focus:ring-2 focus:ring-primary focus:bg-white transition-all placeholder:text-gray-300" required={true} />
+                          <input id="phoneNumber" name="phoneNumber" type="tel" placeholder="Nhập số điện thoại" className="w-full bg-gray-50 border-none rounded-2xl px-6 py-4 text-sm focus:ring-2 focus:ring-primary focus:bg-white transition-all placeholder:text-gray-300" required />
                        </div>
                     </div>
                     <div>
                        <label htmlFor="emailAddress" className="block text-[10px] font-black uppercase text-gray-400 tracking-[2px] mb-2 px-4 italic">Địa chỉ Email</label>
-                       <input id="emailAddress" name="emailAddress" type="email" placeholder="Nhập địa chỉ email" value={formData.emailAddress} onChange={handleInputChange} className="w-full bg-gray-50 border-none rounded-2xl px-6 py-4 text-sm focus:ring-2 focus:ring-primary focus:bg-white transition-all placeholder:text-gray-300" />
+                       <input id="emailAddress" name="emailAddress" type="email" placeholder="Nhập địa chỉ email" className="w-full bg-gray-50 border-none rounded-2xl px-6 py-4 text-sm focus:ring-2 focus:ring-primary focus:bg-white transition-all placeholder:text-gray-300" />
                     </div>
                     <div>
                        <label htmlFor="messageBox" className="block text-[10px] font-black uppercase text-gray-400 tracking-[2px] mb-2 px-4 italic">Nội dung yêu cầu *</label>
-                       <textarea id="messageBox" name="messageBox" rows={5} placeholder="Bạn cần chúng tôi hỗ trợ gì?" value={formData.messageBox} onChange={handleInputChange} className="w-full bg-gray-50 border-none rounded-2xl px-6 py-4 text-sm focus:ring-2 focus:ring-primary focus:bg-white transition-all placeholder:text-gray-300" required></textarea>
+                       <textarea id="messageBox" name="messageBox" rows={5} placeholder="Bạn cần chúng tôi hỗ trợ gì?" className="w-full bg-gray-50 border-none rounded-2xl px-6 py-4 text-sm focus:ring-2 focus:ring-primary focus:bg-white transition-all placeholder:text-gray-300" required></textarea>
                     </div>
                     <button 
-                      type="submit"
-                      className="w-full bg-primary hover:bg-primary-dark text-white font-black py-5 rounded-2xl text-xs uppercase tracking-[3px] transition-all shadow-xl shadow-primary/20 active:scale-95 flex items-center justify-center gap-3 group"
+                      type="submit" 
+                      disabled={status === 'sending'}
+                      className="w-full bg-primary hover:bg-primary-dark text-white font-black py-5 rounded-2xl text-xs uppercase tracking-[3px] transition-all shadow-xl shadow-primary/20 active:scale-95 disabled:opacity-50 flex items-center justify-center gap-3 group"
                     >
-                       <Send size={18} className="group-hover:translate-x-1 group-hover:-translate-y-1 transition-transform" /> Gửi yêu cầu ngay
+                       {status === 'sending' ? (
+                          <span className="flex items-center gap-2">Đang gửi...</span>
+                       ) : (
+                          <><Send size={18} className="group-hover:translate-x-1 group-hover:-translate-y-1 transition-transform" /> Gửi yêu cầu ngay</>
+                       )}
                     </button>
                   </form>
                 </>
+             )}
           </div>
         </div>
 
