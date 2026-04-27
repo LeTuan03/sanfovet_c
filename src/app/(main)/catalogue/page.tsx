@@ -28,11 +28,7 @@ export default async function CataloguePage() {
     .select('*')
     .order('created_at', { ascending: false });
 
-  const documents = fetchedDocuments && fetchedDocuments.length > 0 ? fetchedDocuments : [
-    { title: "Catalogue Sản phẩm biotechvet 2026", size: "24.5 MB", type: "PDF", link: "/catalogue/mau1.pdf" },
-    { title: "Hồ sơ năng lực công ty (Profile)", size: "12.8 MB", type: "PDF", link: "/catalogue/mau1.pdf" },
-    { title: "Hướng dẫn sử dụng thuốc thú y", size: "8.2 MB", type: "PDF", link: "/catalogue/mau1.pdf" }
-  ];
+  const documents = fetchedDocuments && fetchedDocuments.length > 0 ? fetchedDocuments : [];
 
   return (
     <div className="bg-white min-h-screen">

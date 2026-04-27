@@ -79,7 +79,7 @@ export default async function RecruitmentPage() {
                      </div>
                   </div>
                   <div className="shrink-0 flex gap-4 w-full md:w-auto">
-                     <button className="flex-1 md:shrink-0 bg-biotechvet-alt text-primary font-black py-4 px-10 rounded-full text-xs uppercase tracking-widest hover:bg-primary-light transition-all active:scale-95">Xem mô tả</button>
+                     <Link href={`/tuyen-dung/${job.id}`} className="flex-1 md:shrink-0 bg-biotechvet-alt text-primary font-black py-4 px-10 rounded-full text-xs uppercase tracking-widest hover:bg-primary-light transition-all active:scale-95">Xem mô tả</Link>
                      <Link href="/lien-he" className="flex-1 md:shrink-0 bg-primary hover:bg-primary-dark text-white font-black py-4 px-10 rounded-full text-xs uppercase tracking-widest transition-all shadow-lg shadow-primary/20 text-center active:scale-95">Ứng tuyển ngay</Link>
                   </div>
                </div>
