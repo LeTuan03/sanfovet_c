@@ -321,9 +321,9 @@ export default function Header() {
 function DropdownItem({ href, icon, label }: { href: string, icon: React.ReactNode, label: string }) {
   return (
     <Link href={href} className="flex items-center gap-4 px-4 py-3 hover:bg-biotechvet-alt rounded-xl transition-all group/item">
-       <div className="w-10 h-10 rounded-xl bg-primary/5 flex items-center justify-center text-primary group-hover/item:bg-primary group-hover/item:text-white group-hover/item:scale-110 transition-all shrink-0">
+       {/* <div className="w-10 h-10 rounded-xl bg-primary/5 flex items-center justify-center text-primary group-hover/item:bg-primary group-hover/item:text-white group-hover/item:scale-110 transition-all shrink-0">
           {icon}
-       </div>
+       </div> */}
        <span className="text-[0.82rem] font-bold text-gray-700 leading-snug group-hover/item:text-primary transition-colors">{label}</span>
     </Link>
   );
