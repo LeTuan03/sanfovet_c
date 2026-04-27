@@ -36,8 +36,8 @@ const ImageUpload: React.FC<ImageUploadProps> = ({
       file.type === 'image/png' ||
       file.type === 'image/webp';
     if (!isJpgOrPng) messageApi.error('Bạn chỉ có thể tải lên file JPG/PNG/WEBP!');
-    const isLt2M = file.size / 1024 / 1024 < 2;
-    if (!isLt2M) messageApi.error('Hình ảnh phải nhỏ hơn 2MB!');
+    const isLt2M = file.size / 1024 / 1024 < 10;
+    if (!isLt2M) messageApi.error('Hình ảnh phải nhỏ hơn 10MB!');
     return isJpgOrPng && isLt2M;
   };
 
@@ -170,7 +170,7 @@ const ImageUpload: React.FC<ImageUploadProps> = ({
                   className="mt-2 text-[10px] text-gray-300 font-bold 
                              uppercase tracking-tighter"
                 >
-                  JPG, PNG, WEBP • MAX 2MB
+                  JPG, PNG, WEBP • MAX 10MB
                 </div>
               </div>
             )}
