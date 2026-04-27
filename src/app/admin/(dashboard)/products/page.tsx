@@ -427,18 +427,9 @@ function ProductManagementContent() {
               label: <span className="font-black px-2 uppercase text-[11px] tracking-widest">Liều lượng & Hướng dẫn</span>,
               children: (
                 <div className="py-4">
-                  <Row gutter={24}>
-                     <Col span={12}>
-                        <Form.Item name={['dosage', 'route']} label="Đường dùng (Tiêm bắp, uống...)">
-                           <TextArea rows={3} className="rounded-xl py-2" />
-                        </Form.Item>
-                     </Col>
-                     <Col span={12}>
-                        <Form.Item name={['dosage', 'duration']} label="Liệu trình">
-                           <TextArea rows={3} className="rounded-xl py-2" />
-                        </Form.Item>
-                     </Col>
-                  </Row>
+                  <Form.Item name={['dosage', 'route']} label="Đường dùng (Tiêm bắp, uống...)">
+                     <TextArea rows={3} className="rounded-xl py-2" />
+                  </Form.Item>
                   <Form.Item label="Chi tiết liều lượng theo loài">
                     <Form.List name={['dosage', 'byAnimal']}>
                       {(fields, { add, remove }) => (
