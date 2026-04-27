@@ -16,10 +16,12 @@ import AdminPageHeader from '@/components/admin/AdminPageHeader';
 import { motion } from 'framer-motion';
 import { adminFetch } from '@/lib/api';
 import { Product, Category } from '@/types';
+import { useAdminLoading } from '@/lib/AdminLoadingContext';
 import TextArea from 'antd/es/input/TextArea';
 
 function ProductManagementContent() {
   const { modal, message } = App.useApp();
+  const { setLoading: setGlobalLoading } = useAdminLoading();
   const router = useRouter();
   const pathname = usePathname();
   const searchParams = useSearchParams();
@@ -109,6 +111,7 @@ function ProductManagementContent() {
       }
 
       // Save to API
+      setGlobalLoading(true);
       try {
         const res = await adminFetch('/api/data/products', {
           method: 'POST',
@@ -125,6 +128,8 @@ function ProductManagementContent() {
       } catch (error) {
         console.log(error);
         message.error('Lỗi khi lưu dữ liệu');
+      } finally {
+        setGlobalLoading(false);
       }
     });
   };
@@ -138,6 +143,7 @@ function ProductManagementContent() {
       cancelText: 'Hủy',
       onOk: async () => {
         const newData = data.filter((item: Product) => item.id !== id);
+        setGlobalLoading(true);
         try {
           const res = await adminFetch('/api/data/products', {
             method: 'POST',
@@ -153,6 +159,8 @@ function ProductManagementContent() {
         } catch (error) {
           console.log(error);
           message.error('Lỗi khi xóa dữ liệu');
+        } finally {
+          setGlobalLoading(false);
         }
       },
     });

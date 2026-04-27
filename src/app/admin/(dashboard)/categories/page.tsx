@@ -11,9 +11,11 @@ import {
 import AdminPageHeader from '@/components/admin/AdminPageHeader';
 import { motion } from 'framer-motion';
 import { adminFetch } from '@/lib/api';
+import { useAdminLoading } from '@/lib/AdminLoadingContext';
 
 function CategoryAndTagManagementContent() {
   const { modal, message } = App.useApp();
+  const { setLoading: setGlobalLoading } = useAdminLoading();
   const router = useRouter();
   const pathname = usePathname();
   const searchParams = useSearchParams();
@@ -120,6 +122,7 @@ function CategoryAndTagManagementContent() {
       }
 
       // Save to API
+      setGlobalLoading(true);
       try {
         const res = await adminFetch(`/api/data/${dataType}`, {
           method: 'POST',
@@ -136,6 +139,8 @@ function CategoryAndTagManagementContent() {
         }
       } catch (error) {
         message.error('Lỗi khi lưu dữ liệu');
+      } finally {
+        setGlobalLoading(false);
       }
     });
   };
@@ -151,6 +156,7 @@ function CategoryAndTagManagementContent() {
         const currentData = activeTab === '1' ? categories : animalTags;
         const updatedData = currentData.filter((item) => item.id !== id);
 
+        setGlobalLoading(true);
         try {
           const res = await adminFetch(`/api/data/${dataType}`, {
             method: 'POST',
@@ -166,6 +172,8 @@ function CategoryAndTagManagementContent() {
           }
         } catch (error) {
           message.error('Lỗi khi xóa dữ liệu');
+        } finally {
+          setGlobalLoading(false);
         }
       },
     });

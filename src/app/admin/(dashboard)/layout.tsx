@@ -22,6 +22,7 @@ import viVN from 'antd/locale/vi_VN';
 import 'dayjs/locale/vi';
 import dayjs from 'dayjs';
 import { usePathname, useRouter } from 'next/navigation';
+import { AdminLoadingProvider } from '@/lib/AdminLoadingContext';
 
 dayjs.locale('vi');
 
@@ -214,107 +215,109 @@ export default function AdminLayout({
         }
       }}
     >
-      <App>
-        <Layout hasSider className="min-h-screen bg-white">
-          <Sider 
-            trigger={null} 
-            collapsible 
-            collapsed={collapsed} 
-            theme="light" 
-            width={260}
-            className="shadow-[4px_0_24px_rgba(0,0,0,0.02)] border-r border-gray-50"
-            style={{ overflow: 'auto', height: '100vh', position: 'sticky', top: 0, left: 0 }}
-          >
-            <div className="px-6 py-8 mb-2 flex flex-col items-center">
-               <div className="flex items-center gap-3 justify-center mb-3">
-                  <div className="w-11 h-11 bg-gradient-to-br from-primary to-primary-dark rounded-2xl flex items-center justify-center text-white font-black text-2xl shadow-lg shadow-primary/30 transform hover:scale-105 transition-transform duration-300">S</div>
-                  {!collapsed && (
-                    <h2 className="font-black tracking-tighter text-biotechvet-dark text-2xl mb-0 transition-opacity duration-300 bg-clip-text text-transparent bg-gradient-to-r from-biotechvet-dark to-primary">
-                      BIOTECH-VET
-                    </h2>
-                  )}
-               </div>
-               {!collapsed && (
-                 <div className="text-[0.65rem] font-black text-gray-400 uppercase tracking-[0.25em] text-center opacity-70">
-                   Management Suite
+      <AdminLoadingProvider>
+        <App>
+          <Layout hasSider className="min-h-screen bg-white">
+            <Sider 
+              trigger={null} 
+              collapsible 
+              collapsed={collapsed} 
+              theme="light" 
+              width={260}
+              className="shadow-[4px_0_24px_rgba(0,0,0,0.02)] border-r border-gray-50"
+              style={{ overflow: 'auto', height: '100vh', position: 'sticky', top: 0, left: 0 }}
+            >
+              <div className="px-6 py-8 mb-2 flex flex-col items-center">
+                 <div className="flex items-center gap-3 justify-center mb-3">
+                    <div className="w-11 h-11 bg-gradient-to-br from-primary to-primary-dark rounded-2xl flex items-center justify-center text-white font-black text-2xl shadow-lg shadow-primary/30 transform hover:scale-105 transition-transform duration-300">S</div>
+                    {!collapsed && (
+                      <h2 className="font-black tracking-tighter text-biotechvet-dark text-2xl mb-0 transition-opacity duration-300 bg-clip-text text-transparent bg-gradient-to-r from-biotechvet-dark to-primary">
+                        BIOTECH-VET
+                      </h2>
+                    )}
                  </div>
-               )}
-            </div>
-            <Menu
-              mode="inline"
-              selectedKeys={[pathname]}
-              items={menuItems}
-              onClick={handleMenuClick}
-              className="admin-sidebar-menu border-none px-2"
-            />
-          </Sider>
-          <Layout>
-            <Header 
-              style={{ 
-                padding: '0 32px', 
-                backdropFilter: 'blur(8px)',
-                position: 'sticky',
-                top: 0,
-                zIndex: 10,
-                width: '100%',
-                display: 'flex',
-                alignItems: 'center',
-                justifyContent: 'space-between'
-              }} 
-              className="shadow-[0_1px_2px_rgba(0,0,0,0.03)] border-b border-gray-100"
-            >
-              <div className="flex items-center gap-4">
-                <Button
-                  type="text"
-                  icon={collapsed ? <MenuUnfoldOutlined /> : <MenuFoldOutlined />}
-                  onClick={() => setCollapsed(!collapsed)}
-                  className="hover:bg-gray-50 flex items-center justify-center rounded-xl transition-all"
-                  style={{
-                    fontSize: '18px',
-                    width: 44,
-                    height: 44,
-                  }}
-                />
+                 {!collapsed && (
+                   <div className="text-[0.65rem] font-black text-gray-400 uppercase tracking-[0.25em] text-center opacity-70">
+                     Management Suite
+                   </div>
+                 )}
               </div>
-              <div className="flex items-center gap-6">
-                <Badge count={3} size="small" offset={[-2, 6]}>
-                  <Button 
-                    type="text" 
-                    icon={<BellOutlined />} 
-                    className="text-gray-400 hover:text-primary transition-colors flex items-center justify-center w-11 h-11 rounded-2xl hover:bg-gray-50" 
+              <Menu
+                mode="inline"
+                selectedKeys={[pathname]}
+                items={menuItems}
+                onClick={handleMenuClick}
+                className="admin-sidebar-menu border-none px-2"
+              />
+            </Sider>
+            <Layout>
+              <Header 
+                style={{ 
+                  padding: '0 32px', 
+                  backdropFilter: 'blur(8px)',
+                  position: 'sticky',
+                  top: 0,
+                  zIndex: 10,
+                  width: '100%',
+                  display: 'flex',
+                  alignItems: 'center',
+                  justifyContent: 'space-between'
+                }} 
+                className="shadow-[0_1px_2px_rgba(0,0,0,0.03)] border-b border-gray-100"
+              >
+                <div className="flex items-center gap-4">
+                  <Button
+                    type="text"
+                    icon={collapsed ? <MenuUnfoldOutlined /> : <MenuFoldOutlined />}
+                    onClick={() => setCollapsed(!collapsed)}
+                    className="hover:bg-gray-50 flex items-center justify-center rounded-xl transition-all"
+                    style={{
+                      fontSize: '18px',
+                      width: 44,
+                      height: 44,
+                    }}
                   />
-                </Badge>
-                <Dropdown menu={{ items: userMenuItems as any, onClick: handleMenuClick }} placement="bottomRight" arrow={{ pointAtCenter: true }}>
-                  <div className="flex items-center gap-3 cursor-pointer hover:bg-gray-50 px-4 py-2 rounded-2xl transition-all border border-transparent hover:border-gray-100 bg-gray-50/50">
-                    <Avatar 
-                      size={36}
-                      style={{ backgroundColor: '#199ad6' }} 
-                      icon={<UserOutlined />} 
-                      className="shadow-lg shadow-primary/20 ring-2 ring-white"
+                </div>
+                <div className="flex items-center gap-6">
+                  <Badge count={3} size="small" offset={[-2, 6]}>
+                    <Button 
+                      type="text" 
+                      icon={<BellOutlined />} 
+                      className="text-gray-400 hover:text-primary transition-colors flex items-center justify-center w-11 h-11 rounded-2xl hover:bg-gray-50" 
                     />
-                    <div className="hidden lg:block">
-                      <div className="text-[12px] font-black text-biotechvet-dark leading-none uppercase tracking-tight">Admin biotechvet</div>
-                      <div className="text-[10px] text-gray-400 font-bold uppercase tracking-[0.1em] mt-1.5 opacity-80 leading-[20px]">Quản trị viên</div>
+                  </Badge>
+                  <Dropdown menu={{ items: userMenuItems as any, onClick: handleMenuClick }} placement="bottomRight" arrow={{ pointAtCenter: true }}>
+                    <div className="flex items-center gap-3 cursor-pointer hover:bg-gray-50 px-4 py-2 rounded-2xl transition-all border border-transparent hover:border-gray-100 bg-gray-50/50">
+                      <Avatar 
+                        size={36}
+                        style={{ backgroundColor: '#199ad6' }} 
+                        icon={<UserOutlined />} 
+                        className="shadow-lg shadow-primary/20 ring-2 ring-white"
+                      />
+                      <div className="hidden lg:block">
+                        <div className="text-[12px] font-black text-biotechvet-dark leading-none uppercase tracking-tight">Admin biotechvet</div>
+                        <div className="text-[10px] text-gray-400 font-bold uppercase tracking-[0.1em] mt-1.5 opacity-80 leading-[20px]">Quản trị viên</div>
+                      </div>
                     </div>
-                  </div>
-                </Dropdown>
-              </div>
-            </Header>
-            <Content
-              style={{
-                padding: 24,
-                minHeight: 280,
-                background: '#f8fafb',
-                flex: 'auto',
-              }}
-            >
-              <div className="max-w-[1600px] mx-auto">
-                {children}
-              </div>
-            </Content>
+                  </Dropdown>
+                </div>
+              </Header>
+              <Content
+                style={{
+                  padding: 24,
+                  minHeight: 280,
+                  background: '#f8fafb',
+                  flex: 'auto',
+                }}
+              >
+                <div className="max-w-[1600px] mx-auto">
+                  {children}
+                </div>
+              </Content>
+            </Layout>
           </Layout>
-        </Layout>
-      </App>
+        </App>
+      </AdminLoadingProvider>
     </ConfigProvider>
   );
 }

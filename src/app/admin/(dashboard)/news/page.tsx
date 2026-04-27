@@ -12,9 +12,11 @@ import { adminFetch } from '@/lib/api';
 import { Article } from '@/types';
 import CKEditor from '@/components/admin/CKEditor';
 import ImageUpload from '@/components/admin/ImageUpload';
+import { useAdminLoading } from '@/lib/AdminLoadingContext';
 
 function AdminNewsPageContent() {
   const { modal, message } = App.useApp();
+  const { setLoading: setGlobalLoading } = useAdminLoading();
   const router = useRouter();
   const pathname = usePathname();
   const searchParams = useSearchParams();
@@ -159,6 +161,7 @@ function AdminNewsPageContent() {
       cancelText: 'Hủy',
       onOk: async () => {
         const newData = allArticles.filter((item: Article) => item.id !== id);
+        setGlobalLoading(true);
         try {
           const res = await adminFetch('/api/data/articles', {
             method: 'POST',
@@ -173,6 +176,8 @@ function AdminNewsPageContent() {
           }
         } catch (error) {
           message.error('Lỗi khi xóa dữ liệu');
+        } finally {
+          setGlobalLoading(false);
         }
       },
     });
@@ -207,6 +212,7 @@ function AdminNewsPageContent() {
       }
 
       // Save to API
+      setGlobalLoading(true);
       try {
         const res = await adminFetch('/api/data/articles', {
           method: 'POST',
@@ -222,6 +228,8 @@ function AdminNewsPageContent() {
         }
       } catch (error) {
         message.error('Lỗi khi lưu dữ liệu');
+      } finally {
+        setGlobalLoading(false);
       }
     });
   };

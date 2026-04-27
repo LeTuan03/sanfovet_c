@@ -11,9 +11,11 @@ import dayjs from 'dayjs';
 import 'dayjs/locale/vi';
 import { adminFetch } from '@/lib/api';
 import { Article, AnimalTag } from '@/types';
+import { useAdminLoading } from '@/lib/AdminLoadingContext';
 
 function HandbookManagementContent() {
   const { message: msg, modal } = App.useApp();
+  const { setLoading: setGlobalLoading } = useAdminLoading();
   const router = useRouter();
   const pathname = usePathname();
   const searchParams = useSearchParams();
@@ -118,6 +120,7 @@ function HandbookManagementContent() {
       }
 
       // Save to API
+      setGlobalLoading(true);
       try {
         const res = await adminFetch('/api/data/articles', {
           method: 'POST',
@@ -133,6 +136,8 @@ function HandbookManagementContent() {
         }
       } catch (error) {
         msg.error('Lỗi khi lưu dữ liệu');
+      } finally {
+        setGlobalLoading(false);
       }
     });
   };
@@ -146,6 +151,7 @@ function HandbookManagementContent() {
       cancelText: 'Hủy',
       onOk: async () => {
         const newData = data.filter((item: Article) => item.id !== id);
+        setGlobalLoading(true);
         try {
           const res = await adminFetch('/api/data/articles', {
             method: 'POST',
@@ -160,6 +166,8 @@ function HandbookManagementContent() {
           }
         } catch (error) {
           msg.error('Lỗi khi xóa dữ liệu');
+        } finally {
+          setGlobalLoading(false);
         }
       },
     });
