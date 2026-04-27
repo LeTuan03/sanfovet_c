@@ -188,8 +188,7 @@ export default async function ProductDetailPage({ params }: Readonly<{ params: P
                   </h2>
                   <div className="bg-white p-7 rounded-2xl border border-gray-100 shadow-sm flex flex-col flex-1">
                      <div className="mb-8">
-                        <p className="mb-2 flex items-center gap-2 text-sm text-gray-400 font-bold uppercase tracking-widest leading-none">Đường cấp thuốc</p>
-                        <p className="text-biotechvet-dark font-black text-lg whitespace-pre-wrap">{product.dosage?.route}</p>
+                        <p className="text-gray-600 leading-relaxed whitespace-pre-wrap">{product.dosage?.route}</p>
                      </div>
                      
                      {product.dosage?.byAnimal && product.dosage?.byAnimal.length > 0 && (

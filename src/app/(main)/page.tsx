@@ -19,9 +19,9 @@ export default async function HomePage() {
   const features = [
     { icon: <Microscope size={32} />, title: 'Công nghệ USA', desc: 'Ứng dụng công nghệ tiên tiến từ Hoa Kỳ trong sản xuất thuốc thú y' },
     { icon: <ShieldCheck size={32} />, title: 'Đạt chuẩn GMP', desc: 'Nhà máy đạt chuẩn chất lượng GMP-WHO về sản xuất dược phẩm' },
-    { icon: <Users size={32} />, title: 'Chuyên gia giỏi', desc: 'Đội ngũ hơn 50 BSTY giàu kinh nghiệm túc trực tư vấn kỹ thuật' },
-    { icon: <Truck size={32} />, title: 'Phủ sóng toàn quốc', desc: 'Hệ thống vận tải và hàng nghìn đại lý phân phối rộng khắp' },
-    { icon: <Gem size={32} />, title: 'Chất lượng vàng', desc: 'Sản phẩm được lưu hành, kiểm định chất lượng chặt chẽ' },
+    { icon: <Users size={32} />, title: '200+ Sản phẩm', desc: 'Chất lượng ứng dụng trong chăn nuôi thú y.BTV đã tạo trở thành người bạn đồng hành tin cậy của nhà nông' },
+    { icon: <Truck size={32} />, title: '20+ Năm', desc: 'Năm 2005, BTV thành lập bằng nhiệt huyết, trí tuệ và bằng cả cái tâm của đội ngũ các nhà khoa học đầu ngành Việt Nam trong lĩnh vực chăn nuôi thú y.' },
+    { icon: <Gem size={32} />, title: '200+ Khách hàng', desc: 'Đại lý cấp 1, cấp 2 ở gần 30 tỉnh thành trải dài khắp miền Bắc, miền Trung, miền Nam và miền Tây.' },
   ];
 
   return (
