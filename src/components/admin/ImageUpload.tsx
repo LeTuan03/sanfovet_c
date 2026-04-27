@@ -1,7 +1,7 @@
 "use client";
 
 import React, { useState, useEffect } from 'react';
-import { Upload, message, App as AntdApp, Image as AntImage } from 'antd';
+import { Upload, App as AntdApp, Image as AntImage } from 'antd';
 import { PlusOutlined, DeleteOutlined, LoadingOutlined, EyeOutlined } from '@ant-design/icons';
 import type { UploadChangeParam } from 'antd/es/upload';
 import type { RcFile, UploadFile, UploadProps } from 'antd/es/upload/interface';
@@ -37,8 +37,8 @@ const ImageUpload: React.FC<ImageUploadProps> = ({
       file.type === 'image/png' ||
       file.type === 'image/webp';
     if (!isJpgOrPng) messageApi.error('Bạn chỉ có thể tải lên file JPG/PNG/WEBP!');
-    const isLt2M = file.size / 1024 / 1024 < 10;
-    if (!isLt2M) messageApi.error('Hình ảnh phải nhỏ hơn 10MB!');
+    const isLt2M = file.size / 1024 / 1024 < 5;
+    if (!isLt2M) messageApi.error('Hình ảnh phải nhỏ hơn 5MB!');
     return isJpgOrPng && isLt2M;
   };
 
@@ -46,17 +46,12 @@ const ImageUpload: React.FC<ImageUploadProps> = ({
     setImageUrl(value);
   }, [value]);
 
-  const handleChange: UploadProps['onChange'] = async (
+  const handleChange: UploadProps['onChange'] = (
     info: UploadChangeParam<UploadFile>
   ) => {
     if (info.file.status === 'uploading') {
       setLoading(true);
-      return;
     }
-    
-    // Ant Design's status 'done' or 'error' depends on customRequest
-    // Since our customRequest is just a dummy, we handle the upload here if status is 'uploading' 
-    // but info.file.originFileObj is present.
   };
 
   const customUpload = async (options: any) => {
@@ -71,7 +66,7 @@ const ImageUpload: React.FC<ImageUploadProps> = ({
       });
       setImageUrl(url);
       onChange?.(url);
-      onSuccess('ok');
+      onSuccess?.('ok');
     } catch (error) {
       console.error('Upload error:', error);
       messageApi.error('Tải ảnh lên thất bại!');
@@ -137,25 +132,20 @@ const ImageUpload: React.FC<ImageUploadProps> = ({
                     >
                       <PlusOutlined className="text-lg" />
                     </div>
-                    <div
-                      className="w-9 h-9 bg-white rounded-xl flex items-center 
-                                 justify-center text-blue-500 shadow-lg cursor-pointer 
-                                 hover:scale-110 transition-transform"
+                    <button className="w-9 h-9 bg-white rounded-xl flex items-center justify-center text-blue-500 shadow-lg cursor-pointer hover:scale-110 transition-transform"
                       onClick={(e) => {
                         e.stopPropagation();
                         setPreviewVisible(true);
                       }}
                     >
                       <EyeOutlined className="text-lg" />
-                    </div>
-                    <div
-                      className="w-9 h-9 bg-red-500 rounded-xl flex items-center 
-                                 justify-center text-white shadow-lg cursor-pointer 
-                                 hover:scale-110 transition-transform"
+                    </button>
+                    <button
+                      className="w-9 h-9 bg-red-500 rounded-xl flex items-center justify-center text-white shadow-lg cursor-pointer hover:scale-110 transition-transform"
                       onClick={onRemove}
                     >
                       <DeleteOutlined className="text-lg" />
-                    </div>
+                    </button>
                   </div>
                 </div>
               </div>
@@ -182,7 +172,7 @@ const ImageUpload: React.FC<ImageUploadProps> = ({
                   className="mt-2 text-[10px] text-gray-300 font-bold 
                              uppercase tracking-tighter"
                 >
-                  JPG, PNG, WEBP • MAX 10MB
+                  JPG, PNG, WEBP • MAX 5MB
                 </div>
               </div>
             )}
@@ -197,7 +187,7 @@ const ImageUpload: React.FC<ImageUploadProps> = ({
           style={{ display: 'none' }}
           preview={{
             visible: previewVisible,
-            onVisibleChange: (visible) => setPreviewVisible(visible),
+            onOpenChange: (visible) => setPreviewVisible(visible),
           }}
         />
       )}

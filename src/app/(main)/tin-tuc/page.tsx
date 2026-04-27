@@ -1,4 +1,7 @@
+export const dynamic = 'force-dynamic';
+
 import React from 'react';
+
 import Link from 'next/link';
 import { readData } from '@/lib/storage';
 import { Article } from '@/types';

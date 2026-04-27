@@ -1,4 +1,5 @@
 import { NextResponse } from 'next/server';
+import { revalidatePath } from 'next/cache';
 import { 
   productService, 
   categoryService, 
@@ -111,9 +112,13 @@ export async function POST(
         return NextResponse.json({ error: 'Invalid data type' }, { status: 400 });
     }
     
+    // Revalidate the main paths to clear cache
+    revalidatePath('/', 'layout');
+    
     return NextResponse.json({ success: true });
   } catch (error) {
     console.error(`Error saving ${type}:`, error);
     return NextResponse.json({ error: 'Failed to save data' }, { status: 500 });
   }
 }
+

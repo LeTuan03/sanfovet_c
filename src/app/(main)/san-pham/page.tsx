@@ -1,4 +1,7 @@
+export const dynamic = 'force-dynamic';
+
 import { readData } from '@/lib/storage';
+
 import { Category, Product } from '@/types';
 import Pagination from '@/components/shared/Pagination';
 import FadeUp from '@/components/shared/FadeUp';

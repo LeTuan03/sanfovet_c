@@ -1,4 +1,7 @@
+export const dynamic = 'force-dynamic';
+
 import React from 'react';
+
 import Link from 'next/link';
 import { Eye, ArrowRight, Download, Calendar, Microscope, ShieldCheck, Users, Truck, Gem, ChevronRight, Award, CheckCircle2 } from 'lucide-react';
 import { productService, articleService, categoryService } from '@/services';
