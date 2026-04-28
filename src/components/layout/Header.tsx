@@ -252,7 +252,7 @@ export default function Header() {
                   placeholder="Tìm kiếm..."
                   value={searchQuery}
                   onChange={(e) => setSearchQuery(e.target.value)}
-                  className="pl-4 pr-10 py-1.5 w-[160px] lg:w-[200px] text-[0.72rem] border border-primary rounded-full focus:outline-none focus:ring-1 focus:ring-primary/50 transition-all placeholder:text-gray-400 font-montserrat"
+                  className="pl-4 pr-10 py-1.5 w-[140px] lg:w-[180px] text-[0.72rem] border border-primary rounded-full focus:outline-none focus:ring-1 focus:ring-primary/50 transition-all placeholder:text-gray-400 font-montserrat"
                 />
                 <button type="submit" className="absolute right-3 text-primary hover:scale-110 transition-transform">
                   <Search size={18} />
