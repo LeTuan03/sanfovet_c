@@ -89,15 +89,15 @@ export default async function ProductDetailPage({ params }: Readonly<{ params: P
             </div>
             <div className="grid grid-cols-1 md:grid-cols-1 gap-10 lg:gap-12">
               {/* Image */}
-              <div className="bg-biotechvet-alt rounded-[24px] p-8 md:p-12 flex items-center justify-center relative shadow-inner h-fit">
+              <div className="rounded-[24px] flex items-center justify-center relative shadow-inner h-fit">
                 <ProductImageLightbox src={product.image} alt={product.name} />
                 <div className="absolute top-6 left-6 bg-white/80 backdrop-blur-sm p-3 rounded-full shadow-sm">
                   <ShieldCheck className="text-primary" size={24} />
                 </div>
               </div>
             </div>
-            <div className="flex flex-wrap gap-4">
-              <Link href="/lien-he" className="bg-primary hover:shadow-xl hover:-translate-y-1 text-white px-10 py-4 rounded-full font-black transition-all flex-1 text-center shadow-lg active:scale-95 uppercase tracking-widest border border-white/20">
+            <div className="flex flex-wrap gap-4 justify-center">
+              <Link href="/lien-he" className="text-[1rem] max-w-60 bg-primary hover:shadow-xl hover:-translate-y-1 text-white px-3 py-1 rounded-full font-black transition-all flex-1 text-center shadow-lg active:scale-95 uppercase tracking-widest border border-white/20">
                 LIÊN HỆ ĐẶT HÀNG
               </Link>
             </div>
@@ -105,11 +105,11 @@ export default async function ProductDetailPage({ params }: Readonly<{ params: P
             <div className="space-y-10">
               {product.specifications && product.specifications.length > 0 ? (
                 product.specifications.map((spec) => (
-                  <section key={spec.title}>
-                    <h2 className="text-[1.1rem] font-black text-secondary mb-6 flex items-center gap-3 bg-secondary/5 px-5 py-3.5 border-l-[6px] border-secondary uppercase tracking-wider shadow-sm">
+                  <section key={spec.title} className="mb-3">
+                    <h2 className="text-[1rem] font-black text-secondary flex items-center gap-3 bg-secondary/5 px-2 py-1.5 border-l-[3px] border-secondary uppercase tracking-wider shadow-sm">
                       {spec.title}
                     </h2>
-                    <div className="bg-white p-7 rounded-2xl border border-gray-100 shadow-sm leading-relaxed text-gray-700 whitespace-pre-wrap">
+                    <div className="bg-white p-2 rounded-none  border border-gray-100 shadow-sm leading-relaxed text-gray-700 whitespace-pre-wrap">
                       {spec.content}
                     </div>
                   </section>

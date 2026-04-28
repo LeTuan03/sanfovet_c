@@ -20,7 +20,7 @@ export default function ProductImageLightbox({ src, alt }: ProductImageLightboxP
         <img 
           src={src} 
           alt={alt} 
-          className="w-auto object-contain transition-transform duration-500 group-hover:scale-105"
+          className="max-h-[50vh] w-auto object-contain transition-transform duration-500 group-hover:scale-105"
         />
         <div className="absolute inset-0 bg-white/20 opacity-0 group-hover:opacity-100 transition-opacity flex items-center justify-center rounded-[24px]">
           <div className="bg-primary text-white p-3 rounded-full shadow-lg transform translate-y-4 group-hover:translate-y-0 transition-all">

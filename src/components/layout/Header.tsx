@@ -131,7 +131,7 @@ export default function Header() {
             <Link href="/" className="shrink-0 flex items-center gap-3">
               <img src="/images/logo.png" alt="BIOTECH-VET" className={`transition-all duration-300 ${isScrolled ? 'h-10' : 'h-12 md:h-[52px]'}`} />
               <div className="hidden lg:block">
-                <div className="text-primary font-black text-xl leading-none tracking-tighter italic uppercase font-montserrat">BIOTECH-VET</div>
+                <div className="text-primary font-black text-xl leading-none tracking-tighter italic uppercase font-montserrat">Công ty CP Công nghệ Sinh học Thú y</div>
                 <div className="text-[0.6rem] text-biotechvet-dark font-black tracking-widest uppercase mt-0.5">{t('intro_slogan')}</div>
               </div>
             </Link>

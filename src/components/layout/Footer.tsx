@@ -72,7 +72,8 @@ export default function Footer() {
             viewport={{ once: true }}
             transition={{ duration: 0.5, delay: 0.1 }}
           >
-            <h3 className="text-white text-lg font-bold mb-6 relative pb-2.5 after:content-[''] after:absolute after:bottom-0 after:left-0 after:w-10 after:height-0.5 after:bg-secondary uppercase">{t('products')}</h3>
+            <h3 className="text-white text-lg font-bold relative after:content-[''] after:absolute after:bottom-0 after:left-0 after:w-10 after:height-0.5 after:bg-secondary uppercase">{t('products')}</h3>
+            <h3 className="text-white text-lg font-bold relative pb-1 after:content-[''] after:absolute after:bottom-0 after:left-0 after:w-10 after:height-0.5 after:bg-secondary uppercase">CHỈ DÙNG TRONG THÚ Y</h3>
             <ul className="space-y-2">
               {categories.map((cat) => (
                 <li key={cat.id}><Link href={`/san-pham?category=${cat.id}`} className="hover:text-primary transition-colors">{cat.name}</Link></li>
