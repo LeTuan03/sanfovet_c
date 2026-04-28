@@ -276,14 +276,14 @@ function ProductManagementContent() {
         />
       </div>
 
-      <ProductModal
+     {isModalOpen && <ProductModal
         open={isModalOpen}
         editingId={editingId}
         form={form}
         categories={categories}
         onOk={handleOk}
         onCancel={() => setIsModalOpen(false)}
-      />
+      />}
     </motion.div>
   );
 }

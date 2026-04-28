@@ -11,7 +11,7 @@ import {
 
 import ImageUpload from '@/components/admin/ImageUpload';
 import MultiImageUpload from '@/components/admin/MultiImageUpload';
-import { Product, Category } from '@/types';
+import { Category } from '@/types';
 import TextArea from 'antd/es/input/TextArea';
 
 interface ProductModalProps {
@@ -80,6 +80,19 @@ const ProductModal: React.FC<ProductModalProps> = ({
              <Form.Item name="featured" label="Nổi bật" valuePropName="checked">
                 <Switch className="bg-gray-200" />
              </Form.Item>
+          </Col>
+        </Row>
+
+        <Row gutter={24}>
+          <Col span={12}>
+            <Form.Item name="registrationNumber" label="Số đăng ký">
+              <Input className="rounded-xl py-2" placeholder="Nhập số đăng ký sản phẩm..." />
+            </Form.Item>
+          </Col>
+          <Col span={12}>
+            <Form.Item name="description" label="Miêu tả">
+              <TextArea rows={3} className="rounded-xl" placeholder="Nhập miêu tả ngắn về sản phẩm..." />
+            </Form.Item>
           </Col>
         </Row>
 

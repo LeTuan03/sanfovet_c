@@ -77,9 +77,9 @@ export default async function ProductDetailPage({ params }: Readonly<{ params: P
           <ArrowLeft size={16} className="group-hover:-translate-x-1 transition-transform" /> Quay lại danh mục
         </Link>
 
-        <div className="grid grid-cols-1 lg:grid-cols-3 gap-12 lg:gap-16">
-          {/* Main Content (Left & Middle) */}
-          <div className="lg:col-span-2 space-y-4">
+        <div className="space-y-12">
+          {/* Main Content */}
+          <div className="space-y-4">
             {/* Product Hero Content */}
             <div className="flex flex-col">
               <div className="text-xs font-black text-secondary bg-secondary/10 px-3 py-1 rounded-full w-fit mb-4 uppercase tracking-[2px]">
@@ -87,19 +87,34 @@ export default async function ProductDetailPage({ params }: Readonly<{ params: P
               </div>
               <h1 className="text-3xl md:text-5xl font-black text-biotechvet-dark leading-tight">{product.name}</h1>
             </div>
-            <div className="grid grid-cols-1 md:grid-cols-1 gap-10 lg:gap-12">
+            <div className="grid grid-cols-1 md:grid-cols-3 gap-10 lg:gap-12">
               {/* Image Gallery */}
-              <div className="rounded-[24px] flex items-center justify-center relative shadow-inner h-fit pt-2">
+              <div className="md:col-span-2 rounded-[24px] flex items-center justify-center relative shadow-inner h-fit pt-2">
                 <ProductGallery mainImage={product.image} images={product.images} alt={product.name} />
                 <div className="absolute top-6 left-6 bg-white/80 backdrop-blur-sm p-3 rounded-full shadow-sm">
                   <ShieldCheck className="text-primary" size={24} />
                 </div>
               </div>
-            </div>
-            <div className="flex flex-wrap gap-4 justify-center">
-              <Link href="/lien-he" className="text-[1rem] max-w-60 bg-primary hover:shadow-xl hover:-translate-y-1 text-white px-3 py-1 rounded-full font-black transition-all flex-1 text-center shadow-lg active:scale-95 uppercase tracking-widest border border-white/20">
-                LIÊN HỆ ĐẶT HÀNG
-              </Link>
+
+              {/* Product Info (Right) */}
+              <div className="flex flex-col justify-center space-y-6">
+                {product.registrationNumber && (
+                  <div>
+                    <h3 className="text-sm font-bold text-gray-500 uppercase tracking-wider mb-1">Số đăng ký</h3>
+                    <p className="text-lg font-black text-biotechvet-dark">{product.registrationNumber}</p>
+                  </div>
+                )}
+                {product.description && (
+                  <div>
+                    <p className="text-base text-gray-700 leading-relaxed whitespace-pre-wrap line-clamp-4">{product.description}</p>
+                  </div>
+                )}
+                <div className="flex flex-wrap gap-4 pt-2">
+                  <Link href="/lien-he" className="text-[1rem] max-w-60 bg-primary hover:shadow-xl hover:-translate-y-1 text-white px-3 py-1 rounded-full font-black transition-all flex-1 text-center shadow-lg active:scale-95 uppercase tracking-widest border border-white/20">
+                    LIÊN HỆ ĐẶT HÀNG
+                  </Link>
+                </div>
+              </div>
             </div>
             {/* Specifications Section */}
             <div className="space-y-10">
@@ -122,9 +137,9 @@ export default async function ProductDetailPage({ params }: Readonly<{ params: P
             </div>
           </div>
 
-          {/* Sidebar (Right) */}
-          <aside className="lg:col-span-1">
-            <div className="bg-biotechvet-alt p-8 rounded-[24px] border border-gray-100 shadow-inner sticky top-24">
+          {/* Related Products */}
+          <aside>
+            <div className="bg-biotechvet-alt p-8 rounded-[24px] border border-gray-100 shadow-inner">
               <h3 className="font-black text-lg text-biotechvet-dark mb-8 border-b border-gray-200 pb-4 uppercase tracking-wider">Sản phẩm cùng loại</h3>
               <div className="space-y-6">
                 {relatedProducts.map((p: Product) => (
