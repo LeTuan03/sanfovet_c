@@ -66,7 +66,7 @@ export default function Header() {
   return (
     <div className="w-full z-50 relative" suppressHydrationWarning>
       {/* Top Bar - Disappears on scroll if we want, but let's keep it above Main Bar */}
-      <div className="bg-gradient-to-r from-biotechvet-dark to-[#0d2b10] text-white text-[0.82rem] py-1.5 hidden md:block border-b border-white/5" suppressHydrationWarning>
+      <div className="bg-gradient-to-r from-biotechvet-dark to-[#0d2b10] text-white text-[0.72rem] py-1.5 hidden md:block border-b border-white/5" suppressHydrationWarning>
         <div className="container mx-auto px-4 flex justify-between items-center" suppressHydrationWarning>
           <div className="flex items-center gap-4 flex-wrap">
             {/* Hotline nổi bật - Tư vấn mua hàng */}
@@ -150,7 +150,7 @@ export default function Header() {
                   if (menu.hasMega) {
                     return (
                       <div key={menu.id} className="relative group p-0">
-                        <Link href={menu.link} className="px-3 py-2 text-[0.82rem] font-black text-biotechvet-dark hover:text-primary uppercase tracking-tight flex items-center gap-1 group-hover:bg-biotechvet-alt rounded-lg transition-colors font-montserrat">
+                        <Link href={menu.link} className="px-2 py-2 text-[0.72rem] font-black text-biotechvet-dark hover:text-primary uppercase tracking-tight flex items-center gap-1 group-hover:bg-biotechvet-alt rounded-lg transition-colors font-montserrat">
                           {t(menu.name)} <ChevronDown size={14} className="group-hover:rotate-180 transition-transform" />
                         </Link>
                         {/* Mega Dropdown */}
@@ -190,7 +190,7 @@ export default function Header() {
                   if (hasChildren) {
                     return (
                       <div key={menu.id} className="relative group p-0">
-                        <Link href={menu.link} className="px-3 py-2 text-[0.82rem] font-black text-biotechvet-dark hover:text-primary uppercase tracking-tight flex items-center gap-1 group-hover:bg-biotechvet-alt rounded-lg transition-colors font-montserrat">
+                        <Link href={menu.link} className="px-2 py-2 text-[0.72rem] font-black text-biotechvet-dark hover:text-primary uppercase tracking-tight flex items-center gap-1 group-hover:bg-biotechvet-alt rounded-lg transition-colors font-montserrat">
                           {t(menu.name)} <ChevronDown size={14} className="group-hover:rotate-180 transition-transform" />
                         </Link>
                         {/* Standard Dropdown */}
@@ -203,7 +203,7 @@ export default function Header() {
                                 className="flex items-center gap-3 px-4 py-3 hover:bg-biotechvet-alt rounded-xl transition-all group/subitem"
                               >
                                 <div className="w-1.5 h-1.5 rounded-full bg-primary/20 group-hover/subitem:bg-primary group-hover/subitem:scale-150 transition-all"></div>
-                                <span className="text-[0.82rem] font-bold text-gray-700 leading-snug group-hover/subitem:text-primary transition-colors">
+                                <span className="text-[0.72rem] font-bold text-gray-700 leading-snug group-hover/subitem:text-primary transition-colors">
                                   {t(child.name)}
                                 </span>
                               </Link>
@@ -219,7 +219,7 @@ export default function Header() {
                       <Link 
                         key={menu.id}
                         href={menu.link} 
-                        className="ml-4 px-6 py-2.5 bg-primary text-white text-[0.82rem] font-black rounded-full hover:bg-primary-dark transition-all uppercase tracking-widest shadow-lg shadow-primary/20 active:scale-95 font-montserrat"
+                        className="ml-4 px-6 py-2.5 bg-primary text-white text-[0.72rem] font-black rounded-full hover:bg-primary-dark transition-all uppercase tracking-widest shadow-lg shadow-primary/20 active:scale-95 font-montserrat"
                       >
                         {t(menu.name)}
                       </Link>
@@ -230,7 +230,7 @@ export default function Header() {
                     <Link 
                       key={menu.id}
                       href={menu.link} 
-                      className="px-3 py-2 text-[0.82rem] font-black text-biotechvet-dark hover:text-primary uppercase tracking-tight font-montserrat"
+                      className="px-2 py-2 text-[0.72rem] font-black text-biotechvet-dark hover:text-primary uppercase tracking-tight font-montserrat"
                     >
                       {t(menu.name)}
                     </Link>
@@ -252,7 +252,7 @@ export default function Header() {
                   placeholder="Tìm kiếm..."
                   value={searchQuery}
                   onChange={(e) => setSearchQuery(e.target.value)}
-                  className="pl-4 pr-10 py-1.5 w-[160px] lg:w-[200px] text-[0.82rem] border border-primary rounded-full focus:outline-none focus:ring-1 focus:ring-primary/50 transition-all placeholder:text-gray-400 font-montserrat"
+                  className="pl-4 pr-10 py-1.5 w-[160px] lg:w-[200px] text-[0.72rem] border border-primary rounded-full focus:outline-none focus:ring-1 focus:ring-primary/50 transition-all placeholder:text-gray-400 font-montserrat"
                 />
                 <button type="submit" className="absolute right-3 text-primary hover:scale-110 transition-transform">
                   <Search size={18} />
@@ -324,7 +324,7 @@ function DropdownItem({ href, icon, label }: { href: string, icon: React.ReactNo
        {/* <div className="w-10 h-10 rounded-xl bg-primary/5 flex items-center justify-center text-primary group-hover/item:bg-primary group-hover/item:text-white group-hover/item:scale-110 transition-all shrink-0">
           {icon}
        </div> */}
-       <span className="text-[0.82rem] font-bold text-gray-700 leading-snug group-hover/item:text-primary transition-colors">{label}</span>
+       <span className="text-[0.72rem] font-bold text-gray-700 leading-snug group-hover/item:text-primary transition-colors">{label}</span>
     </Link>
   );
 }

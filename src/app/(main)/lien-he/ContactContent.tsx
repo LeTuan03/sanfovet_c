@@ -167,7 +167,7 @@ export default function ContactContent() {
             </div>
 
             {/* SLOGAN */}
-            <div className="bg-biotechvet-alt p-10 rounded-[40px] border border-gray-100 shadow-sm flex flex-col items-center justify-center text-center">
+            <div className="bg-biotechvet-alt p-10 rounded-[40px] border border-gray-100 shadow-sm flex flex-col items-center justify-center text-center mt-24">
                <h3 className="text-3xl md:text-4xl font-black text-biotechvet-dark italic uppercase tracking-wider leading-tight mb-4">
                   Chất lượng Là Cam Kết
                </h3>
