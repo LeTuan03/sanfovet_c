@@ -204,6 +204,7 @@ function ProductManagementContent() {
           <Tooltip title="Xem trang khách">
              <Button 
                icon={<EyeOutlined />} 
+               onClick={() => window.open(`/san-pham/${record.slug}`)}
                type="text" 
                className="text-gray-400 hover:text-primary hover:bg-emerald-50 w-9 h-9 flex items-center justify-center rounded-xl transition-all" 
              />

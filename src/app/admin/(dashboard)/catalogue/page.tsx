@@ -3,7 +3,7 @@
 import React, { useState, useEffect } from 'react';
 import { useRouter, useSearchParams, usePathname } from 'next/navigation';
 import { Table, Button, Space, Tag, Input, Modal, Form, Select, Switch, Tooltip, App, Upload } from 'antd';
-import { PlusOutlined, EditOutlined, DeleteOutlined, EyeOutlined, UploadOutlined } from '@ant-design/icons';
+import { PlusOutlined, EditOutlined, DeleteOutlined, UploadOutlined } from '@ant-design/icons';
 import AdminPageHeader from '@/components/admin/AdminPageHeader';
 import { motion } from 'framer-motion';
 import { supabase } from '@/lib/supabase/config';
@@ -120,14 +120,6 @@ function AdminCatalogueContent() {
       align: 'right' as const,
       render: (_: any, record: Catalogue) => (
         <Space size="small">
-          <Tooltip title="Xem chi tiết">
-             <Button 
-               icon={<EyeOutlined />} 
-               type="text" 
-               className="text-gray-400 hover:text-primary hover:bg-emerald-50 w-9 h-9 flex items-center justify-center rounded-xl transition-all" 
-               onClick={() => window.open(record.link, '_blank')}
-             />
-          </Tooltip>
           <Tooltip title="Chỉnh sửa">
              <Button 
                icon={<EditOutlined />} 

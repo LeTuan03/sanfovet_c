@@ -47,3 +47,8 @@ h1, h2, h3, h4, h5, h6 {
 .min-h-screen {
   min-height: 100vh !important;
 }
+
+.box-footer {
+  background-image: url('/images/bg-wold.png');
+  background-color: #a53640;
+}

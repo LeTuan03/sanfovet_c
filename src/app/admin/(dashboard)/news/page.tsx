@@ -3,7 +3,7 @@
 import React, { useState, useMemo } from 'react';
 import { useRouter, useSearchParams, usePathname } from 'next/navigation';
 import { Table, Button, Space, Tag, Input, Modal, Form, Select, Switch, Tooltip, Row, Col, App, DatePicker } from 'antd';
-import { PlusOutlined, EditOutlined, DeleteOutlined, SearchOutlined, EyeOutlined } from '@ant-design/icons';
+import { PlusOutlined, EditOutlined, DeleteOutlined, EyeOutlined } from '@ant-design/icons';
 import AdminPageHeader from '@/components/admin/AdminPageHeader';
 import dayjs from 'dayjs';
 import 'dayjs/locale/vi';
@@ -118,9 +118,6 @@ function AdminNewsPageContent() {
       align: 'right' as const,
       render: (_: any, record: any) => (
         <Space size="small">
-          <Tooltip title="Xem chi tiết">
-             <Button icon={<EyeOutlined />} type="text" className="text-gray-400 hover:text-primary hover:bg-emerald-50 w-9 h-9 flex items-center justify-center rounded-xl transition-all" />
-          </Tooltip>
           <Tooltip title="Chỉnh sửa">
              <Button 
                icon={<EditOutlined />} 

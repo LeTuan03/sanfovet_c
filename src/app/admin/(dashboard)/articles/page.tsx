@@ -2,7 +2,7 @@
 
 import React, { useState, useMemo } from 'react';
 import { Table, Button, Space, Modal, Form, Input, Select, Tag, Tooltip, Row, Col, Divider, Breadcrumb, DatePicker, App } from 'antd';
-import { PlusOutlined, EditOutlined, DeleteOutlined, EyeOutlined, SearchOutlined, FileImageOutlined } from '@ant-design/icons';
+import { PlusOutlined, EditOutlined, DeleteOutlined, SearchOutlined, FileImageOutlined } from '@ant-design/icons';
 import { useRouter, useSearchParams, usePathname } from 'next/navigation';
 // import { articles, animalTags } from '@/lib/data'; // Removed static imports
 import CKEditor from '@/components/admin/CKEditor';
@@ -210,9 +210,6 @@ function ArticleManagementContent() {
       key: 'action',
       render: (_: any, record: Article) => (
         <Space size="middle">
-          <Tooltip title="Xem bài viết">
-             <Button icon={<EyeOutlined />} type="text" className="text-gray-400 hover:text-primary" />
-          </Tooltip>
           <Tooltip title="Chỉnh sửa">
              <Button 
                icon={<EditOutlined />} 

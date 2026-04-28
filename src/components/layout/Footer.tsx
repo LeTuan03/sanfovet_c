@@ -27,7 +27,7 @@ export default function Footer() {
         if (Array.isArray(menusData)) {
           setMenus(menusData.filter((m: any) => m.position === 'footer' || m.position === 'both'));
         }
-        
+
         setSettings(settingsData);
 
         if (Array.isArray(catData)) {
@@ -40,11 +40,11 @@ export default function Footer() {
     fetchData();
   }, []);
   return (
-    <footer className="bg-gradient-to-b from-biotechvet-dark to-[#030e14] text-white/70 py-16 text-[0.85rem] mt-16 w-full relative" suppressHydrationWarning>
+    <footer className="box-footer text-white py-16 text-[0.85rem] mt-16 w-full relative" suppressHydrationWarning>
       <div className="container mx-auto px-4" suppressHydrationWarning>
         <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-12 mb-12">
           {/* Col 1 - Company Info */}
-          <motion.div 
+          <motion.div
             initial={{ opacity: 0, y: 20 }}
             whileInView={{ opacity: 1, y: 0 }}
             viewport={{ once: true }}
@@ -59,7 +59,7 @@ export default function Footer() {
             <p><strong>Website:</strong> www.biotechvet.com.vn</p>
             {settings?.addressHCM && (
               <p className="mt-4 pt-4 border-t border-white/10 text-white/80">
-                <strong>Chi nhánh miền Nam:</strong><br/>
+                <strong>Chi nhánh miền Nam:</strong><br />
                 {settings.addressHCM}
               </p>
             )}
