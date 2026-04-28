@@ -48,7 +48,7 @@ export default function BannerSlider() {
           {banners.map((slide, index) => {
             if (index !== currentSlide) return null;
             return (
-              <motion.div 
+              <motion.div
                 key={slide.id}
                 initial={{ opacity: 0 }}
                 animate={{ opacity: 1 }}
@@ -57,17 +57,17 @@ export default function BannerSlider() {
                 className="col-start-1 row-start-1 relative z-10 w-full"
               >
                 {/* Main Image - Dynamic Height */}
-                <img 
-                  src={slide.image} 
+                <img
+                  src={slide.image}
                   alt={slide.title}
                   className="w-full h-auto block"
                 />
 
                 {/* Enhanced Overlay for Text Visibility */}
-                <div className="absolute inset-0 bg-gradient-to-r from-biotechvet-dark/80 via-biotechvet-dark/40 to-transparent flex items-center">
-                <div className="container mx-auto px-4">
-                   <div className="max-w-2xl text-white">
-                      <motion.h1 
+                {/* <div className="absolute inset-0 bg-gradient-to-r from-biotechvet-dark/80 via-biotechvet-dark/40 to-transparent flex items-center">
+                  <div className="container mx-auto px-4">
+                    <div className="max-w-2xl text-white">
+                      <motion.h1
                         initial={{ opacity: 0, y: 30 }}
                         animate={{ opacity: 1, y: 0 }}
                         transition={{ delay: 0.3, duration: 0.8 }}
@@ -75,7 +75,7 @@ export default function BannerSlider() {
                       >
                         {slide.title}
                       </motion.h1>
-                      <motion.p 
+                      <motion.p
                         initial={{ opacity: 0, y: 20 }}
                         animate={{ opacity: 1, y: 0 }}
                         transition={{ delay: 0.5, duration: 0.8 }}
@@ -88,26 +88,26 @@ export default function BannerSlider() {
                         animate={{ opacity: 1, scale: 1 }}
                         transition={{ delay: 0.7, duration: 0.5 }}
                       >
-                        <Link 
+                        <Link
                           href={slide.link || "/san-pham"}
                           className="inline-flex items-center gap-2 px-6 py-3 md:px-8 md:py-4 bg-primary hover:bg-primary-dark text-white rounded-full font-bold transition-all shadow-xl hover:-translate-y-1 active:scale-95 text-sm md:text-base"
                         >
                           <Eye size={16} /> Xem ngay
                         </Link>
                       </motion.div>
-                   </div>
-                </div>
-              </div>
-            </motion.div>
-          );
-        })}
-      </AnimatePresence>
+                    </div>
+                  </div>
+                </div> */}
+              </motion.div>
+            );
+          })}
+        </AnimatePresence>
       </div>
 
       {/* Slide dots */}
       <div className="absolute bottom-6 left-1/2 -translate-x-1/2 flex items-center gap-3 z-20">
         {banners.map((_, index) => (
-          <button 
+          <button
             key={index}
             onClick={() => setCurrentSlide(index)}
             className={`w-3 h-3 rounded-full transition-all ${index === currentSlide ? 'bg-white scale-125' : 'bg-white/40'}`}
