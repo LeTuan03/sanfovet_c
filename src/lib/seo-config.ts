@@ -10,7 +10,7 @@ export const SEO_CONFIG = {
   COMPANY_NAME: "Công Ty CP Công Nghệ Sinh Học Thú Y",
   
   // Default Images
-  DEFAULT_OG_IMAGE: "/images/banner1.png",
+  DEFAULT_OG_IMAGE: "/images/about.jpg",
   DEFAULT_ARTICLE_IMAGE: "/images/default-article.png",
   DEFAULT_PRODUCT_IMAGE: "/images/default-product.png",
   LOGO_IMAGE: "/images/logo.png",

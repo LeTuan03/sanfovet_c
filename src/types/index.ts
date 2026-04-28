@@ -9,6 +9,7 @@ export interface Product {
   name: string;
   categoryId: number;
   image: string;
+  images?: string[];
   featured?: boolean;
   specifications: ProductSpecification[];
 }

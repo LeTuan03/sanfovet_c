@@ -17,7 +17,7 @@ export const organizationSchema = {
   description: "Tiên phong sản xuất thuốc thú y công nghệ USA tại Việt Nam",
   url: BASE_URL,
   logo: `${BASE_URL}/images/logo.png`,
-  image: `${BASE_URL}/images/banner1.png`,
+  image: `${BASE_URL}/images/about.jpg`,
   sameAs: [
     "https://www.facebook.com/biotechvet",
     "https://www.youtube.com/biotechvet",

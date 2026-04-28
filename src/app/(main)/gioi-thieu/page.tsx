@@ -12,7 +12,7 @@ export const metadata: Metadata = {
     url: "https://biotechvet.com.vn/gioi-thieu",
     images: [
       {
-        url: "/images/about.png",
+        url: "/images/about.jpg",
         width: 1200,
         height: 630,
       },

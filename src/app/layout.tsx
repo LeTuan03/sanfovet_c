@@ -43,7 +43,7 @@ export const metadata: Metadata = {
     description: "Tiên phong sản xuất thuốc thú y công nghệ USA tại Việt Nam. Nhà máy đạt chuẩn GMP-WHO.",
     images: [
       {
-        url: "/images/banner1.png",
+        url: "/images/about.jpg",
         width: 1200,
         height: 630,
         alt: "BIOTECH-VET - Công nghệ USA",
@@ -54,7 +54,7 @@ export const metadata: Metadata = {
     card: "summary_large_image",
     title: "BIOTECH-VET - Thuốc Thú Y Công Nghệ USA",
     description: "Tiên phong sản xuất thuốc thú y công nghệ USA tại Việt Nam.",
-    images: ["/images/banner1.png"],
+    images: ["/images/about.jpg"],
   },
   icons: {
     icon: '/images/logo.png',

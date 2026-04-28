@@ -60,7 +60,7 @@ export default function HomeGallery() {
                className="group relative aspect-video rounded-[40px] overflow-hidden shadow-2xl border-8 border-white cursor-pointer"
                onClick={() => setSelectedItem({ ...featuredVideo, type: 'video' })}
              >
-                <img src={featuredVideo?.thumbnail || '/images/about.png'} alt="Video cover" className="w-full h-full object-cover transition-transform duration-700 group-hover:scale-110" />
+                <img src={featuredVideo?.thumbnail || '/images/about.jpg'} alt="Video cover" className="w-full h-full object-cover transition-transform duration-700 group-hover:scale-110" />
                 <div className="absolute inset-0 bg-biotechvet-dark/40 group-hover:bg-biotechvet-dark/20 transition-all flex items-center justify-center">
                    <div className="w-24 h-24 bg-white/20 backdrop-blur-md rounded-full flex items-center justify-center text-white border border-white/30 group-hover:scale-110 transition-transform">
                       <PlayCircle size={64} fill="currentColor" className="text-white" />

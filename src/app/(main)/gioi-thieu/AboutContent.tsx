@@ -65,12 +65,10 @@ export default function AboutContent() {
               >
                  <div className="relative w-full aspect-video rounded-[32px] overflow-hidden shadow-[0_20px_50px_rgba(0,0,0,0.5)] border border-white/10 group">
                     <div className="absolute inset-0 bg-primary/20 mix-blend-overlay group-hover:bg-transparent transition-colors duration-500 z-10 pointer-events-none"></div>
-                    <video 
-                      src="/videos/about.mp4" 
+                    <img 
+                      src="/images/gioithieu.jpg" 
                       className="w-full h-full object-cover transform group-hover:scale-105 transition-transform duration-700"
-                      poster="/images/about.png"
-                      controls
-                    ></video>
+                    />
                  </div>
               </motion.div>
            </div>
@@ -131,7 +129,7 @@ export default function AboutContent() {
                       </div>
                       <div className="flex-1 w-full">
                         <div className="relative rounded-[40px] overflow-hidden shadow-2xl">
-                           <img src="/images/about.png" alt="Nhà máy biotechvet" className="w-full h-[400px] object-cover hover:scale-105 transition-transform duration-700" />
+                           <img src="/images/about.jpg" alt="Nhà máy biotechvet" className="w-full h-[400px] object-cover hover:scale-105 transition-transform duration-700" />
                            <div className="absolute inset-0 bg-gradient-to-t from-biotechvet-dark/60 to-transparent"></div>
                         </div>
                       </div>
@@ -244,20 +242,12 @@ export default function AboutContent() {
                        </p>
                     </div>
 
-                    <div className="grid grid-cols-1 md:grid-cols-2 gap-8">
+                    <div className="grid grid-cols-1 gap-8">
                       <div className="group rounded-[32px] overflow-hidden shadow-lg relative aspect-[4/3]">
-                        <img src="/images/farm.png" className="absolute inset-0 w-full h-full object-cover group-hover:scale-110 transition-transform duration-1000" alt="Nhà máy GMP" />
+                        <img src="/images/coso.jpg" className="absolute inset-0 w-full h-full object-cover group-hover:scale-110 transition-transform duration-1000" alt="Nhà máy GMP" />
                         <div className="absolute inset-0 bg-gradient-to-t from-biotechvet-dark via-biotechvet-dark/40 to-transparent flex flex-col justify-end p-8 text-white">
                           <span className="w-12 h-1 bg-primary mb-4 rounded-full"></span>
-                          <h4 className="text-2xl font-black uppercase tracking-tight mb-2">Dây chuyền Tiêm</h4>
-                          <p className="text-sm text-gray-300 font-medium">Đạt chuẩn GMP-WHO quốc tế với công nghệ tự động hóa 100%.</p>
-                        </div>
-                      </div>
-                      <div className="group rounded-[32px] overflow-hidden shadow-lg relative aspect-[4/3]">
-                        <img src="/images/news-2.png" className="absolute inset-0 w-full h-full object-cover group-hover:scale-110 transition-transform duration-1000" alt="Phòng thí nghiệm" />
-                        <div className="absolute inset-0 bg-gradient-to-t from-biotechvet-dark via-biotechvet-dark/40 to-transparent flex flex-col justify-end p-8 text-white">
-                          <span className="w-12 h-1 bg-primary mb-4 rounded-full"></span>
-                          <h4 className="text-2xl font-black uppercase tracking-tight mb-2">Phòng Lab R&D</h4>
+                          <h4 className="text-2xl font-black uppercase tracking-tight mb-2">Nhà máy</h4>
                           <p className="text-sm text-gray-300 font-medium">Trung tâm nghiên cứu và kiểm soát chất lượng đầu ra khắt khe.</p>
                         </div>
                       </div>

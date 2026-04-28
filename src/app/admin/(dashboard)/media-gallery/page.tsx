@@ -211,7 +211,7 @@ function AdminMediaGalleryPageContent() {
         } else {
           const newImg = {
             id: String(Date.now()),
-            url: values.url || '/images/about.png',
+            url: values.url || '/images/about.jpg',
             title: values.title,
             status: values.status || 'active',
             order: values.order || 0
@@ -226,7 +226,7 @@ function AdminMediaGalleryPageContent() {
             id: String(Date.now()),
             url: values.url,
             title: values.title,
-            thumbnail: values.thumbnail || '/images/about.png',
+            thumbnail: values.thumbnail || '/images/about.jpg',
             status: values.status || 'active',
             order: values.order || 0
           };

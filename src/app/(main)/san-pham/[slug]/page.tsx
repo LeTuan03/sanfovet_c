@@ -6,7 +6,7 @@ import { Product } from '@/types';
 import { ChevronRight, ArrowLeft, ShieldCheck } from 'lucide-react';
 import { Metadata } from 'next';
 
-import ProductImageLightbox from '@/components/shared/ProductImageLightbox';
+import ProductGallery from '@/components/shared/ProductGallery';
 
 export async function generateMetadata({ params }: { params: Promise<{ slug: string }> }): Promise<Metadata> {
   const { slug } = await params;
@@ -88,9 +88,9 @@ export default async function ProductDetailPage({ params }: Readonly<{ params: P
               <h1 className="text-3xl md:text-5xl font-black text-biotechvet-dark leading-tight">{product.name}</h1>
             </div>
             <div className="grid grid-cols-1 md:grid-cols-1 gap-10 lg:gap-12">
-              {/* Image */}
-              <div className="rounded-[24px] flex items-center justify-center relative shadow-inner h-fit">
-                <ProductImageLightbox src={product.image} alt={product.name} />
+              {/* Image Gallery */}
+              <div className="rounded-[24px] flex items-center justify-center relative shadow-inner h-fit pt-2">
+                <ProductGallery mainImage={product.image} images={product.images} alt={product.name} />
                 <div className="absolute top-6 left-6 bg-white/80 backdrop-blur-sm p-3 rounded-full shadow-sm">
                   <ShieldCheck className="text-primary" size={24} />
                 </div>

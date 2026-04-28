@@ -1,5 +1,5 @@
 [
-  { "id": 1, "image": "/images/banner1.png", "title": "Banner Trang chủ 1", "link": "/san-pham", "order": 1, "status": true },
+  { "id": 1, "image": "/images/about.jpg", "title": "Banner Trang chủ 1", "link": "/san-pham", "order": 1, "status": true },
   { "id": 2, "image": "/images/banner2.png", "title": "Banner Khuyến mãi tháng 4", "link": "/tin-tuc", "order": 2, "status": true },
-  { "id": 3, "image": "/images/banner1.png", "title": "Banner Tuyển dụng miền Trung", "link": "/tuyen-dung", "order": 3, "status": false }
+  { "id": 3, "image": "/images/about.jpg", "title": "Banner Tuyển dụng miền Trung", "link": "/tuyen-dung", "order": 3, "status": false }
 ]
