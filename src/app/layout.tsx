@@ -5,6 +5,8 @@ import { AntdRegistry } from '@ant-design/nextjs-registry';
 import ContentProtection from "@/components/shared/ContentProtection";
 import { LanguageProvider } from "@/lib/LanguageContext";
 import { organizationSchema, localBusinessSchema } from "@/lib/schema";
+import NextTopLoader from 'nextjs-toploader';
+import Preloader from "@/components/shared/Preloader";
 import "./globals.css";
 
 const inter = Inter({
@@ -111,6 +113,18 @@ export default function RootLayout({
         />
       </head>
       <body className={`${inter.className} antialiased min-h-screen`} suppressHydrationWarning>
+        <NextTopLoader 
+          color="#199ad6"
+          initialPosition={0.08}
+          crawlSpeed={200}
+          height={3}
+          crawl={true}
+          showSpinner={false}
+          easing="ease"
+          speed={200}
+          shadow="0 0 10px #199ad6,0 0 5px #199ad6"
+        />
+        <Preloader />
         <AntdRegistry>
           <LanguageProvider>
             <ContentProtection />
