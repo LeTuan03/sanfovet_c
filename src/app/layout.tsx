@@ -60,7 +60,7 @@ export const metadata: Metadata = {
     icon: '/images/logo.png',
   },
   verification: {
-    google: '_NK-c4H4tgJNBbW0LQ4QoDrz202HcwQ85YXGl5Ro5bY',
+    google: 'CEwCXJkg_vbmN7CZRiFYNtmAqjlucXutX8DJ5ERM0X0',
   }
 };
 
