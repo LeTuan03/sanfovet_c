@@ -77,9 +77,9 @@ export default async function ProductDetailPage({ params }: Readonly<{ params: P
           <ArrowLeft size={16} className="group-hover:-translate-x-1 transition-transform" /> Quay lại danh mục
         </Link>
 
-        <div className="space-y-12">
+        <div className="grid grid-cols-1 lg:grid-cols-[1fr_300px] gap-10">
           {/* Main Content */}
-          <div className="space-y-4">
+          <div className="space-y-4 min-w-0">
             {/* Product Hero Content */}
             <div className="flex flex-col">
               <div className="text-xs font-black text-secondary bg-secondary/10 px-3 py-1 rounded-full w-fit mb-4 uppercase tracking-[2px]">
@@ -138,7 +138,7 @@ export default async function ProductDetailPage({ params }: Readonly<{ params: P
           </div>
 
           {/* Related Products */}
-          <aside>
+          <aside className="lg:sticky lg:top-24 h-fit">
             <div className="bg-biotechvet-alt p-8 rounded-[24px] border border-gray-100 shadow-inner">
               <h3 className="font-black text-lg text-biotechvet-dark mb-8 border-b border-gray-200 pb-4 uppercase tracking-wider">Sản phẩm cùng loại</h3>
               <div className="space-y-6">

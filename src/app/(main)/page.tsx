@@ -126,7 +126,7 @@ export default async function HomePage() {
                   </div>
                   <div className="p-3 md:p-4 flex-1 flex flex-col">
                     <h3 className="font-black text-biotechvet-dark group-hover:text-primary transition-colors text-sm leading-tight overflow-hidden text-center">{p.name}</h3>
-                    <span className="text-small font-small text-gray-500 leading-[0.8] whitespace-pre-wrap line-clamp-3">{p?.description?.substring(0, 100)}</span>
+                    {/* <span className="text-small font-small text-gray-500 leading-[0.8] whitespace-pre-wrap line-clamp-3">{p?.description?.substring(0, 100)}</span> */}
                   </div>
                 </Link>
               </FadeUp>
