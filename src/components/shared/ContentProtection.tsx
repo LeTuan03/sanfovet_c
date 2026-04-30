@@ -40,10 +40,10 @@ export default function ContentProtection() {
         e.key === 'F12'
       ) {
         e.preventDefault();
-        message.warning({
-          content: 'Phím tắt đã bị vô hiệu hóa để bảo vệ nội dung.',
-          className: 'custom-message-warning'
-        });
+        // message.warning({
+        //   content: 'Phím tắt đã bị vô hiệu hóa để bảo vệ nội dung.',
+        //   className: 'custom-message-warning'
+        // });
       }
     };
     document.addEventListener('keydown', handleKeyDown);
