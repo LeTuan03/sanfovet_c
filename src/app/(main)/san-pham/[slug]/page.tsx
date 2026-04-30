@@ -7,6 +7,8 @@ import { ChevronRight, ArrowLeft, ShieldCheck } from 'lucide-react';
 import { Metadata } from 'next';
 
 import ProductGallery from '@/components/shared/ProductGallery';
+import { productSchema } from '@/lib/schema';
+import Script from 'next/script';
 
 export async function generateMetadata({ params }: { params: Promise<{ slug: string }> }): Promise<Metadata> {
   const { slug } = await params;
@@ -44,6 +46,9 @@ export async function generateMetadata({ params }: { params: Promise<{ slug: str
       description: 'Sản phẩm thuốc thú y chất lượng cao',
       images: [product.image || '/images/default-product.png'],
     },
+    alternates: {
+      canonical: `https://biotechvet.com.vn/san-pham/${product.slug}`,
+    },
   };
 }
 
@@ -61,6 +66,50 @@ export default async function ProductDetailPage({ params }: Readonly<{ params: P
 
   return (
     <div className="bg-white min-h-[100vh] pb-24">
+      <Script
+        id={`product-schema-${product.id}`}
+        type="application/ld+json"
+        dangerouslySetInnerHTML={{ 
+          __html: JSON.stringify(productSchema({
+            id: String(product.id),
+            name: product.name,
+            description: product.description,
+            image: product.image,
+            slug: product.slug,
+            category: category?.name
+          })) 
+        }}
+      />
+      <Script
+        id={`breadcrumb-schema-${product.id}`}
+        type="application/ld+json"
+        dangerouslySetInnerHTML={{
+          __html: JSON.stringify({
+            "@context": "https://schema.org",
+            "@type": "BreadcrumbList",
+            "itemListElement": [
+              {
+                "@type": "ListItem",
+                "position": 1,
+                "name": "Trang chủ",
+                "item": "https://biotechvet.com.vn"
+              },
+              {
+                "@type": "ListItem",
+                "position": 2,
+                "name": "Sản phẩm",
+                "item": "https://biotechvet.com.vn/san-pham"
+              },
+              {
+                "@type": "ListItem",
+                "position": 3,
+                "name": product.name,
+                "item": `https://biotechvet.com.vn/san-pham/${product.slug}`
+              }
+            ]
+          })
+        }}
+      />
       {/* Breadcrumbs */}
       <div className="bg-biotechvet-alt py-4">
         <div className="container mx-auto px-4 flex items-center text-sm text-gray-500">

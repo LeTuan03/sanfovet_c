@@ -8,6 +8,8 @@ import { readData } from '@/lib/storage';
 import { Article, Product } from '@/types';
 import { Calendar, User, ChevronRight, ArrowLeft, Share2, Printer, Tag, List } from 'lucide-react';
 import { Metadata } from 'next';
+import Script from 'next/script';
+import { articleSchema } from '@/lib/schema';
 
 function processContentWithHeadings(html: string): { processedHtml: string, headings: { id: string; text: string }[] } {
   const headings: { id: string; text: string }[] = [];
@@ -83,6 +85,9 @@ export async function generateMetadata({ params }: { params: Promise<{ slug: str
       description: plainTextContent,
       images: [articleImage],
     },
+    alternates: {
+      canonical: `https://biotechvet.com.vn/bai-viet/${article.slug}`,
+    },
   };
 }
 
@@ -109,6 +114,49 @@ export default async function ArticleDetailPage({ params }: Readonly<{ params: P
 
   return (
     <div className="bg-white min-h-screen">
+      <Script
+        id={`article-schema-${article.id}`}
+        type="application/ld+json"
+        dangerouslySetInnerHTML={{
+          __html: JSON.stringify(articleSchema({
+            title: article.title,
+            description: article.content?.replaceAll(/<[^>]*>/g, '').substring(0, 160) || "",
+            publishDate: article.publishDate,
+            slug: article.slug,
+            image: article.thumbnail,
+          }))
+        }}
+      />
+      <Script
+        id={`breadcrumb-schema-${article.id}`}
+        type="application/ld+json"
+        dangerouslySetInnerHTML={{
+          __html: JSON.stringify({
+            "@context": "https://schema.org",
+            "@type": "BreadcrumbList",
+            "itemListElement": [
+              {
+                "@type": "ListItem",
+                "position": 1,
+                "name": "Trang chủ",
+                "item": "https://biotechvet.com.vn"
+              },
+              {
+                "@type": "ListItem",
+                "position": 2,
+                "name": "Tin tức",
+                "item": "https://biotechvet.com.vn/tin-tuc"
+              },
+              {
+                "@type": "ListItem",
+                "position": 3,
+                "name": article.title,
+                "item": `https://biotechvet.com.vn/bai-viet/${article.slug}`
+              }
+            ]
+          })
+        }}
+      />
       {/* Breadcrumbs */}
       <div className="bg-biotechvet-alt py-4">
         <div className="container mx-auto px-4 flex items-center text-sm text-gray-500">

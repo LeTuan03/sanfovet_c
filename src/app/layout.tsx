@@ -35,7 +35,17 @@ export const metadata: Metadata = {
   keywords: ["thuốc thú y", "biotechvet", "chăn nuôi", "gmp-who", "phòng bệnh vật nuôi", "điều trị bệnh thú y"],
   authors: [{ name: "BIOTECH-VET Team" }],
   metadataBase: new URL("https://biotechvet.com.vn"),
-  robots: "index, follow",
+  robots: {
+    index: true,
+    follow: true,
+    googleBot: {
+      index: true,
+      follow: true,
+      'max-video-preview': -1,
+      'max-image-preview': 'large',
+      'max-snippet': -1,
+    },
+  },
   openGraph: {
     type: "website",
     locale: "vi_VN",
@@ -72,7 +82,12 @@ export const metadata: Metadata = {
   manifest: '/images/site.webmanifest',
   verification: {
     google: 'CEwCXJkg_vbmN7CZRiFYNtmAqjlucXutX8DJ5ERM0X0',
-  }
+  },
+  alternates: {
+    canonical: "https://biotechvet.com.vn",
+  },
+  category: "veterinary",
+  classification: "Pharmaceutical",
 };
 
 export default function RootLayout({
@@ -120,6 +135,24 @@ export default function RootLayout({
           type="application/ld+json"
           dangerouslySetInnerHTML={{ __html: JSON.stringify(localBusinessSchema) }}
         />
+        <Script
+          id="website-schema"
+          type="application/ld+json"
+          dangerouslySetInnerHTML={{
+            __html: JSON.stringify({
+              "@context": "https://schema.org",
+              "@type": "WebSite",
+              "url": "https://biotechvet.com.vn",
+              "name": "BIOTECH-VET",
+              "potentialAction": {
+                "@type": "SearchAction",
+                "target": "https://biotechvet.com.vn/search?q={search_term_string}",
+                "query-input": "required name=search_term_string"
+              }
+            })
+          }}
+        />
+        <meta name="theme-color" content="#199ad6" />
       </head>
       <body className={`${inter.className} antialiased min-h-screen`} suppressHydrationWarning>
         <NextTopLoader 
