@@ -31,26 +31,27 @@ function CategoryAndTagManagementContent() {
   const [form] = Form.useForm();
 
   // Load data from API
-  React.useEffect(() => {
-    const fetchData = async () => {
-      setLoading(true);
-      try {
-        const [catRes, tagRes] = await Promise.all([
-          adminFetch('/api/data/categories'),
-          adminFetch('/api/data/animal-tags')
-        ]);
-        const catData = await catRes.json();
-        const tagData = await tagRes.json();
-        setCategories(catData);
-        setAnimalTags(tagData);
-      } catch (error) {
-        message.error('Không thể tải dữ liệu');
-      } finally {
-        setLoading(false);
-      }
-    };
-    fetchData();
+  const fetchData = React.useCallback(async () => {
+    setLoading(true);
+    try {
+      const [catRes, tagRes] = await Promise.all([
+        adminFetch('/api/data/categories'),
+        adminFetch('/api/data/animal-tags')
+      ]);
+      const catData = await catRes.json();
+      const tagData = await tagRes.json();
+      setCategories(catData);
+      setAnimalTags(tagData);
+    } catch (error) {
+      message.error('Không thể tải dữ liệu');
+    } finally {
+      setLoading(false);
+    }
   }, [message]);
+
+  React.useEffect(() => {
+    fetchData();
+  }, [fetchData]);
 
   // Derived filtered data
   const filteredCategories = useMemo(() => {
@@ -126,26 +127,7 @@ function CategoryAndTagManagementContent() {
         });
 
         if (res.ok) {
-          const result = await res.json();
-          const newId = result.id;
-
-          if (editingItem) {
-            if (activeTab === '1') {
-              setCategories(categories.map(item => item.id === editingItem.id ? { ...item, ...values } : item));
-            } else {
-              setAnimalTags(animalTags.map(item => item.id === editingItem.id ? { ...item, ...values } : item));
-            }
-          } else {
-            const newItem = {
-              ...values,
-              id: Number(newId),
-              slug: values.slug || values.name.toLowerCase().replaceAll(' ', '-').replaceAll(/[^\w-]/g, ''),
-              ...(activeTab === '2' ? { icon: values.icon || '🐾' } : {}),
-            };
-            if (activeTab === '1') setCategories([...categories, newItem]);
-            else setAnimalTags([...animalTags, newItem]);
-          }
-
+          await fetchData();
           message.success(editingItem ? 'Cập nhật thành công' : 'Thêm mới thành công');
           setIsModalOpen(false);
         } else {
@@ -179,8 +161,7 @@ function CategoryAndTagManagementContent() {
             }),
           });
           if (res.ok) {
-            if (activeTab === '1') setCategories(categories.filter(item => item.id !== id));
-            else setAnimalTags(animalTags.filter(item => item.id !== id));
+            await fetchData();
             message.success('Đã xóa thành công');
           } else {
             const errorData = await res.json();

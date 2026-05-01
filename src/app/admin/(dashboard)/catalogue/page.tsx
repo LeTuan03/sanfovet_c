@@ -35,7 +35,7 @@ function AdminCatalogueContent() {
   const [uploading, setUploading] = useState(false);
   const [form] = Form.useForm();
 
-  const fetchCatalogues = async () => {
+  const fetchCatalogues = React.useCallback(async () => {
     setLoading(true);
     try {
       const response = await fetch('/api/admin/catalogues');
@@ -48,11 +48,11 @@ function AdminCatalogueContent() {
     } finally {
       setLoading(false);
     }
-  };
+  }, [message]);
 
   useEffect(() => {
     fetchCatalogues();
-  }, [message]);
+  }, [fetchCatalogues]);
 
   const filteredData = catalogues.filter(item => 
     item.title.toLowerCase().includes(query.toLowerCase())
@@ -151,7 +151,7 @@ function AdminCatalogueContent() {
           const data = await response.json();
           if (data.error) throw new Error(data.error);
           
-          setCatalogues(catalogues.filter(c => c.id !== record.id));
+          await fetchCatalogues();
           message.success('Đã xóa thành công');
         } catch (error) {
           console.error(error);

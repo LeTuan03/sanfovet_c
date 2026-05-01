@@ -30,21 +30,22 @@ function AdminNewsPageContent() {
   const [form] = Form.useForm();
 
   // Load data from API
-  React.useEffect(() => {
-    const fetchData = async () => {
-      setLoading(true);
-      try {
-        const res = await adminFetch('/api/data/articles');
-        const data = await res.json();
-        setAllArticles(data || []);
-      } catch (error) {
-        message.error('Không thể tải dữ liệu');
-      } finally {
-        setLoading(false);
-      }
-    };
-    fetchData();
+  const fetchData = React.useCallback(async () => {
+    setLoading(true);
+    try {
+      const res = await adminFetch('/api/data/articles');
+      const data = await res.json();
+      setAllArticles(data || []);
+    } catch (error) {
+      message.error('Không thể tải dữ liệu');
+    } finally {
+      setLoading(false);
+    }
   }, [message]);
+
+  React.useEffect(() => {
+    fetchData();
+  }, [fetchData]);
 
   // Derived news list
   const news = useMemo(() => {
@@ -168,7 +169,7 @@ function AdminNewsPageContent() {
             }),
           });
           if (res.ok) {
-            setAllArticles(allArticles.filter((item: Article) => item.id !== id));
+            await fetchData();
             message.success('Đã xóa bài viết thành công');
           } else {
             const errorData = await res.json();
@@ -218,20 +219,7 @@ function AdminNewsPageContent() {
         });
 
         if (res.ok) {
-          const result = await res.json();
-          const newId = result.id;
-
-          if (editingNews) {
-            setAllArticles(allArticles.map((item: Article) => (item.id === editingNews.id ? { ...item, ...formattedValues } : item)));
-          } else {
-            const newEntry = {
-              ...formattedValues,
-              id: BigInt(newId),
-              slug: values.slug || values.title.toLowerCase().replaceAll(' ', '-').replaceAll(/[^\w-]/g, ''),
-            };
-            setAllArticles([newEntry, ...allArticles]);
-          }
-
+          await fetchData();
           message.success(editingNews ? 'Cập nhật thành công' : 'Thêm mới thành công');
           setIsModalOpen(false);
         } else {

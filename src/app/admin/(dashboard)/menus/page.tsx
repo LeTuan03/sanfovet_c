@@ -22,21 +22,22 @@ function AdminMenusPageContent() {
   const [form] = Form.useForm();
 
   // Load from API
-  React.useEffect(() => {
-    const fetchData = async () => {
-      setLoading(true);
-      try {
-        const res = await adminFetch('/api/data/menus');
-        const data = await res.json();
-        setMenus(data || []);
-      } catch (error) {
-        msg.error('Không thể tải dữ liệu menu');
-      } finally {
-        setLoading(false);
-      }
-    };
-    fetchData();
+  const fetchData = React.useCallback(async () => {
+    setLoading(true);
+    try {
+      const res = await adminFetch('/api/data/menus');
+      const data = await res.json();
+      setMenus(data || []);
+    } catch (error) {
+      msg.error('Không thể tải dữ liệu menu');
+    } finally {
+      setLoading(false);
+    }
   }, [msg]);
+
+  React.useEffect(() => {
+    fetchData();
+  }, [fetchData]);
 
   // Derived filtered data
   const filteredData = useMemo(() => {
@@ -123,20 +124,7 @@ function AdminMenusPageContent() {
         });
         
         if (res.ok) {
-          const result = await res.json();
-          const newId = result.id;
-
-          if (editingItem) {
-            setMenus(menus.map(m => m.id === editingItem.id ? { ...m, ...parsedValues } : m));
-          } else {
-            const newItem = {
-              ...parsedValues,
-              id: Number(newId),
-              status: true
-            };
-            setMenus([...menus, newItem]);
-          }
-          
+          await fetchData();
           msg.success(editingItem ? 'Cập nhật menu thành công' : 'Thêm menu mới thành công');
           setIsModalOpen(false);
         } else {
@@ -225,7 +213,7 @@ function AdminMenusPageContent() {
                              }),
                            });
                            if (res.ok) {
-                             setMenus(menus.filter((m: any) => m.id !== record.id));
+                             await fetchData();
                              msg.success('Đã xóa menu thành công');
                            } else {
                              const errorData = await res.json();

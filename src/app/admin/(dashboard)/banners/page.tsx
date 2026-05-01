@@ -33,21 +33,22 @@ function AdminBannersPageContent() {
   const [form] = Form.useForm();
 
   // Load data from API
-  React.useEffect(() => {
-    const fetchData = async () => {
-      setLoading(true);
-      try {
-        const res = await adminFetch('/api/data/banners');
-        const data = await res.json();
-        setBanners(data);
-      } catch (error) {
-        message.error('Không thể tải dữ liệu');
-      } finally {
-        setLoading(false);
-      }
-    };
-    fetchData();
+  const fetchData = React.useCallback(async () => {
+    setLoading(true);
+    try {
+      const res = await adminFetch('/api/data/banners');
+      const data = await res.json();
+      setBanners(data);
+    } catch (error) {
+      message.error('Không thể tải dữ liệu');
+    } finally {
+      setLoading(false);
+    }
   }, [message]);
+
+  React.useEffect(() => {
+    fetchData();
+  }, [fetchData]);
 
   // Derived filtered data
   const filteredData = useMemo(() => {
@@ -183,7 +184,7 @@ function AdminBannersPageContent() {
             }),
           });
           if (res.ok) {
-            setBanners(banners.filter(b => b.id !== id));
+            await fetchData();
             message.success('Đã xóa thành công');
           } else {
             const errorData = await res.json();
@@ -224,20 +225,7 @@ function AdminBannersPageContent() {
           }),
         });
         if (res.ok) {
-          const result = await res.json();
-          const newId = result.id;
-
-          if (editingBanner) {
-            setBanners(banners.map(b => b.id === editingBanner.id ? { ...b, ...values } : b));
-          } else {
-            const newBanner = {
-              ...values,
-              id: BigInt(newId),
-              order: values.order || banners.length + 1,
-            };
-            setBanners([...banners, newBanner]);
-          }
-          
+          await fetchData();
           message.success(editingBanner ? 'Đã cập nhật banner' : 'Đã thêm banner mới');
           setIsModalOpen(false);
         } else {

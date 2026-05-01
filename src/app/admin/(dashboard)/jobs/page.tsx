@@ -28,21 +28,22 @@ function AdminJobsPageContent() {
   const [editingId, setEditingId] = useState<bigint | null>(null);
 
   // Load data from API
-  React.useEffect(() => {
-    const fetchData = async () => {
-      setLoading(true);
-      try {
-        const res = await adminFetch('/api/data/jobs');
-        const jobsData = await res.json();
-        setData(jobsData);
-      } catch (error) {
-        message.error('Không thể tải dữ liệu');
-      } finally {
-        setLoading(false);
-      }
-    };
-    fetchData();
+  const fetchData = React.useCallback(async () => {
+    setLoading(true);
+    try {
+      const res = await adminFetch('/api/data/jobs');
+      const jobsData = await res.json();
+      setData(jobsData);
+    } catch (error) {
+      message.error('Không thể tải dữ liệu');
+    } finally {
+      setLoading(false);
+    }
   }, [message]);
+
+  React.useEffect(() => {
+    fetchData();
+  }, [fetchData]);
 
   // Derived filtered data
   const filteredData = useMemo(() => {
@@ -115,20 +116,7 @@ function AdminJobsPageContent() {
         });
 
         if (res.ok) {
-          const result = await res.json();
-          const newId = result.id;
-
-          if (editingId) {
-            setData(data.map((item) => (item.id === editingId ? { ...item, ...formattedValues } : item)));
-          } else {
-            const newJob = {
-              ...formattedValues,
-              id: BigInt(newId),
-              slug: values.slug || values.title.toLowerCase().replaceAll(' ', '-').replaceAll(/[^\w-]/g, ''),
-            };
-            setData([newJob, ...data]);
-          }
-
+          await fetchData();
           message.success(editingId ? 'Cập nhật tin tuyển dụng thành công' : 'Đăng tin tuyển dụng thành công');
           setIsModalOpen(false);
         } else {
@@ -155,7 +143,7 @@ function AdminJobsPageContent() {
         }),
       });
       if (res.ok) {
-        setData(data.filter(j => j.id !== id));
+        await fetchData();
         message.success('Đã gỡ tin tuyển dụng');
       } else {
         const errorData = await res.json();

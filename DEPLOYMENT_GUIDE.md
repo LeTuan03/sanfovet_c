@@ -77,6 +77,18 @@ sudo -u postgres psql
 # CREATE USER admin WITH PASSWORD 'your_secure_password';
 # GRANT ALL PRIVILEGES ON DATABASE biotechvet TO admin;
 # \q
+
+-- 1. Tạo database
+CREATE DATABASE biotechvet;
+
+-- 2. Đặt mật khẩu cho user postgres là 123456 (giống trong file .env của bạn)
+ALTER USER postgres WITH PASSWORD '123456';
+
+-- 3. Cấp quyền (thường user postgres đã có toàn quyền, nhưng chạy lệnh này cho chắc chắn)
+GRANT ALL PRIVILEGES ON DATABASE biotechvet TO postgres;
+
+-- 4. Thoát khỏi console
+\q
 ```
 
 ## Application Setup
@@ -146,11 +158,16 @@ ls -la /var/www/biotechvet/.next
 ```bash
 cd /var/www/biotechvet
 
+sudo chown -R biotechvet:biotechvet /var/www/biotechvet
+
 # Generate Prisma Client
 sudo -u biotechvet npx prisma generate
 
 # Run database migrations
 sudo -u biotechvet npx prisma migrate deploy
+
+# 1. Đẩy cấu trúc từ schema.prisma vào database
+sudo -u biotechvet npx prisma db push
 
 # Seed initial data (imports JSON files to DB)
 sudo -u biotechvet pnpm run db:seed

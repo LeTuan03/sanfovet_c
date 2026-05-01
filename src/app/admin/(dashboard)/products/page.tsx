@@ -35,27 +35,28 @@ function ProductManagementContent() {
   const [editingId, setEditingId] = useState<bigint | null>(null);
 
   // Load data from API
-  React.useEffect(() => {
-    const fetchData = async () => {
-      setLoading(true);
-      try {
-        const [prodRes, catRes] = await Promise.all([
-          adminFetch('/api/data/products'),
-          adminFetch('/api/data/categories')
-        ]);
-        const prodData = await prodRes.json();
-        const catData = await catRes.json();
-        setData(prodData);
-        setCategories(catData);
-      } catch (error) {
-        console.log(error);
-        message.error('Không thể tải dữ liệu');
-      } finally {
-        setLoading(false);
-      }
-    };
-    fetchData();
+  const fetchData = React.useCallback(async () => {
+    setLoading(true);
+    try {
+      const [prodRes, catRes] = await Promise.all([
+        adminFetch('/api/data/products'),
+        adminFetch('/api/data/categories')
+      ]);
+      const prodData = await prodRes.json();
+      const catData = await catRes.json();
+      setData(prodData);
+      setCategories(catData);
+    } catch (error) {
+      console.log(error);
+      message.error('Không thể tải dữ liệu');
+    } finally {
+      setLoading(false);
+    }
   }, [message]);
+
+  React.useEffect(() => {
+    fetchData();
+  }, [fetchData]);
 
   // Derived filtered data
   const filteredData = useMemo(() => {
@@ -66,7 +67,7 @@ function ProductManagementContent() {
         cat?.name.toLowerCase().includes(query.toLowerCase())
       );
     });
-  }, [data, query]);
+  }, [data, categories, query]);
 
   const updateUrl = (params: { q?: string; page?: number }) => {
     const newSearchParams = new URLSearchParams(searchParams.toString());
@@ -119,23 +120,7 @@ function ProductManagementContent() {
         });
         
         if (res.ok) {
-          const result = await res.json();
-          const newId = result.id;
-          
-          let newData = [];
-          if (editingId) {
-            newData = data.map((item: Product) => (item.id === editingId ? { ...item, ...values } : item));
-          } else {
-            const newProduct = {
-              ...values,
-              id: BigInt(newId),
-              slug: values.slug || values.name.toLowerCase().replaceAll(' ', '-').replaceAll(/[^\w-]/g, ''),
-              images: values.images || [],
-            };
-            newData = [newProduct, ...data];
-          }
-          
-          setData(newData);
+          await fetchData();
           message.success(editingId ? 'Cập nhật sản phẩm thành công' : 'Thêm sản phẩm mới thành công');
           setIsModalOpen(false);
         } else {
@@ -170,8 +155,7 @@ function ProductManagementContent() {
             }),
           });
           if (res.ok) {
-            const newData = data.filter((item: Product) => item.id !== id);
-            setData(newData);
+            await fetchData();
             message.success('Đã xóa sản phẩm');
           } else {
             const errorData = await res.json();

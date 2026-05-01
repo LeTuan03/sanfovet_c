@@ -38,23 +38,24 @@ function AdminMediaGalleryPageContent() {
   const [editingId, setEditingId] = useState<bigint | null>(null);
 
   // Load data from API
-  React.useEffect(() => {
-    const fetchData = async () => {
-      setLoading(true);
-      try {
-        const res = await adminFetch('/api/data/media-gallery');
-        const data = await res.json();
-        console.log(data);
-        setImages(data.images || []);
-        setVideos(data.videos || []);
-      } catch (error) {
-        message.error('Không thể tải dữ liệu');
-      } finally {
-        setLoading(false);
-      }
-    };
-    fetchData();
+  const fetchData = React.useCallback(async () => {
+    setLoading(true);
+    try {
+      const res = await adminFetch('/api/data/media-gallery');
+      const data = await res.json();
+      setImages(data.images || []);
+      setVideos(data.videos || []);
+    } catch (error) {
+      message.error('Không thể tải dữ liệu');
+    } finally {
+      setLoading(false);
+    }
   }, [message]);
+
+  React.useEffect(() => {
+    fetchData();
+  }, [fetchData]);
+
   const [previewOpen, setPreviewOpen] = useState(false);
   const [previewImage, setPreviewImage] = useState('');
   const [form] = Form.useForm();
@@ -111,7 +112,6 @@ function AdminMediaGalleryPageContent() {
   };
 
   const handleDeleteImage = (id: bigint) => {
-    console.log(id);
     modal.confirm({
       title: 'Xóa hình ảnh?',
       content: 'Hình ảnh này sẽ không còn hiển thị ở Thư viện trang chủ.',
@@ -126,11 +126,11 @@ function AdminMediaGalleryPageContent() {
             body: JSON.stringify({ 
               action: 'delete', 
               mediaType: 'image', 
-              id 
+              id: id.toString()
             }),
           });
           if (res.ok) {
-            setImages(images.filter(img => img.id !== id));
+            await fetchData();
             message.success('Đã xóa hình ảnh');
           } else {
             const errorData = await res.json();
@@ -160,11 +160,11 @@ function AdminMediaGalleryPageContent() {
             body: JSON.stringify({ 
               action: 'delete', 
               mediaType: 'video', 
-              id 
+              id: id.toString()
             }),
           });
           if (res.ok) {
-            setVideos(videos.filter(v => v.id !== id));
+            await fetchData();
             message.success('Đã xóa video');
           } else {
             const errorData = await res.json();
@@ -197,11 +197,7 @@ function AdminMediaGalleryPageContent() {
         }),
       });
       if (res.ok) {
-        if (type === 'images') {
-          setImages(images.map(img => img.id === id ? { ...img, status: newStatus } : img));
-        } else {
-          setVideos(videos.map(v => v.id === id ? { ...v, status: newStatus } : v));
-        }
+        await fetchData();
         message.success('Đã cập nhật trạng thái hiển thị');
       } else {
         const errorData = await res.json();
@@ -233,20 +229,7 @@ function AdminMediaGalleryPageContent() {
         });
         
         if (res.ok) {
-          const result = await res.json();
-          if (activeTab === 'images') {
-            if (editingId !== null) {
-              setImages(images.map(img => img.id === editingId ? { ...img, ...values } : img));
-            } else {
-              setImages([...images, { ...values, id: result.id }]);
-            }
-          } else {
-            if (editingId !== null) {
-              setVideos(videos.map(v => v.id === editingId ? { ...v, ...values } : v));
-            } else {
-              setVideos([...videos, { ...values, id: result.id }]);
-            }
-          }
+          await fetchData();
           message.success('Đã lưu dữ liệu thành công');
           setIsModalOpen(false);
         } else {

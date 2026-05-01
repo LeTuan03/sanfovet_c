@@ -30,26 +30,27 @@ function HandbookManagementContent() {
   const [editingId, setEditingId] = useState<bigint | null>(null);
 
   // Load data from API
-  React.useEffect(() => {
-    const fetchData = async () => {
-      setLoading(true);
-      try {
-        const [artRes, tagRes] = await Promise.all([
-          adminFetch('/api/data/articles'),
-          adminFetch('/api/data/animal-tags')
-        ]);
-        const artData = await artRes.json();
-        const tagData = await tagRes.json();
-        setData(artData);
-        setAnimalTags(tagData);
-      } catch (error) {
-        msg.error('Không thể tải dữ liệu');
-      } finally {
-        setLoading(false);
-      }
-    };
-    fetchData();
+  const fetchData = React.useCallback(async () => {
+    setLoading(true);
+    try {
+      const [artRes, tagRes] = await Promise.all([
+        adminFetch('/api/data/articles'),
+        adminFetch('/api/data/animal-tags')
+      ]);
+      const artData = await artRes.json();
+      const tagData = await tagRes.json();
+      setData(artData);
+      setAnimalTags(tagData);
+    } catch (error) {
+      msg.error('Không thể tải dữ liệu');
+    } finally {
+      setLoading(false);
+    }
   }, [msg]);
+
+  React.useEffect(() => {
+    fetchData();
+  }, [fetchData]);
 
   // Derived handbooks
   const handbooksList = useMemo(() => {
@@ -126,20 +127,7 @@ function HandbookManagementContent() {
         });
 
         if (res.ok) {
-          const result = await res.json();
-          const newId = result.id;
-
-          if (editingId) {
-            setData(data.map((item: Article) => (item.id === editingId ? { ...item, ...formattedValues } : item)));
-          } else {
-            const newArticle = {
-              ...formattedValues,
-              id: Number(newId),
-              slug: values.slug || values.title.toLowerCase().replaceAll(' ', '-').replaceAll(/[^\w-]/g, ''),
-            };
-            setData([newArticle, ...data]);
-          }
-
+          await fetchData();
           msg.success(editingId ? 'Cập nhật bài viết thành công' : 'Thêm bài viết mới thành công');
           setIsModalOpen(false);
         } else {
@@ -173,7 +161,7 @@ function HandbookManagementContent() {
             }),
           });
           if (res.ok) {
-            setData(data.filter((item: Article) => item.id !== id));
+            await fetchData();
             msg.success('Đã xóa bài viết');
           } else {
             const errorData = await res.json();
