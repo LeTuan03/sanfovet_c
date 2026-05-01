@@ -20,15 +20,10 @@ export const metadata: Metadata = {
     ],
   },
 };
-import { supabase } from '@/lib/supabase/config';
+import { catalogueService } from '@/services';
 
 export default async function CataloguePage() {
-  const { data: fetchedDocuments } = await supabase
-    .from('catalogues')
-    .select('*')
-    .order('created_at', { ascending: false });
-
-  const documents = fetchedDocuments && fetchedDocuments.length > 0 ? fetchedDocuments : [];
+  const documents = await catalogueService.getAll();
 
   return (
     <div className="bg-white min-h-screen">

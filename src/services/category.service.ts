@@ -1,16 +1,36 @@
-import { BaseService } from './base.service';
-import { Category } from '@/types';
+import prisma from '@/lib/prisma';
 
-export class CategoryService extends BaseService<Category> {
-  constructor() {
-    super('categories');
+export class CategoryService {
+  async getAll() {
+    return prisma.category.findMany({ orderBy: { id: 'asc' } });
   }
 
-  async getBySlug(slug: string): Promise<Category | null> {
-    const snapshot = await this.collection.where('slug', '==', slug).limit(1).get();
-    if (snapshot.empty) return null;
-    const doc = snapshot.docs[0];
-    return { id: doc.id, ...doc.data() } as unknown as Category;
+  async getById(id: any) {
+    return prisma.category.findUnique({ where: { id: BigInt(id) as any } });
+  }
+
+  async getBySlug(slug: string) {
+    return prisma.category.findUnique({ where: { slug } });
+  }
+
+  async create(data: any) {
+    const { id, ...createData } = data;
+    const category = await prisma.category.create({ data: createData });
+    return String(category.id);
+  }
+
+  async update(id: any, data: any) {
+    if (!id) throw new Error('ID is required');
+    const { id: _, ...updateData } = data;
+    await prisma.category.update({ 
+      where: { id: BigInt(id) as any }, 
+      data: updateData 
+    });
+  }
+
+  async delete(id: any) {
+    if (!id) throw new Error('ID is required');
+    await prisma.category.delete({ where: { id: BigInt(id) as any } });
   }
 }
 

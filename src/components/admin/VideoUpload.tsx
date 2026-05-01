@@ -1,10 +1,9 @@
 "use client";
 
 import React, { useState, useEffect } from 'react';
-import { Upload, message, Progress, App as AntdApp } from 'antd';
+import { Upload, App as AntdApp } from 'antd';
 import { PlayCircleOutlined, DeleteOutlined, LoadingOutlined, VideoCameraOutlined } from '@ant-design/icons';
-import type { UploadProps } from 'antd';
-import { uploadFile } from '@/lib/supabase/storage';
+import { uploadFile } from '@/lib/storage-provider';
 
 interface VideoUploadProps {
   value?: string;
@@ -46,10 +45,10 @@ const VideoUpload: React.FC<VideoUploadProps> = ({
       setLoading(true);
       setPercent(0);
       
-      const path = `videos/${Date.now()}-${file.name}`;
+      const bucket = 'videos';
       // Use originFileObj if available
       const rawFile = (file as any).originFileObj || file;
-      const url = await uploadFile(rawFile as File, path, (progress) => {
+      const url = await uploadFile(rawFile as File, bucket, (progress: number) => {
         setPercent(Math.round(progress));
         onProgress({ percent: progress });
       });

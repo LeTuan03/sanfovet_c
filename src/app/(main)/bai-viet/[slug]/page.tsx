@@ -4,7 +4,7 @@ import React from 'react';
 
 import Link from 'next/link';
 import { notFound } from 'next/navigation';
-import { readData } from '@/lib/storage';
+import { articleService, productService } from '@/services';
 import { Article, Product } from '@/types';
 import { Calendar, User, ChevronRight, ArrowLeft, Share2, Printer, Tag, List } from 'lucide-react';
 import { Metadata } from 'next';
@@ -43,8 +43,7 @@ function getCategoryLabel(category: string): string {
 
 export async function generateMetadata({ params }: { params: Promise<{ slug: string }> }): Promise<Metadata> {
   const { slug } = await params;
-  const articles = await readData<Article[]>('articles');
-  const article = articles.find((a: Article) => a.slug === slug);
+  const article = await articleService.getBySlug(slug);
   
   if (!article) {
     return {
@@ -93,9 +92,9 @@ export async function generateMetadata({ params }: { params: Promise<{ slug: str
 
 export default async function ArticleDetailPage({ params }: Readonly<{ params: Promise<{ slug: string }> }>) {
   const { slug } = await params;
-  const articles = await readData<Article[]>('articles');
-  const products = await readData<Product[]>('products');
-  const article = articles.find((a: Article) => a.slug === slug);
+  const article = await articleService.getBySlug(slug);
+  const articles = await articleService.getAll();
+  const products = await productService.getAll();
 
   if (!article) {
     notFound();

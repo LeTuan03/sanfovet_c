@@ -35,7 +35,7 @@ function AdminMediaGalleryPageContent() {
   const [videos, setVideos] = useState<any[]>([]);
   const [loading, setLoading] = useState(true);
   const [isModalOpen, setIsModalOpen] = useState(false);
-  const [editingId, setEditingId] = useState<number | null>(null);
+  const [editingId, setEditingId] = useState<bigint | null>(null);
 
   // Load data from API
   React.useEffect(() => {
@@ -44,6 +44,7 @@ function AdminMediaGalleryPageContent() {
       try {
         const res = await adminFetch('/api/data/media-gallery');
         const data = await res.json();
+        console.log(data);
         setImages(data.images || []);
         setVideos(data.videos || []);
       } catch (error) {
@@ -109,29 +110,34 @@ function AdminMediaGalleryPageContent() {
     setIsModalOpen(true);
   };
 
-  const handleDeleteImage = (id: string | number) => {
+  const handleDeleteImage = (id: bigint) => {
+    console.log(id);
     modal.confirm({
       title: 'Xóa hình ảnh?',
       content: 'Hình ảnh này sẽ không còn hiển thị ở Thư viện trang chủ.',
       okText: 'Xóa',
       okType: 'danger',
       onOk: async () => {
-        const newImages = images.filter(img => img.id !== id);
         setGlobalLoading(true);
         try {
           const res = await adminFetch('/api/data/media-gallery', {
             method: 'POST',
             headers: { 'Content-Type': 'application/json' },
-            body: JSON.stringify({ images: newImages, videos }),
+            body: JSON.stringify({ 
+              action: 'delete', 
+              mediaType: 'image', 
+              id 
+            }),
           });
           if (res.ok) {
-            setImages(newImages);
+            setImages(images.filter(img => img.id !== id));
             message.success('Đã xóa hình ảnh');
           } else {
-            throw new Error();
+            const errorData = await res.json();
+            throw new Error(errorData.error || 'Lỗi khi xóa dữ liệu');
           }
-        } catch (error) {
-          message.error('Lỗi khi xóa dữ liệu');
+        } catch (error: any) {
+          message.error(error.message || 'Lỗi khi xóa dữ liệu');
         } finally {
           setGlobalLoading(false);
         }
@@ -139,29 +145,33 @@ function AdminMediaGalleryPageContent() {
     });
   };
 
-  const handleDeleteVideo = (id: string | number) => {
+  const handleDeleteVideo = (id: bigint) => {
     modal.confirm({
       title: 'Xóa video?',
       content: 'Video này sẽ không còn hiển thị ở mục Gallery.',
       okText: 'Xóa',
       okType: 'danger',
       onOk: async () => {
-        const newVideos = videos.filter(v => v.id !== id);
         setGlobalLoading(true);
         try {
           const res = await adminFetch('/api/data/media-gallery', {
             method: 'POST',
             headers: { 'Content-Type': 'application/json' },
-            body: JSON.stringify({ images, videos: newVideos }),
+            body: JSON.stringify({ 
+              action: 'delete', 
+              mediaType: 'video', 
+              id 
+            }),
           });
           if (res.ok) {
-            setVideos(newVideos);
+            setVideos(videos.filter(v => v.id !== id));
             message.success('Đã xóa video');
           } else {
-            throw new Error();
+            const errorData = await res.json();
+            throw new Error(errorData.error || 'Lỗi khi xóa dữ liệu');
           }
-        } catch (error) {
-          message.error('Lỗi khi xóa dữ liệu');
+        } catch (error: any) {
+          message.error(error.message || 'Lỗi khi xóa dữ liệu');
         } finally {
           setGlobalLoading(false);
         }
@@ -169,31 +179,36 @@ function AdminMediaGalleryPageContent() {
     });
   };
 
-  const toggleStatus = async (id: number, type: 'images' | 'videos') => {
-    let updatedImages = [...images];
-    let updatedVideos = [...videos];
+  const toggleStatus = async (id: bigint, type: 'images' | 'videos') => {
+    const item = type === 'images' ? images.find(img => img.id === id) : videos.find(v => v.id === id);
+    if (!item) return;
 
-    if (type === 'images') {
-      updatedImages = images.map(img => img.id === id ? { ...img, status: img.status === 'active' ? 'hidden' : 'active' } : img);
-    } else {
-      updatedVideos = videos.map(v => v.id === id ? { ...v, status: v.status === 'active' ? 'hidden' : 'active' } : v);
-    }
-
+    const newStatus = item.status === 'active' ? 'hidden' : 'active';
+    setGlobalLoading(true);
     try {
       const res = await adminFetch('/api/data/media-gallery', {
         method: 'POST',
         headers: { 'Content-Type': 'application/json' },
-        body: JSON.stringify({ images: updatedImages, videos: updatedVideos }),
+        body: JSON.stringify({ 
+          action: 'update', 
+          mediaType: type === 'images' ? 'image' : 'video', 
+          id: id.toString(), 
+          data: { status: newStatus } 
+        }),
       });
       if (res.ok) {
-        setImages(updatedImages);
-        setVideos(updatedVideos);
+        if (type === 'images') {
+          setImages(images.map(img => img.id === id ? { ...img, status: newStatus } : img));
+        } else {
+          setVideos(videos.map(v => v.id === id ? { ...v, status: newStatus } : v));
+        }
         message.success('Đã cập nhật trạng thái hiển thị');
       } else {
-        throw new Error();
+        const errorData = await res.json();
+        throw new Error(errorData.error || 'Lỗi khi cập nhật trạng thái');
       }
-    } catch (error) {
-      message.error('Lỗi khi cập nhật trạng thái');
+    } catch (error: any) {
+      message.error(error.message || 'Lỗi khi cập nhật trạng thái');
     } finally {
       setGlobalLoading(false);
     }
@@ -202,58 +217,49 @@ function AdminMediaGalleryPageContent() {
   const handleModalOk = () => {
     form.validateFields().then(async (values) => {
       setGlobalLoading(true);
-      let updatedImages = [...images];
-      let updatedVideos = [...videos];
+      const action = editingId !== null ? 'update' : 'create';
+      const mediaType = activeTab === 'images' ? 'image' : 'video';
 
-      if (activeTab === 'images') {
-        if (editingId) {
-          updatedImages = images.map(img => img.id === editingId ? { ...img, ...values } : img);
-        } else {
-          const newImg = {
-            id: String(Date.now()),
-            url: values.url || '/images/about.jpg',
-            title: values.title,
-            status: values.status || 'active',
-            order: values.order || 0
-          };
-          updatedImages = [...images, newImg];
-        }
-      } else {
-        if (editingId) {
-          updatedVideos = videos.map(v => v.id === editingId ? { ...v, ...values } : v);
-        } else {
-          const newVid = {
-            id: String(Date.now()),
-            url: values.url,
-            title: values.title,
-            thumbnail: values.thumbnail || '/images/about.jpg',
-            status: values.status || 'active',
-            order: values.order || 0
-          };
-          updatedVideos = [...videos, newVid];
-        }
-      }
-
-      // Save to API
       try {
         const res = await adminFetch('/api/data/media-gallery', {
           method: 'POST',
           headers: { 'Content-Type': 'application/json' },
-          body: JSON.stringify({ images: updatedImages, videos: updatedVideos }),
+          body: JSON.stringify({ 
+            action, 
+            mediaType, 
+            id: editingId?.toString(), 
+            data: values 
+          }),
         });
+        
         if (res.ok) {
-          setImages(updatedImages);
-          setVideos(updatedVideos);
+          const result = await res.json();
+          if (activeTab === 'images') {
+            if (editingId !== null) {
+              setImages(images.map(img => img.id === editingId ? { ...img, ...values } : img));
+            } else {
+              setImages([...images, { ...values, id: result.id }]);
+            }
+          } else {
+            if (editingId !== null) {
+              setVideos(videos.map(v => v.id === editingId ? { ...v, ...values } : v));
+            } else {
+              setVideos([...videos, { ...values, id: result.id }]);
+            }
+          }
           message.success('Đã lưu dữ liệu thành công');
           setIsModalOpen(false);
         } else {
-          throw new Error();
+          const errorData = await res.json();
+          throw new Error(errorData.error || 'Lỗi khi lưu dữ liệu');
         }
-      } catch (error) {
-        message.error('Lỗi khi lưu dữ liệu');
+      } catch (error: any) {
+        message.error(error.message || 'Lỗi khi lưu dữ liệu');
       } finally {
         setGlobalLoading(false);
       }
+    }).catch((info) => {
+      console.log('Validate Failed:', info);
     });
   };
 
@@ -352,11 +358,11 @@ function AdminMediaGalleryPageContent() {
                         <Card
                           hoverable
                           className={`rounded-[28px] overflow-hidden border-gray-100 shadow-sm hover:shadow-xl transition-all group ${vid.status === 'hidden' ? 'bg-gray-50' : ''}`}
-                          bodyStyle={{ padding: 0 }}
+                          styles={{ body: { padding: 0 } }}
                         >
                           <div className="flex flex-col sm:flex-row h-full">
                             <div className="w-full sm:w-56 h-48 bg-biotechvet-dark shrink-0 flex items-center justify-center relative overflow-hidden group">
-                               <img src={vid.thumbnail} className={`absolute inset-0 w-full h-full object-cover transition-all duration-700 group-hover:scale-110 ${vid.status === 'hidden' ? 'opacity-20 grayscale' : 'opacity-60'}`} />
+                               <img src={vid.thumbnail || null} className={`absolute inset-0 w-full h-full object-cover transition-all duration-700 group-hover:scale-110 ${vid.status === 'hidden' ? 'opacity-20 grayscale' : 'opacity-60'}`} />
                                <div className="relative z-10 w-16 h-16 bg-white/20 backdrop-blur-md rounded-full flex items-center justify-center text-white text-3xl group-hover:scale-110 group-hover:bg-primary transition-all shadow-xl">
                                   <PlayCircleOutlined />
                                </div>
@@ -438,7 +444,7 @@ function AdminMediaGalleryPageContent() {
         <Form form={form} layout="vertical" className="mt-6 px-4">
           <Row gutter={24}>
             <Col span={14}>
-              <Form.Item name="title" label="Tiêu đề / Chú thích" rules={[{ required: true, message: 'Vui lòng nhập tiêu đề' }]}>
+              <Form.Item name="title" label="Tiêu đề / Chú thích" rules={[{ required: true, message: 'Hãy nhập thông tin cho trường Tiêu đề / Ghi chú' }]}>
                 <Input placeholder="Nhập tiêu đề cho item này..." className="rounded-xl py-2 px-4 font-bold" />
               </Form.Item>
             </Col>

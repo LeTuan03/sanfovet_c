@@ -1,16 +1,15 @@
 import React from 'react';
 import Link from 'next/link';
 import { notFound } from 'next/navigation';
-import { readData } from '@/lib/storage';
+import { articleService, animalTagService } from '@/services';
 import { Article, AnimalTag } from '@/types';
 // import { articles, animalTags } from '@/lib/data'; // Removed static imports
 import { Calendar, ChevronRight } from 'lucide-react';
 
 export default async function AnimalTagPage({ params }: Readonly<{ params: Promise<{ tag: string }> }>) {
   const { tag } = await params;
-  const articles = await readData<Article[]>('articles');
-  const animalTags = await readData<AnimalTag[]>('animal-tags');
-  const animalTag = Array.isArray(animalTags) ? animalTags.find((t: AnimalTag) => t.slug === tag) : undefined;
+  const articles = await articleService.getAll();
+  const animalTag = await animalTagService.getBySlug(tag);
 
   if (!animalTag) {
     notFound();

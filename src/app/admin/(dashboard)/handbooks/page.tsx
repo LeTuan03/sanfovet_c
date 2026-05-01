@@ -27,7 +27,7 @@ function HandbookManagementContent() {
   const [loading, setLoading] = useState(true);
   const [isModalOpen, setIsModalOpen] = useState(false);
   const [form] = Form.useForm();
-  const [editingId, setEditingId] = useState<number | null>(null);
+  const [editingId, setEditingId] = useState<bigint | null>(null);
 
   // Load data from API
   React.useEffect(() => {
@@ -107,17 +107,7 @@ function HandbookManagementContent() {
         publishDate: values.publishDate ? values.publishDate.format('DD/MM/YYYY') : dayjs().format('DD/MM/YYYY'),
       };
 
-      let newData = [];
-      if (editingId) {
-        newData = data.map((item: Article) => (item.id === editingId ? { ...item, ...formattedValues } : item));
-      } else {
-        const newArticle = {
-          ...formattedValues,
-          id: Math.max(...data.map((a: Article) => a.id), 0) + 1,
-          slug: values.title.toLowerCase().replaceAll(' ', '-').replaceAll(/[^\w-]/g, ''),
-        };
-        newData = [newArticle, ...data];
-      }
+      const action = editingId ? 'update' : 'create';
 
       // Save to API
       setGlobalLoading(true);
@@ -125,24 +115,46 @@ function HandbookManagementContent() {
         const res = await adminFetch('/api/data/articles', {
           method: 'POST',
           headers: { 'Content-Type': 'application/json' },
-          body: JSON.stringify(newData),
+          body: JSON.stringify({
+            action,
+            data: {
+              ...formattedValues,
+              slug: values.slug || values.title.toLowerCase().replaceAll(' ', '-').replaceAll(/[^\w-]/g, ''),
+            },
+            id: editingId?.toString()
+          }),
         });
+
         if (res.ok) {
-          setData(newData);
+          const result = await res.json();
+          const newId = result.id;
+
+          if (editingId) {
+            setData(data.map((item: Article) => (item.id === editingId ? { ...item, ...formattedValues } : item)));
+          } else {
+            const newArticle = {
+              ...formattedValues,
+              id: Number(newId),
+              slug: values.slug || values.title.toLowerCase().replaceAll(' ', '-').replaceAll(/[^\w-]/g, ''),
+            };
+            setData([newArticle, ...data]);
+          }
+
           msg.success(editingId ? 'Cập nhật bài viết thành công' : 'Thêm bài viết mới thành công');
           setIsModalOpen(false);
         } else {
-          throw new Error();
+          const errorData = await res.json();
+          throw new Error(errorData.error || 'Lỗi khi lưu dữ liệu');
         }
-      } catch (error) {
-        msg.error('Lỗi khi lưu dữ liệu');
+      } catch (error: any) {
+        msg.error(error.message || 'Lỗi khi lưu dữ liệu');
       } finally {
         setGlobalLoading(false);
       }
     });
   };
 
-  const handleDelete = (id: number) => {
+  const handleDelete = (id: bigint) => {
     modal.confirm({
       title: 'Xác nhận xóa',
       content: 'Bạn có chắc chắn muốn xóa bài viết này không?',
@@ -150,22 +162,25 @@ function HandbookManagementContent() {
       okType: 'danger',
       cancelText: 'Hủy',
       onOk: async () => {
-        const newData = data.filter((item: Article) => item.id !== id);
         setGlobalLoading(true);
         try {
           const res = await adminFetch('/api/data/articles', {
             method: 'POST',
             headers: { 'Content-Type': 'application/json' },
-            body: JSON.stringify(newData),
+            body: JSON.stringify({
+              action: 'delete',
+              id: id.toString()
+            }),
           });
           if (res.ok) {
-            setData(newData);
+            setData(data.filter((item: Article) => item.id !== id));
             msg.success('Đã xóa bài viết');
           } else {
-            throw new Error();
+            const errorData = await res.json();
+            throw new Error(errorData.error || 'Lỗi khi xóa dữ liệu');
           }
-        } catch (error) {
-          msg.error('Lỗi khi xóa dữ liệu');
+        } catch (error: any) {
+          msg.error(error.message || 'Lỗi khi xóa dữ liệu');
         } finally {
           setGlobalLoading(false);
         }

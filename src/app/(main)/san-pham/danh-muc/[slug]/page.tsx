@@ -1,7 +1,7 @@
 import Link from 'next/link';
 import { notFound } from 'next/navigation';
 import { Eye, ChevronRight, Home, LayoutGrid, SearchX } from 'lucide-react';
-import { readData } from '@/lib/storage';
+import { productService, categoryService } from '@/services';
 import { Product, Category } from '@/types';
 import Pagination from '@/components/shared/Pagination';
 import ProductSearch from '@/components/shared/ProductSearch';
@@ -19,8 +19,8 @@ export default async function CategoryPage({ params, searchParams }: {
   const searchTerm = search?.toLowerCase() || '';
   const currentSort = sort || 'newest';
   
-  const products = await readData<Product[]>('products');
-  const categories = await readData<Category[]>('categories');
+  const products = await productService.getAll();
+  const categories = await categoryService.getAll();
 
   const currentCategory = Array.isArray(categories) ? categories.find((c: Category) => c.slug === slug) : undefined;
   
@@ -47,7 +47,7 @@ export default async function CategoryPage({ params, searchParams }: {
     filteredProducts = [...filteredProducts].sort((a, b) => b.name.localeCompare(a.name));
   } else {
     // Newest (by ID desc)
-    filteredProducts = [...filteredProducts].sort((a, b) => b.id - a.id);
+    filteredProducts = [...filteredProducts].sort((a, b) => Number(b.id) - Number(a.id));
   }
   
   // Pagination logic

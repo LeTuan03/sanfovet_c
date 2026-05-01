@@ -1,26 +1,37 @@
-import { BaseService } from './base.service';
-import { Article } from '@/types';
+import prisma from '@/lib/prisma';
 
-export class ArticleService extends BaseService<Article> {
-  constructor() {
-    super('articles');
+export class ArticleService {
+  async getAll() {
+    return prisma.article.findMany({ orderBy: { id: 'desc' } });
   }
 
-  async getByCategory(category: string): Promise<Article[]> {
-    const snapshot = await this.collection.where('category', '==', category).get();
-    return snapshot.docs.map((doc: any) => ({ id: doc.id, ...doc.data() }) as unknown as Article);
+  async getById(id: any) {
+    return prisma.article.findUnique({ where: { id: BigInt(id) as any } });
   }
 
-  async getByAnimalTag(animalTag: string): Promise<Article[]> {
-    const snapshot = await this.collection.where('animalTag', '==', animalTag).get();
-    return snapshot.docs.map((doc: any) => ({ id: doc.id, ...doc.data() }) as unknown as Article);
+  async getBySlug(slug: string) {
+    return prisma.article.findUnique({ where: { slug } });
   }
 
-  async getBySlug(slug: string): Promise<Article | null> {
-    const snapshot = await this.collection.where('slug', '==', slug).limit(1).get();
-    if (snapshot.empty) return null;
-    const doc = snapshot.docs[0];
-    return { id: doc.id, ...doc.data() } as unknown as Article;
+  async create(data: any) {
+    // Ensure no ID is passed to create
+    const { id, status, imageSize, ...createData } = data;
+    const article = await prisma.article.create({ data: createData });
+    return String(article.id);
+  }
+
+  async update(id: any, data: any) {
+    if (!id) throw new Error('ID is required');
+    const { id: _, status, imageSize, ...updateData } = data;
+    await prisma.article.update({ 
+      where: { id: BigInt(id) as any }, 
+      data: updateData 
+    });
+  }
+
+  async delete(id: any) {
+    if (!id) throw new Error('ID is required');
+    await prisma.article.delete({ where: { id: BigInt(id) as any } });
   }
 }
 

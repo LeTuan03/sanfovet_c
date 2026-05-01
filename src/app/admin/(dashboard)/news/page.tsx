@@ -149,7 +149,7 @@ function AdminNewsPageContent() {
     setIsModalOpen(true);
   };
 
-  const handleDelete = (id: number) => {
+  const handleDelete = (id: bigint) => {
     modal.confirm({
       title: 'Xác nhận xóa',
       content: 'Bạn có chắc chắn muốn xóa bài viết này không?',
@@ -157,22 +157,25 @@ function AdminNewsPageContent() {
       okType: 'danger',
       cancelText: 'Hủy',
       onOk: async () => {
-        const newData = allArticles.filter((item: Article) => item.id !== id);
         setGlobalLoading(true);
         try {
           const res = await adminFetch('/api/data/articles', {
             method: 'POST',
             headers: { 'Content-Type': 'application/json' },
-            body: JSON.stringify(newData),
+            body: JSON.stringify({
+              action: 'delete',
+              id: id.toString()
+            }),
           });
           if (res.ok) {
-            setAllArticles(newData);
+            setAllArticles(allArticles.filter((item: Article) => item.id !== id));
             message.success('Đã xóa bài viết thành công');
           } else {
-            throw new Error();
+            const errorData = await res.json();
+            throw new Error(errorData.error || 'Lỗi khi xóa dữ liệu');
           }
-        } catch (error) {
-          message.error('Lỗi khi xóa dữ liệu');
+        } catch (error: any) {
+          message.error(error.message || 'Lỗi khi xóa dữ liệu');
         } finally {
           setGlobalLoading(false);
         }
@@ -196,17 +199,7 @@ function AdminNewsPageContent() {
         publishDate: values.publishDate ? values.publishDate.format('DD/MM/YYYY') : dayjs().format('DD/MM/YYYY'),
       };
       
-      let newData = [];
-      if (editingNews) {
-        newData = allArticles.map((item: Article) => (item.id === editingNews.id ? { ...item, ...formattedValues } : item));
-      } else {
-        const newEntry = {
-          ...formattedValues,
-          id: Math.max(...allArticles.map((a: Article) => a.id), 0) + 1,
-          slug: values.title.toLowerCase().replaceAll(' ', '-').replaceAll(/[^\w-]/g, ''),
-        };
-        newData = [newEntry, ...allArticles];
-      }
+      const action = editingNews ? 'update' : 'create';
 
       // Save to API
       setGlobalLoading(true);
@@ -214,17 +207,39 @@ function AdminNewsPageContent() {
         const res = await adminFetch('/api/data/articles', {
           method: 'POST',
           headers: { 'Content-Type': 'application/json' },
-          body: JSON.stringify(newData),
+          body: JSON.stringify({
+            action,
+            data: {
+              ...formattedValues,
+              slug: values.slug || values.title.toLowerCase().replaceAll(' ', '-').replaceAll(/[^\w-]/g, ''),
+            },
+            id: editingNews?.id.toString()
+          }),
         });
+
         if (res.ok) {
-          setAllArticles(newData);
+          const result = await res.json();
+          const newId = result.id;
+
+          if (editingNews) {
+            setAllArticles(allArticles.map((item: Article) => (item.id === editingNews.id ? { ...item, ...formattedValues } : item)));
+          } else {
+            const newEntry = {
+              ...formattedValues,
+              id: BigInt(newId),
+              slug: values.slug || values.title.toLowerCase().replaceAll(' ', '-').replaceAll(/[^\w-]/g, ''),
+            };
+            setAllArticles([newEntry, ...allArticles]);
+          }
+
           message.success(editingNews ? 'Cập nhật thành công' : 'Thêm mới thành công');
           setIsModalOpen(false);
         } else {
-          throw new Error();
+          const errorData = await res.json();
+          throw new Error(errorData.error || 'Lỗi khi lưu dữ liệu');
         }
-      } catch (error) {
-        message.error('Lỗi khi lưu dữ liệu');
+      } catch (error: any) {
+        message.error(error.message || 'Lỗi khi lưu dữ liệu');
       } finally {
         setGlobalLoading(false);
       }

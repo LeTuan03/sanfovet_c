@@ -5,7 +5,7 @@ import { Upload, App as AntdApp, Image as AntImage } from 'antd';
 import { PlusOutlined, DeleteOutlined, LoadingOutlined, EyeOutlined } from '@ant-design/icons';
 import type { UploadChangeParam } from 'antd/es/upload';
 import type { RcFile, UploadFile, UploadProps } from 'antd/es/upload/interface';
-import { uploadFile } from '@/lib/supabase/storage';
+import { uploadFile } from '@/lib/storage-provider';
 
 interface ImageUploadProps {
   value?: string;
@@ -143,10 +143,8 @@ const ImageUpload: React.FC<ImageUploadProps> = ({
       // Thông báo cho component cha về file đã xử lý (để lấy size, name,...)
       onFileChange?.(resultFile);
 
-      const fileName = (resultFile instanceof File ? resultFile.name : (rawFile.name || 'image.webp')).replaceAll(/\s+/g, '-');
-      const path = `uploads/${Date.now()}-${fileName}`;
-      
-      const url = await uploadFile(resultFile as File, path, (progress) => {
+      const bucket = 'images';
+      const url = await uploadFile(resultFile as File, bucket, (progress: number) => {
         onProgress({ percent: progress });
       });
 
@@ -262,7 +260,7 @@ const ImageUpload: React.FC<ImageUploadProps> = ({
           src={imageUrl}
           style={{ display: 'none' }}
           preview={{
-            visible: previewVisible,
+            open: previewVisible,
             onOpenChange: (visible) => setPreviewVisible(visible),
           }}
         />

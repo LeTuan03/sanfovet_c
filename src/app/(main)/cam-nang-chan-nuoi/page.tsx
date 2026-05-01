@@ -1,6 +1,6 @@
 import React from 'react';
 import Link from 'next/link';
-import { readData } from '@/lib/storage';
+import { articleService, animalTagService } from '@/services';
 import { Article, AnimalTag } from '@/types';
 // import { articles, animalTags } from '@/lib/data'; // Removed static imports
 import { Calendar, ChevronRight, Search } from 'lucide-react';
@@ -26,8 +26,8 @@ export const metadata: Metadata = {
 };
 
 export default async function HandbookPage() {
-  const articles = await readData<Article[]>('articles');
-  const animalTags = await readData<AnimalTag[]>('animal-tags');
+  const articles = await articleService.getAll();
+  const animalTags = await animalTagService.getAll();
   const allHandbook = Array.isArray(articles) ? articles.filter((a: Article) => a.category === 'cam-nang') : [];
 
   return (

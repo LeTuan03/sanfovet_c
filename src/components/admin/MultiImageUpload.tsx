@@ -4,7 +4,7 @@ import React, { useState, useEffect } from 'react';
 import { Upload, App as AntdApp, Image as AntImage } from 'antd';
 import { PlusOutlined, DeleteOutlined, LoadingOutlined, EyeOutlined } from '@ant-design/icons';
 import type { RcFile, UploadProps } from 'antd/es/upload/interface';
-import { uploadFile } from '@/lib/supabase/storage';
+import { uploadFile } from '@/lib/storage-provider';
 
 interface MultiImageUploadProps {
   value?: string[];
@@ -76,7 +76,7 @@ const optimizeImage = async (file: File, options: {
 };
 
 const MultiImageUpload: React.FC<MultiImageUploadProps> = ({
-  value = [],
+  value,
   onChange,
   label = 'Thêm ảnh phụ',
   maxCount = 8,
@@ -86,15 +86,19 @@ const MultiImageUpload: React.FC<MultiImageUploadProps> = ({
   maxSize = 10,
 }) => {
   const { message: messageApi } = AntdApp.useApp();
-  const [images, setImages] = useState<string[]>(value);
+  const [images, setImages] = useState<string[]>(value || []);
   const [uploading, setUploading] = useState(false);
   const [uploadCount, setUploadCount] = useState(0);
   const [previewIndex, setPreviewIndex] = useState<number | null>(null);
-  const imagesRef = React.useRef<string[]>(value);
+  const imagesRef = React.useRef<string[]>(value || []);
 
   useEffect(() => {
-    setImages(value || []);
-    imagesRef.current = value || [];
+    const newValue = value || [];
+    // Only update if the reference is different and content is actually different
+    if (JSON.stringify(newValue) !== JSON.stringify(imagesRef.current)) {
+      setImages(newValue);
+      imagesRef.current = newValue;
+    }
   }, [value]);
 
   const beforeUpload = (file: RcFile) => {
@@ -118,9 +122,8 @@ const MultiImageUpload: React.FC<MultiImageUploadProps> = ({
       const rawFile = file.originFileObj || file;
       const resultFile = await optimizeImage(rawFile, { quality, maxWidth, maxHeight });
 
-      const fileName = (resultFile instanceof File ? resultFile.name : (rawFile.name || 'image.webp')).replaceAll(/\s+/g, '-');
-      const path = `uploads/${Date.now()}-${Math.random().toString(36).slice(2, 6)}-${fileName}`;
-      const url = await uploadFile(resultFile as File, path);
+      const bucket = 'images';
+      const url = await uploadFile(resultFile as File, bucket);
 
       // Use ref to always read the latest images array (avoids stale closure)
       const newImages = [...imagesRef.current, url];
@@ -222,7 +225,7 @@ const MultiImageUpload: React.FC<MultiImageUploadProps> = ({
           src={images[previewIndex]}
           style={{ display: 'none' }}
           preview={{
-            visible: true,
+            open: true,
             onVisibleChange: (visible) => {
               if (!visible) setPreviewIndex(null);
             },

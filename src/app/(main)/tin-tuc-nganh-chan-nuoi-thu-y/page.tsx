@@ -1,12 +1,12 @@
 import React from 'react';
 import Link from 'next/link';
-import { readData } from '@/lib/storage';
+import { articleService } from '@/services';
 import { Article } from '@/types';
 // import { articles } from '@/lib/data'; // Removed static import
 import { Calendar, ChevronRight, Globe } from 'lucide-react';
 
 export default async function IndustryNewsPage() {
-  const articles = await readData<Article[]>('articles');
+  const articles = await articleService.getAll();
   const list = Array.isArray(articles) ? articles.filter((a: Article) => a.category === 'tin-nganh') : [];
 
   return (

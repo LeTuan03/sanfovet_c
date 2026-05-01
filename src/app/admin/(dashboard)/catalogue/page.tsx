@@ -6,8 +6,7 @@ import { Table, Button, Space, Tag, Input, Modal, Form, Select, Switch, Tooltip,
 import { PlusOutlined, EditOutlined, DeleteOutlined, UploadOutlined } from '@ant-design/icons';
 import AdminPageHeader from '@/components/admin/AdminPageHeader';
 import { motion } from 'framer-motion';
-import { supabase } from '@/lib/supabase/config';
-import { uploadFile } from '@/lib/supabase/storage';
+import { uploadFile } from '@/lib/storage-provider';
 import { useAdminLoading } from '@/lib/AdminLoadingContext';
 
 export interface Catalogue {
@@ -39,21 +38,10 @@ function AdminCatalogueContent() {
   const fetchCatalogues = async () => {
     setLoading(true);
     try {
-      const { data, error } = await supabase
-        .from('catalogues')
-        .select('*')
-        .order('created_at', { ascending: false });
-
-      if (error) {
-        if (error.code === '42P01' || error.code === 'PGRST106') {
-          message.warning('Bảng catalogues chưa được tạo trên Supabase');
-          setCatalogues([]);
-        } else {
-          throw error;
-        }
-      } else {
-        setCatalogues(data || []);
-      }
+      const response = await fetch('/api/admin/catalogues');
+      const data = await response.json();
+      if (data.error) throw new Error(data.error);
+      setCatalogues(data || []);
     } catch (error: any) {
       console.error(error);
       message.error('Không thể tải dữ liệu catalogue');
@@ -159,8 +147,9 @@ function AdminCatalogueContent() {
       onOk: async () => {
         setGlobalLoading(true);
         try {
-          const { error } = await supabase.from('catalogues').delete().eq('id', record.id);
-          if (error) throw error;
+          const response = await fetch(`/api/admin/catalogues/${record.id}`, { method: 'DELETE' });
+          const data = await response.json();
+          if (data.error) throw new Error(data.error);
           
           setCatalogues(catalogues.filter(c => c.id !== record.id));
           message.success('Đã xóa thành công');
@@ -212,19 +201,22 @@ function AdminCatalogueContent() {
       setGlobalLoading(true);
       try {
         if (editingItem?.id) {
-          const { error } = await supabase
-            .from('catalogues')
-            .update(values)
-            .eq('id', editingItem.id);
-            
-          if (error) throw error;
+          const response = await fetch(`/api/admin/catalogues/${editingItem.id}`, {
+            method: 'PUT',
+            headers: { 'Content-Type': 'application/json' },
+            body: JSON.stringify(values),
+          });
+          const data = await response.json();
+          if (data.error) throw new Error(data.error);
           message.success('Cập nhật thành công');
         } else {
-          const { error } = await supabase
-            .from('catalogues')
-            .insert([values]);
-            
-          if (error) throw error;
+          const response = await fetch('/api/admin/catalogues', {
+            method: 'POST',
+            headers: { 'Content-Type': 'application/json' },
+            body: JSON.stringify(values),
+          });
+          const data = await response.json();
+          if (data.error) throw new Error(data.error);
           message.success('Thêm mới thành công');
         }
         

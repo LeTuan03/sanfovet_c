@@ -4,30 +4,30 @@ export interface ProductSpecification {
 }
 
 export interface Product {
-  id: number;
+  id: bigint;
   slug: string;
   name: string;
-  categoryId: number;
+  categoryId: bigint;
   image: string;
-  images?: string[];
-  featured?: boolean;
-  registrationNumber?: string;
-  description?: string;
-  specifications: ProductSpecification[];
+  images?: string[] | null;
+  featured?: boolean | null;
+  registrationNumber?: string | null;
+  description?: string | null;
+  specifications: any; // Prisma returns JsonValue, frontend expects array
 }
 
 export interface Category {
-  id: number;
+  id: bigint;
   name: string;
   slug: string;
 }
 
 export interface Article {
-  id: number;
+  id: bigint;
   slug: string;
   title: string;
   category: string;
-  animalTag?: string;
+  animalTag?: string | null;
   publishDate: string;
   thumbnail: string;
   excerpt: string;
@@ -35,16 +35,17 @@ export interface Article {
 }
 
 export interface Job {
-  id: number;
+  id: bigint;
   slug: string;
   title: string;
   location: string;
   date: string;
   description: string;
+  status?: string | null;
 }
 
 export interface Banner {
-  id: number;
+  id: bigint;
   image: string;
   title: string;
   link: string;
@@ -53,32 +54,28 @@ export interface Banner {
 }
 
 export interface NavMenu {
-  id: number;
+  id: bigint;
   name: string;
   link: string;
-  parent: number | null;
-  position: 'header' | 'footer' | 'both';
+  parent: bigint | null;
+  position: string;
   order: number;
   status: boolean;
-  hasMega?: boolean;
-  isButton?: boolean;
+  hasMega?: boolean | null;
+  isButton?: boolean | null;
 }
 
 export interface Setting {
-  hotline1?: string;
-  hotline2?: string;
-  email?: string;
-  address?: string;
-  intro_slogan?: string;
-  social?: {
-    facebook?: string;
-    youtube?: string;
-    zalo?: string;
-  };
+  hotline1?: string | null;
+  hotline2?: string | null;
+  email?: string | null;
+  address?: string | null;
+  intro_slogan?: string | null;
+  social?: any;
 }
 
 export interface AnimalTag {
-  id: number;
+  id: bigint;
   name: string;
   slug: string;
   icon: string;

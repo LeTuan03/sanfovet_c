@@ -1,172 +1,432 @@
 [
   {
-    "id": 1,
-    "slug": "thuoc-thu-y-hemopro",
-    "name": "HEMOPRO",
-    "categoryId": 1,
-    "image": "/images/product1.png",
-    "featured": true,
+    "id": "10",
+    "name": "CHYMOSIN",
+    "categoryId": "4",
+    "featured": false,
+    "image": "https://sxmzjfxgwhfdfxqpvgyg.supabase.co/storage/v1/object/public/sanfovet_uploads/uploads/1777275044440-chymosin%20lam%20net.png/ykoatv8jlm_1777275044441.png",
+    "slug": "chymosin",
     "specifications": [
       {
-        "title": "Công dụng",
-        "content": "Phòng và trị bệnh thiếu máu do thiếu sắt ở heo con, bê, nghé. Kích thích tăng trưởng, tăng sức đề kháng. Bổ sung sắt cho heo nái mang thai và cho con bú."
+        "title": "THÀNH PHẦN:",
+        "content": "Alpha chymotrypsin ................. 400 mg\nTrypsin ........................................ 100 mg\nTá dược vừa đủ ......................... 100 ml"
       },
       {
-        "title": "Dạng bào chế",
-        "content": "Dung dịch tiêm"
+        "title": "CHỈ ĐỊNH",
+        "content": "- Điều trị các mô bị nhiễm trùng, viêm và hoại tử tại chỗ.\nHấp thụ, loại bỏ khối xuất huyết, phù nề do chấn thương với biểu hiện cục máu đông, sưng tấy.\n- Loại bỏ phù nề do chấn thương từ va đập, cắn, đánh nhau...\n- Phòng ngừa hình thành mô bất tiện sau phẫu thuật.\n- Điều trị hỗ trợ trong các bệnh truyền nhiễm gây ra như E. Coli kéo màng, ORT, ILT, Coryza.. với biểu hiện tại các cơ quan là phù fibrin, kén đặc, đờm đặc khó tan...Có thể lặp lại điều trị sau 12-24 giờ liên quan đến các dấu hiệu lâm sàng."
       },
       {
-        "title": "Liều lượng & Cách dùng",
-        "content": "Tiêm bắp sâu, 1 liều duy nhất:\n- Heo con (3-5 ngày tuổi): 1-2 ml/con\n- Heo nái: 5-10 ml/con\n- Bê, nghé: 4-8 ml/con"
+        "title": "CÁCH DÙNG VÀ LIỀU LƯỢNG",
+        "content": "Tiêm bắp. Lặp lại liều dùng sau 12-24 giờ nếu cần.\n- Heo và Chó: ............ 0,25 - 0,65 ml/10 kg TT/lần, tương đương 1ml/20-40kg TT\n- Động vật khác: ....... 1ml/10-15kg TT/lần."
       },
       {
-        "title": "Thời gian ngưng thuốc",
-        "content": "28 ngày"
+        "title": "THỜI GIAN NGỪNG THUỐC:",
+        "content": "0 ngày"
       },
       {
-        "title": "Bảo quản",
-        "content": "Nơi khô ráo, thoáng mát, tránh ánh nắng trực tiếp. Nhiệt độ 15-25°C"
-      },
-      {
-        "title": "Quy cách",
-        "content": "100 ml"
+        "title": "BẢO QUẢN:",
+        "content": "Nơi khô, nhiệt độ dưới 30°C, tránh ánh sáng."
       }
-    ]
+    ],
+    "images": [],
+    "registrationNumber": "BTV - 187",
+    "description": "🔸 TIÊU VIÊM – CHỐNG PHÙ NỀ\n🔸 TAN MÁU BẦM – PHÁ HỦY FIBRIN CASEIN"
   },
   {
-    "id": 2,
-    "slug": "thuoc-thu-y-amox-inject",
-    "name": "AMOX-INJECT",
-    "categoryId": 2,
-    "image": "/images/product2.png",
-    "featured": true,
+    "id": "11",
+    "name": "GENTA 10",
+    "categoryId": "4",
+    "featured": false,
+    "image": "https://sxmzjfxgwhfdfxqpvgyg.supabase.co/storage/v1/object/public/sanfovet_uploads/uploads/1777275171056-genta%2010.png/cx0ydc21aa_1777275171056.png",
+    "slug": "genta-10",
     "specifications": [
       {
-        "title": "Công dụng",
-        "content": "Điều trị viêm phổi, viêm ruột, viêm tử cung, viêm vú, nhiễm trùng đường tiết niệu ở gia súc."
+        "title": "THÀNH PHẦN:",
+        "content": "Gentamycin sulfate .................... 10g\nTá dược vừa đủ ............................ 100ml"
       },
       {
-        "title": "Thành phần",
-        "content": "Amoxicillin trihydrate: 150 mg"
+        "title": "CHỈ ĐỊNH:",
+        "content": "- Điều trị nhiễm trùng do vi sinh vật mẫn cảm với Gentamycin trong nhiễm trùng niệu sinh dục, hô hấp, da, mô và đường tiêu hóa\nHeo, gia súc: Nhiễm trùng huyết, nhiễm trùng hô hấp (Viêm phế quản, viêm phổi, viêm phế quản phổi), nhiễm trùng đường tiêu hóa (viêm dạ dày co thắt, viêm ruột, viêm dạ dày), viêm bể thận, viêm niệu quản, viêm niệu đạo, viêm khớp, viêm đa khớp, viêm màng não, viêm vú.\nChó, mèo: Viêm da, viêm khớp, nhiễm trùng đường hô hấp, nhiễm trùng đường tiêu hóa, nhiễm trùng đường tiết niệu.."
       },
       {
-        "title": "Liều lượng & Cách dùng",
-        "content": "Tiêm bắp, 3-5 ngày:\n- Heo: 1ml/10kg TT\n- Trâu, bò: 1ml/10kg TT"
+        "title": "CÁCH DÙNG VÀ LIỀU LƯỢNG:",
+        "content": "Tiêm bắp hoặc tiêm tĩnh mạch. Liên tục từ 3 - 5 ngày.\n- Gia cầm: ............... 1ml/10kg TT/ngày\n- Heo, bê, dê, ngựa: ..... 1 ml/25kg TT/ngày\n- Chó, mèo: .............. 0,5 ml/5kg TT/ngày\n(Liều lượng tốt nhất là được tiêm hai lần vào ngày đầu tiên, sau đó ngày 1 lần)\n- Thụt rửa tử cung cho gia súc: 2ml mỗi lần, pha loãng với 16ml dung dịch muối đẳng trương 0,9%"
       },
       {
-        "title": "Thời gian ngưng thuốc",
-        "content": "15 ngày"
+        "title": "THỜI GIAN NGỪNG THUỐC:",
+        "content": "Khai thác:\nThịt: 7 ngày; Sữa: 3 ngày; Trứng: 0 ngày"
       },
       {
-        "title": "Bảo quản",
-        "content": "Nơi khô ráo, thoáng mát. Nhiệt độ 15-25°C"
+        "title": "BẢO QUẢN:",
+        "content": "Nơi khô, nhiệt độ dưới 30°C, tránh ánh sáng."
       }
-    ]
+    ],
+    "images": [],
+    "registrationNumber": "BTV-148",
+    "description": "✔ NHIỄM TRÙNG ĐƯỜNG HÔ HẤP GÂY HO, HEN\n✔ VIÊM ĐƯỜNG TIÊU HÓA GÂY TIÊU CHẢY NẶNG\n✔ VIÊM ĐA KHỚP, VIÊM VÚ, VIÊM DA"
   },
   {
-    "id": 3,
-    "slug": "thuoc-thu-y-electrolyte-c",
-    "name": "ELECTROLYTE-C",
-    "categoryId": 6,
-    "image": "/images/product3.png",
+    "id": "12",
+    "name": "GLUCO-KC-THẢO DƯỢC",
+    "categoryId": "4",
     "featured": true,
+    "image": "https://sxmzjfxgwhfdfxqpvgyg.supabase.co/storage/v1/object/public/sanfovet_uploads/uploads/1777275209198-glucokc.png/mir521tpva_1777275209199.png",
+    "slug": "gluco-kc-tho-dc",
     "specifications": [
       {
-        "title": "Công dụng",
-        "content": "Phòng chống stress do vận chuyển, thời tiết thay đổi. Bổ sung điện giải khi tiêu chảy, mất nước. Tăng sức đề kháng."
+        "title": "THÀNH PHẦN:",
+        "content": "Gluconat canxi ....................... 25.000mg\nVitamin C ................................. 5.000mg\nVitamin K3 .............................. 1.500mg\nTolfenamic acid ...................... 250mg\nTá dược vừa đủ ....................... 100ml"
       },
       {
-        "title": "Liều lượng & Cách dùng",
-        "content": "Pha nước uống, 3-5 ngày liên tục:\n- Gà, vịt: 1g/lít nước uống\n- Heo: 2g/lít nước uống"
+        "title": "CHỈ ĐỊNH:",
+        "content": "- Hạ sốt, giải nhiệt, chống nóng, chống stress, cung cấp năng lượng, tăng sức đề kháng\n- Tiêu viêm, chống xuất huyết các cơ quan phủ tạng trong cơ thể, giải độc, chống stress, hỗ trợ điều trị cho các bệnh truyền nhiễm kế phát gây nên như: Tai xanh (PRRS), LMLM, sốt đỏ ở heo, ký sinh trùng đường máu, E. Coli kéo màng ở gia cầm.\n- An toàn cho thú mang thai, thú sau sinh, thú suy nhược"
       },
       {
-        "title": "Quy cách",
-        "content": "1 kg"
+        "title": "CÁCH DÙNG & LIỀU LƯỢNG",
+        "content": "Tiêm bắp thịt hoặc dưới da. Sử dụng 1 lần/ngày\n- Gia súc: ................. 1ml/15-20kg TT.\n- Gia cầm, thúy cầm: ..... 1ml/6-7kg TT.\n- Điều trị cho đến khi hết bệnh."
+      },
+      {
+        "title": "THỜI GIAN NGỪNG SỬ DỤNG THUỐC:",
+        "content": "Lấy thịt: 5 ngày"
+      },
+      {
+        "title": "BẢO QUẢN:",
+        "content": "Nơi khô ráo, thoáng mát, nhiệt độ dưới 30°C, tránh ánh sáng trực tiếp."
+      },
+      {
+        "title": "CHỐNG CHỈ ĐỊNH:",
+        "content": "Không dùng cho vật nuôi dị ứng với thành phần của thuốc."
       }
-    ]
+    ],
+    "description": "✔ HẠ SỐT, GIẢI NHIỆT, CHỐNG STRESS\n✔ HỖ TRỢ SỨC, CHỐNG SUY NHƯỢC,\n✔ TĂNG SỨC ĐỀ KHÁNG\n✔ AN TOÀN CHO THÚ MANG THAI, SAU SINH",
+    "images": [],
+    "registrationNumber": "BTV-156"
   },
   {
-    "id": 4,
-    "slug": "thuoc-thu-y-tylosin-50",
-    "name": "TYLOSIN-50",
-    "categoryId": 3,
-    "image": "/images/product1.png",
-    "featured": true,
+    "id": "13",
+    "name": "OXYVET 200ᴸᴬ",
+    "categoryId": "4",
+    "featured": false,
+    "image": "https://sxmzjfxgwhfdfxqpvgyg.supabase.co/storage/v1/object/public/sanfovet_uploads/uploads/1777276599072-z7768074532333_b87b8674f64e0d995c889b78996af57e.jpg/kpnt0hpv8mc_1777276599072.jpg",
     "specifications": [
       {
-        "title": "Công dụng",
-        "content": "Điều trị CRD, viêm phổi do Mycoplasma, viêm ruột hoại tử ở gia cầm."
+        "title": "THÀNH PHẦN:",
+        "content": "Oxytetracycline (s.f. de dihydrate) .......... 20g\nDung môi vừa đủ .................................... 100ml"
       },
       {
-        "title": "Liều lượng & Cách dùng",
-        "content": "Pha nước uống, 3-5 ngày:\n- Gà, vịt: 1ml/lít nước"
+        "title": "CHỈ ĐỊNH:",
+        "content": "Trị nhiễm trùng đường hô hấp cấp tính gây viêm và sốt do các bệnh thiếu máu truyền nhiễm (Mycoplasma Suis), viêm phổi dính sườn (APP), suyễn heo, lepto (Bệnh nghệ), viêm phổi hóa mủ, phó thương hàn, tụ huyết trùng, E.coli, sưng phù đầu, viêm ruột ỉa chảy, viêm vú – viêm tử cung (MMA) trên bò, bê, cừu, dê và lợn."
       },
       {
-        "title": "Thời gian ngưng thuốc",
-        "content": "5 ngày"
+        "title": "CÁCH DÙNG VÀ LIỀU LƯỢNG:",
+        "content": "Tiêm bắp liều trình 3 - 5 ngày\n\nLợn: .......... 1ml/15-20kg TT."
+      },
+      {
+        "title": "THỜI GIAN NGỪNG THUỐC:",
+        "content": "Khai thác thịt: 28 ngày"
+      },
+      {
+        "title": "BẢO QUẢN:",
+        "content": "Nơi khô mát, nhiệt độ dưới 30°C, tránh ánh sáng trực tiếp"
       }
-    ]
+    ],
+    "slug": "oxyvet-200",
+    "registrationNumber": "BTV-108",
+    "description": "✔ Bệnh thiếu máu truyền nhiễm\n✔ Lợn nghệ, Lepto\n✔ Viêm vú, viêm tử cung",
+    "images": []
   },
   {
-    "id": 5,
-    "slug": "thuoc-thu-y-flor-premix",
-    "name": "FLOR-PREMIX",
-    "categoryId": 4,
-    "image": "/images/product2.png",
+    "id": "14",
+    "name": "BTV- FLO 45 & AZY NEW",
+    "categoryId": "4",
     "featured": true,
+    "image": "https://sxmzjfxgwhfdfxqpvgyg.supabase.co/storage/v1/object/public/sanfovet_uploads/uploads/1777281024290-z7768328178612_f7d07dfd2dc4ce3114b785480bed6728.jpg/t8jbz56ckyn_1777281024290.jpg",
     "specifications": [
       {
-        "title": "Công dụng",
-        "content": "Điều trị viêm phổi, các bệnh đường hô hấp do vi khuẩn nhạy cảm với Florfenicol."
+        "title": "THÀNH PHẦN: HỘP CHỨA 02 CHAI",
+        "content": "Chai Azy New: Trong 100ml chứa:\nAzithromycin .................................. 10g\nTá dược vừa đủ ............................... 100ml\n\nChai Flo 45: Trong 100ml chứa:\nFlorphenicol ................................... 45g\nTá dược, dung môi đặc biệt vđ ...... 100ml"
       },
       {
-        "title": "Liều lượng & Cách dùng",
-        "content": "Trộn thức ăn, 5-7 ngày:\n- Heo: 2-4 kg/tấn thức ăn"
+        "title": "CHỈ ĐỊNH:",
+        "content": "- Đặc trị viêm phổi cấp, viêm phổi hóa mủ, viêm phổi dính sườn (APP), viêm da xoang (GLASSER), viêm phế quản, viêm màng phổi, tụ huyết trùng, thương hàn, lepto (bệnh nghệ),… chứng hoại tử ở lợn với các biểu hiện: thở giật bụng, ngồi thở, ho khan hoặc ướt\n- Hiệu quả cao trong điều trị các bệnh kế phát do LMLM, hội chứng PRRS, bò ăn không rõ nguyên nhân\n- Ho nặng điều trị lâu ngày không khỏi"
       },
       {
-        "title": "Đặc tính kỹ thuật",
-        "content": "Sử dụng công nghệ siêu bám dính, giúp thuốc phân bổ đều trong thức ăn, tăng hiệu quả điều trị."
+        "title": "CÁCH DÙNG VÀ LIỀU LƯỢNG:",
+        "content": "Tiêm sâu bắp thịt, liệu trình 3 - 5 ngày.\n- Heo: .............. 1ml/35-50kg TT/ngày\n- Trâu, bò: ......... 1ml/45-50kg TT/ngày\n- Loài khác: ........ 1ml/10-15kg TT/ngày\nLưu ý: Trường hợp bệnh nặng có thể tiêm 1-2 ngày liên tiếp, 1 lần/ngày\nKhông tiêm quá 20ml tại 1 vị trí"
+      },
+      {
+        "title": "THỜI GIAN NGỪNG THUỐC:",
+        "content": "Thịt: 9 ngày"
+      },
+      {
+        "title": "BẢO QUẢN:",
+        "content": "Nơi khô, nhiệt độ dưới 30°C, tránh ánh sáng."
       }
-    ]
+    ],
+    "slug": "btv--flo-45--azy-new",
+    "images": [],
+    "registrationNumber": "Flo 45: BTV-90 ; Azy New: BTV-162",
+    "description": "✔ HO TIÊM LÂU NGÀY KHÔNG KHỎI\n✔ SỐT ĐỎ, BỎ ĂN KHÔNG RÕ NGUYÊN NHÂN\n✔ HÔ HẤP PHỨC HỢP: SUYỄN, VIÊM PHỔI THỞ GIẬT BỤNG, KẾ PHÁT TAI XANH"
   },
   {
-    "id": 6,
-    "slug": "thuoc-thu-y-colistin-powder",
-    "name": "COLISTIN POWDER",
-    "categoryId": 5,
-    "image": "/images/product3.png",
-    "featured": true,
+    "id": "15",
+    "name": "MELOXIM",
+    "categoryId": "4",
+    "featured": false,
+    "image": "https://sxmzjfxgwhfdfxqpvgyg.supabase.co/storage/v1/object/public/sanfovet_uploads/uploads/1777360070315-meloxicm-lam-net.webp/mautzjxhb78_1777360070316.webp",
     "specifications": [
       {
-        "title": "Công dụng",
-        "content": "Điều trị tiêu chảy do E.coli, Salmonella. Viêm ruột, viêm phổi ở gia súc, gia cầm."
+        "title": "THÀNH PHẦN:",
+        "content": "Meloxicam ................................. 500 mg\nBenzyl alcohol ............................ 5000 mg\nTá dược vđ .................................. 100 ml"
       },
       {
-        "title": "Liều lượng & Cách dùng",
-        "content": "Pha nước uống / trộn thức ăn, 3-5 ngày:\n- Gà, vịt: 0.5g/lít nước\n- Heo: 1g/lít nước"
+        "title": "CHỈ ĐỊNH:",
+        "content": "Meloxicam là thuốc được chỉ định dùng cho vật nuôi trong các trường hợp:\n- Giảm các triệu chứng sốt, đau, kháng viêm trong các bệnh nhiễm trùng đường hô hấp như viêm phổi cấp tính, viêm vú cấp tính, viêm tử cung, hội chứng MMA,... với kháng sinh thích hợp như: Azy New, Flo 45, Cefoxim\n- Điều trị các rối loạn về vận động trong chấn thương phần mềm như đau cơ bắp, viêm khớp, đau móng, thối móng, đi lại khó khăn do loãng xương.\n- Giảm các triệu chứng đau do phẫu thuật nhỏ mô mềm như thiến/hoạn..."
+      },
+      {
+        "title": "CÁCH DÙNG VÀ LIỀU LƯỢNG:",
+        "content": "Tiêm bắp hoặc dưới da (Theo chỉ dẫn của BSTY)\n- Heo: .......... 0,4 mg/1kg TT (tương ứng 2ml/25kg TT)\n- Gia súc: ....... 0,5mg/1kg TT (tương ứng 10ml/100kg TT)\nGiảm cơn đau hậu phẫu: ......... 0,4mg/1kg TT (tương ứng 0,4ml/5kg TT) trước khi phẫu thuật."
+      },
+      {
+        "title": "THỜI GIAN NGỪNG THUỐC:",
+        "content": "Lợn: Thịt và phụ phẩm: 5 ngày."
+      },
+      {
+        "title": "BẢO QUẢN:",
+        "content": "Nơi khô, nhiệt độ dưới 30°C, tránh ánh sáng."
       }
-    ]
+    ],
+    "slug": "meloxim",
+    "registrationNumber": "BTV - 114",
+    "description": "✔ GIẢM ĐAU, HẠ SỐT, KHÁNG VIÊM\n✔ RỐI LOẠN VẬN ĐỘNG, VIÊM KHỚP",
+    "images": []
   },
   {
-    "id": 7,
-    "slug": "thuoc-thu-y-liver-tonic",
-    "name": "LIVER TONIC",
-    "categoryId": 7,
-    "image": "/images/product1.png",
+    "id": "16",
+    "name": "GIẢI ĐỘC GAN, THẬN THẢO DƯỢC",
+    "categoryId": "11",
     "featured": true,
+    "image": "https://sxmzjfxgwhfdfxqpvgyg.supabase.co/storage/v1/object/public/sanfovet_uploads/uploads/1777364459593-asdasd.webp/4byus15z22l_1777364459593.webp",
     "specifications": [
       {
-        "title": "Công dụng",
-        "content": "Bổ gan, giải độc gan cho gia súc, gia cầm. Hỗ trợ phục hồi sau bệnh, sau dùng kháng sinh kéo dài."
+        "title": "THÀNH PHẦN:",
+        "content": "Sorbitol(min) .................................. 250 g\nVitamin B12(min) ............................ 10 mg\nMethionin(min) .............................. 10 g\nTá dược, dung môi thảo dược đủ .... 1000 ml"
       },
       {
-        "title": "Liều lượng & Cách dùng",
-        "content": "Pha nước uống, 5-7 ngày:\n- Gia cầm: 1ml/lít nước\n- Heo: 2ml/lít nước"
+        "title": "CÔNG DỤNG:",
+        "content": "- Ngăn ngừa và phục hồi các tổn thương gan, thận do các bệnh gây ra như bệnh cầu trùng, bệnh ký sinh trùng, Gumboro, bệnh nhiễm khuẩn, khi sử dụng các loại thuốc kháng sinh và các thuốc Sulphamide, viêm gan thể vùi...\n- Bổ gan, lợi mật, ngừa sưng gan, chống thiếu máu.\n- Tăng cường chức năng giải độc gan, giải độc cơ thể, bảo vệ tế bào gan.\n- Nâng cao sức đề kháng, hỗ trợ phục hồi bệnh truyền nhiễm, dùng khi gia súc, gia cầm mệt mỏi, biếng ăn do thay đổi thời tiết.\n- Dùng kết hợp trong các liệu trình điều trị có sử dụng thuốc và kháng sinh kéo dài."
       },
       {
-        "title": "Đặc tính",
-        "content": "LIVER TONIC là dung dịch uống bổ gan thận, giúp tăng cường chức năng gan, thải độc kim loại nặng và mycotoxin."
+        "title": "CÁCH DÙNG, LIỀU DÙNG:",
+        "content": "Pha nước uống, dùng thường xuyên trong quá trình nuôi dưỡng:\nLiều chung: cho gia súc, gia cầm 2-4ml/10kg TT/ngày, tương đương 1ml/2 lít nước\n- Lần 1: Khi gà 20-24 ngày tuổi, dùng 1 lít/13-15 tấn gà, dùng liên tục 5 ngày\n- Lần 2: Khi gà 32-34 ngày tuổi, dùng 1 lít/9-12 tấn gà, dùng liên tục 3 ngày"
+      },
+      {
+        "title": "BẢO QUẢN:",
+        "content": "Nơi khô mát, nhiệt độ dưới 30°C, tránh ánh sáng trực tiếp"
       }
-    ]
+    ],
+    "slug": "gii-c-gan-thn-tho-dc",
+    "registrationNumber": "TCCS 16:2010/BTV",
+    "description": "✔ BỔ GAN, LỢI MẬT, CHỐNG ĐỘC\n✔ GIẢI ĐỘC KHI DÙNG KHÁNG SINH",
+    "images": []
+  },
+  {
+    "id": "17",
+    "name": "VỖ BÉO CAO ĐẠM",
+    "categoryId": "11",
+    "featured": true,
+    "image": "https://sxmzjfxgwhfdfxqpvgyg.supabase.co/storage/v1/object/public/sanfovet_uploads/uploads/1777361954957-Untitled-1-Recovered-Recovered.webp/52d40hp0h0w_1777361954957.webp",
+    "specifications": [
+      {
+        "title": "THÀNH PHẦN:",
+        "content": "Cao gan chiết theo phương pháp Flavto (Protein)          ≥ 10 %  \nVitamin B12                                                               ≥ 1 000 mcg\nMethionine                                                                ≥ 25 000mg  \nVitamin E                                                                       ≥ 250 mg\nLysine                                                                        ≥ 13 000mg  \nZinc                                                                      600mg-700mg\nInositol                                                                         ≥ 1 200mg  \nCopper                                                                400mg-500mg\nCholine clorid                                                           ≥ 12 000mg  \nIron                                                                      200mg-300mg\nDung môi (Cao nấm men) vừa đủ                                 1000 ml\nKhông có kháng sinh và hoocmon"
+      },
+      {
+        "title": "CÔNG DỤNG:",
+        "content": "- Cung cấp các dưỡng chất thiết yếu cho sự phát triển của gia súc, gia cầm. Hạn chế các chứng bệnh thiếu acid amin, vitamin, khoáng chất ở vật nuôi.\n- Cải thiện khả năng tăng trưởng: Bung lông bắt cựa nhanh, lông mượt, đẹp mã, đẹp mã. Tăng trọng cơ thể (dùng dài hạn có tác dụng), tăng tỉ lệ đẻ, nâng đẻ, giảm FCR cho gia cầm thịt và đẻ.\n- Kích thích thèm ăn, tăng khả năng sinh sản, nâng cao sức đề kháng của vật nuôi.\n- Dùng phối hợp với kháng sinh, vitamin, giúp chống lại nhiều loại bệnh tật (bệnh truyền nhiễm, ký sinh trùng…)."
+      },
+      {
+        "title": "CÁCH DÙNG VÀ LIỀU LƯỢNG:",
+        "content": "Trộn thức ăn hoặc pha nước uống:\n- Gia cầm: Dùng 1 lít/100kg TT hoặc 1 lít/10 tấn TT. Dùng liên tục 7 ngày hoặc 5 ngày (tháng dùng 3 đợt)\n- Gia cầm đẻ: 1ml/15kg TT hoặc 1ml/2 lít nước. Dùng liên tục 5 ngày đầu tiên sau đó 3-5 ngày/lần trong suốt chu kỳ đẻ.\n-  đoạn đẻ: 1 lít/15 tấn TT / 3 ngày liên tiếp đạt hiệu quả cao nhất.\nLắc kỹ trước khi dùng (hàm lượng Protein cao)"
+      },
+      {
+        "title": "BẢO QUẢN:",
+        "content": "Nơi khô mát, tránh ánh sáng"
+      }
+    ],
+    "slug": "v-bo-cao-m",
+    "registrationNumber": "TCCS 06: 2017/BTV",
+    "description": "- VÀNG CAM, DÀY LƯỜN, BUNG ĐÙI\n- ĐỎ KÍCH MÀO, VÀNG LÔNG, VÀNG DA\n- KHÔNG MỔ CẮN NHAU, NHANH MỌC LÔNG",
+    "images": []
+  },
+  {
+    "id": "18",
+    "name": "BUTAMIN B12",
+    "categoryId": "11",
+    "image": "https://sxmzjfxgwhfdfxqpvgyg.supabase.co/storage/v1/object/public/sanfovet_uploads/uploads/1777362448824-Untitled-1-Recovered-Recovered.webp/wmr3i560qnk_1777362448825.webp",
+    "specifications": [
+      {
+        "title": "THÀNH PHẦN:",
+        "content": "Butafosfan .................................... 100 000 mg\nCyanocobalamin .......................... 72,5 mg\nDung môi vừa đủ ......................... 1000 ml"
+      },
+      {
+        "title": "CHỈ ĐỊNH:",
+        "content": "- Hỗ trợ, phục hồi các rối loạn chuyển hóa do dinh dưỡng kém, chậm sốc kém với các hiện trạng: Tỷ lệ còi cọc nhiều, thay lông chậm, cân móc cân nhiều\n- Rối loạn phát triển và dinh dưỡng ở động vật non (giai đoạn úm),\n- Tăng cường sức đề kháng khi kết hợp trước và sau khi can thiệp các bệnh truyền nhiễm gây ra: Newcastle, Gumboro, hen, khẹc,...\n- Chống suy nhược trong các cơn sốt, bỏ, ngựa, cừu, dê, lợn, gia cầm"
+      },
+      {
+        "title": "LIỀU LƯỢNG VÀ CÁCH DÙNG:",
+        "content": "Pha với nước uống. Điều trị trong 5 ngày\n\nGia cầm: .............. 1ml/2 lít nước uống tương đương 1ml/15-20kg TT\nLợn, bê, cừu: ........ 30mg/kg TT tương đương 1 lít/10 tấn TT"
+      },
+      {
+        "title": "THỜI GIAN NGỪNG THUỐC:",
+        "content": "Khai thác thịt: 1 ngày."
+      },
+      {
+        "title": "BẢO QUẢN:",
+        "content": "Nơi khô mát, tránh ánh sáng"
+      }
+    ],
+    "slug": "butamin-b12",
+    "featured": true,
+    "registrationNumber": "NVP-74",
+    "description": "- TĂNG ĐỘ ĐỒNG ĐỀU, CHỐNG CÒI\n- TĂNG CƯỜNG SỨC ĐỀ KHÁNG\nCÂN BẰNG DINH DƯỠNG",
+    "images": []
+  },
+  {
+    "id": "19",
+    "name": "PANADOL S",
+    "categoryId": "11",
+    "image": "https://sxmzjfxgwhfdfxqpvgyg.supabase.co/storage/v1/object/public/sanfovet_uploads/uploads/1777363957682-panadol-s.webp/qeqo6g5hnvi_1777363957682.webp",
+    "specifications": [
+      {
+        "title": "THÀNH PHẦN:",
+        "content": "Paracetamol ................................. 30000 mg\nDung môi vừa đủ ......................... 1000 ml"
+      },
+      {
+        "title": "CHỈ ĐỊNH:",
+        "content": "Hạ sốt trên lợn, bê, cừu và gia cầm trong các trường hợp sốt cao do mắc các nguyên nhân do virus, hoặc các bệnh gây nên nhiễm trùng như: Heo tai xanh, LMLM, Gumboro, hen gà (CRD), sưng phù đầu gà (Coryza) và một số bệnh nhiễm trùng khác"
+      },
+      {
+        "title": "CHỐNG CHỈ ĐỊNH:",
+        "content": "Không sử dụng cho động vật quá mẫn cảm với Paracetamol; vật bị suy gan, suy thận nặng, mất nước vì tình trạng mất nước hoặc hypovolemia"
+      },
+      {
+        "title": "THỜI GIAN NGỪNG THUỐC:",
+        "content": "Khai thác thịt: 1 ngày."
+      },
+      {
+        "title": "BẢO QUẢN:",
+        "content": "Nơi khô mát, tránh ánh sáng"
+      }
+    ],
+    "slug": "panadol-s",
+    "featured": true,
+    "registrationNumber": "NVP-26",
+    "description": "- HỘI CHỨNG SỐT, ĐAU\n- CHỦNG NGỪA VACCINE, STRESS NHIỆT\n- GIẢI NHIỆT, CHỐNG NÓNG",
+    "images": []
+  },
+  {
+    "id": "8",
+    "name": "AZY NEW",
+    "categoryId": "4",
+    "registrationNo": "BTV-162",
+    "image": "https://sxmzjfxgwhfdfxqpvgyg.supabase.co/storage/v1/object/public/sanfovet_uploads/uploads/1777274116156-taoanhdep_net_anh_98059.jpeg/w0f6tsifpim_1777274116157.jpeg",
+    "volume": "20ml: 120 chai/T 100ml: 40 chai/T",
+    "ingredients": [
+      {
+        "name": "Azithromycin ",
+        "amount": "10",
+        "unit": "G"
+      },
+      {
+        "name": "Tá dược vừa đủ",
+        "amount": "100",
+        "unit": "ML"
+      }
+    ],
+    "indications": "<p>Trị nhiễm khuẩn đường hô hấp, tiêu hóa, sinh dục, nhiễm trùng da trên heo, trâu, bò, ngựa, dê, cừu.</p><ul><li>- Heo, Bò: Đặc trị hô hấp với các nguyên nhân: Viêm phổi, suyễn, viêm phổi dính sườn (APP), hội chứng hoại tử ở lợn, bệnh Lepto,...</li><li>- Hiệu quả cao trong điều trị các bệnh kế phát do MLML, hội chứng PRRS, bỏ ăn không rõ nguyên nhân.</li><li>- Loài khác: Điều trị CRD (hen gà), E. Coli kéo màng, ORT,... với các biểu hiện: ngáp, rón cổ để thở, màng fibrin, viêm sưng mặt, mắt...</li></ul>",
+    "dosage": {
+      "route": "Tiêm sâu bắp ",
+      "duration": "2 - 4 ngày",
+      "byAnimal": [
+        {
+          "animal": "Heo",
+          "dose": "1ml/15-20kg TT/ngày"
+        },
+        {
+          "animal": "Trâu, bò",
+          "dose": "1ml/20-25kg TT/ngày"
+        },
+        {
+          "animal": "Loài khác",
+          "dose": "1ml/10-15kg TT/ngày"
+        }
+      ]
+    },
+    "formulation": "Kháng sinh Tiêm",
+    "withdrawalPeriod": "Thịt: trâu bò không sớm hơn 40 ngày, lợn: 4 ngày.",
+    "storage": "Nơi khô, nhiệt độ dưới 30°C, tránh ánh sáng.",
+    "slug": "azy-new",
+    "featured": true,
+    "tagline": "Bổ gan thận, giải độc, tăng cường chức năng gan",
+    "specifications": [
+      {
+        "title": "THÀNH PHẦN:",
+        "content": "Azithromycin ........................................ 10 g\nTá dược vừa đủ .................................... 100 ml"
+      },
+      {
+        "title": "CHỈ ĐỊNH",
+        "content": "Trị nhiễm khuẩn đường hô hấp, tiêu hóa, sinh dục, nhiễm trùng da trên heo, trâu, bò, ngựa, dê, cừu.\n- Heo, Bò: Đặc trị hô hấp với các nguyên nhân: Viêm phổi, suyễn, viêm phổi dính sườn (APP), hội chứng hoại tử ở lợn, bệnh Lepto,...\n- Hiệu quả cao trong điều trị các bệnh kế phát do LMLM, hội chứng PRRS, bò ăn không rõ nguyên nhân.\n- Loài khác: Điều trị CRD (hen gà), E. Coli kéo màng, ORT... với các biểu hiện: ngáp, rên có đờm, màng fibrin, viêm sưng mặt, mắt..."
+      },
+      {
+        "title": "CÁCH DÙNG VÀ LIỀU LƯỢNG",
+        "content": "Tiêm sâu bắp thịt, liệu trình 2 - 4 ngày.\nHeo: .................. 1ml/20-25kg TT/ngày.\nTrâu, bò: ............. 1ml/25-30kg TT/ngày.\nLoài khác: ............ 1ml/10-15kg TT/ngày."
+      },
+      {
+        "title": "THỜI GIAN NGỪNG THUỐC",
+        "content": "Thịt trâu bò: không sớm hơn 40 ngày.\nLợn: 4 ngày."
+      },
+      {
+        "title": "BẢO QUẢN",
+        "content": "Nơi khô, nhiệt độ dưới 30°C, tránh ánh sáng."
+      }
+    ],
+    "registrationNumber": "BTV-162",
+    "description": "• ĐẶC TRỊ: HEN NẶNG TIÊM LÂU NGÀY KHÔNG KHỎI: SUYỄN, VIÊM PHỔI (APP)...\n• HÔ HẤP PHỨC HỢP, BỎ ĂN KHÔNG RÕ NGUYÊN NHÂN",
+    "images": []
+  },
+  {
+    "id": "9",
+    "name": "CEFOXIM",
+    "categoryId": "4",
+    "featured": true,
+    "registrationNo": "SH-175",
+    "image": "https://sxmzjfxgwhfdfxqpvgyg.supabase.co/storage/v1/object/public/sanfovet_uploads/uploads/1777274970738-cefoxi,.png/vp29w0w6h9_1777274970739.png",
+    "slug": "cefoxim",
+    "specifications": [
+      {
+        "title": "THÀNH PHẦN",
+        "content": "Trong 100ml chứa:\nCeftiofur (HCl) ..................................... 10g\nTá dược đặc biệt vđ ............................ 100ml"
+      },
+      {
+        "title": "CÔNG DỤNG",
+        "content": "- Gia súc (heo, trâu, bò): Trị viêm phổi, viêm phổi dính sườn (APP), hen suyễn, viêm vú, viêm tử cung, viêm màng não, tụ huyết trùng, đóng dấu, phó thương hàn. Đặc biệt hiệu quả với các trường hợp sốt bỏ ăn không rõ nguyên nhân, các bệnh kế phát tai xanh (PRRS), LMLM (lở mồm long móng), viêm đa xoang.\n- Gia cầm (gà, vịt): Trị các bệnh viêm hô hấp phức hợp như: ORT, E.coli kéo màng, bại huyết, hen khẹc kéo dài với các biểu hiện: Ngáp, ủ rũ, thở có đờm, có mảng fibrin (fibrin), viêm mắt, sưng mặt...\n- An toàn khi sử dụng cho nái mang thai và nuôi con."
+      },
+      {
+        "title": "CÁCH DÙNG VÀ LIỀU LƯỢNG:",
+        "content": "Tiêm bắp thịt hoặc dưới da:\n- Heo: .................. 1ml/30 - 35 kg TT.\n- Gà, vịt: ............... 1ml/8 - 10 kg TT.\n- Trâu, bò: ............. 1ml/25 - 30 kg TT."
+      },
+      {
+        "title": "THỜI GIAN NGỪNG THUỐC",
+        "content": "15 ngày trước khi giết mổ."
+      },
+      {
+        "title": "BẢO QUẢN",
+        "content": "Nơi khô, nhiệt độ dưới 30°C, tránh ánh sáng."
+      }
+    ],
+    "registrationNumber": "SH-175",
+    "description": "✔ NHIỄM TRÙNG HÔ HẤP VÀ TIÊU HÓA\n✔ AN TOÀN CHO NÁI MANG THAI VÀ NUÔI CON NGUYÊN NHÂN",
+    "images": []
   }
 ]

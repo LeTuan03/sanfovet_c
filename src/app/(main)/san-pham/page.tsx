@@ -1,7 +1,6 @@
 export const dynamic = 'force-dynamic';
 
-import { readData } from '@/lib/storage';
-
+import { productService, categoryService } from '@/services';
 import { Category, Product } from '@/types';
 import Pagination from '@/components/shared/Pagination';
 import FadeUp from '@/components/shared/FadeUp';
@@ -39,8 +38,8 @@ export default async function ProductsPage({ searchParams }: { searchParams: Pro
   const searchTerm = params.search?.toLowerCase() || '';
   const sort = params.sort || 'newest';
 
-  const products = await readData<Product[]>('products');
-  const categories = await readData<Category[]>('categories');
+  const products = await productService.getAll();
+  const categories = await categoryService.getAll();
 
   // Filter products
   let filteredProducts = products;
@@ -67,7 +66,7 @@ export default async function ProductsPage({ searchParams }: { searchParams: Pro
     filteredProducts = [...filteredProducts].sort((a, b) => b.name.localeCompare(a.name));
   } else {
     // Newest (by ID desc)
-    filteredProducts = [...filteredProducts].sort((a, b) => b.id - a.id);
+    filteredProducts = [...filteredProducts].sort((a, b) => Number(b.id) - Number(a.id));
   }
 
   const activeCategory = categories.find((c: Category) => c.slug === currentCategory);

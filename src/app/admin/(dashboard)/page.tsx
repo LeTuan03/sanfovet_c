@@ -12,14 +12,38 @@ import {
   RocketOutlined
 } from '@ant-design/icons';
 import { motion } from 'framer-motion';
-import { products, articles, categories, jobs } from '@/lib/data';
 import AdminPageHeader from '@/components/admin/AdminPageHeader';
+import { Article } from '@/types';
 
 export default function AdminDashboard() {
+  const [data, setData] = React.useState<{
+    stats: {
+      products: number;
+      categories: number;
+      articles: number;
+      jobs: number;
+    };
+    latestArticles: Article[];
+  } | null>(null);
+  const [loading, setLoading] = React.useState(true);
+
+  React.useEffect(() => {
+    fetch('/api/admin/stats')
+      .then(res => res.json())
+      .then(json => {
+        setData(json);
+        setLoading(false);
+      })
+      .catch(err => {
+        console.error(err);
+        setLoading(false);
+      });
+  }, []);
+
   const stats = [
     {
       title: 'Sản phẩm',
-      value: products.length,
+      value: data?.stats.products ?? 0,
       icon: <ShoppingOutlined />,
       color: 'from-blue-500 to-blue-600',
       bg: 'bg-blue-50',
@@ -27,7 +51,7 @@ export default function AdminDashboard() {
     },
     {
       title: 'Danh mục',
-      value: categories.length,
+      value: data?.stats.categories ?? 0,
       icon: <AppstoreOutlined />,
       color: 'from-emerald-500 to-emerald-600',
       bg: 'bg-emerald-50',
@@ -35,7 +59,7 @@ export default function AdminDashboard() {
     },
     {
       title: 'Tin tức & Bài viết',
-      value: articles.length,
+      value: data?.stats.articles ?? 0,
       icon: <ReadOutlined />,
       color: 'from-orange-500 to-orange-600',
       bg: 'bg-orange-50',
@@ -43,13 +67,16 @@ export default function AdminDashboard() {
     },
     {
       title: 'Tuyển dụng',
-      value: jobs.length,
+      value: data?.stats.jobs ?? 0,
       icon: <UsergroupAddOutlined />,
       color: 'from-purple-500 to-purple-600',
       bg: 'bg-purple-50',
       shadow: 'shadow-purple-200',
     },
   ];
+
+  if (loading) return <div className="p-12 text-center font-bold text-gray-400 animate-pulse uppercase tracking-widest">Đang tải dữ liệu...</div>;
+
 
   return (
     <div className="space-y-8 pb-12">
@@ -117,7 +144,7 @@ export default function AdminDashboard() {
                        <Button type="text" className="text-primary font-bold text-xs uppercase tracking-widest hover:bg-primary/5">Xem tất cả</Button>
                     </div>
                     <div className="grid grid-cols-1 md:grid-cols-2 gap-8">
-                       {articles.slice(0, 4).map((a, i) => (
+                       {data?.latestArticles.slice(0, 4).map((a, i) => (
                          <div key={a.id} className="flex items-center gap-5 group cursor-pointer p-3 rounded-2xl hover:bg-gray-50 transition-all border border-transparent hover:border-gray-100">
                             <div className="w-16 h-16 bg-gray-100 rounded-2xl overflow-hidden shrink-0 shadow-sm group-hover:shadow-md transition-all">
                                <img src={a.thumbnail} alt={a.title} className="w-full h-full object-cover group-hover:scale-110 transition-transform duration-500" />

@@ -16,7 +16,7 @@ import TextArea from 'antd/es/input/TextArea';
 
 interface ProductModalProps {
   open: boolean;
-  editingId: number | null;
+  editingId: bigint | null;
   form: ReturnType<typeof Form.useForm>[0];
   categories: Category[];
   onOk: () => void;

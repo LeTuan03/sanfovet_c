@@ -165,29 +165,32 @@ function AdminBannersPageContent() {
     setIsModalOpen(true);
   };
 
-  const handleDelete = (id: number) => {
+  const handleDelete = (id: bigint) => {
     modal.confirm({
       title: 'Xóa banner',
       content: 'Bạn có chắc muốn xóa banner này?',
       okText: 'Xóa ngay',
       okType: 'danger',
       onOk: async () => {
-        const newData = banners.filter(b => b.id !== id);
         setGlobalLoading(true);
         try {
           const res = await adminFetch('/api/data/banners', {
             method: 'POST',
             headers: { 'Content-Type': 'application/json' },
-            body: JSON.stringify(newData),
+            body: JSON.stringify({
+              action: 'delete',
+              id: id.toString()
+            }),
           });
           if (res.ok) {
-            setBanners(newData);
+            setBanners(banners.filter(b => b.id !== id));
             message.success('Đã xóa thành công');
           } else {
-            throw new Error();
+            const errorData = await res.json();
+            throw new Error(errorData.error || 'Lỗi khi xóa dữ liệu');
           }
-        } catch (error) {
-          message.error('Lỗi khi xóa dữ liệu');
+        } catch (error: any) {
+          message.error(error.message || 'Lỗi khi xóa dữ liệu');
         } finally {
           setGlobalLoading(false);
         }
@@ -203,17 +206,7 @@ function AdminBannersPageContent() {
 
   const handleModalOk = () => {
     form.validateFields().then(async (values) => {
-      let newData = [];
-      if (editingBanner) {
-        newData = banners.map(b => b.id === editingBanner.id ? { ...b, ...values } : b);
-      } else {
-        const newBanner = {
-          id: Date.now(),
-          ...values,
-          order: values.order || banners.length + 1,
-        };
-        newData = [...banners, newBanner];
-      }
+      const action = editingBanner ? 'update' : 'create';
 
       // Save to API
       setGlobalLoading(true);
@@ -221,17 +214,38 @@ function AdminBannersPageContent() {
         const res = await adminFetch('/api/data/banners', {
           method: 'POST',
           headers: { 'Content-Type': 'application/json' },
-          body: JSON.stringify(newData),
+          body: JSON.stringify({
+            action,
+            data: {
+              ...values,
+              order: values.order !== undefined && values.order !== '' ? Number(values.order) : banners.length + 1,
+            },
+            id: editingBanner?.id.toString()
+          }),
         });
         if (res.ok) {
-          setBanners(newData);
+          const result = await res.json();
+          const newId = result.id;
+
+          if (editingBanner) {
+            setBanners(banners.map(b => b.id === editingBanner.id ? { ...b, ...values } : b));
+          } else {
+            const newBanner = {
+              ...values,
+              id: BigInt(newId),
+              order: values.order || banners.length + 1,
+            };
+            setBanners([...banners, newBanner]);
+          }
+          
           message.success(editingBanner ? 'Đã cập nhật banner' : 'Đã thêm banner mới');
           setIsModalOpen(false);
         } else {
-          throw new Error();
+          const errorData = await res.json();
+          throw new Error(errorData.error || 'Lỗi khi lưu dữ liệu');
         }
-      } catch (error) {
-        message.error('Lỗi khi lưu dữ liệu');
+      } catch (error: any) {
+        message.error(error.message || 'Lỗi khi lưu dữ liệu');
       } finally {
         setGlobalLoading(false);
       }

@@ -25,7 +25,7 @@ function AdminJobsPageContent() {
   const [loading, setLoading] = useState(true);
   const [isModalOpen, setIsModalOpen] = useState(false);
   const [form] = Form.useForm();
-  const [editingId, setEditingId] = useState<number | null>(null);
+  const [editingId, setEditingId] = useState<bigint | null>(null);
 
   // Load data from API
   React.useEffect(() => {
@@ -96,17 +96,7 @@ function AdminJobsPageContent() {
         date: values.date ? values.date.format('YYYY-MM-DD') : dayjs().format('YYYY-MM-DD'),
       };
 
-      let newData = [];
-      if (editingId) {
-        newData = data.map((item) => (item.id === editingId ? { ...item, ...formattedValues } : item));
-      } else {
-        const newJob = {
-          ...formattedValues,
-          id: Math.max(...data.map((j) => j.id), 0) + 1,
-          slug: values.title.toLowerCase().replaceAll(' ', '-').replaceAll(/[^\w-]/g, ''),
-        };
-        newData = [newJob, ...data];
-      }
+      const action = editingId ? 'update' : 'create';
 
       // Save to API
       setGlobalLoading(true);
@@ -114,40 +104,65 @@ function AdminJobsPageContent() {
         const res = await adminFetch('/api/data/jobs', {
           method: 'POST',
           headers: { 'Content-Type': 'application/json' },
-          body: JSON.stringify(newData),
+          body: JSON.stringify({
+            action,
+            data: {
+              ...formattedValues,
+              slug: values.slug || values.title.toLowerCase().replaceAll(' ', '-').replaceAll(/[^\w-]/g, ''),
+            },
+            id: editingId?.toString()
+          }),
         });
+
         if (res.ok) {
-          setData(newData);
+          const result = await res.json();
+          const newId = result.id;
+
+          if (editingId) {
+            setData(data.map((item) => (item.id === editingId ? { ...item, ...formattedValues } : item)));
+          } else {
+            const newJob = {
+              ...formattedValues,
+              id: BigInt(newId),
+              slug: values.slug || values.title.toLowerCase().replaceAll(' ', '-').replaceAll(/[^\w-]/g, ''),
+            };
+            setData([newJob, ...data]);
+          }
+
           message.success(editingId ? 'Cập nhật tin tuyển dụng thành công' : 'Đăng tin tuyển dụng thành công');
           setIsModalOpen(false);
         } else {
-          throw new Error();
+          const errorData = await res.json();
+          throw new Error(errorData.error || 'Lỗi khi lưu dữ liệu');
         }
-      } catch (error) {
-        message.error('Lỗi khi lưu dữ liệu');
+      } catch (error: any) {
+        message.error(error.message || 'Lỗi khi lưu dữ liệu');
       } finally {
         setGlobalLoading(false);
       }
     });
   };
 
-  const handleRemove = async (id: number) => {
-    const newData = data.filter(j => j.id !== id);
+  const handleRemove = async (id: bigint) => {
     setGlobalLoading(true);
     try {
       const res = await adminFetch('/api/data/jobs', {
         method: 'POST',
         headers: { 'Content-Type': 'application/json' },
-        body: JSON.stringify(newData),
+        body: JSON.stringify({
+          action: 'delete',
+          id: id.toString()
+        }),
       });
       if (res.ok) {
-        setData(newData);
+        setData(data.filter(j => j.id !== id));
         message.success('Đã gỡ tin tuyển dụng');
       } else {
-        throw new Error();
+        const errorData = await res.json();
+        throw new Error(errorData.error || 'Lỗi khi gỡ tin');
       }
-    } catch (error) {
-      message.error('Lỗi khi gỡ tin');
+    } catch (error: any) {
+      message.error(error.message || 'Lỗi khi gỡ tin');
     } finally {
       setGlobalLoading(false);
     }

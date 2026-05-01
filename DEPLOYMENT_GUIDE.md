@@ -2,16 +2,20 @@
 
 This guide covers deploying the BioTechVet application to a bare-metal server without Docker.
 
+> [!TIP]
+> **Khuyên dùng**: Bạn nên thiết lập và chạy thử ứng dụng ở môi trường Local trước khi tiến hành Deploy lên server. Xem hướng dẫn tại [LOCAL_SETUP.md](./LOCAL_SETUP.md).
+
 **Domain:** biotechvet.com.vn
 
 ## Prerequisites
 
-- Node.js 18+ (LTS recommended)
-- pnpm 8+ (or npm/yarn)
-- Linux server (Ubuntu 20.04+ recommended)
+- Node.js 20+ (LTS recommended)
+- pnpm 10+ (or npm/yarn)
+- Linux server (Ubuntu 22.04+ recommended)
 - Access to server via SSH
 - Domain name and DNS configured
 - SSL certificate (from Let's Encrypt)
+- PostgreSQL 15+ installed
 
 ## Server Preparation
 
@@ -60,6 +64,21 @@ sudo chown -R biotechvet:biotechvet /var/www/biotechvet
 cd /var/www/biotechvet
 ```
 
+### 6. Install and Configure PostgreSQL
+
+```bash
+sudo apt install -y postgresql postgresql-contrib
+
+# Access PostgreSQL
+sudo -u postgres psql
+
+# Run these commands in the psql console:
+# CREATE DATABASE biotechvet;
+# CREATE USER admin WITH PASSWORD 'your_secure_password';
+# GRANT ALL PRIVILEGES ON DATABASE biotechvet TO admin;
+# \q
+```
+
 ## Application Setup
 
 ### 1. Clone or Upload Repository
@@ -99,22 +118,11 @@ Add the following variables (adjust as needed):
 NODE_ENV=production
 NEXT_PUBLIC_API_URL=https://biotechvet.com.vn/api
 
-# Firebase Configuration
-NEXT_PUBLIC_FIREBASE_API_KEY=your_api_key
-NEXT_PUBLIC_FIREBASE_AUTH_DOMAIN=your_auth_domain
-NEXT_PUBLIC_FIREBASE_PROJECT_ID=your_project_id
-NEXT_PUBLIC_FIREBASE_STORAGE_BUCKET=your_storage_bucket
-NEXT_PUBLIC_FIREBASE_MESSAGING_SENDER_ID=your_sender_id
-NEXT_PUBLIC_FIREBASE_APP_ID=your_app_id
-FIREBASE_ADMIN_SDK_KEY=your_admin_sdk_key
+# Database (PostgreSQL)
+DATABASE_URL=postgresql://admin:your_password@localhost:5434/biotechvet?schema=public
 
-# Supabase (if using)
-NEXT_PUBLIC_SUPABASE_URL=your_supabase_url
-NEXT_PUBLIC_SUPABASE_ANON_KEY=your_anon_key
-SUPABASE_SERVICE_ROLE_KEY=your_service_role_key
-
-# Database
-DATABASE_URL=your_database_url
+# Local Storage Configuration
+NEXT_PUBLIC_STORAGE_URL="/uploads"
 
 # Email/Contact
 CONTACT_EMAIL=admin@yourdomain.com
@@ -131,6 +139,31 @@ Verify build output exists:
 
 ```bash
 ls -la /var/www/biotechvet/.next
+```
+
+### 5. Database Initialization & Seeding
+
+```bash
+cd /var/www/biotechvet
+
+# Generate Prisma Client
+sudo -u biotechvet npx prisma generate
+
+# Run database migrations
+sudo -u biotechvet npx prisma migrate deploy
+
+# Seed initial data (imports JSON files to DB)
+sudo -u biotechvet pnpm run db:seed
+```
+
+### 6. Setup Persistent Uploads Directory
+
+Đảm bảo thư mục `uploads` tồn tại, có đầy đủ quyền **ghi và xóa** cho user `biotechvet`:
+
+```bash
+sudo mkdir -p /var/www/biotechvet/public/uploads
+sudo chown -R biotechvet:biotechvet /var/www/biotechvet/public/uploads
+sudo chmod -R 755 /var/www/biotechvet/public/uploads
 ```
 
 ## Process Management with PM2
@@ -172,7 +205,7 @@ module.exports = {
       autorestart: true,
       max_memory_restart: '1G',
       watch: false,
-      ignore_watch: ['node_modules', '.next', 'public'],
+      ignore_watch: ['node_modules', '.next', 'public/uploads'],
     },
   ],
 };
@@ -205,6 +238,34 @@ sudo pm2 save
 sudo -u biotechvet pm2 status
 sudo -u biotechvet pm2 logs
 ```
+
+## Remote Database Access
+
+Để quản lý database từ máy cá nhân (DBeaver, TablePlus, hoặc Prisma Studio), bạn có 2 cách:
+
+### Cách 1: Sử dụng SSH Tunnel (Khuyên dùng - Bảo mật cao)
+Bạn không cần mở port firewall trên VPS. Công cụ quản lý sẽ kết nối qua SSH.
+
+*   **Host**: `localhost`
+*   **Port**: `5434`
+*   **Database**: `biotechvet`
+*   **User/Password**: `postgres` / `123456` (Theo docker-compose)
+*   **SSH Tunnel Settings**:
+    *   **SSH Host**: IP của VPS
+    *   **SSH User**: `root` hoặc `biotechvet`
+    *   **SSH Auth**: Password hoặc Private Key
+
+### Cách 2: Mở Port 5434 trực tiếp (Bảo mật thấp hơn)
+Nếu bạn muốn kết nối trực tiếp không qua SSH:
+
+1. Mở port trên Firewall (UFW):
+   ```bash
+   sudo ufw allow 5434/tcp
+   ```
+2. Kết nối bằng IP VPS và Port `5434`.
+
+---
+
 
 ## Nginx Reverse Proxy Setup
 
@@ -280,10 +341,12 @@ server {
         proxy_pass http://biotechvet_app;
     }
     
-    location /public/ {
-        expires 7d;
+    # Serve uploads directly via Nginx for better performance
+    location /uploads/ {
+        alias /var/www/biotechvet/public/uploads/;
+        expires 30d;
         add_header Cache-Control "public";
-        root /var/www/biotechvet;
+        access_log off;
     }
 }
 ```
@@ -353,6 +416,10 @@ git pull origin main
 # Install dependencies
 echo "📦 Installing dependencies..."
 pnpm install
+
+# Run migrations
+echo "🗄️ Running database migrations..."
+npx prisma migrate deploy
 
 # Build application
 echo "🔨 Building application..."

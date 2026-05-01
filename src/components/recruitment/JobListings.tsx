@@ -10,9 +10,9 @@ interface JobListingsProps {
 }
 
 export default function JobListings({ jobs }: JobListingsProps) {
-  const [expandedJobId, setExpandedJobId] = useState<number | null>(null);
+  const [expandedJobId, setExpandedJobId] = useState<bigint | null>(null);
 
-  const toggleDescription = (jobId: number) => {
+  const toggleDescription = (jobId: bigint) => {
     setExpandedJobId(expandedJobId === jobId ? null : jobId);
   };
 

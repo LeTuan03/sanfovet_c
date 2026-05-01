@@ -108,34 +108,43 @@ function AdminMenusPageContent() {
         order: values.order !== undefined && values.order !== '' ? Number(values.order) : menus.length + 1,
       };
 
-      let newData = [];
-      if (editingItem) {
-        newData = menus.map(m => m.id === editingItem.id ? { ...m, ...parsedValues } : m);
-      } else {
-        const newItem = {
-          ...parsedValues,
-          id: Date.now(),
-          status: true
-        };
-        newData = [...menus, newItem];
-      }
+      const action = editingItem ? 'update' : 'create';
 
       setGlobalLoading(true);
       try {
         const res = await adminFetch('/api/data/menus', {
           method: 'POST',
           headers: { 'Content-Type': 'application/json' },
-          body: JSON.stringify(newData),
+          body: JSON.stringify({
+            action,
+            data: parsedValues,
+            id: editingItem?.id
+          }),
         });
+        
         if (res.ok) {
-          setMenus(newData);
+          const result = await res.json();
+          const newId = result.id;
+
+          if (editingItem) {
+            setMenus(menus.map(m => m.id === editingItem.id ? { ...m, ...parsedValues } : m));
+          } else {
+            const newItem = {
+              ...parsedValues,
+              id: Number(newId),
+              status: true
+            };
+            setMenus([...menus, newItem]);
+          }
+          
           msg.success(editingItem ? 'Cập nhật menu thành công' : 'Thêm menu mới thành công');
           setIsModalOpen(false);
         } else {
-          throw new Error();
+          const errorData = await res.json();
+          throw new Error(errorData.error || 'Lỗi khi lưu dữ liệu');
         }
-      } catch (error) {
-        msg.error('Lỗi khi lưu dữ liệu');
+      } catch (error: any) {
+        msg.error(error.message || 'Lỗi khi lưu dữ liệu');
       } finally {
         setGlobalLoading(false);
       }
@@ -205,22 +214,25 @@ function AdminMenusPageContent() {
                       cancelText: 'Hủy',
                       okType: 'danger',
                       onOk: async () => {
-                         const newData = menus.filter((m: any) => m.id !== record.id);
                          setGlobalLoading(true);
                          try {
                            const res = await adminFetch('/api/data/menus', {
                              method: 'POST',
                              headers: { 'Content-Type': 'application/json' },
-                             body: JSON.stringify(newData),
+                             body: JSON.stringify({
+                               action: 'delete',
+                               id: record.id
+                             }),
                            });
                            if (res.ok) {
-                             setMenus(newData);
+                             setMenus(menus.filter((m: any) => m.id !== record.id));
                              msg.success('Đã xóa menu thành công');
                            } else {
-                             throw new Error();
+                             const errorData = await res.json();
+                             throw new Error(errorData.error || 'Lỗi khi xóa dữ liệu');
                            }
-                         } catch (error) {
-                           msg.error('Lỗi khi xóa dữ liệu');
+                         } catch (error: any) {
+                           msg.error(error.message || 'Lỗi khi xóa dữ liệu');
                          } finally {
                            setGlobalLoading(false);
                          }

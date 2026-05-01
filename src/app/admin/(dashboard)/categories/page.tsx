@@ -105,40 +105,55 @@ function CategoryAndTagManagementContent() {
 
   const handleOk = () => {
     form.validateFields().then(async (values) => {
-      let updatedData = [];
       const dataType = activeTab === '1' ? 'categories' : 'animal-tags';
-      const currentData = activeTab === '1' ? categories : animalTags;
-
-      if (editingItem) {
-        updatedData = currentData.map((item) => (item.id === editingItem.id ? { ...item, ...values } : item));
-      } else {
-        const newItem = {
-          ...values,
-          id: Math.max(...currentData.map((c) => c.id), 0) + 1,
-          slug: values.slug || values.name.toLowerCase().replaceAll(' ', '-').replaceAll(/[^\w-]/g, ''),
-          ...(activeTab === '2' ? { icon: values.icon || '🐾' } : {}),
-        };
-        updatedData = [...currentData, newItem];
-      }
-
+      const action = editingItem ? 'update' : 'create';
+      
       // Save to API
       setGlobalLoading(true);
       try {
         const res = await adminFetch(`/api/data/${dataType}`, {
           method: 'POST',
           headers: { 'Content-Type': 'application/json' },
-          body: JSON.stringify(updatedData),
+          body: JSON.stringify({
+            action,
+            data: {
+              ...values,
+              slug: values.slug || values.name.toLowerCase().replaceAll(' ', '-').replaceAll(/[^\w-]/g, ''),
+              ...(activeTab === '2' ? { icon: values.icon || '🐾' } : {}),
+            },
+            id: editingItem?.id
+          }),
         });
+
         if (res.ok) {
-          if (activeTab === '1') setCategories(updatedData);
-          else setAnimalTags(updatedData);
+          const result = await res.json();
+          const newId = result.id;
+
+          if (editingItem) {
+            if (activeTab === '1') {
+              setCategories(categories.map(item => item.id === editingItem.id ? { ...item, ...values } : item));
+            } else {
+              setAnimalTags(animalTags.map(item => item.id === editingItem.id ? { ...item, ...values } : item));
+            }
+          } else {
+            const newItem = {
+              ...values,
+              id: Number(newId),
+              slug: values.slug || values.name.toLowerCase().replaceAll(' ', '-').replaceAll(/[^\w-]/g, ''),
+              ...(activeTab === '2' ? { icon: values.icon || '🐾' } : {}),
+            };
+            if (activeTab === '1') setCategories([...categories, newItem]);
+            else setAnimalTags([...animalTags, newItem]);
+          }
+
           message.success(editingItem ? 'Cập nhật thành công' : 'Thêm mới thành công');
           setIsModalOpen(false);
         } else {
-          throw new Error();
+          const errorData = await res.json();
+          throw new Error(errorData.error || 'Lỗi khi lưu dữ liệu');
         }
-      } catch (error) {
-        message.error('Lỗi khi lưu dữ liệu');
+      } catch (error: any) {
+        message.error(error.message || 'Lỗi khi lưu dữ liệu');
       } finally {
         setGlobalLoading(false);
       }
@@ -153,25 +168,26 @@ function CategoryAndTagManagementContent() {
       okType: 'danger',
       onOk: async () => {
         const dataType = activeTab === '1' ? 'categories' : 'animal-tags';
-        const currentData = activeTab === '1' ? categories : animalTags;
-        const updatedData = currentData.filter((item) => item.id !== id);
-
         setGlobalLoading(true);
         try {
           const res = await adminFetch(`/api/data/${dataType}`, {
             method: 'POST',
             headers: { 'Content-Type': 'application/json' },
-            body: JSON.stringify(updatedData),
+            body: JSON.stringify({
+              action: 'delete',
+              id: id
+            }),
           });
           if (res.ok) {
-            if (activeTab === '1') setCategories(updatedData);
-            else setAnimalTags(updatedData);
+            if (activeTab === '1') setCategories(categories.filter(item => item.id !== id));
+            else setAnimalTags(animalTags.filter(item => item.id !== id));
             message.success('Đã xóa thành công');
           } else {
-            throw new Error();
+            const errorData = await res.json();
+            throw new Error(errorData.error || 'Lỗi khi xóa dữ liệu');
           }
-        } catch (error) {
-          message.error('Lỗi khi xóa dữ liệu');
+        } catch (error: any) {
+          message.error(error.message || 'Lỗi khi xóa dữ liệu');
         } finally {
           setGlobalLoading(false);
         }

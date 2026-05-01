@@ -3,7 +3,7 @@ export const dynamic = 'force-dynamic';
 import React from 'react';
 
 import Link from 'next/link';
-import { readData } from '@/lib/storage';
+import { articleService } from '@/services';
 import { Article } from '@/types';
 // import { articles } from '@/lib/data'; // Removed static import
 import FadeUp from '@/components/shared/FadeUp';
@@ -30,7 +30,7 @@ export const metadata: Metadata = {
 };
 
 export default async function NewsPage() {
-  const articles = await readData<Article[]>('articles');
+  const articles = await articleService.getAll();
   const newsInternal = articles.filter((a: Article) => a.category === 'tin-noi-bo');
   const newsIndustry = articles.filter((a: Article) => a.category === 'tin-nganh');
   const allNews = [...newsInternal, ...newsIndustry].sort((a: Article, b: Article) => new Date(b.publishDate).getTime() - new Date(a.publishDate).getTime());

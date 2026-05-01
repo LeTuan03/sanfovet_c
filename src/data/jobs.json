@@ -1,6 +1,6 @@
 [
   {
-    "id": 1,
+    "id": "1",
     "slug": "nvkd-ninh-binh-thanh-hoa",
     "title": "Nhân viên Kinh doanh - Khu vực Ninh Bình, Thanh Hoá 1",
     "location": "Ninh Bình, Thanh Hoá",
@@ -9,7 +9,7 @@
     "status": "active"
   },
   {
-    "id": 2,
+    "id": "2",
     "slug": "nvkd-quang-binh-hue",
     "title": "Nhân viên Kinh doanh - Khu vực Quảng Bình, Quảng Trị, Huế",
     "location": "Quảng Bình, Quảng Trị, Huế",
@@ -17,7 +17,7 @@
     "description": "Tuyển NVKD khu vực miền Trung. Mức lương hấp dẫn + thưởng doanh số."
   },
   {
-    "id": 3,
+    "id": "3",
     "slug": "nvkd-lao-cai-yen-bai",
     "title": "Nhân viên Kinh doanh - Khu vực Lào Cai, Yên Bái, Sơn La",
     "location": "Lào Cai, Yên Bái, Sơn La, Hà Giang",

@@ -32,7 +32,7 @@ function ProductManagementContent() {
   const [loading, setLoading] = useState(true);
   const [isModalOpen, setIsModalOpen] = useState(false);
   const [form] = Form.useForm();
-  const [editingId, setEditingId] = useState<number | null>(null);
+  const [editingId, setEditingId] = useState<bigint | null>(null);
 
   // Load data from API
   React.useEffect(() => {
@@ -100,44 +100,58 @@ function ProductManagementContent() {
 
   const handleOk = () => {
     form.validateFields().then(async (values) => {
-      let newData = [];
-      if (editingId) {
-        newData = data.map((item: Product) => (item.id === editingId ? { ...item, ...values } : item));
-      } else {
-        const newProduct = {
-          ...values,
-          id: Math.max(...data.map((p: Product) => p.id), 0) + 1,
-          slug: values.name.toLowerCase().replaceAll(' ', '-').replaceAll(/[^\w-]/g, ''),
-          images: values.images || [],
-        };
-        newData = [newProduct, ...data];
-      }
-
+      const action = editingId ? 'update' : 'create';
+      
       // Save to API
       setGlobalLoading(true);
       try {
         const res = await adminFetch('/api/data/products', {
           method: 'POST',
           headers: { 'Content-Type': 'application/json' },
-          body: JSON.stringify(newData),
+          body: JSON.stringify({
+            action,
+            data: {
+              ...values,
+              slug: values.slug || values.name.toLowerCase().replaceAll(' ', '-').replaceAll(/[^\w-]/g, ''),
+            },
+            id: editingId?.toString()
+          }),
         });
+        
         if (res.ok) {
+          const result = await res.json();
+          const newId = result.id;
+          
+          let newData = [];
+          if (editingId) {
+            newData = data.map((item: Product) => (item.id === editingId ? { ...item, ...values } : item));
+          } else {
+            const newProduct = {
+              ...values,
+              id: BigInt(newId),
+              slug: values.slug || values.name.toLowerCase().replaceAll(' ', '-').replaceAll(/[^\w-]/g, ''),
+              images: values.images || [],
+            };
+            newData = [newProduct, ...data];
+          }
+          
           setData(newData);
           message.success(editingId ? 'Cập nhật sản phẩm thành công' : 'Thêm sản phẩm mới thành công');
           setIsModalOpen(false);
         } else {
-          throw new Error('Lỗi khi lưu dữ liệu');
+          const errorData = await res.json();
+          throw new Error(errorData.error || 'Lỗi khi lưu dữ liệu');
         }
-      } catch (error) {
+      } catch (error: any) {
         console.log(error);
-        message.error('Lỗi khi lưu dữ liệu');
+        message.error(error.message || 'Lỗi khi lưu dữ liệu');
       } finally {
         setGlobalLoading(false);
       }
     });
   };
 
-  const handleDelete = (id: number) => {
+  const handleDelete = (id: bigint) => {
     modal.confirm({
       title: 'Xác nhận xóa',
       content: 'Bạn có chắc chắn muốn xóa sản phẩm này không?',
@@ -145,23 +159,27 @@ function ProductManagementContent() {
       okType: 'danger',
       cancelText: 'Hủy',
       onOk: async () => {
-        const newData = data.filter((item: Product) => item.id !== id);
         setGlobalLoading(true);
         try {
           const res = await adminFetch('/api/data/products', {
             method: 'POST',
             headers: { 'Content-Type': 'application/json' },
-            body: JSON.stringify(newData),
+            body: JSON.stringify({
+              action: 'delete',
+              id: id.toString()
+            }),
           });
           if (res.ok) {
+            const newData = data.filter((item: Product) => item.id !== id);
             setData(newData);
             message.success('Đã xóa sản phẩm');
           } else {
-            throw new Error('Lỗi khi xóa dữ liệu  ');
+            const errorData = await res.json();
+            throw new Error(errorData.error || 'Lỗi khi xóa dữ liệu');
           }
-        } catch (error) {
+        } catch (error: any) {
           console.log(error);
-          message.error('Lỗi khi xóa dữ liệu');
+          message.error(error.message || 'Lỗi khi xóa dữ liệu');
         } finally {
           setGlobalLoading(false);
         }
@@ -197,7 +215,7 @@ function ProductManagementContent() {
       title: 'Danh mục',
       dataIndex: 'categoryId',
       key: 'categoryId',
-      render: (id: number) => {
+      render: (id: bigint) => {
         const cat = categories.find((c: Category) => c.id === id);
         return <Tag className="font-black px-3 py-1 rounded-lg uppercase text-[10px] border-none bg-emerald-50 text-emerald-700 m-0 tracking-wider shadow-sm">{cat?.name.split(',')[0] || 'Khác'}</Tag>;
       },

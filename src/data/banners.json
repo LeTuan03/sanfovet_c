@@ -1,5 +1,20 @@
 [
-  { "id": 1, "image": "/images/about.jpg", "title": "Banner Trang chủ 1", "link": "/san-pham", "order": 1, "status": true },
-  { "id": 2, "image": "/images/banner2.png", "title": "Banner Khuyến mãi tháng 4", "link": "/tin-tuc", "order": 2, "status": true },
-  { "id": 3, "image": "/images/about.jpg", "title": "Banner Tuyển dụng miền Trung", "link": "/tuyen-dung", "order": 3, "status": false }
+  {
+    "id": "1777303184535",
+    "imageSize": 107826,
+    "image": "https://sxmzjfxgwhfdfxqpvgyg.supabase.co/storage/v1/object/public/sanfovet_uploads/uploads/1777303167337-Bannerr-01.webp/yguxgi4glbr_1777303167345.webp",
+    "title": "Công nghệ sinh học thú y",
+    "link": "/",
+    "status": true,
+    "order": "2"
+  },
+  {
+    "id": "1777303225199",
+    "imageSize": 65360,
+    "image": "https://sxmzjfxgwhfdfxqpvgyg.supabase.co/storage/v1/object/public/sanfovet_uploads/uploads/1777303214320-Bannerr-02.webp/9xucssh4l_1777303214322.webp",
+    "title": "   Lựa chọn của bạn",
+    "link": "/",
+    "status": true,
+    "order": "1"
+  }
 ]

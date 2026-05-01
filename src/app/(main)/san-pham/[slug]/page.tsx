@@ -60,7 +60,7 @@ export default async function ProductDetailPage({ params }: Readonly<{ params: P
     notFound();
   }
 
-  const category = await categoryService.getById(String(product.categoryId));
+  const category = await categoryService.getById(product.categoryId);
   const products = await productService.getAll();
   const relatedProducts = products.filter((p: Product) => p.categoryId === product.categoryId && p.id !== product.id).slice(0, 4);
 
@@ -73,7 +73,7 @@ export default async function ProductDetailPage({ params }: Readonly<{ params: P
           __html: JSON.stringify(productSchema({
             id: String(product.id),
             name: product.name,
-            description: product.description,
+            description: product.description || undefined,
             image: product.image,
             slug: product.slug,
             category: category?.name
@@ -167,8 +167,8 @@ export default async function ProductDetailPage({ params }: Readonly<{ params: P
             </div>
             {/* Specifications Section */}
             <div className="space-y-10">
-              {product.specifications && product.specifications.length > 0 ? (
-                product.specifications.map((spec) => (
+              {Array.isArray(product.specifications) && product.specifications.length > 0 ? (
+                (product.specifications as any[]).map((spec: any) => (
                   <section key={spec.title} className="mb-3">
                     <h2 className="text-[1rem] font-black text-secondary flex items-center gap-3 bg-secondary/5 px-2 py-1.5 border-l-[3px] border-secondary uppercase tracking-wider shadow-sm">
                       {spec.title}

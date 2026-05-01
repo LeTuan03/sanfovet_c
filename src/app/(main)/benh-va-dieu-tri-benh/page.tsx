@@ -1,6 +1,6 @@
 import React from 'react';
 import Link from 'next/link';
-import { readData } from '@/lib/storage';
+import { articleService } from '@/services';
 import { Article } from '@/types';
 // import { articles } from '@/lib/data'; // Removed static import
 import { ChevronRight, Activity, ShieldAlert } from 'lucide-react';
@@ -27,7 +27,7 @@ export const metadata: Metadata = {
 };
 
 export default async function DiseasesPage() {
-  const articles = await readData<Article[]>('articles');
+  const articles = await articleService.getAll();
   const list = Array.isArray(articles) ? articles.filter((a: Article) => a.category === 'benh-dieu-tri') : [];
 
   return (

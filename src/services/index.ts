@@ -7,3 +7,4 @@ export { settingService } from './setting.service';
 export { bannerService } from './banner.service';
 export { mediaService } from './media.service';
 export { animalTagService } from './animal-tag.service';
+export { catalogueService } from './catalogue.service';

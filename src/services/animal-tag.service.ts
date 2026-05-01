@@ -1,16 +1,36 @@
-import { BaseService } from './base.service';
-import { AnimalTag } from '@/types';
+import prisma from '@/lib/prisma';
 
-export class AnimalTagService extends BaseService<AnimalTag> {
-  constructor() {
-    super('animal-tags');
+export class AnimalTagService {
+  async getAll() {
+    return prisma.animalTag.findMany({ orderBy: { id: 'asc' } });
   }
 
-  async getBySlug(slug: string): Promise<AnimalTag | null> {
-    const snapshot = await this.collection.where('slug', '==', slug).limit(1).get();
-    if (snapshot.empty) return null;
-    const doc = snapshot.docs[0];
-    return { id: doc.id, ...doc.data() } as unknown as AnimalTag;
+  async getById(id: any) {
+    return prisma.animalTag.findUnique({ where: { id: BigInt(id) as any } });
+  }
+
+  async getBySlug(slug: string) {
+    return prisma.animalTag.findUnique({ where: { slug } });
+  }
+
+  async create(data: any) {
+    const { id, imageSize, ...createData } = data;
+    const tag = await prisma.animalTag.create({ data: createData });
+    return String(tag.id);
+  }
+
+  async update(id: any, data: any) {
+    if (!id) throw new Error('ID is required');
+    const { id: _, imageSize, ...updateData } = data;
+    await prisma.animalTag.update({ 
+      where: { id: BigInt(id) as any }, 
+      data: updateData 
+    });
+  }
+
+  async delete(id: any) {
+    if (!id) throw new Error('ID is required');
+    await prisma.animalTag.delete({ where: { id: BigInt(id) as any } });
   }
 }
 

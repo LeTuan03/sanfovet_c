@@ -1,17 +1,15 @@
 import React from 'react';
 import Link from 'next/link';
 import { notFound } from 'next/navigation';
-import { readData } from '@/lib/storage';
+import { jobService, productService, articleService } from '@/services';
 import { Job, Product, Article } from '@/types';
 import { ChevronRight, ArrowLeft, MapPin, Calendar, Mail, Phone, Briefcase, CheckCircle, Gift, Send } from 'lucide-react';
 
 export default async function JobDetailPage({ params }: Readonly<{ params: Promise<{ slug: string }> }>) {
   const { slug } = await params;
-  const jobs = await readData<Job[]>('jobs');
-  const products = await readData<Product[]>('products');
-  const articles = await readData<Article[]>('articles');
-  
-  const job = jobs.find((j: Job) => j.slug === slug);
+  const job = await jobService.getBySlug(slug);
+  const products = await productService.getAll();
+  const articles = await articleService.getAll();
 
   if (!job) {
     notFound();

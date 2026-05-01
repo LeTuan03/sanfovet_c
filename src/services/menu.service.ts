@@ -1,24 +1,38 @@
-import { BaseService } from './base.service';
-import { NavMenu } from '@/types';
+import prisma from '@/lib/prisma';
 
-export class MenuService extends BaseService<NavMenu> {
-  constructor() {
-    super('menus');
+export class MenuService {
+  async getAll() {
+    return prisma.navMenu.findMany({ orderBy: { order: 'asc' } });
   }
 
-  async getByPosition(position: 'header' | 'footer' | 'both'): Promise<NavMenu[]> {
-    const snapshot = await this.collection
-      .where('status', '==', true)
-      .orderBy('order', 'asc')
-      .get();
-    
-    let menus = snapshot.docs.map((doc: any) => ({ id: doc.id, ...doc.data() }) as unknown as NavMenu);
-    
-    if (position !== 'both') {
-      menus = menus.filter(m => m.position === position || m.position === 'both');
+  async getById(id: any) {
+    return prisma.navMenu.findUnique({ where: { id: BigInt(id) as any } });
+  }
+
+  async create(data: any) {
+    const { id, ...createData } = data;
+    if (createData.parent) {
+      createData.parent = BigInt(createData.parent);
     }
-    
-    return menus;
+    const menu = await prisma.navMenu.create({ data: createData });
+    return String(menu.id);
+  }
+
+  async update(id: any, data: any) {
+    if (!id) throw new Error('ID is required');
+    const { id: _, ...updateData } = data;
+    if (updateData.parent) {
+      updateData.parent = BigInt(updateData.parent);
+    }
+    await prisma.navMenu.update({ 
+      where: { id: BigInt(id) as any }, 
+      data: updateData 
+    });
+  }
+
+  async delete(id: any) {
+    if (!id) throw new Error('ID is required');
+    await prisma.navMenu.delete({ where: { id: BigInt(id) as any } });
   }
 }
 
