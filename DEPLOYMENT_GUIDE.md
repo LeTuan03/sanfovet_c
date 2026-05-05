@@ -595,9 +595,9 @@ sudo certbot certonly --nginx -d biotechvet.com.vn -d www.biotechvet.com.vn
 
 ## Backup and Recovery
 
-### 1. Create Backup Script
+### 1. Backup Application Files
 
-Create `/var/www/biotechvet/backup.sh`:
+Create `/var/www/biotechvet/backup-app.sh`:
 
 ```bash
 #!/bin/bash
@@ -605,29 +605,61 @@ Create `/var/www/biotechvet/backup.sh`:
 BACKUP_DIR="/var/backups/biotechvet"
 TIMESTAMP=$(date +%Y%m%d_%H%M%S)
 
-mkdir -p $BACKUP_DIR
+mkdir -p "$BACKUP_DIR"
 
-# Backup application
-tar -czf $BACKUP_DIR/app_$TIMESTAMP.tar.gz /var/www/biotechvet
+tar -czf "$BACKUP_DIR/app_$TIMESTAMP.tar.gz" /var/www/biotechvet
 
-# Keep only last 7 backups
-ls -t $BACKUP_DIR/app_*.tar.gz | tail -n +8 | xargs rm -f
+# Keep only last 7 application backups
+ls -t "$BACKUP_DIR"/app_*.tar.gz | tail -n +8 | xargs rm -f
 
-echo "Backup completed: $BACKUP_DIR/app_$TIMESTAMP.tar.gz"
+echo "Application backup completed: $BACKUP_DIR/app_$TIMESTAMP.tar.gz"
 ```
 
-### 2. Schedule Daily Backups with Cron
+### 2. Backup PostgreSQL Database
+
+Create `/var/www/biotechvet/backup-db.sh`:
+
+```bash
+#!/bin/bash
+
+BACKUP_DIR="/var/backups/biotechvet"
+TIMESTAMP=$(date +%Y%m%d_%H%M%S)
+PG_USER="postgres"
+PG_DB="biotechvet"
+PG_PASSWORD="123456"
+
+mkdir -p "$BACKUP_DIR"
+
+export PGPASSWORD="$PG_PASSWORD"
+pg_dump -U "$PG_USER" -F c -b -v -f "$BACKUP_DIR/db_$TIMESTAMP.dump" "$PG_DB"
+unset PGPASSWORD
+
+# Keep only last 7 database backups
+ls -t "$BACKUP_DIR"/db_*.dump | tail -n +8 | xargs rm -f
+
+echo "Database backup completed: $BACKUP_DIR/db_$TIMESTAMP.dump"
+```
+
+> Note: This keeps the application backup and database backup in separate scripts. Update `PG_USER`, `PG_DB`, and `PG_PASSWORD` to match your production values.
+
+### 3. Schedule Daily Backups with Cron
 
 ```bash
 sudo crontab -e
 ```
 
-Add:
+Add one or both jobs:
 
 ```cron
-0 2 * * * /var/www/biotechvet/backup.sh >> /var/log/biotechvet/backup.log 2>&1
+0 2 * * * /var/www/biotechvet/backup-app.sh >> /var/log/biotechvet/backup-app.log 2>&1
+0 3 * * * /var/www/biotechvet/backup-db.sh >> /var/log/biotechvet/backup-db.log 2>&1
 ```
 
+If you prefer a single schedule, run both scripts sequentially:
+
+```cron
+0 2 * * * /var/www/biotechvet/backup-app.sh >> /var/log/biotechvet/backup-app.log 2>&1 && /var/www/biotechvet/backup-db.sh >> /var/log/biotechvet/backup-db.log 2>&1
+```
 ## Security Hardening
 
 ### 1. Firewall Configuration
