@@ -29,6 +29,9 @@ export const metadata: Metadata = {
   },
 };
 
+import { breadcrumbSchema } from '@/lib/schema';
+import Script from 'next/script';
+
 const ITEMS_PER_PAGE = 6;
 
 export default async function ProductsPage({ searchParams }: { searchParams: Promise<{ category?: string; page?: string; search?: string; sort?: string }> }) {
@@ -88,6 +91,16 @@ export default async function ProductsPage({ searchParams }: { searchParams: Pro
 
   return (
     <div className="bg-gray-50 min-h-screen">
+      <Script
+        id="breadcrumb-products"
+        type="application/ld+json"
+        dangerouslySetInnerHTML={{
+          __html: JSON.stringify(breadcrumbSchema([
+            { name: "Trang chủ", url: "/" },
+            { name: "Sản phẩm", url: "/san-pham" },
+          ]))
+        }}
+      />
       {/* Header Banner */}
       <div className="bg-gradient-to-r from-primary-dark via-primary to-secondary text-white py-16">
         <div className="container mx-auto px-4 text-center">

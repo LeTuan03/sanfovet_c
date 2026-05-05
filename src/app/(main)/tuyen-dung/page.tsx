@@ -3,11 +3,13 @@ import React from 'react';
 import { jobService } from '@/services';
 import { Target, CircleCheck, Heart } from 'lucide-react';
 import JobListings from '@/components/recruitment/JobListings';
+import Script from 'next/script';
+import { jobPostingSchema } from '@/lib/schema';
 
 export const metadata: Metadata = {
   title: "Tuyển Dụng - Gia Nhập biotechvet",
   description: "Gia nhập BIOTECH-VET – Môi trường làm việc năng động, chuyên nghiệp với chế độ đãi ngộ hấp dẫn. Xem các vị trí đang tuyển dụng ngay.",
-  keywords: ["tuyển dụng biotechvet", "việc làm thú y", "tuyển nhân viên kinh doanh", "hành trình sự nghiệp", "công ty việt anh"],
+  keywords: ["tuyển dụng biotechvet", "việc làm thú y", "tuyển nhân viên kinh doanh", "hành trình sự nghiệp", "công ty thú y"],
   robots: "index, follow",
   openGraph: {
     title: "Tuyển Dụng - Gia Nhập biotechvet",
@@ -34,6 +36,21 @@ export default async function RecruitmentPage() {
 
   return (
     <div className="bg-white min-h-screen">
+      {jobs.map((job) => (
+        <Script
+          key={`job-schema-${job.id}`}
+          id={`job-schema-${job.id}`}
+          type="application/ld+json"
+          dangerouslySetInnerHTML={{
+            __html: JSON.stringify(jobPostingSchema({
+              title: job.title,
+              description: job.description,
+              datePosted: new Date(job.createdAt || new Date()).toISOString(),
+              location: job.location,
+            }))
+          }}
+        />
+      ))}
       <section className="bg-biotechvet-dark text-white py-24 relative overflow-hidden">
         <div className="absolute inset-0 opacity-10 bg-[url('/images/farm.png')] bg-cover bg-center"></div>
         <div className="container mx-auto px-4 relative z-10 text-center">

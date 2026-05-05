@@ -29,6 +29,9 @@ export const metadata: Metadata = {
   },
 };
 
+import { breadcrumbSchema } from '@/lib/schema';
+import Script from 'next/script';
+
 export default async function NewsPage() {
   const articles = await articleService.getAll();
   const newsInternal = articles.filter((a: Article) => a.category === 'tin-noi-bo');
@@ -37,6 +40,16 @@ export default async function NewsPage() {
 
   return (
     <div className="bg-white min-h-screen pb-20">
+      <Script
+        id="breadcrumb-news"
+        type="application/ld+json"
+        dangerouslySetInnerHTML={{
+          __html: JSON.stringify(breadcrumbSchema([
+            { name: "Trang chủ", url: "/" },
+            { name: "Tin tức", url: "/tin-tuc" },
+          ]))
+        }}
+      />
       {/* Hero Section */}
       <section className="bg-biotechvet-alt py-24 relative overflow-hidden">
         <div className="container mx-auto px-4 relative z-10 text-center">

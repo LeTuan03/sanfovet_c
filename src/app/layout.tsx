@@ -31,13 +31,20 @@ export const metadata: Metadata = {
     default: "BIOTECH-VET - Thuốc Thú Y Công Nghệ USA | Chất Lượng Vượt Trội",
     template: "%s | BIOTECH-VET"
   },
-  description: "BIOTECH-VET tự hào là đơn vị tiên phong trong sản xuất và phân phối thuốc thú y trang trại tại Việt Nam với công nghệ tiên tiến từ Hoa Kỳ. Nhà máy đạt tiêu chuẩn GMP-WHO.",
-  keywords: ["thuốc thú y", "biotechvet", "chăn nuôi", "gmp-who", "phòng bệnh vật nuôi", "điều trị bệnh thú y"],
-  authors: [{ name: "BIOTECH-VET Team" }],
+  description: "BIOTECH-VET là nhà sản xuất thuốc thú y hàng đầu tại Việt Nam với công nghệ tiên tiến từ Hoa Kỳ. Nhà máy đạt tiêu chuẩn GMP-WHO, chuyên cung cấp giải pháp bảo vệ sức khỏe vật nuôi toàn diện.",
+  keywords: [
+    "thuốc thú y", "biotechvet", "chăn nuôi", "gmp-who", "phòng bệnh vật nuôi", "điều trị bệnh thú y",
+    "thuốc thú y công nghệ usa", "nhà máy thuốc thú y", "biotech-vet việt nam", "dược phẩm thú y",
+    "vắc xin thú y", "thuốc thú y trang trại", "thuốc thú y chất lượng cao"
+  ],
+  authors: [{ name: "BIOTECH-VET Team", url: "https://biotechvet.com.vn" }],
+  creator: "BIOTECH-VET",
+  publisher: "BIOTECH-VET",
   metadataBase: new URL("https://biotechvet.com.vn"),
   robots: {
     index: true,
     follow: true,
+    nocache: false,
     googleBot: {
       index: true,
       follow: true,
@@ -51,8 +58,8 @@ export const metadata: Metadata = {
     locale: "vi_VN",
     url: "https://biotechvet.com.vn",
     siteName: "BIOTECH-VET",
-    title: "BIOTECH-VET - Thuốc Thú Y Công Nghệ USA",
-    description: "Tiên phong sản xuất thuốc thú y công nghệ USA tại Việt Nam. Nhà máy đạt chuẩn GMP-WHO.",
+    title: "BIOTECH-VET - Thuốc Thú Y Công Nghệ USA | Chất Lượng Vượt Trội",
+    description: "Tiên phong sản xuất thuốc thú y công nghệ USA tại Việt Nam. Nhà máy đạt chuẩn GMP-WHO, chuyên nghiệp và uy tín.",
     images: [
       {
         url: "/images/about.jpg",
@@ -65,8 +72,9 @@ export const metadata: Metadata = {
   twitter: {
     card: "summary_large_image",
     title: "BIOTECH-VET - Thuốc Thú Y Công Nghệ USA",
-    description: "Tiên phong sản xuất thuốc thú y công nghệ USA tại Việt Nam.",
+    description: "Tiên phong sản xuất thuốc thú y công nghệ USA tại Việt Nam. Nhà máy đạt chuẩn GMP-WHO.",
     images: ["/images/about.jpg"],
+    creator: "@biotechvet",
   },
   icons: {
     icon: [
@@ -85,6 +93,9 @@ export const metadata: Metadata = {
   },
   alternates: {
     canonical: "https://biotechvet.com.vn",
+    languages: {
+      'vi-VN': 'https://biotechvet.com.vn',
+    },
   },
   category: "veterinary",
   classification: "Pharmaceutical",

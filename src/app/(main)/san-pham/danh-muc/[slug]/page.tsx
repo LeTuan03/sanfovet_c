@@ -1,3 +1,5 @@
+import { Metadata } from 'next';
+import Script from 'next/script';
 import Link from 'next/link';
 import { notFound } from 'next/navigation';
 import { Eye, ChevronRight, Home, LayoutGrid, SearchX } from 'lucide-react';
@@ -7,8 +9,37 @@ import Pagination from '@/components/shared/Pagination';
 import ProductSearch from '@/components/shared/ProductSearch';
 import ProductSort from '@/components/shared/ProductSort';
 import FadeUp from '@/components/shared/FadeUp';
+import { breadcrumbSchema } from '@/lib/schema';
 
 const ITEMS_PER_PAGE = 6;
+
+export async function generateMetadata({ params }: { params: Promise<{ slug: string }> }): Promise<Metadata> {
+  const { slug } = await params;
+  const categories = await categoryService.getAll();
+  const category = Array.isArray(categories) ? categories.find((c: Category) => c.slug === slug) : undefined;
+
+  if (!category) {
+    return {
+      title: 'Danh mục không tìm thấy - biotechvet',
+      description: 'Danh mục sản phẩm bạn tìm kiếm không tồn tại.',
+    };
+  }
+
+  return {
+    title: `${category.name} - Thuốc Thú Y biotechvet`,
+    description: `Danh sách các sản phẩm ${category.name} chất lượng cao từ biotechvet. Công nghệ USA, đạt chuẩn GMP-WHO.`,
+    keywords: ['thuốc thú y', 'biotechvet', category.name, 'chăn nuôi', 'sản phẩm'],
+    alternates: {
+      canonical: `https://biotechvet.com.vn/san-pham/danh-muc/${category.slug}`,
+    },
+    openGraph: {
+      title: `${category.name} - biotechvet`,
+      description: `Khám phá các sản phẩm ${category.name} tại biotechvet`,
+      url: `https://biotechvet.com.vn/san-pham/danh-muc/${category.slug}`,
+      type: 'website',
+    }
+  };
+}
 
 export default async function CategoryPage({ params, searchParams }: { 
   params: Promise<{ slug: string }>;
@@ -65,6 +96,17 @@ export default async function CategoryPage({ params, searchParams }: {
 
   return (
     <div className="bg-gray-50 min-h-screen pb-20">
+      <Script
+        id={`breadcrumb-schema-${currentCategory.id}`}
+        type="application/ld+json"
+        dangerouslySetInnerHTML={{
+          __html: JSON.stringify(breadcrumbSchema([
+            { name: "Trang chủ", url: "/" },
+            { name: "Sản phẩm", url: "/san-pham" },
+            { name: currentCategory.name, url: `/san-pham/danh-muc/${currentCategory.slug}` }
+          ]))
+        }}
+      />
       {/* Dynamic Header */}
       <section className="bg-biotechvet-dark text-white py-20 relative overflow-hidden">
         <div className="absolute inset-0 opacity-10 bg-[url('/images/farm.png')] bg-cover bg-center"></div>
