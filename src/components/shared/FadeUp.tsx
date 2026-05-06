@@ -21,13 +21,10 @@ export default function FadeUp({
   amount = "some",
 }: Readonly<FadeUpProps>) {
   return (
-    <motion.div
-      initial={{ opacity: 0, y }}
-      animate={{ opacity: 1, y: 0 }}
-      transition={{ duration, delay, ease: "easeOut" }}
+    <div
       className={className}
     >
       {children}
-    </motion.div>
+    </div>
   );
 }
