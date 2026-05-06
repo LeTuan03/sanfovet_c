@@ -1,6 +1,7 @@
 export const dynamic = 'force-dynamic';
 
 import Link from 'next/link';
+import Image from 'next/image';
 import { Eye, ArrowRight, Calendar, Microscope, ShieldCheck, Users, Truck, Gem, ChevronRight, Award, CheckCircle2 } from 'lucide-react';
 import { productService, articleService, bannerService, mediaService } from '@/services';
 import { Product, Article } from '@/types';
@@ -46,7 +47,16 @@ export default async function HomePage() {
             <div className="flex flex-col lg:flex-row gap-16 lg:gap-24 items-center">
               <div className="w-full lg:w-5/12 relative">
                 <div className="relative z-10 rounded-[40px] overflow-hidden shadow-[0_20px_50px_rgba(0,0,0,0.15)] group">
-                  <img src="/images/about.jpg" alt="Trụ sở BIOTECH-VET" className="w-full h-[500px] object-cover group-hover:scale-105 transition-transform duration-1000" />
+                  <div className="relative w-full h-[500px]">
+                    <Image
+                      src="/images/about.jpg"
+                      alt="Trụ sở BIOTECH-VET"
+                      fill
+                      sizes="(min-width: 1024px) 42vw, 100vw"
+                      loading="lazy"
+                      className="object-cover group-hover:scale-105 transition-transform duration-1000"
+                    />
+                  </div>
                   <div className="absolute inset-0 bg-gradient-to-t from-black/60 via-black/10 to-transparent flex items-end p-10">
                     <div className="text-white">
                       <div className="font-black text-6xl mb-2 text-primary-light drop-shadow-lg">20+</div>
@@ -130,7 +140,14 @@ export default async function HomePage() {
                     <Eye size={18} />
                   </div>
                   <div className="aspect-square flex items-center justify-center relative group-hover:bg-primary-light/30 transition-colors duration-500 overflow-hidden">
-                    <img src={p.image} alt={p.name} className="h-full w-auto object-contain transition-transform duration-700 group-hover:scale-110" />
+                    <Image
+                      src={p.image}
+                      alt={p.name}
+                      fill
+                      sizes="(min-width: 1024px) 22vw, (min-width: 640px) 45vw, 90vw"
+                      loading="lazy"
+                      className="object-contain transition-transform duration-700 group-hover:scale-110"
+                    />
                   </div>
                   <div className="p-3 md:p-4 flex-1 flex flex-col">
                     <h3 className="font-black text-biotechvet-dark group-hover:text-primary transition-colors text-sm leading-tight overflow-hidden text-center">{p.name}</h3>
@@ -145,7 +162,7 @@ export default async function HomePage() {
 
       {/* Disease & Treatment */}
       <section className="py-24 lg:py-32 bg-white relative overflow-hidden">
-        <div className="absolute right-0 top-0 w-[40rem] h-[40rem] bg-primary/5 rounded-full blur-[100px] pointer-events-none -mr-[20rem] -mt-[10rem]"></div>
+        <div className="absolute right-0 top-0 w-[40rem] h-[40rem] bg-primary/5 rounded-full blur-3xl pointer-events-none -mr-[20rem] -mt-[10rem]"></div>
         <div className="container mx-auto px-4 relative z-10">
           <FadeUp className="flex flex-col md:flex-row justify-between items-end mb-16 gap-6">
             <div className="max-w-2xl">
@@ -162,7 +179,14 @@ export default async function HomePage() {
               <FadeUp key={a.id} delay={i * 0.1}>
                 <article className="bg-white rounded-[32px] border border-gray-100 shadow-sm overflow-hidden hover:shadow-xl transition-all duration-500 flex flex-col group hover:-translate-y-2 h-full">
                   <div className="aspect-[4/3] relative overflow-hidden bg-gray-100">
-                    <img src={`/images/news-${(i % 3) + 1}.png`} alt={a.title} className="w-full h-full object-cover group-hover:scale-110 transition-transform duration-700" />
+                    <Image
+                      src={`/images/news-${(i % 3) + 1}.png`}
+                      alt={a.title}
+                      fill
+                      sizes="(min-width: 1024px) 22vw, (min-width: 768px) 45vw, 90vw"
+                      loading="lazy"
+                      className="object-cover group-hover:scale-110 transition-transform duration-700"
+                    />
                     <div className="absolute top-4 left-4 bg-secondary text-white text-[10px] font-black py-1.5 px-3 rounded-full uppercase tracking-widest shadow-sm">
                       Cẩm nang
                     </div>
@@ -233,7 +257,14 @@ export default async function HomePage() {
               <FadeUp key={a.id} delay={i * 0.1}>
                 <article className="bg-white rounded-[40px] shadow-sm border border-gray-100 overflow-hidden hover:shadow-2xl transition-all duration-500 group flex flex-col hover:-translate-y-2 h-full">
                   <div className="aspect-[16/10] relative overflow-hidden">
-                    <img src={`/images/news-${(i % 3) + 1}.png`} alt={a.title} className="w-full h-full object-cover group-hover:scale-105 transition-transform duration-700" />
+                    <Image
+                      src={`/images/news-${(i % 3) + 1}.png`}
+                      alt={a.title}
+                      fill
+                      sizes="(min-width: 1024px) 30vw, 90vw"
+                      loading="lazy"
+                      className="object-cover group-hover:scale-105 transition-transform duration-700"
+                    />
                     <div className="absolute bottom-4 left-4 right-4 text-white">
                       <div className="bg-biotechvet-dark/80 backdrop-blur-md rounded-3xl p-5 border border-white/10 shadow-lg">
                         <div className="text-[10px] font-bold text-primary-light mb-2 uppercase tracking-widest flex items-center gap-1.5">

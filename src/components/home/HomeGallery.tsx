@@ -1,6 +1,7 @@
 "use client";
 
 import React, { useState } from 'react';
+import Image from 'next/image';
 import { X, ZoomIn, PlayCircle } from 'lucide-react';
 import { motion, AnimatePresence } from 'framer-motion';
 
@@ -30,35 +31,32 @@ export default function HomeGallery({ images, videos }: HomeGalleryProps) {
   return (
     <section className="py-24 bg-white">
       <div className="container mx-auto px-4">
-        <motion.div 
-          initial={{ opacity: 0, y: 20 }}
-          animate={{ opacity: 1, y: 0 }}
-          transition={{ duration: 0.6 }}
-          className="text-center max-w-2xl mx-auto mb-16"
-        >
+        <div className="text-center max-w-2xl mx-auto mb-16">
           <h2 className="text-3xl md:text-5xl font-black mb-6 text-biotechvet-dark uppercase italic tracking-wider relative inline-block">
             Video & Hình Ảnh <span className="absolute -bottom-2 left-0 w-1/2 h-1.5 bg-secondary rounded-full"></span>
           </h2>
           <p className="text-gray-500 font-medium text-lg italic">Khám phá quy mô nhà máy và các hoạt động nổi bật của BIOTECH-VET</p>
-        </motion.div>
+        </div>
 
         <div className="grid grid-cols-1 lg:grid-cols-2 gap-10">
           {/* Video Feature */}
-          <motion.div 
-            initial={{ opacity: 0, x: -50 }}
-            animate={{ opacity: 1, x: 0 }}
-            transition={{ duration: 0.6, delay: 0.2 }}
-            className="flex flex-col gap-6"
-          >
+          <div className="flex flex-col gap-6">
              <button
                type="button"
                className="group relative aspect-video rounded-[40px] overflow-hidden shadow-2xl border-8 border-white cursor-pointer"
                onClick={() => featuredVideo && setSelectedItem({ ...featuredVideo, type: 'video' })}
                disabled={!featuredVideo}
              >
-                <img src={featuredVideo?.thumbnail || '/images/about.jpg'} alt="Video cover" className="w-full h-full object-cover transition-transform duration-700 group-hover:scale-110" />
+                <Image
+                  src={featuredVideo?.thumbnail || '/images/about.jpg'}
+                  alt="Video cover"
+                  fill
+                  sizes="(min-width: 1024px) 50vw, 100vw"
+                  loading="lazy"
+                  className="object-cover transition-transform duration-700 group-hover:scale-110"
+                />
                 <div className="absolute inset-0 bg-biotechvet-dark/40 group-hover:bg-biotechvet-dark/20 transition-all flex items-center justify-center">
-                   <div className="w-24 h-24 bg-white/20 backdrop-blur-md rounded-full flex items-center justify-center text-white border border-white/30 group-hover:scale-110 transition-transform">
+                   <div className="w-24 h-24 bg-white/20 rounded-full flex items-center justify-center text-white border border-white/30 group-hover:scale-110 transition-transform">
                       <PlayCircle size={64} fill="currentColor" className="text-white" />
                    </div>
                 </div>
@@ -76,26 +74,26 @@ export default function HomeGallery({ images, videos }: HomeGalleryProps) {
                    <PlayCircle size={24} />
                 </a>
              </div>
-          </motion.div>
+          </div>
 
           {/* Masonry-style Grid */}
           <div className="columns-2 gap-6 space-y-6">
             {images.map((img, i) => (
-              <motion.div 
+              <div
                 key={img.id}
-                initial={{ opacity: 0, y: 30 }}
-                animate={{ opacity: 1, y: 0 }}
-                transition={{ duration: 0.5, delay: i * 0.1 }}
-                className="relative group rounded-3xl overflow-hidden shadow-md cursor-pointer break-inside-avoid"
+                className={`relative group rounded-3xl overflow-hidden shadow-md cursor-pointer break-inside-avoid ${getAspectClass(i)}`}
                 role="button"
                 tabIndex={0}
                 onClick={() => setSelectedItem({ ...img, type: 'image' })}
                 onKeyDown={(event) => handleKeyPress(event, img)}
               >
-                <img 
-                  src={img.url} 
-                  alt={img.title} 
-                  className={`w-full object-cover transition-transform duration-700 group-hover:scale-110 ${getAspectClass(i)}`} 
+                <Image
+                  src={img.url}
+                  alt={img.title || ''}
+                  fill
+                  sizes="(min-width: 1024px) 25vw, 50vw"
+                  loading="lazy"
+                  className="object-cover transition-transform duration-700 group-hover:scale-110"
                 />
                 <div className="absolute inset-0 bg-gradient-to-t from-biotechvet-dark/80 via-transparent to-transparent opacity-0 group-hover:opacity-100 transition-all duration-500 flex flex-col justify-end p-6">
                    <div className="bg-secondary/90 text-white p-2.5 rounded-xl w-fit mb-3 transform -translate-y-4 group-hover:translate-y-0 transition-transform">
@@ -103,7 +101,7 @@ export default function HomeGallery({ images, videos }: HomeGalleryProps) {
                    </div>
                    <p className="text-white font-bold text-sm leading-tight line-clamp-2 transform translate-y-4 group-hover:translate-y-0 transition-transform delay-75">{img.title}</p>
                 </div>
-              </motion.div>
+              </div>
             ))}
           </div>
         </div>
@@ -112,7 +110,7 @@ export default function HomeGallery({ images, videos }: HomeGalleryProps) {
       {/* Lightbox / Video Player */}
       <AnimatePresence>
       {selectedItem && (
-        <motion.div 
+        <motion.div
           initial={{ opacity: 0 }}
           animate={{ opacity: 1 }}
           exit={{ opacity: 0 }}
@@ -120,28 +118,28 @@ export default function HomeGallery({ images, videos }: HomeGalleryProps) {
         >
           <button
             type="button"
-            className="absolute inset-0 bg-biotechvet-dark/95 backdrop-blur-md cursor-pointer"
+            className="absolute inset-0 bg-biotechvet-dark/95 cursor-pointer"
             onClick={() => setSelectedItem(null)}
             aria-label="Close media viewer"
           />
-          <motion.div 
+          <motion.div
             initial={{ scale: 0.95, opacity: 0 }}
             animate={{ scale: 1, opacity: 1 }}
             exit={{ scale: 0.95, opacity: 0 }}
             transition={{ type: "spring", stiffness: 300, damping: 25 }}
             className="relative z-10 w-full max-w-6xl bg-white rounded-[40px] overflow-hidden shadow-2xl"
           >
-            <button 
+            <button
               onClick={() => setSelectedItem(null)}
               className="absolute top-6 right-6 bg-gray-100 hover:bg-red-100 text-gray-400 hover:text-red-500 w-12 h-12 rounded-full flex items-center justify-center transition-all z-20 shadow-sm"
             >
               <X size={24} />
             </button>
-            
+
             <div className="flex flex-col md:flex-row h-full">
                <div className="flex-1 bg-black flex items-center justify-center min-h-[300px] md:min-h-[500px]">
                   {selectedItem.type === 'video' ? (
-                    <video 
+                    <video
                       className="w-full h-full object-contain"
                       controls
                       autoPlay
@@ -151,9 +149,9 @@ export default function HomeGallery({ images, videos }: HomeGalleryProps) {
                       Trình duyệt của bạn không hỗ trợ video.
                     </video>
                   ) : (
-                    <img 
-                      src={selectedItem.url} 
-                      alt={selectedItem.title} 
+                    <img
+                      src={selectedItem.url}
+                      alt={selectedItem.title}
                       className="max-w-full max-h-full object-contain"
                     />
                   )}
@@ -168,7 +166,7 @@ export default function HomeGallery({ images, videos }: HomeGalleryProps) {
                   <p className="text-gray-400 text-sm font-medium italic mb-10">
                     Nội dung trực thuộc thư viện truyền thông chính thức của BIOTECH-VET.
                   </p>
-                  <button 
+                  <button
                     onClick={() => setSelectedItem(null)}
                     className="mt-auto py-4 border-2 border-gray-100 rounded-2xl text-gray-400 font-bold uppercase tracking-widest text-xs hover:bg-gray-50 transition-all"
                   >
@@ -180,23 +178,6 @@ export default function HomeGallery({ images, videos }: HomeGalleryProps) {
         </motion.div>
       )}
       </AnimatePresence>
-
-      <style jsx global>{`
-        @keyframes fade-in {
-          from { opacity: 0; }
-          to { opacity: 1; }
-        }
-        @keyframes scale-up {
-          from { transform: scale(0.95); opacity: 0; }
-          to { transform: scale(1); opacity: 1; }
-        }
-        .animate-fade-in {
-          animation: fade-in 0.3s ease-out;
-        }
-        .animate-scale-up {
-          animation: scale-up 0.4s cubic-bezier(0.16, 1, 0.3, 1);
-        }
-      `}</style>
     </section>
   );
 }

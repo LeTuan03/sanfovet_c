@@ -42,12 +42,15 @@ export default function BannerSlider({ banners }: BannerSliderProps) {
                 initial={{ opacity: 0 }}
                 animate={{ opacity: 1 }}
                 exit={{ opacity: 0 }}
-                transition={{ duration: 0.8 }}
+                transition={{ duration: 0.4 }}
                 className="col-start-1 row-start-1 relative z-10 w-full"
               >
                 <img
                   src={slide.image}
-                  alt={slide.title}
+                  alt={slide.title || 'Banner'}
+                  loading={index === 0 ? 'eager' : 'lazy'}
+                  fetchPriority={index === 0 ? 'high' : 'auto'}
+                  decoding="async"
                   className="w-full h-auto block"
                 />
               </motion.div>
