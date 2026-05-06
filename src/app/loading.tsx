@@ -1,10 +1,25 @@
+"use client";
+
 import Image from "next/image";
+import { useEffect, useState } from "react";
+
+const LOADING_DELAY_MS = 150;
 
 export default function Loading() {
+  const [showLoader, setShowLoader] = useState(false);
+
+  useEffect(() => {
+    const timer = globalThis.setTimeout(() => setShowLoader(true), LOADING_DELAY_MS);
+    return () => globalThis.clearTimeout(timer);
+  }, []);
+
+  if (!showLoader) {
+    return null;
+  }
+
   return (
-    <div className="fixed inset-0 z-[9999] flex flex-col items-center justify-center bg-white/80 backdrop-blur-sm">
-      <div className="relative flex flex-col items-center">
-        {/* Simple pulse animation for the logo during streaming transitions */}
+    <div className="fixed inset-0 z-[9999] pointer-events-none flex items-center justify-center bg-white/80 backdrop-blur-sm transition-opacity duration-200">
+      <div className="pointer-events-auto rounded-3xl bg-white/95 p-6 shadow-2xl">
         <div className="mb-6 animate-pulse opacity-70">
           <Image 
             src="/images/logo.png" 
@@ -16,7 +31,6 @@ export default function Loading() {
           />
         </div>
 
-        {/* CSS Animation via inline style for simplicity in loading.tsx */}
         <div className="relative h-1 w-32 overflow-hidden rounded-full bg-slate-100">
           <div 
             className="absolute h-full w-full bg-[#199ad6]"
