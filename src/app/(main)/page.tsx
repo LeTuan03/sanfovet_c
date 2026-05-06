@@ -21,8 +21,8 @@ export default async function HomePage() {
   const diseaseArticles = Array.isArray(articles) ? articles.filter((a: Article) => a.category === 'benh-dieu-tri').slice(0, 4) : [];
   const latestNews = Array.isArray(articles) ? articles.slice(0, 3) : [];
   const activeBanners = Array.isArray(banners) ? banners.filter((b: any) => b.status).sort((a: any, b: any) => a.order - b.order).map(b => ({ ...b, id: Number(b.id) })) : [];
-  const images = Array.isArray(mediaImages) ? mediaImages.filter((img: any) => img.status === 'active') : [];
-  const videos = Array.isArray(mediaVideos) ? mediaVideos.filter((v: any) => v.status === 'active') : [];
+  const images = Array.isArray(mediaImages) ? mediaImages.filter((img: any) => img.status === 'active').map(img => ({ ...img, id: Number(img.id) })) : [];
+  const videos = Array.isArray(mediaVideos) ? mediaVideos.filter((v: any) => v.status === 'active').map(v => ({ ...v, id: Number(v.id) })) : [];
 
   const features = [
     { icon: <Microscope size={32} />, title: 'Công nghệ USA', desc: 'Ứng dụng công nghệ tiên tiến từ Hoa Kỳ trong sản xuất thuốc thú y' },
