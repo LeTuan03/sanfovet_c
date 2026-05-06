@@ -149,8 +149,7 @@ export default async function ProductDetailPage({ params }: Readonly<{ params: P
               <div className="flex flex-col justify-center space-y-6">
                 {product.registrationNumber && (
                   <div>
-                    <h3 className="text-sm font-bold text-gray-500 uppercase tracking-wider mb-1">Số đăng ký</h3>
-                    <p className="text-lg font-black text-biotechvet-dark">{product.registrationNumber}</p>
+                    <h3 className="text-sm font-bold text-gray-500 uppercase tracking-wider mb-1">Số đăng ký: {product.registrationNumber}</h3>
                   </div>
                 )}
                 {product.description && (

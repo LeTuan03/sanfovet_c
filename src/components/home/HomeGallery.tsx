@@ -4,45 +4,40 @@ import React, { useState } from 'react';
 import { X, ZoomIn, PlayCircle } from 'lucide-react';
 import { motion, AnimatePresence } from 'framer-motion';
 
-export default function HomeGallery() {
+interface HomeGalleryProps {
+  readonly images: Array<{ id: string | number; url: string; title?: string; status?: string }>;
+  readonly videos: Array<{ id: string | number; url: string; title?: string; thumbnail?: string; status?: string }>;
+}
+
+export default function HomeGallery({ images, videos }: HomeGalleryProps) {
   const [selectedItem, setSelectedItem] = useState<any>(null);
-  const [images, setImages] = useState<any[]>([]);
-  const [videos, setVideos] = useState<any[]>([]);
-  const [loading, setLoading] = useState(true);
 
-  React.useEffect(() => {
-    const fetchMedia = async () => {
-      try {
-        const res = await fetch('/api/data/media-gallery');
-        const data = await res.json();
-        setImages((data.images || []).filter((img: any) => img.status === 'active'));
-        setVideos((data.videos || []).filter((v: any) => v.status === 'active'));
-      } catch (error) {
-        console.error('Failed to fetch media gallery', error);
-      } finally {
-        setLoading(false);
-      }
-    };
-    fetchMedia();
-  }, []);
+  const featuredVideo = videos?.[0];
 
-  if (loading) return null;
+  const getAspectClass = (index: number) => {
+    if (index % 3 === 0) return 'aspect-[3/4]';
+    if (index % 3 === 1) return 'aspect-square';
+    return 'aspect-[4/3]';
+  };
 
-  const featuredVideo = videos[0];
+  const handleKeyPress = (event: React.KeyboardEvent, item: any) => {
+    if (event.key === 'Enter' || event.key === ' ') {
+      event.preventDefault();
+      setSelectedItem({ ...item, type: item.url?.includes('.mp4') ? 'video' : 'image' });
+    }
+  };
 
   return (
     <section className="py-24 bg-white">
       <div className="container mx-auto px-4">
         <motion.div 
           initial={{ opacity: 0, y: 20 }}
-          whileInView={{ opacity: 1, y: 0 }}
-          viewport={{ once: true, margin: "-100px" }}
+          animate={{ opacity: 1, y: 0 }}
           transition={{ duration: 0.6 }}
           className="text-center max-w-2xl mx-auto mb-16"
         >
           <h2 className="text-3xl md:text-5xl font-black mb-6 text-biotechvet-dark uppercase italic tracking-wider relative inline-block">
-            Video & Hình Ảnh
-            <span className="absolute -bottom-2 left-0 w-1/2 h-1.5 bg-secondary rounded-full"></span>
+            Video & Hình Ảnh <span className="absolute -bottom-2 left-0 w-1/2 h-1.5 bg-secondary rounded-full"></span>
           </h2>
           <p className="text-gray-500 font-medium text-lg italic">Khám phá quy mô nhà máy và các hoạt động nổi bật của BIOTECH-VET</p>
         </motion.div>
@@ -51,14 +46,15 @@ export default function HomeGallery() {
           {/* Video Feature */}
           <motion.div 
             initial={{ opacity: 0, x: -50 }}
-            whileInView={{ opacity: 1, x: 0 }}
-            viewport={{ once: true, margin: "-100px" }}
+            animate={{ opacity: 1, x: 0 }}
             transition={{ duration: 0.6, delay: 0.2 }}
             className="flex flex-col gap-6"
           >
-             <div 
+             <button
+               type="button"
                className="group relative aspect-video rounded-[40px] overflow-hidden shadow-2xl border-8 border-white cursor-pointer"
-               onClick={() => setSelectedItem({ ...featuredVideo, type: 'video' })}
+               onClick={() => featuredVideo && setSelectedItem({ ...featuredVideo, type: 'video' })}
+               disabled={!featuredVideo}
              >
                 <img src={featuredVideo?.thumbnail || '/images/about.jpg'} alt="Video cover" className="w-full h-full object-cover transition-transform duration-700 group-hover:scale-110" />
                 <div className="absolute inset-0 bg-biotechvet-dark/40 group-hover:bg-biotechvet-dark/20 transition-all flex items-center justify-center">
@@ -70,7 +66,7 @@ export default function HomeGallery() {
                    <div className="bg-primary px-4 py-1.5 rounded-full text-[10px] text-white font-black uppercase tracking-[3px] mb-3 w-fit">Featured Video</div>
                    <h3 className="text-2xl font-black text-white uppercase italic tracking-tight">{featuredVideo?.title || 'Phim giới thiệu BIOTECH-VET'}</h3>
                 </div>
-             </div>
+             </button>
              <div className="bg-biotechvet-alt p-8 rounded-[32px] border border-gray-100 flex items-center justify-between group">
                 <div>
                    <h4 className="font-black text-biotechvet-dark text-lg uppercase mb-1">Kênh YouTube chính thức</h4>
@@ -88,18 +84,18 @@ export default function HomeGallery() {
               <motion.div 
                 key={img.id}
                 initial={{ opacity: 0, y: 30 }}
-                whileInView={{ opacity: 1, y: 0 }}
-                viewport={{ once: true, margin: "-50px" }}
+                animate={{ opacity: 1, y: 0 }}
                 transition={{ duration: 0.5, delay: i * 0.1 }}
                 className="relative group rounded-3xl overflow-hidden shadow-md cursor-pointer break-inside-avoid"
+                role="button"
+                tabIndex={0}
                 onClick={() => setSelectedItem({ ...img, type: 'image' })}
+                onKeyDown={(event) => handleKeyPress(event, img)}
               >
                 <img 
                   src={img.url} 
                   alt={img.title} 
-                  className={`w-full object-cover transition-transform duration-700 group-hover:scale-110 ${
-                    i % 3 === 0 ? 'aspect-[3/4]' : i % 3 === 1 ? 'aspect-square' : 'aspect-[4/3]'
-                  }`} 
+                  className={`w-full object-cover transition-transform duration-700 group-hover:scale-110 ${getAspectClass(i)}`} 
                 />
                 <div className="absolute inset-0 bg-gradient-to-t from-biotechvet-dark/80 via-transparent to-transparent opacity-0 group-hover:opacity-100 transition-all duration-500 flex flex-col justify-end p-6">
                    <div className="bg-secondary/90 text-white p-2.5 rounded-xl w-fit mb-3 transform -translate-y-4 group-hover:translate-y-0 transition-transform">
@@ -122,10 +118,12 @@ export default function HomeGallery() {
           exit={{ opacity: 0 }}
           className="fixed inset-0 z-[2000] flex items-center justify-center p-4 md:p-12"
         >
-          <div 
+          <button
+            type="button"
             className="absolute inset-0 bg-biotechvet-dark/95 backdrop-blur-md cursor-pointer"
             onClick={() => setSelectedItem(null)}
-          ></div>
+            aria-label="Close media viewer"
+          />
           <motion.div 
             initial={{ scale: 0.95, opacity: 0 }}
             animate={{ scale: 1, opacity: 1 }}
@@ -149,6 +147,7 @@ export default function HomeGallery() {
                       autoPlay
                     >
                       <source src={selectedItem.url} type="video/mp4" />
+                      <track kind="captions" srcLang="vi" src="/empty-captions.vtt" label="Vietnamese captions" default />
                       Trình duyệt của bạn không hỗ trợ video.
                     </video>
                   ) : (

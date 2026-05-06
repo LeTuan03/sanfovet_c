@@ -1,7 +1,7 @@
 "use client";
 
 import React, { useState } from 'react';
-import { X, ZoomIn } from 'lucide-react';
+import { X } from 'lucide-react';
 
 interface ProductGalleryProps {
   mainImage: string;
@@ -28,11 +28,6 @@ export default function ProductGallery({ mainImage, images = [], alt }: ProductG
             alt={alt}
             className="max-h-[50vh] w-auto object-contain transition-all duration-500 group-hover:scale-105"
           />
-          <div className="absolute inset-0 bg-white/20 opacity-0 group-hover:opacity-100 transition-opacity flex items-center justify-center rounded-[24px]">
-            <div className="bg-primary text-white p-3 rounded-full shadow-lg transform translate-y-4 group-hover:translate-y-0 transition-all">
-              <ZoomIn size={24} />
-            </div>
-          </div>
         </div>
 
         {/* Thumbnail Strip */}

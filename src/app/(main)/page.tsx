@@ -1,20 +1,28 @@
-export const dynamic = 'force-dynamic';
+export const revalidate = 60;
 
 import Link from 'next/link';
 import { Eye, ArrowRight, Calendar, Microscope, ShieldCheck, Users, Truck, Gem, ChevronRight, Award, CheckCircle2 } from 'lucide-react';
-import { productService, articleService } from '@/services';
+import { productService, articleService, bannerService, mediaService } from '@/services';
 import { Product, Article } from '@/types';
 import BannerSlider from '@/components/home/BannerSlider';
 import HomeGallery from '@/components/home/HomeGallery';
 import FadeUp from '@/components/shared/FadeUp';
 
 export default async function HomePage() {
-  const products = await productService.getAll();
-  const articles = await articleService.getAll();
+  const [products, articles, banners, mediaImages, mediaVideos] = await Promise.all([
+    productService.getAll(),
+    articleService.getAll(),
+    bannerService.getAll(),
+    mediaService.getImages(),
+    mediaService.getVideos(),
+  ]);
 
   const featuredProducts = Array.isArray(products) ? products.filter((p: Product) => p.featured).slice(0, 8) : [];
   const diseaseArticles = Array.isArray(articles) ? articles.filter((a: Article) => a.category === 'benh-dieu-tri').slice(0, 4) : [];
   const latestNews = Array.isArray(articles) ? articles.slice(0, 3) : [];
+  const activeBanners = Array.isArray(banners) ? banners.filter((b: any) => b.status).sort((a: any, b: any) => a.order - b.order) : [];
+  const images = Array.isArray(mediaImages) ? mediaImages.filter((img: any) => img.status === 'active') : [];
+  const videos = Array.isArray(mediaVideos) ? mediaVideos.filter((v: any) => v.status === 'active') : [];
 
   const features = [
     { icon: <Microscope size={32} />, title: 'Công nghệ USA', desc: 'Ứng dụng công nghệ tiên tiến từ Hoa Kỳ trong sản xuất thuốc thú y' },
@@ -27,7 +35,7 @@ export default async function HomePage() {
   return (
     <div className="w-full bg-white">
       {/* Hero Banner Section */}
-      <BannerSlider />
+      <BannerSlider banners={activeBanners} />
 
       {/* About Section */}
       <section className="py-24 lg:py-32 bg-white overflow-hidden relative">
@@ -250,7 +258,7 @@ export default async function HomePage() {
         </div>
       </section>
 
-      <HomeGallery />
+      <HomeGallery images={images} videos={videos} />
     </div>
   );
 }

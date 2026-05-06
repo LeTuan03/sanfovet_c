@@ -1,33 +1,16 @@
 "use client";
 
-import React, { useState, useEffect } from 'react';
-import Link from 'next/link';
-import { Eye, ChevronLeft, ChevronRight } from 'lucide-react';
+import React, { useState } from 'react';
+import { ChevronLeft, ChevronRight } from 'lucide-react';
 import { motion, AnimatePresence } from 'framer-motion';
 
-export default function BannerSlider() {
+interface BannerSliderProps {
+  readonly banners: Array<{ id: string | number; image: string; title?: string; order?: number }>;
+}
+
+export default function BannerSlider({ banners }: BannerSliderProps) {
   const [currentSlide, setCurrentSlide] = useState(0);
-  const [banners, setBanners] = useState<any[]>([]);
-  const [loading, setLoading] = useState(true);
 
-  useEffect(() => {
-    const fetchBanners = async () => {
-      try {
-        const res = await fetch('/api/data/banners');
-        const data = await res.json();
-        if (Array.isArray(data)) {
-          setBanners(data.filter((b: any) => b.status).sort((a: any, b: any) => a.order - b.order));
-        }
-      } catch (error) {
-        console.error('Failed to fetch banners', error);
-      } finally {
-        setLoading(false);
-      }
-    };
-
-    fetchBanners();
-  }, []);
-  console.log(banners)
   const nextSlide = () => {
     setCurrentSlide((prev) => (prev + 1) % banners.length);
   };
@@ -38,7 +21,7 @@ export default function BannerSlider() {
     );
   };
 
-  if (loading || banners.length === 0) {
+  if (!banners || banners.length === 0) {
     return (
       <section className="w-full min-h-[300px] md:min-h-[400px] bg-biotechvet-dark flex items-center justify-center text-white font-bold uppercase tracking-widest italic opacity-50 animate-pulse">
         BIOTECH-VET Loading...
@@ -91,15 +74,17 @@ export default function BannerSlider() {
 
       {/* dots */}
       <div className="absolute bottom-6 left-1/2 -translate-x-1/2 flex items-center gap-3 z-20">
-        {banners.map((_, index) => (
+        {banners.map((slide, index) => (
           <button
-            key={index}
+            key={slide.id}
             onClick={() => setCurrentSlide(index)}
             className={`w-3 h-3 rounded-full transition-all ${
               index === currentSlide
                 ? 'bg-white scale-125'
                 : 'bg-white/40'
             }`}
+            type="button"
+            aria-label={`Go to slide ${index + 1}`}
           />
         ))}
       </div>
