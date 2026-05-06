@@ -1,4 +1,4 @@
-export const revalidate = 60;
+export const dynamic = 'force-dynamic';
 
 import Link from 'next/link';
 import { Eye, ArrowRight, Calendar, Microscope, ShieldCheck, Users, Truck, Gem, ChevronRight, Award, CheckCircle2 } from 'lucide-react';
