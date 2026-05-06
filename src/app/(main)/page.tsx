@@ -20,7 +20,7 @@ export default async function HomePage() {
   const featuredProducts = Array.isArray(products) ? products.filter((p: Product) => p.featured).slice(0, 8) : [];
   const diseaseArticles = Array.isArray(articles) ? articles.filter((a: Article) => a.category === 'benh-dieu-tri').slice(0, 4) : [];
   const latestNews = Array.isArray(articles) ? articles.slice(0, 3) : [];
-  const activeBanners = Array.isArray(banners) ? banners.filter((b: any) => b.status).sort((a: any, b: any) => a.order - b.order) : [];
+  const activeBanners = Array.isArray(banners) ? banners.filter((b: any) => b.status).sort((a: any, b: any) => a.order - b.order).map(b => ({ ...b, id: Number(b.id) })) : [];
   const images = Array.isArray(mediaImages) ? mediaImages.filter((img: any) => img.status === 'active') : [];
   const videos = Array.isArray(mediaVideos) ? mediaVideos.filter((v: any) => v.status === 'active') : [];
 
