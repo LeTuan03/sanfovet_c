@@ -10,7 +10,7 @@ import ImageUpload from '@/components/admin/ImageUpload';
 import dayjs from 'dayjs';
 import 'dayjs/locale/vi';
 import { adminFetch } from '@/lib/api';
-import { Article, AnimalTag } from '@/types';
+import { Article } from '@/types';
 import { useAdminLoading } from '@/lib/AdminLoadingContext';
 
 function ArticleManagementContent() {
@@ -23,7 +23,6 @@ function ArticleManagementContent() {
   const page = parseInt(searchParams.get('page') || '1');
 
   const [data, setData] = useState<Article[]>([]);
-  const [animalTags, setAnimalTags] = useState<AnimalTag[]>([]);
   const [loading, setLoading] = useState(true);
   const [isModalOpen, setIsModalOpen] = useState(false);
   const [form] = Form.useForm();
@@ -33,14 +32,9 @@ function ArticleManagementContent() {
   const fetchData = React.useCallback(async () => {
     setLoading(true);
     try {
-      const [artRes, tagRes] = await Promise.all([
-        adminFetch('/api/data/articles'),
-        adminFetch('/api/data/animal-tags')
-      ]);
+      const artRes = await adminFetch('/api/data/articles');
       const artData = await artRes.json();
-      const tagData = await tagRes.json();
       setData(artData);
-      setAnimalTags(tagData);
     } catch (error) {
       msg.error('Không thể tải dữ liệu');
     } finally {

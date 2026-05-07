@@ -31,9 +31,19 @@ export async function POST(req: NextRequest) {
 
     const buffer = Buffer.from(await file.arrayBuffer());
     
-    // Create a sanitized file name
+    // Create a sanitized file name (strip diacritics & non URL-safe chars)
     const timestamp = Date.now();
-    const originalName = file.name.replaceAll(/\s+/g, '-');
+    const dotIdx = file.name.lastIndexOf('.');
+    const rawBase = dotIdx > 0 ? file.name.slice(0, dotIdx) : file.name;
+    const rawExt = dotIdx > 0 ? file.name.slice(dotIdx + 1) : '';
+    const safeBase = rawBase
+      .normalize('NFD').replace(/[̀-ͯ]/g, '')
+      .replaceAll(/[^a-zA-Z0-9._-]/g, '-')
+      .replaceAll(/-+/g, '-')
+      .replaceAll(/^-+|-+$/g, '')
+      .toLowerCase() || 'file';
+    const safeExt = rawExt.replaceAll(/[^a-zA-Z0-9]/g, '').toLowerCase();
+    const originalName = safeExt ? `${safeBase}.${safeExt}` : safeBase;
     const fileName = `${timestamp}-${originalName}`;
     
     // For local development, we save to public/uploads
