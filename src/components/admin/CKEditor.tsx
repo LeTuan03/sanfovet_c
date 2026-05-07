@@ -1,6 +1,7 @@
 "use client";
 
 import React, { useEffect, useRef, useState } from 'react';
+import 'ckeditor5/dist/ckeditor5.css';
 
 interface CKEditorProps {
   value?: string;
@@ -11,15 +12,41 @@ interface CKEditorProps {
 export default function CKEditorWrapper({ value, onChange, placeholder }: CKEditorProps) {
   const editorRef = useRef<any>(null);
   const [editorLoaded, setEditorLoaded] = useState(false);
-  const { CKEditor, ClassicEditor } = editorRef.current || {};
+  const { CKEditor, ClassicEditor, plugins } = editorRef.current || {};
 
   useEffect(() => {
     // Dynamic import inside useEffect to avoid SSR issues
     const loadEditor = async () => {
       try {
+        const ck = await import('ckeditor5');
+        const { CKEditor: CKEditorComponent } = await import('@ckeditor/ckeditor5-react');
+        
         editorRef.current = {
-          CKEditor: (await import('@ckeditor/ckeditor5-react')).CKEditor,
-          ClassicEditor: (await import('@ckeditor/ckeditor5-build-classic')).default,
+          CKEditor: CKEditorComponent,
+          ClassicEditor: ck.ClassicEditor,
+          plugins: [
+            ck.Essentials,
+            ck.Paragraph,
+            ck.Heading,
+            ck.Bold,
+            ck.Italic,
+            ck.Link,
+            ck.List,
+            ck.Alignment,
+            ck.Indent,
+            ck.IndentBlock,
+            ck.BlockQuote,
+            ck.Table,
+            ck.TableToolbar,
+            ck.MediaEmbed,
+            ck.Undo,
+            ck.Image,
+            ck.ImageToolbar,
+            ck.ImageCaption,
+            ck.ImageStyle,
+            ck.ImageUpload,
+            ck.LinkImage
+          ],
         };
         setEditorLoaded(true);
       } catch (error) {
@@ -87,16 +114,22 @@ export default function CKEditorWrapper({ value, onChange, placeholder }: CKEdit
         editor={ClassicEditor}
         data={value || ''}
         config={{
+          plugins: plugins,
           placeholder: placeholder || 'Nhập nội dung...',
           toolbar: {
             items: [
               'heading',
+              '|',
+              'alignment',
               '|',
               'bold',
               'italic',
               'link',
               'bulletedList',
               'numberedList',
+              '|',
+              'outdent',
+              'indent',
               '|',
               'imageUpload',
               'blockQuote',
@@ -106,8 +139,32 @@ export default function CKEditorWrapper({ value, onChange, placeholder }: CKEdit
               'redo'
             ]
           },
+          alignment: {
+            options: ['left', 'center', 'right', 'justify']
+          },
           extraPlugins: [MyCustomUploadAdapterPlugin],
           language: 'vi',
+        }}
+        onReady={(editor: any) => {
+          // Tab key support
+          editor.editing.view.document.on('keydown', (evt: any, data: any) => {
+            if (data.keyCode === 9) { // Tab key
+              if (data.shiftKey) {
+                if (editor.commands.get('outdent')?.isEnabled) {
+                  editor.execute('outdent');
+                }
+              } else {
+                if (editor.commands.get('indent')?.isEnabled) {
+                  editor.execute('indent');
+                } else {
+                  // Fallback: insert spaces if indent command is not available or not applicable
+                  editor.execute('input', { text: '    ' });
+                }
+              }
+              data.preventDefault();
+              evt.stop();
+            }
+          });
         }}
         onChange={(event: any, editor: any) => {
           const data = editor.getData();
@@ -119,6 +176,10 @@ export default function CKEditorWrapper({ value, onChange, placeholder }: CKEdit
       <style jsx global>{`
         .premium-editor .ck-editor__main > .ck-editor__editable {
           min-height: 300px;
+        }
+        /* Fix for alignment icons not showing properly sometimes */
+        .ck-icon {
+          color: inherit !important;
         }
       `}</style>
     </div>
