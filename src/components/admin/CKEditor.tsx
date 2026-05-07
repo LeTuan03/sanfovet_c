@@ -87,6 +87,7 @@ export default function CKEditorWrapper({ value, onChange, placeholder }: CKEdit
         editor={ClassicEditor}
         data={value || ''}
         config={{
+          licenseKey: 'GPL',
           placeholder: placeholder || 'Nhập nội dung...',
           toolbar: {
             items: [
@@ -98,16 +99,40 @@ export default function CKEditorWrapper({ value, onChange, placeholder }: CKEdit
               'bulletedList',
               'numberedList',
               '|',
+              'alignment',
+              'outdent',
+              'indent',
+              '|',
               'imageUpload',
               'blockQuote',
               'insertTable',
               'mediaEmbed',
               'undo',
               'redo'
-            ]
+            ],
+            shouldNotGroupWhenFull: true,
+          },
+          alignment: {
+            options: ['left', 'center', 'right', 'justify'],
           },
           extraPlugins: [MyCustomUploadAdapterPlugin],
           language: 'vi',
+        }}
+        onReady={(editor: any) => {
+          editor.keystrokes.set('Tab', (_evt: any, cancel: () => void) => {
+            const cmd = editor.commands.get('indent');
+            if (cmd && cmd.isEnabled) {
+              editor.execute('indent');
+              cancel();
+            }
+          });
+          editor.keystrokes.set('Shift+Tab', (_evt: any, cancel: () => void) => {
+            const cmd = editor.commands.get('outdent');
+            if (cmd && cmd.isEnabled) {
+              editor.execute('outdent');
+              cancel();
+            }
+          });
         }}
         onChange={(event: any, editor: any) => {
           const data = editor.getData();
