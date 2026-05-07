@@ -38,7 +38,7 @@ export default function CKEditorWrapper({ value, onChange, placeholder }: CKEdit
         
         editorRef.current = {
           CKEditor: CKEditorComponent,
-          ClassicEditor: window.CKEditor.ClassicEditor,
+          ClassicEditor: (window as any).CKSource?.ClassicEditor || (window as any).CKEditor?.ClassicEditor,
         };
         setEditorLoaded(true);
       } catch (error) {
