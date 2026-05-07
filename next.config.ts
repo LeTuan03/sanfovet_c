@@ -7,17 +7,9 @@ const nextConfig: NextConfig = {
     deviceSizes: [360, 640, 768, 1024, 1280, 1536, 1920],
     imageSizes: [64, 128, 256, 384, 512],
     minimumCacheTTL: 60 * 60 * 24 * 30,
-    remotePatterns: [
-      {
-        protocol: "https",
-        hostname: "sxmzjfxgwhfdfxqpvgyg.supabase.co",
-        pathname: "/**",
-      },
-      {
-        protocol: "https",
-        hostname: "thu-y-927ab.firebasestorage.app",
-        pathname: "/**",
-      },
+    localPatterns: [
+      { pathname: "/uploads/**" },
+      { pathname: "/images/**" },
     ],
   },
   turbopack: {
