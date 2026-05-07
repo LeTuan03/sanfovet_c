@@ -1,7 +1,6 @@
 "use client";
 
 import React, { useEffect, useRef, useState } from 'react';
-import 'ckeditor5/ckeditor5.css';
 
 interface CKEditorProps {
   value?: string;
@@ -9,44 +8,37 @@ interface CKEditorProps {
   placeholder?: string;
 }
 
+declare global {
+  interface Window {
+    CKEditor: any;
+  }
+}
+
 export default function CKEditorWrapper({ value, onChange, placeholder }: CKEditorProps) {
   const editorRef = useRef<any>(null);
   const [editorLoaded, setEditorLoaded] = useState(false);
-  const { CKEditor, ClassicEditor, plugins } = editorRef.current || {};
+  const { CKEditor, ClassicEditor } = editorRef.current || {};
 
   useEffect(() => {
     // Dynamic import inside useEffect to avoid SSR issues
     const loadEditor = async () => {
       try {
-        const ck = await import('ckeditor5');
+        // Load CKEditor 5 Superbuild from CDN for maximum features and stability
+        if (!window.CKEditor) {
+          const script = document.createElement('script');
+          script.src = 'https://cdn.ckeditor.com/ckeditor5/41.4.2/super-build/ckeditor.js';
+          script.async = true;
+          await new Promise((resolve) => {
+            script.onload = resolve;
+            document.head.appendChild(script);
+          });
+        }
+        
         const { CKEditor: CKEditorComponent } = await import('@ckeditor/ckeditor5-react');
         
         editorRef.current = {
           CKEditor: CKEditorComponent,
-          ClassicEditor: ck.ClassicEditor,
-          plugins: [
-            ck.Essentials,
-            ck.Paragraph,
-            ck.Heading,
-            ck.Bold,
-            ck.Italic,
-            ck.Link,
-            ck.List,
-            ck.Alignment,
-            ck.Indent,
-            ck.IndentBlock,
-            ck.BlockQuote,
-            ck.Table,
-            ck.TableToolbar,
-            ck.MediaEmbed,
-            ck.Undo,
-            ck.Image,
-            ck.ImageToolbar,
-            ck.ImageCaption,
-            ck.ImageStyle,
-            ck.ImageUpload,
-            ck.LinkImage
-          ],
+          ClassicEditor: window.CKEditor.ClassicEditor,
         };
         setEditorLoaded(true);
       } catch (error) {
@@ -68,7 +60,6 @@ export default function CKEditorWrapper({ value, onChange, placeholder }: CKEdit
   // Custom Upload Adapter for Base64 images
   class MyUploadAdapter {
     loader: any;
-    reader: any;
 
     constructor(loader: any) {
       this.loader = loader;
@@ -87,19 +78,12 @@ export default function CKEditorWrapper({ value, onChange, placeholder }: CKEdit
             reader.onerror = (error) => {
               reject(error);
             };
-            reader.onabort = () => {
-              reject();
-            };
             reader.readAsDataURL(file);
           })
       );
     }
 
-    abort() {
-      if (this.reader) {
-        this.reader.abort();
-      }
-    }
+    abort() {}
   }
 
   function MyCustomUploadAdapterPlugin(editor: any) {
@@ -114,7 +98,6 @@ export default function CKEditorWrapper({ value, onChange, placeholder }: CKEdit
         editor={ClassicEditor}
         data={value || ''}
         config={{
-          plugins: plugins,
           placeholder: placeholder || 'Nhập nội dung...',
           toolbar: {
             items: [
@@ -157,7 +140,7 @@ export default function CKEditorWrapper({ value, onChange, placeholder }: CKEdit
                 if (editor.commands.get('indent')?.isEnabled) {
                   editor.execute('indent');
                 } else {
-                  // Fallback: insert spaces if indent command is not available or not applicable
+                  // Fallback: insert spaces if indent command is not available
                   editor.execute('input', { text: '    ' });
                 }
               }
@@ -176,10 +159,6 @@ export default function CKEditorWrapper({ value, onChange, placeholder }: CKEdit
       <style jsx global>{`
         .premium-editor .ck-editor__main > .ck-editor__editable {
           min-height: 300px;
-        }
-        /* Fix for alignment icons not showing properly sometimes */
-        .ck-icon {
-          color: inherit !important;
         }
       `}</style>
     </div>
