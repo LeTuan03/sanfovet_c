@@ -1,7 +1,7 @@
 "use client";
 
 import React, { useEffect, useRef, useState } from 'react';
-import 'ckeditor5/dist/ckeditor5.css';
+import 'ckeditor5/ckeditor5.css';
 
 interface CKEditorProps {
   value?: string;
