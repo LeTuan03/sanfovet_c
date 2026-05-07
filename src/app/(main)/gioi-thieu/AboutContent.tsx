@@ -66,7 +66,7 @@ export default function AboutContent() {
                  <div className="relative w-full aspect-video rounded-[32px] overflow-hidden shadow-[0_20px_50px_rgba(0,0,0,0.5)] border border-white/10 group">
                     <div className="absolute inset-0 bg-primary/20 mix-blend-overlay group-hover:bg-transparent transition-colors duration-500 z-10 pointer-events-none"></div>
                     <img 
-                      src="/images/gioithieu.jpg" 
+                      src="/images/gioithieu.webp" 
                       className="w-full h-full object-cover transform group-hover:scale-105 transition-transform duration-700"
                     />
                  </div>
