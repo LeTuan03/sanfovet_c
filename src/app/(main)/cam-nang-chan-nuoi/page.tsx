@@ -17,7 +17,7 @@ export const metadata: Metadata = {
     url: 'https://biotechvet.com.vn/cam-nang-chan-nuoi',
     images: [
       {
-        url: '/images/about.jpg',
+        url: '/images/about.webp',
         width: 1200,
         height: 630,
       },

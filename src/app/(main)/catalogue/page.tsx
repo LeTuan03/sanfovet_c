@@ -13,7 +13,7 @@ export const metadata: Metadata = {
     url: "https://biotechvet.com.vn/catalogue",
     images: [
       {
-        url: "/images/about.jpg",
+        url: "/images/about.webp",
         width: 1200,
         height: 630,
       },

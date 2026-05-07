@@ -8,8 +8,8 @@ import { ChevronRight, Building2, History, Target, Award, Heart, Factory, Users 
 import Sidebar from '@/components/shared/Sidebar';
 
 const tabs = [
-  { id: 'gioi-thieu', label: 'Giới thiệu', icon: <Building2 size={18} /> },
   { id: 'lich-su', label: 'Lịch sử', icon: <History size={18} /> },
+  { id: 'gioi-thieu', label: 'Giới thiệu', icon: <Building2 size={18} /> },
   { id: 'tam-nhin', label: 'Tầm nhìn – Sứ mệnh', icon: <Target size={18} /> },
   { id: 'co-so', label: 'Cơ sở', icon: <Factory size={18} /> },
   { id: 'co-cau', label: 'Cơ cấu', icon: <Users size={18} /> },
@@ -18,7 +18,7 @@ const tabs = [
 export default function AboutContent() {
   const searchParams = useSearchParams();
   const tabParam = searchParams.get('tab');
-  const [activeTab, setActiveTab] = useState('gioi-thieu');
+  const [activeTab, setActiveTab] = useState('lich-su');
 
   useEffect(() => {
     if (tabParam && tabs.find(t => t.id === tabParam)) {
@@ -129,7 +129,7 @@ export default function AboutContent() {
                       </div>
                       <div className="flex-1 w-full">
                         <div className="relative rounded-[40px] overflow-hidden shadow-2xl">
-                           <img src="/images/about.jpg" alt="Nhà máy biotechvet" className="w-full h-[400px] object-cover hover:scale-105 transition-transform duration-700" />
+                           <img src="/images/about.webp" alt="Nhà máy biotechvet" className="w-full h-[400px] object-cover hover:scale-105 transition-transform duration-700" />
                            <div className="absolute inset-0 bg-gradient-to-t from-biotechvet-dark/60 to-transparent"></div>
                         </div>
                       </div>
@@ -244,7 +244,7 @@ export default function AboutContent() {
 
                     <div className="grid grid-cols-1 gap-8">
                       <div className="group rounded-[32px] overflow-hidden shadow-lg relative aspect-[4/3]">
-                        <img src="/images/coso.jpg" className="absolute inset-0 w-full h-full object-cover group-hover:scale-110 transition-transform duration-1000" alt="Nhà máy GMP" />
+                        <img src="/images/coso.webp" className="absolute inset-0 w-full h-full object-cover group-hover:scale-110 transition-transform duration-1000" alt="Nhà máy GMP" />
                         <div className="absolute inset-0 bg-gradient-to-t from-biotechvet-dark via-biotechvet-dark/40 to-transparent flex flex-col justify-end p-8 text-white">
                           <span className="w-12 h-1 bg-primary mb-4 rounded-full"></span>
                           <h4 className="text-2xl font-black uppercase tracking-tight mb-2">Nhà máy</h4>

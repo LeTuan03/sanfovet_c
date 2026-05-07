@@ -49,7 +49,7 @@ export default async function HomePage() {
                 <div className="relative z-10 rounded-[40px] overflow-hidden shadow-[0_20px_50px_rgba(0,0,0,0.15)] group">
                   <div className="relative w-full h-[500px]">
                     <Image
-                      src="/images/about.jpg"
+                      src="/images/about.webp"
                       alt="Trụ sở BIOTECH-VET"
                       fill
                       sizes="(min-width: 1024px) 42vw, 100vw"
@@ -180,7 +180,7 @@ export default async function HomePage() {
                 <article className="bg-white rounded-[32px] border border-gray-100 shadow-sm overflow-hidden hover:shadow-xl transition-all duration-500 flex flex-col group hover:-translate-y-2 h-full">
                   <div className="aspect-[4/3] relative overflow-hidden bg-gray-100">
                     <Image
-                      src={`/images/news-${(i % 3) + 1}.png`}
+                      src={a?.thumbnail}
                       alt={a.title}
                       fill
                       sizes="(min-width: 1024px) 22vw, (min-width: 768px) 45vw, 90vw"
@@ -258,7 +258,7 @@ export default async function HomePage() {
                 <article className="bg-white rounded-[40px] shadow-sm border border-gray-100 overflow-hidden hover:shadow-2xl transition-all duration-500 group flex flex-col hover:-translate-y-2 h-full">
                   <div className="aspect-[16/10] relative overflow-hidden">
                     <Image
-                      src={`/images/news-${(i % 3) + 1}.png`}
+                      src={a?.thumbnail}
                       alt={a.title}
                       fill
                       sizes="(min-width: 1024px) 30vw, 90vw"

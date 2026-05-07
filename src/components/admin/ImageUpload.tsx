@@ -97,7 +97,7 @@ const ImageUpload: React.FC<ImageUploadProps> = ({
   maxHeight = 2000,
   quality = 0.8,
   onFileChange,
-  maxSize = 10,
+  maxSize = 50,
 }) => {
   const { message: messageApi } = AntdApp.useApp();
   const [loading, setLoading] = useState(false);

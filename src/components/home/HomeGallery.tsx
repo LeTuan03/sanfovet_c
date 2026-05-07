@@ -48,7 +48,7 @@ export default function HomeGallery({ images, videos }: HomeGalleryProps) {
                disabled={!featuredVideo}
              >
                 <Image
-                  src={featuredVideo?.thumbnail || '/images/about.jpg'}
+                  src={featuredVideo?.thumbnail || '/images/about.webp'}
                   alt="Video cover"
                   fill
                   sizes="(min-width: 1024px) 50vw, 100vw"
