@@ -1,7 +1,7 @@
 export const dynamic = 'force-dynamic';
 
 import { productService, categoryService } from '@/services';
-import { Category, Product } from '@/types';
+import { Category, ProductSummary } from '@/types';
 import Pagination from '@/components/shared/Pagination';
 import FadeUp from '@/components/shared/FadeUp';
 import ProductSearch from '@/components/shared/ProductSearch';
@@ -38,7 +38,7 @@ export default async function ProductsPage({ searchParams }: { searchParams: Pro
   const searchTerm = params.search?.toLowerCase() || '';
   const sort = params.sort || 'newest';
 
-  const products = await productService.getAll();
+  const products = await productService.getAllSummary();
   const categories = await categoryService.getAll();
 
   // Filter products
@@ -46,7 +46,7 @@ export default async function ProductsPage({ searchParams }: { searchParams: Pro
 
   // Filter by category
   if (currentCategory) {
-    filteredProducts = filteredProducts.filter((p: Product) => {
+    filteredProducts = filteredProducts.filter((p: ProductSummary) => {
       const cat = categories.find((c: Category) => c.id.toString() === p.categoryId.toString());
       return cat?.slug === currentCategory;
     });
@@ -54,7 +54,7 @@ export default async function ProductsPage({ searchParams }: { searchParams: Pro
 
   // Filter by search term
   if (searchTerm) {
-    filteredProducts = filteredProducts.filter((p: Product) => 
+    filteredProducts = filteredProducts.filter((p: ProductSummary) =>
       p.name.toLowerCase().includes(searchTerm)
     );
   }
@@ -151,7 +151,7 @@ export default async function ProductsPage({ searchParams }: { searchParams: Pro
 
           {filteredProducts.length > 0 ? (
             <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-8">
-              {paginatedProducts.map((p: Product, index: number) => (
+              {paginatedProducts.map((p: ProductSummary, index: number) => (
                 <FadeUp key={p.id} delay={index * 0.05}>
                 <div className="bg-white rounded-[32px] shadow-sm hover:shadow-2xl border border-gray-100 overflow-hidden transition-all duration-500 group flex flex-col h-full hover:-translate-y-1">
                   <div className="bg-gray-50 aspect-square flex items-center justify-center relative group-hover:bg-primary-light/30 transition-colors duration-500 overflow-hidden">

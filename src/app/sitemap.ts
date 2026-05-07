@@ -25,8 +25,8 @@ export default async function sitemap(): Promise<MetadataRoute.Sitemap> {
   }));
 
   // Dynamic routes - Products
-  const products = await productService.getAll();
-  const productRoutes = products.map((product) => ({
+  const products = await productService.getAllSummary();
+  const productRoutes = products.map((product: any) => ({
     url: `${baseUrl}/san-pham/${product.slug}`,
     lastModified: new Date(),
     changeFrequency: 'daily' as const,
@@ -34,8 +34,8 @@ export default async function sitemap(): Promise<MetadataRoute.Sitemap> {
   }));
 
   // Dynamic routes - Articles
-  const articles = await articleService.getAll();
-  const articleRoutes = articles.map((article) => ({
+  const articles = await articleService.getAllSummary();
+  const articleRoutes = articles.map((article: any) => ({
     url: `${baseUrl}/bai-viet/${article.slug}`,
     lastModified: new Date(),
     changeFrequency: 'daily' as const,
@@ -44,7 +44,7 @@ export default async function sitemap(): Promise<MetadataRoute.Sitemap> {
 
   // Dynamic routes - Categories
   const categories = await categoryService.getAll();
-  const categoryRoutes = categories.map((category) => ({
+  const categoryRoutes = categories.map((category: any) => ({
     url: `${baseUrl}/san-pham/danh-muc/${category.slug}`,
     lastModified: new Date(),
     changeFrequency: 'weekly' as const,

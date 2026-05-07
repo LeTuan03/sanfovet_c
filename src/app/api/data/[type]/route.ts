@@ -17,18 +17,19 @@ export async function GET(
   { params }: { params: Promise<{ type: string }> }
 ) {
   const { type } = await params;
+  const summary = new URL(request.url).searchParams.get('summary') === '1';
 
   try {
     let data;
     switch (type) {
       case 'products':
-        data = await productService.getAll();
+        data = summary ? await productService.getAllSummary() : await productService.getAll();
         break;
       case 'categories':
         data = await categoryService.getAll();
         break;
       case 'articles':
-        data = await articleService.getAll();
+        data = summary ? await articleService.getAllSummary() : await articleService.getAll();
         break;
       case 'jobs':
         data = await jobService.getAll();

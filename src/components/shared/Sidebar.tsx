@@ -18,8 +18,8 @@ export default function Sidebar({ showProducts = true, showNews = true, showQuic
     const fetchData = async () => {
       try {
         const [pRes, aRes] = await Promise.all([
-          fetch('/api/data/products'),
-          fetch('/api/data/articles')
+          fetch('/api/data/products?summary=1'),
+          fetch('/api/data/articles?summary=1')
         ]);
         const pData = await pRes.json();
         const aData = await aRes.json();

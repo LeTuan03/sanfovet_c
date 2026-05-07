@@ -4,22 +4,22 @@ import Link from 'next/link';
 import Image from 'next/image';
 import { Eye, ArrowRight, Calendar, Microscope, ShieldCheck, Users, Truck, Gem, ChevronRight, Award, CheckCircle2 } from 'lucide-react';
 import { productService, articleService, bannerService, mediaService } from '@/services';
-import { Product, Article } from '@/types';
+import { ProductSummary, ArticleSummary } from '@/types';
 import BannerSlider from '@/components/home/BannerSlider';
 import HomeGallery from '@/components/home/HomeGallery';
 import FadeUp from '@/components/shared/FadeUp';
 
 export default async function HomePage() {
   const [products, articles, banners, mediaImages, mediaVideos] = await Promise.all([
-    productService.getAll(),
-    articleService.getAll(),
+    productService.getAllSummary(),
+    articleService.getAllSummary(),
     bannerService.getAll(),
     mediaService.getImages(),
     mediaService.getVideos(),
   ]);
 
-  const featuredProducts = Array.isArray(products) ? products.filter((p: Product) => p.featured).slice(0, 8) : [];
-  const diseaseArticles = Array.isArray(articles) ? articles.filter((a: Article) => a.category === 'benh-dieu-tri').slice(0, 4) : [];
+  const featuredProducts = Array.isArray(products) ? products.filter((p: ProductSummary) => p.featured).slice(0, 8) : [];
+  const diseaseArticles = Array.isArray(articles) ? articles.filter((a: ArticleSummary) => a.category === 'benh-dieu-tri').slice(0, 4) : [];
   const latestNews = Array.isArray(articles) ? articles.slice(0, 3) : [];
   const activeBanners = Array.isArray(banners) ? banners.filter((b: any) => b.status).sort((a: any, b: any) => a.order - b.order).map(b => ({ ...b, id: Number(b.id) })) : [];
   const images = Array.isArray(mediaImages) ? mediaImages.filter((img: any) => img.status === 'active').map(img => ({ ...img, id: Number(img.id) })) : [];
@@ -133,7 +133,7 @@ export default async function HomePage() {
           </FadeUp>
 
           <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-6 lg:gap-8">
-            {featuredProducts.map((p: Product, index: number) => (
+            {featuredProducts.map((p: ProductSummary, index: number) => (
               <FadeUp key={p.id} delay={index * 0.1}>
                 <Link href={`/san-pham/${p.slug}`} className="bg-white rounded-[32px] shadow-sm hover:shadow-2xl border border-gray-100 overflow-hidden transition-all duration-500 group flex flex-col h-full hover:-translate-y-1">
                   <div className="absolute top-4 right-4 z-10 w-10 h-10 bg-white rounded-full flex items-center justify-center shadow-md font-black text-primary hover:bg-primary hover:text-white transition-colors cursor-pointer opacity-0 translate-y-2 group-hover:opacity-100 group-hover:translate-y-0">
@@ -175,7 +175,7 @@ export default async function HomePage() {
           </FadeUp>
 
           <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-6 lg:gap-8">
-            {diseaseArticles.map((a: Article, i: number) => (
+            {diseaseArticles.map((a: ArticleSummary, i: number) => (
               <FadeUp key={a.id} delay={i * 0.1}>
                 <article className="bg-white rounded-[32px] border border-gray-100 shadow-sm overflow-hidden hover:shadow-xl transition-all duration-500 flex flex-col group hover:-translate-y-2 h-full">
                   <div className="aspect-[4/3] relative overflow-hidden bg-gray-100">
@@ -253,7 +253,7 @@ export default async function HomePage() {
           </FadeUp>
 
           <div className="grid grid-cols-1 lg:grid-cols-3 gap-8">
-            {latestNews.map((a: Article, i: number) => (
+            {latestNews.map((a: ArticleSummary, i: number) => (
               <FadeUp key={a.id} delay={i * 0.1}>
                 <article className="bg-white rounded-[40px] shadow-sm border border-gray-100 overflow-hidden hover:shadow-2xl transition-all duration-500 group flex flex-col hover:-translate-y-2 h-full">
                   <div className="aspect-[16/10] relative overflow-hidden">

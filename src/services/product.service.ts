@@ -5,6 +5,23 @@ export class ProductService {
     return prisma.product.findMany({ orderBy: { id: 'asc' } });
   }
 
+  async getAllSummary() {
+    return prisma.product.findMany({
+      orderBy: { id: 'asc' },
+      select: {
+        id: true,
+        slug: true,
+        name: true,
+        categoryId: true,
+        image: true,
+        images: true,
+        featured: true,
+        registrationNumber: true,
+        specifications: true,
+      },
+    });
+  }
+
   async getById(id: any) {
     return prisma.product.findUnique({ where: { id: BigInt(id) as any } });
   }

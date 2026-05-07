@@ -1,13 +1,13 @@
 import React from 'react';
 import Link from 'next/link';
 import { articleService } from '@/services';
-import { Article } from '@/types';
+import { ArticleSummary } from '@/types';
 // import { articles } from '@/lib/data'; // Removed static import
 import { Calendar, ChevronRight, Users } from 'lucide-react';
 
 export default async function InternalNewsPage() {
-  const articles = await articleService.getAll();
-  const list = Array.isArray(articles) ? articles.filter((a: Article) => a.category === 'tin-noi-bo') : [];
+  const articles = await articleService.getAllSummary();
+  const list = Array.isArray(articles) ? articles.filter((a: ArticleSummary) => a.category === 'tin-noi-bo') : [];
 
   return (
     <div className="bg-white min-h-screen">
@@ -29,7 +29,7 @@ export default async function InternalNewsPage() {
 
       <div className="container mx-auto px-4 py-16">
         <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8">
-          {list.map((a: Article) => (
+          {list.map((a: ArticleSummary) => (
             <article key={a.id} className="group bg-white rounded-[32px] border border-gray-100 shadow-sm hover:shadow-xl transition-all duration-500 overflow-hidden">
                <Link href={`/bai-viet/${a.slug}`} className="aspect-video relative overflow-hidden block">
                   <img src={a.thumbnail} alt={a.title} className="w-full h-full object-cover group-hover:scale-110 transition-transform duration-700" />

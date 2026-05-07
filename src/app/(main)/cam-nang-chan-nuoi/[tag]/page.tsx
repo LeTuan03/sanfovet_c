@@ -2,20 +2,20 @@ import React from 'react';
 import Link from 'next/link';
 import { notFound } from 'next/navigation';
 import { articleService, animalTagService } from '@/services';
-import { Article, AnimalTag } from '@/types';
+import { ArticleSummary } from '@/types';
 // import { articles, animalTags } from '@/lib/data'; // Removed static imports
 import { Calendar, ChevronRight } from 'lucide-react';
 
 export default async function AnimalTagPage({ params }: Readonly<{ params: Promise<{ tag: string }> }>) {
   const { tag } = await params;
-  const articles = await articleService.getAll();
+  const articles = await articleService.getAllSummary();
   const animalTag = await animalTagService.getBySlug(tag);
 
   if (!animalTag) {
     notFound();
   }
 
-  const tagArticles = articles.filter((a: Article) => a.animalTag === tag && a.category === 'cam-nang');
+  const tagArticles = articles.filter((a: ArticleSummary) => a.animalTag === tag && a.category === 'cam-nang');
 
   return (
     <div className="bg-white min-h-screen">
@@ -42,7 +42,7 @@ export default async function AnimalTagPage({ params }: Readonly<{ params: Promi
 
       <div className="container mx-auto px-4 py-16">
         <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8 md:gap-12">
-          {tagArticles.map((a: Article) => (
+          {tagArticles.map((a: ArticleSummary) => (
             <article key={a.id} className="group flex flex-col h-full bg-white rounded-[32px] border border-gray-100 shadow-sm hover:shadow-2xl transition-all duration-500 overflow-hidden">
               <Link href={`/bai-viet/${a.slug}`} className="aspect-video relative overflow-hidden block">
                 <img src={a.thumbnail} alt={a.title} className="w-full h-full object-cover group-hover:scale-110 transition-transform duration-700" />

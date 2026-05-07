@@ -34,6 +34,9 @@ export interface Article {
   content: string;
 }
 
+export type ArticleSummary = Omit<Article, 'content'>;
+export type ProductSummary = Omit<Product, 'description'>;
+
 export interface Job {
   id: bigint;
   slug: string;

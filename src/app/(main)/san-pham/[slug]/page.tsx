@@ -2,7 +2,7 @@ import React from 'react';
 import Link from 'next/link';
 import { notFound } from 'next/navigation';
 import { productService, categoryService } from '@/services';
-import { Product } from '@/types';
+import { ProductSummary } from '@/types';
 import { ChevronRight, ArrowLeft, ShieldCheck } from 'lucide-react';
 import { Metadata } from 'next';
 
@@ -61,8 +61,8 @@ export default async function ProductDetailPage({ params }: Readonly<{ params: P
   }
 
   const category = await categoryService.getById(product.categoryId);
-  const products = await productService.getAll();
-  const relatedProducts = products.filter((p: Product) => p.categoryId === product.categoryId && p.id !== product.id).slice(0, 4);
+  const products = await productService.getAllSummary();
+  const relatedProducts = products.filter((p: ProductSummary) => p.categoryId === product.categoryId && p.id !== product.id).slice(0, 4);
 
   return (
     <div className="bg-white min-h-[100vh] pb-24">
@@ -190,7 +190,7 @@ export default async function ProductDetailPage({ params }: Readonly<{ params: P
             <div className="bg-biotechvet-alt p-8 rounded-[24px] border border-gray-100 shadow-inner">
               <h3 className="font-black text-lg text-biotechvet-dark mb-8 border-b border-gray-200 pb-4 uppercase tracking-wider">Sản phẩm cùng loại</h3>
               <div className="space-y-6">
-                {relatedProducts.map((p: Product) => (
+                {relatedProducts.map((p: ProductSummary) => (
                   <Link href={`/san-pham/${p.slug}`} key={p.id} className="flex gap-5 group">
                     <div className="w-20 h-20 bg-white rounded-2xl border border-gray-100 p-2 flex items-center justify-center shrink-0 group-hover:border-primary-dark group-hover:shadow-lg transition-all duration-300">
                       <img src={p.image} alt={p.name} className="max-h-full max-w-full object-contain" />

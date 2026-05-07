@@ -5,7 +5,7 @@ import React from 'react';
 import Link from 'next/link';
 import { notFound } from 'next/navigation';
 import { articleService, productService } from '@/services';
-import { Article, Product } from '@/types';
+import { ArticleSummary, ProductSummary } from '@/types';
 import { Calendar, User, ChevronRight, ArrowLeft, Share2, Printer, Tag, List } from 'lucide-react';
 import { Metadata } from 'next';
 import Script from 'next/script';
@@ -93,8 +93,8 @@ export async function generateMetadata({ params }: { params: Promise<{ slug: str
 export default async function ArticleDetailPage({ params }: Readonly<{ params: Promise<{ slug: string }> }>) {
   const { slug } = await params;
   const article = await articleService.getBySlug(slug);
-  const articles = await articleService.getAll();
-  const products = await productService.getAll();
+  const articles = await articleService.getAllSummary();
+  const products = await productService.getAllSummary();
 
   if (!article) {
     notFound();
@@ -102,7 +102,7 @@ export default async function ArticleDetailPage({ params }: Readonly<{ params: P
 
   // Get related articles
   const relatedArticles = articles
-    .filter((a: Article) => a.category === article.category && a.id !== article.id)
+    .filter((a: ArticleSummary) => a.category === article.category && a.id !== article.id)
     .slice(0, 3);
 
   // Get suggested products
@@ -228,7 +228,7 @@ export default async function ArticleDetailPage({ params }: Readonly<{ params: P
                    Sản phẩm biotechvet khuyên dùng
                 </h3>
                 <div className="grid grid-cols-1 md:grid-cols-3 gap-6">
-                   {suggestedProducts.map((p: Product) => (
+                   {suggestedProducts.map((p: ProductSummary) => (
                       <Link href={`/san-pham/${p.slug}`} key={p.id} className="bg-white p-5 rounded-2xl border border-gray-100 shadow-sm hover:shadow-xl transition-all group">
                          <div className="aspect-square mb-4 bg-biotechvet-alt rounded-xl p-4 flex items-center justify-center group-hover:bg-primary-light transition-colors">
                             <img src={p.image} alt={p.name} className="max-h-full w-auto" />
@@ -265,7 +265,7 @@ export default async function ArticleDetailPage({ params }: Readonly<{ params: P
                 <div>
                    <h3 className="font-black text-lg text-biotechvet-dark mb-6 border-b border-gray-100 pb-4 uppercase tracking-wider">Bài viết liên quan</h3>
                    <div className="space-y-6">
-                      {relatedArticles.map((a: Article) => (
+                      {relatedArticles.map((a: ArticleSummary) => (
                          <Link href={`/bai-viet/${a.slug}`} key={a.id} className="flex gap-4 group">
                             <div className="w-20 h-20 bg-gray-100 rounded-xl overflow-hidden shrink-0">
                                <img src={a.thumbnail} alt={a.title} className="w-full h-full object-cover group-hover:scale-110 transition-transform duration-700" />

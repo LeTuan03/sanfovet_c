@@ -2,7 +2,7 @@ import Link from 'next/link';
 import { notFound } from 'next/navigation';
 import { Eye, ChevronRight, Home, LayoutGrid, SearchX } from 'lucide-react';
 import { productService, categoryService } from '@/services';
-import { Product, Category } from '@/types';
+import { ProductSummary, Category } from '@/types';
 import Pagination from '@/components/shared/Pagination';
 import ProductSearch from '@/components/shared/ProductSearch';
 import ProductSort from '@/components/shared/ProductSort';
@@ -19,7 +19,7 @@ export default async function CategoryPage({ params, searchParams }: {
   const searchTerm = search?.toLowerCase() || '';
   const currentSort = sort || 'newest';
   
-  const products = await productService.getAll();
+  const products = await productService.getAllSummary();
   const categories = await categoryService.getAll();
 
   const currentCategory = Array.isArray(categories) ? categories.find((c: Category) => c.slug === slug) : undefined;
@@ -31,11 +31,11 @@ export default async function CategoryPage({ params, searchParams }: {
   const currentPage = Number.parseInt(page || '1', 10);
   
   // Filter by category
-  let filteredProducts = products.filter((p: Product) => p.categoryId.toString() === currentCategory.id.toString());
-  
+  let filteredProducts = products.filter((p: ProductSummary) => p.categoryId.toString() === currentCategory.id.toString());
+
   // Filter by search term
   if (searchTerm) {
-    filteredProducts = filteredProducts.filter((p: Product) => 
+    filteredProducts = filteredProducts.filter((p: ProductSummary) =>
       p.name.toLowerCase().includes(searchTerm)
     );
   }
@@ -135,7 +135,7 @@ export default async function CategoryPage({ params, searchParams }: {
             </div>
 
             <div className="grid grid-cols-1 md:grid-cols-2 xl:grid-cols-3 gap-8">
-              {paginatedProducts.map((p: Product, index: number) => (
+              {paginatedProducts.map((p: ProductSummary, index: number) => (
                 <FadeUp key={p.id} delay={index * 0.05}>
                 <article className="bg-white rounded-[32px] shadow-sm hover:shadow-2xl border border-gray-100 overflow-hidden transition-all duration-500 group flex flex-col h-full hover:-translate-y-1">
                   <div className="aspect-[4/3] bg-gray-50 flex items-center justify-center relative p-10 group-hover:bg-primary-light/30 transition-colors duration-500">

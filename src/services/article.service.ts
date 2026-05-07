@@ -5,6 +5,22 @@ export class ArticleService {
     return prisma.article.findMany({ orderBy: { id: 'desc' } });
   }
 
+  async getAllSummary() {
+    return prisma.article.findMany({
+      orderBy: { id: 'desc' },
+      select: {
+        id: true,
+        slug: true,
+        title: true,
+        category: true,
+        animalTag: true,
+        publishDate: true,
+        thumbnail: true,
+        excerpt: true,
+      },
+    });
+  }
+
   async getById(id: any) {
     return prisma.article.findUnique({ where: { id: BigInt(id) as any } });
   }
