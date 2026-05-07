@@ -17,9 +17,24 @@ export async function GET(
   { params }: { params: Promise<{ type: string }> }
 ) {
   const { type } = await params;
-  const summary = new URL(request.url).searchParams.get('summary') === '1';
+  const url = new URL(request.url);
+  const summary = url.searchParams.get('summary') === '1';
+  const id = url.searchParams.get('id');
 
   try {
+    if (id) {
+      let item;
+      switch (type) {
+        case 'products': item = await productService.getById(id); break;
+        case 'articles': item = await articleService.getById(id); break;
+        case 'jobs': item = await jobService.getById(id); break;
+        default:
+          return NextResponse.json({ error: 'Invalid data type for id lookup' }, { status: 400 });
+      }
+      if (!item) return NextResponse.json({ error: 'Not found' }, { status: 404 });
+      return NextResponse.json(item);
+    }
+
     let data;
     switch (type) {
       case 'products':
@@ -32,7 +47,7 @@ export async function GET(
         data = summary ? await articleService.getAllSummary() : await articleService.getAll();
         break;
       case 'jobs':
-        data = await jobService.getAll();
+        data = summary ? await jobService.getAllSummary() : await jobService.getAll();
         break;
       case 'animal-tags':
         data = await animalTagService.getAll();

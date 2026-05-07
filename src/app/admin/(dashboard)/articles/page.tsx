@@ -10,7 +10,7 @@ import ImageUpload from '@/components/admin/ImageUpload';
 import dayjs from 'dayjs';
 import 'dayjs/locale/vi';
 import { adminFetch } from '@/lib/api';
-import { Article } from '@/types';
+import { Article, ArticleSummary } from '@/types';
 import { useAdminLoading } from '@/lib/AdminLoadingContext';
 
 function ArticleManagementContent() {
@@ -22,7 +22,7 @@ function ArticleManagementContent() {
   const query = searchParams.get('q') || '';
   const page = parseInt(searchParams.get('page') || '1');
 
-  const [data, setData] = useState<Article[]>([]);
+  const [data, setData] = useState<ArticleSummary[]>([]);
   const [loading, setLoading] = useState(true);
   const [isModalOpen, setIsModalOpen] = useState(false);
   const [form] = Form.useForm();
@@ -32,7 +32,7 @@ function ArticleManagementContent() {
   const fetchData = React.useCallback(async () => {
     setLoading(true);
     try {
-      const artRes = await adminFetch('/api/data/articles');
+      const artRes = await adminFetch('/api/data/articles?summary=1');
       const artData = await artRes.json();
       setData(artData);
     } catch (error) {
@@ -48,12 +48,12 @@ function ArticleManagementContent() {
 
   // Derived articles
   const articlesList = useMemo(() => {
-     return data.filter((a: Article) => a.category === 'benh-dieu-tri');
+     return data.filter((a) => a.category === 'benh-dieu-tri');
   }, [data]);
 
   // Derived filtered data
   const filteredData = useMemo(() => {
-    return articlesList.filter((item: Article) => 
+    return articlesList.filter((item) =>
       item.title.toLowerCase().includes(query.toLowerCase())
     );
   }, [articlesList, query]);
@@ -78,21 +78,30 @@ function ArticleManagementContent() {
     updateUrl({ q: e.target.value });
   };
 
-  const showModal = (record?: Article) => {
+  const showModal = async (record?: ArticleSummary) => {
     if (record) {
       setEditingId(record.id);
-      form.setFieldsValue({
-        ...record,
-        publishDate: record.publishDate ? dayjs(record.publishDate, 'DD/MM/YYYY') : dayjs(),
-      });
+      setIsModalOpen(true);
+      form.resetFields();
+      try {
+        const res = await adminFetch(`/api/data/articles?id=${record.id}`);
+        if (!res.ok) throw new Error('Không thể tải chi tiết bài viết');
+        const full: Article = await res.json();
+        form.setFieldsValue({
+          ...full,
+          publishDate: full.publishDate ? dayjs(full.publishDate, 'DD/MM/YYYY') : dayjs(),
+        });
+      } catch (error: any) {
+        msg.error(error.message || 'Không thể tải chi tiết bài viết');
+      }
     } else {
       setEditingId(null);
       form.resetFields();
       form.setFieldsValue({
         publishDate: dayjs(),
       });
+      setIsModalOpen(true);
     }
-    setIsModalOpen(true);
   };
 
   const handleOk = () => {
@@ -176,7 +185,7 @@ function ArticleManagementContent() {
       dataIndex: 'title',
       key: 'title',
       width: '35%',
-      render: (text: string, record: Article) => (
+      render: (text: string, record: ArticleSummary) => (
         <div className="flex items-center gap-3">
           <div className="w-12 h-12 bg-gray-50 rounded-xl overflow-hidden border border-gray-100 shrink-0">
              <img src={record.thumbnail} alt={text} className="w-full h-full object-cover" />
@@ -205,14 +214,14 @@ function ArticleManagementContent() {
     {
       title: 'Thao tác',
       key: 'action',
-      render: (_: any, record: Article) => (
+      render: (_: any, record: ArticleSummary) => (
         <Space size="middle">
           <Tooltip title="Chỉnh sửa">
-             <Button 
-               icon={<EditOutlined />} 
-               type="text" 
+             <Button
+               icon={<EditOutlined />}
+               type="text"
                className="text-blue-500 hover:bg-blue-50"
-               onClick={() => showModal(record)} 
+               onClick={() => showModal(record)}
              />
           </Tooltip>
           <Tooltip title="Xóa">

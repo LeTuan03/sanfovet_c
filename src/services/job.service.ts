@@ -5,6 +5,20 @@ export class JobService {
     return prisma.job.findMany({ orderBy: { id: 'desc' } });
   }
 
+  async getAllSummary() {
+    return prisma.job.findMany({
+      orderBy: { id: 'desc' },
+      select: {
+        id: true,
+        slug: true,
+        title: true,
+        location: true,
+        date: true,
+        status: true,
+      },
+    });
+  }
+
   async getById(id: any) {
     return prisma.job.findUnique({ where: { id: BigInt(id) as any } });
   }

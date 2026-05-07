@@ -15,7 +15,7 @@ import AdminPageHeader from '@/components/admin/AdminPageHeader';
 import ProductModal from '@/components/admin/ProductModal';
 import { motion } from 'framer-motion';
 import { adminFetch } from '@/lib/api';
-import { Product, Category } from '@/types';
+import { Product, ProductSummary, Category } from '@/types';
 import { useAdminLoading } from '@/lib/AdminLoadingContext';
 
 function ProductManagementContent() {
@@ -27,7 +27,7 @@ function ProductManagementContent() {
   const query = searchParams.get('q') || '';
   const page = parseInt(searchParams.get('page') || '1');
 
-  const [data, setData] = useState<Product[]>([]);
+  const [data, setData] = useState<ProductSummary[]>([]);
   const [categories, setCategories] = useState<Category[]>([]);
   const [loading, setLoading] = useState(true);
   const [isModalOpen, setIsModalOpen] = useState(false);
@@ -39,7 +39,7 @@ function ProductManagementContent() {
     setLoading(true);
     try {
       const [prodRes, catRes] = await Promise.all([
-        adminFetch('/api/data/products'),
+        adminFetch('/api/data/products?summary=1'),
         adminFetch('/api/data/categories')
       ]);
       const prodData = await prodRes.json();
@@ -85,18 +85,27 @@ function ProductManagementContent() {
     router.push(`${pathname}?${newSearchParams.toString()}`);
   };
 
-  const showModal = (record?: Product) => {
+  const showModal = async (record?: ProductSummary) => {
     if (record) {
       setEditingId(record.id);
-      form.setFieldsValue({
-        ...record,
-        images: record.images || [],
-      });
+      setIsModalOpen(true);
+      form.resetFields();
+      try {
+        const res = await adminFetch(`/api/data/products?id=${record.id}`);
+        if (!res.ok) throw new Error('Không thể tải chi tiết sản phẩm');
+        const full: Product = await res.json();
+        form.setFieldsValue({
+          ...full,
+          images: full.images || [],
+        });
+      } catch (error: any) {
+        message.error(error.message || 'Không thể tải chi tiết sản phẩm');
+      }
     } else {
       setEditingId(null);
       form.resetFields();
+      setIsModalOpen(true);
     }
-    setIsModalOpen(true);
   };
 
   const handleOk = () => {
@@ -176,7 +185,7 @@ function ProductManagementContent() {
       title: 'Tên Sản phẩm',
       dataIndex: 'name',
       key: 'name',
-      render: (text: string, record: Product) => (
+      render: (text: string, record: ProductSummary) => (
         <div className="flex items-center gap-4 py-1">
           <div className="w-12 h-12 bg-gray-50 rounded-xl overflow-hidden border border-gray-100 shrink-0 shadow-sm group-hover:shadow-md transition-all">
              <img src={record.image} alt={text} className="w-full h-full object-contain p-1" />
@@ -209,7 +218,7 @@ function ProductManagementContent() {
       title: 'Thao tác',
       key: 'action',
       align: 'right' as const,
-      render: (_: any, record: Product) => (
+      render: (_: any, record: ProductSummary) => (
         <Space size="small">
           <Tooltip title="Xem trang khách">
              <Button 

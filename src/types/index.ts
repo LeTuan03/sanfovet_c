@@ -47,6 +47,8 @@ export interface Job {
   status?: string | null;
 }
 
+export type JobSummary = Omit<Job, 'description'>;
+
 export interface Banner {
   id: bigint;
   image: string;

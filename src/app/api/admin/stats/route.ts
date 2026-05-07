@@ -11,6 +11,14 @@ export async function GET() {
       prisma.article.findMany({
         take: 4,
         orderBy: { createdAt: 'desc' },
+        select: {
+          id: true,
+          slug: true,
+          title: true,
+          category: true,
+          publishDate: true,
+          thumbnail: true,
+        },
       }),
     ]);
 

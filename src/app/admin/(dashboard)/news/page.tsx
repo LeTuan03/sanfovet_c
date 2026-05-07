@@ -9,7 +9,7 @@ import dayjs from 'dayjs';
 import 'dayjs/locale/vi';
 import { motion } from 'framer-motion';
 import { adminFetch } from '@/lib/api';
-import { Article } from '@/types';
+import { Article, ArticleSummary } from '@/types';
 import CKEditor from '@/components/admin/CKEditor';
 import ImageUpload from '@/components/admin/ImageUpload';
 import { useAdminLoading } from '@/lib/AdminLoadingContext';
@@ -23,17 +23,17 @@ function AdminNewsPageContent() {
   const query = searchParams.get('q') || '';
   const page = parseInt(searchParams.get('page') || '1');
 
-  const [allArticles, setAllArticles] = useState<Article[]>([]);
+  const [allArticles, setAllArticles] = useState<ArticleSummary[]>([]);
   const [loading, setLoading] = useState(true);
   const [isModalOpen, setIsModalOpen] = useState(false);
-  const [editingNews, setEditingNews] = useState<Article | null>(null);
+  const [editingNews, setEditingNews] = useState<ArticleSummary | null>(null);
   const [form] = Form.useForm();
 
   // Load data from API
   const fetchData = React.useCallback(async () => {
     setLoading(true);
     try {
-      const res = await adminFetch('/api/data/articles');
+      const res = await adminFetch('/api/data/articles?summary=1');
       const data = await res.json();
       setAllArticles(data || []);
     } catch (error) {
@@ -49,7 +49,7 @@ function AdminNewsPageContent() {
 
   // Derived news list
   const news = useMemo(() => {
-     return allArticles.filter((a: Article) => a.category === 'tin-noi-bo' || a.category === 'tin-nganh');
+     return allArticles.filter((a) => a.category === 'tin-noi-bo' || a.category === 'tin-nganh');
   }, [allArticles]);
 
   // Derived filtered data
@@ -141,13 +141,21 @@ function AdminNewsPageContent() {
     },
   ];
 
-  const handleEdit = (record: any) => {
+  const handleEdit = async (record: ArticleSummary) => {
     setEditingNews(record);
-    form.setFieldsValue({
-      ...record,
-      publishDate: record.publishDate ? dayjs(record.publishDate, 'DD/MM/YYYY') : dayjs(),
-    });
     setIsModalOpen(true);
+    form.resetFields();
+    try {
+      const res = await adminFetch(`/api/data/articles?id=${record.id}`);
+      if (!res.ok) throw new Error('Không thể tải chi tiết bài viết');
+      const full: Article = await res.json();
+      form.setFieldsValue({
+        ...full,
+        publishDate: full.publishDate ? dayjs(full.publishDate, 'DD/MM/YYYY') : dayjs(),
+      });
+    } catch (error: any) {
+      message.error(error.message || 'Không thể tải chi tiết bài viết');
+    }
   };
 
   const handleDelete = (id: bigint) => {

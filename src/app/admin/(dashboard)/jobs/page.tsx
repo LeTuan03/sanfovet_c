@@ -10,6 +10,7 @@ import ImageUpload from '@/components/admin/ImageUpload';
 import dayjs from 'dayjs';
 import 'dayjs/locale/vi';
 import { adminFetch } from '@/lib/api';
+import { Job, JobSummary } from '@/types';
 import { useAdminLoading } from '@/lib/AdminLoadingContext';
 
 function AdminJobsPageContent() {
@@ -21,7 +22,7 @@ function AdminJobsPageContent() {
   const query = searchParams.get('q') || '';
   const page = parseInt(searchParams.get('page') || '1');
 
-  const [data, setData] = useState<any[]>([]);
+  const [data, setData] = useState<JobSummary[]>([]);
   const [loading, setLoading] = useState(true);
   const [isModalOpen, setIsModalOpen] = useState(false);
   const [form] = Form.useForm();
@@ -31,7 +32,7 @@ function AdminJobsPageContent() {
   const fetchData = React.useCallback(async () => {
     setLoading(true);
     try {
-      const res = await adminFetch('/api/data/jobs');
+      const res = await adminFetch('/api/data/jobs?summary=1');
       const jobsData = await res.json();
       setData(jobsData);
     } catch (error) {
@@ -73,21 +74,30 @@ function AdminJobsPageContent() {
     updateUrl({ q: e.target.value });
   };
 
-  const showModal = (record?: any) => {
+  const showModal = async (record?: JobSummary) => {
     if (record) {
       setEditingId(record.id);
-      form.setFieldsValue({
-        ...record,
-        date: record.date ? dayjs(record.date, 'YYYY-MM-DD') : dayjs(),
-      });
+      setIsModalOpen(true);
+      form.resetFields();
+      try {
+        const res = await adminFetch(`/api/data/jobs?id=${record.id}`);
+        if (!res.ok) throw new Error('Không thể tải chi tiết tin tuyển dụng');
+        const full: Job = await res.json();
+        form.setFieldsValue({
+          ...full,
+          date: full.date ? dayjs(full.date, 'YYYY-MM-DD') : dayjs(),
+        });
+      } catch (error: any) {
+        message.error(error.message || 'Không thể tải chi tiết tin tuyển dụng');
+      }
     } else {
       setEditingId(null);
       form.resetFields();
       form.setFieldsValue({
         date: dayjs(),
       });
+      setIsModalOpen(true);
     }
-    setIsModalOpen(true);
   };
 
   const handleOk = () => {
@@ -188,7 +198,7 @@ function AdminJobsPageContent() {
     {
       title: 'Thao tác',
       key: 'action',
-      render: (_: any, record: any) => (
+      render: (_: any, record: JobSummary) => (
         <Space size="middle">
           <Tooltip title="Chỉnh sửa">
             <Button icon={<EditOutlined />} type="text" className="text-blue-500" onClick={() => showModal(record)} />
