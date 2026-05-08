@@ -17,9 +17,9 @@ export default async function HomePage() {
     mediaService.getVideos(),
   ]);
 
-  const featuredProducts = Array.isArray(products) ? products.filter((p: ProductSummary) => p.featured).slice(0, 8) : [];
-  const diseaseArticles = Array.isArray(articles) ? articles.filter((a: ArticleSummary) => a.category === 'benh-dieu-tri').slice(0, 4) : [];
-  const latestNews = Array.isArray(articles) ? articles.slice(0, 3) : [];
+  const featuredProducts = Array.isArray(products) ? products.filter((p: ProductSummary) => p.featured) : [];
+  const diseaseArticles = Array.isArray(articles) ? articles.filter((a: ArticleSummary) => a.category === 'benh-dieu-tri' || a.category === 'cam-nang') : [];
+  const latestNews = Array.isArray(articles) ? articles.filter((a: ArticleSummary) => a.category === 'tin-noi-bo' || a.category === 'tin-nganh') : [];
   const activeBanners = Array.isArray(banners) ? banners.filter((b: any) => b.status).sort((a: any, b: any) => a.order - b.order).map(b => ({ ...b, id: Number(b.id) })) : [];
   const images = Array.isArray(mediaImages) ? mediaImages.filter((img: any) => img.status === 'active').map(img => ({ ...img, id: Number(img.id) })) : [];
   const videos = Array.isArray(mediaVideos) ? mediaVideos.filter((v: any) => v.status === 'active').map(v => ({ ...v, id: Number(v.id) })) : [];
