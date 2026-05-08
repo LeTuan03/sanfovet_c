@@ -7,7 +7,20 @@ import Link from 'next/link';
 export default function FloatingContact() {
   const [isPopupOpen, setIsPopupOpen] = useState(false);
   const [showBackToTop, setShowBackToTop] = useState(false);
+   const [settings, setSettings] = React.useState<any>(null);
 
+   React.useEffect(() => {
+      const fetchSettings = async () => {
+         try {
+            const res = await fetch('/api/data/settings');
+            const data = await res.json();
+            setSettings(data);
+         } catch (error) {
+            console.error('Failed to fetch settings:', error);
+         }
+      };
+      fetchSettings();
+   }, []);
   useEffect(() => {
     let ticking = false;
 
@@ -42,14 +55,14 @@ export default function FloatingContact() {
           <Phone size={22} />
         </a>
         <a 
-          href="mailto:pkd.biotechvet@gmail.com" 
+          href={`mailto:${settings?.support?.doctorEmail}`} 
           className="w-[52px] h-[52px] rounded-full flex items-center justify-center text-white shadow-lg transition-transform hover:scale-110 active:scale-95 bg-gradient-to-br from-accent to-[#e65100]"
           title="Gửi email"
         >
           <Mail size={22} />
         </a>
         <a 
-          href="https://zalo.me/0974999204" 
+          href={`https://zalo.me/${settings?.support?.zaloNumber}`} 
           target="_blank" 
           rel="noopener"
           className="w-[52px] h-[52px] rounded-full flex items-center justify-center text-white shadow-lg transition-transform hover:scale-110 active:scale-95 bg-gradient-to-br from-[#0068ff] to-[#0052cc]"
@@ -106,15 +119,15 @@ export default function FloatingContact() {
             <div className="space-y-4 mb-6">
                <div className="flex items-start gap-2.5 text-[0.9rem] text-gray-700">
                  <Phone size={16} className="mt-1 text-primary shrink-0" />
-                 <div><strong>Hotline:</strong> 097 499 9204</div>
+                 <div><strong>Hotline:</strong> {settings?.hotline1}</div>
                </div>
                <div className="flex items-start gap-2.5 text-[0.9rem] text-gray-700">
                  <Phone size={16} className="mt-1 text-primary shrink-0" />
-                 <div><strong>Điện thoại:</strong> 024 66861629</div>
+                 <div><strong>Điện thoại:</strong> {settings?.support?.doctorPhone}</div>
                </div>
                <div className="flex items-start gap-2.5 text-[0.9rem] text-gray-700">
                  <Mail size={16} className="mt-1 text-primary shrink-0" />
-                 <div><strong>Email:</strong> pkd.biotechvet@gmail.com</div>
+                 <div><strong>Email:</strong> {settings?.support?.doctorEmail}</div>
                </div>
                <div className="flex items-start gap-2.5 text-[0.9rem] text-gray-700">
                  <Globe size={16} className="mt-1 text-primary shrink-0" />
@@ -122,7 +135,7 @@ export default function FloatingContact() {
                </div>
                <div className="flex items-start gap-2.5 text-[0.9rem] text-gray-700">
                  <MapPin size={16} className="mt-1 text-primary shrink-0" />
-                 <div><strong>Địa chỉ:</strong> Cụm CN Liên Phương, Xã Hồng Vân, Hà Nội</div>
+                 <div><strong>Địa chỉ:</strong> {settings?.addressHN || settings?.addressHCM}</div>
                </div>
             </div>
             <Link 

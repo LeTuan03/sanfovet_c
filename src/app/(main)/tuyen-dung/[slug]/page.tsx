@@ -18,6 +18,21 @@ export default async function JobDetailPage({ params }: Readonly<{ params: Promi
   const featuredProducts = products.filter((p: ProductSummary) => p.featured).slice(0, 5);
   const latestNews = articles.slice(0, 4);
 
+   const [settings, setSettings] = React.useState<any>(null);
+
+   React.useEffect(() => {
+      const fetchSettings = async () => {
+         try {
+            const res = await fetch('/api/data/settings');
+            const data = await res.json();
+            setSettings(data);
+         } catch (error) {
+            console.error('Failed to fetch settings:', error);
+         }
+      };
+      fetchSettings();
+   }, []);
+
   return (
     <div className="bg-white min-h-screen">
       {/* Breadcrumb */}
@@ -141,22 +156,22 @@ export default async function JobDetailPage({ params }: Readonly<{ params: Promi
                     Hồ sơ bao gồm: CV, bằng cấp liên quan, ảnh chân dung 4x6.
                   </p>
                   <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
-                    <a href="mailto:pkd.biotechvet@gmail.com" className="flex items-center gap-4 bg-white/10 border border-white/20 rounded-2xl p-5 hover:bg-white/20 transition-all group">
+                    <a href={`mailto:${settings?.support?.doctorEmail}`} className="flex items-center gap-4 bg-white/10 border border-white/20 rounded-2xl p-5 hover:bg-white/20 transition-all group">
                       <div className="w-12 h-12 bg-primary rounded-xl flex items-center justify-center shrink-0 group-hover:scale-110 transition-transform">
                         <Mail size={22} />
                       </div>
                       <div>
                         <div className="text-[10px] font-bold uppercase tracking-widest opacity-60 mb-1">Email ứng tuyển</div>
-                        <div className="font-black">pkd.biotechvet@gmail.com</div>
+                        <div className="font-black">{settings?.support?.doctorEmail}</div>
                       </div>
                     </a>
-                    <a href="tel:0974999204" className="flex items-center gap-4 bg-white/10 border border-white/20 rounded-2xl p-5 hover:bg-white/20 transition-all group">
+                    <a href={`tel:${settings?.hotline1}`} className="flex items-center gap-4 bg-white/10 border border-white/20 rounded-2xl p-5 hover:bg-white/20 transition-all group">
                       <div className="w-12 h-12 bg-primary rounded-xl flex items-center justify-center shrink-0 group-hover:scale-110 transition-transform">
                         <Phone size={22} />
                       </div>
                       <div>
                         <div className="text-[10px] font-bold uppercase tracking-widest opacity-60 mb-1">Hotline tuyển dụng</div>
-                        <div className="font-black">097 499 9204</div>
+                        <div className="font-black">{settings?.hotline1}</div>
                       </div>
                     </a>
                   </div>

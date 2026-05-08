@@ -55,7 +55,7 @@ export default function ContactContent() {
          <section className="bg-biotechvet-dark text-white py-20 relative overflow-hidden">
             <div className="absolute inset-0 opacity-10 bg-[url('/images/farm.png')] bg-cover bg-center"></div>
             <div className="container mx-auto px-4 relative z-10 text-center">
-               <h1 className="text-4xl md:text-5xl font-black mb-6 uppercase tracking-wider italic">Liên Hệ biotechvet</h1>
+               <h1 className="text-4xl md:text-5xl font-black mb-6 uppercase tracking-wider italic">Liên Hệ Biotechvet</h1>
                <p className="text-xl text-primary-light max-w-2xl mx-auto font-medium">Chúng tôi luôn sẵn sàng lắng nghe và giải đáp mọi thắc mắc của bạn 24/7.</p>
             </div>
          </section>
@@ -195,7 +195,7 @@ export default function ContactContent() {
                   Chất lượng Là Cam Kết
                </h3>
                <p className="text-lg text-biotechvet-dark font-bold">
-                  Cùng BioBiotechVet - Nâng cao giá trị chăn nuôi Việt Nam
+                  Cùng BiotechVet - Nâng cao giá trị chăn nuôi Việt Nam
                </p>
             </div>
 
@@ -209,7 +209,7 @@ export default function ContactContent() {
                   allowFullScreen
                   loading="lazy"
                   referrerPolicy="no-referrer-when-downgrade"
-                  title="Bản đồ biotechvet - Cụm CN Liên Phương, Xã Hồng Vân, Thường Tín, Hà Nội"
+                  title="Bản đồ BiotechVet - Cụm CN Liên Phương, Xã Hồng Vân, Thường Tín, Hà Nội"
                />
             </div>
          </div>

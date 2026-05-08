@@ -34,6 +34,20 @@ export default async function NewsPage() {
   const newsInternal = articles.filter((a: ArticleSummary) => a.category === 'tin-noi-bo');
   const newsIndustry = articles.filter((a: ArticleSummary) => a.category === 'tin-nganh');
   const allNews = [...newsInternal, ...newsIndustry].sort((a: ArticleSummary, b: ArticleSummary) => new Date(b.publishDate).getTime() - new Date(a.publishDate).getTime());
+   const [settings, setSettings] = React.useState<any>(null);
+
+   React.useEffect(() => {
+      const fetchSettings = async () => {
+         try {
+            const res = await fetch('/api/data/settings');
+            const data = await res.json();
+            setSettings(data);
+         } catch (error) {
+            console.error('Failed to fetch settings:', error);
+         }
+      };
+      fetchSettings();
+   }, []);
 
   return (
     <div className="bg-white min-h-screen pb-20">
@@ -116,11 +130,11 @@ export default async function NewsPage() {
                 <div className="space-y-4">
                    <div className="p-4 bg-white rounded-2xl flex items-center gap-4 border border-gray-100">
                       <div className="text-primary font-black uppercase text-[10px]">Hotline</div>
-                      <div className="text-biotechvet-dark font-black">097 499 9204</div>
+                      <div className="text-biotechvet-dark font-black">{settings?.hotline1}</div>
                    </div>
                    <div className="p-4 bg-white rounded-2xl flex items-center gap-4 border border-gray-100">
                       <div className="text-primary font-black uppercase text-[10px]">Email</div>
-                      <div className="text-biotechvet-dark font-black text-xs">pkd.biotechvet@gmail.com</div>
+                      <div className="text-biotechvet-dark font-black text-xs">{settings?.support?.doctorEmail}</div>
                    </div>
                 </div>
              </div>
