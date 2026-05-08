@@ -1,7 +1,7 @@
 "use client";
 
 import React, { useState, useMemo } from 'react';
-import { Table, Button, Space, Modal, Form, Input, Select, Tag, Tooltip, Row, Col, Divider, Breadcrumb, DatePicker, App } from 'antd';
+import { Table, Button, Space, Modal, Form, Input, Select, Tag, Tooltip, Row, Col, Divider, Breadcrumb, DatePicker, Switch, App } from 'antd';
 import { PlusOutlined, EditOutlined, DeleteOutlined, SearchOutlined, FileImageOutlined } from '@ant-design/icons';
 import { useRouter, useSearchParams, usePathname } from 'next/navigation';
 // import { articles, animalTags } from '@/lib/data'; // Removed static imports
@@ -151,6 +151,26 @@ function HandbookManagementContent() {
     });
   };
 
+  const handleToggleFeatured = async (record: ArticleSummary, checked: boolean) => {
+    setData((prev) => prev.map((a) => (a.id === record.id ? { ...a, featured: checked } : a)));
+    try {
+      const res = await adminFetch('/api/data/articles', {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({
+          action: 'update',
+          data: { featured: checked },
+          id: record.id.toString(),
+        }),
+      });
+      if (!res.ok) throw new Error('Lỗi khi cập nhật');
+      msg.success(checked ? 'Đã bật nổi bật' : 'Đã tắt nổi bật');
+    } catch (error: any) {
+      setData((prev) => prev.map((a) => (a.id === record.id ? { ...a, featured: !checked } : a)));
+      msg.error(error.message || 'Lỗi khi cập nhật');
+    }
+  };
+
   const handleDelete = (id: bigint) => {
     modal.confirm({
       title: 'Xác nhận xóa',
@@ -230,6 +250,17 @@ function HandbookManagementContent() {
       dataIndex: 'publishDate',
       key: 'publishDate',
       render: (d: string) => <span className="font-medium text-gray-400 text-xs uppercase tracking-widest">{d}</span>
+    },
+    {
+      title: 'Nổi bật',
+      key: 'featured',
+      render: (_: any, record: ArticleSummary) => (
+        <Switch
+          checked={!!record.featured}
+          size="small"
+          onChange={(checked) => handleToggleFeatured(record, checked)}
+        />
+      ),
     },
     {
       title: 'Thao tác',
@@ -364,9 +395,14 @@ function HandbookManagementContent() {
                 <ImageUpload label="Tải ảnh đại diện" aspectRatio="16/9" />
               </Form.Item>
             </Col>
-            <Col span={10}>
+            <Col span={6}>
               <Form.Item name="publishDate" label="Ngày đăng bài">
                 <DatePicker className="w-full rounded-xl py-2" format="DD/MM/YYYY" />
+              </Form.Item>
+            </Col>
+            <Col span={4}>
+              <Form.Item name="featured" label="Nổi bật" initialValue={false} valuePropName="checked">
+                <Switch checkedChildren="ON" unCheckedChildren="OFF" />
               </Form.Item>
             </Col>
           </Row>

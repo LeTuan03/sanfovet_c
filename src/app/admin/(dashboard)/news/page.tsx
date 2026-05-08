@@ -109,9 +109,15 @@ function AdminNewsPageContent() {
       },
     },
     {
-      title: 'Hiển thị',
-      key: 'status',
-      render: () => <Switch defaultChecked size="small" className="bg-gray-200" />,
+      title: 'Nổi bật',
+      key: 'featured',
+      render: (_: any, record: ArticleSummary) => (
+        <Switch
+          checked={!!record.featured}
+          size="small"
+          onChange={(checked) => handleToggleFeatured(record, checked)}
+        />
+      ),
     },
     {
       title: 'Thao tác',
@@ -140,6 +146,26 @@ function AdminNewsPageContent() {
       ),
     },
   ];
+
+  const handleToggleFeatured = async (record: ArticleSummary, checked: boolean) => {
+    setAllArticles((prev) => prev.map((a) => (a.id === record.id ? { ...a, featured: checked } : a)));
+    try {
+      const res = await adminFetch('/api/data/articles', {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({
+          action: 'update',
+          data: { featured: checked },
+          id: record.id.toString(),
+        }),
+      });
+      if (!res.ok) throw new Error('Lỗi khi cập nhật');
+      message.success(checked ? 'Đã bật nổi bật' : 'Đã tắt nổi bật');
+    } catch (error: any) {
+      setAllArticles((prev) => prev.map((a) => (a.id === record.id ? { ...a, featured: !checked } : a)));
+      message.error(error.message || 'Lỗi khi cập nhật');
+    }
+  };
 
   const handleEdit = async (record: ArticleSummary) => {
     setEditingNews(record);
@@ -343,9 +369,9 @@ function AdminNewsPageContent() {
             </Col>
             <Col span={4}>
               <Form.Item
-                name="status"
-                label="Hiển thị"
-                initialValue={true}
+                name="featured"
+                label="Nổi bật"
+                initialValue={false}
                 valuePropName="checked"
               >
                 <Switch checkedChildren="ON" unCheckedChildren="OFF" />

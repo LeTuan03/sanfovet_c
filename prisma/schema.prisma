@@ -41,6 +41,7 @@ model Article {
   thumbnail   String   @default("")
   excerpt     String   @default("")
   content     String   @default("")
+  featured    Boolean  @default(false)
   createdAt   DateTime @default(now())
   updatedAt   DateTime @updatedAt
 

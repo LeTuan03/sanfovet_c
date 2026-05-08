@@ -17,6 +17,7 @@ export class ArticleService {
         publishDate: true,
         thumbnail: true,
         excerpt: true,
+        featured: true,
       },
     });
   }

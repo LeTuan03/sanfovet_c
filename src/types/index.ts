@@ -32,6 +32,7 @@ export interface Article {
   thumbnail: string;
   excerpt: string;
   content: string;
+  featured?: boolean | null;
 }
 
 export type ArticleSummary = Omit<Article, 'content'>;
