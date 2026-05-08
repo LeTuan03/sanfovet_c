@@ -1,7 +1,6 @@
 "use client";
 
 import React, { useState } from 'react';
-import Image from 'next/image';
 import { X, ZoomIn, PlayCircle } from 'lucide-react';
 import { motion, AnimatePresence } from 'framer-motion';
 
@@ -47,13 +46,11 @@ export default function HomeGallery({ images, videos }: HomeGalleryProps) {
                onClick={() => featuredVideo && setSelectedItem({ ...featuredVideo, type: 'video' })}
                disabled={!featuredVideo}
              >
-                <Image
+                <img
                   src={featuredVideo?.thumbnail || '/images/about.webp'}
                   alt="Video cover"
-                  fill
-                  sizes="(min-width: 1024px) 50vw, 100vw"
-                  loading="lazy"
-                  className="object-cover transition-transform duration-700 group-hover:scale-110"
+                  style={{width: '100%', height: '100%', objectFit: 'cover'}}
+                  className="transition-transform duration-700 group-hover:scale-110"
                 />
                 <div className="absolute inset-0 bg-biotechvet-dark/40 group-hover:bg-biotechvet-dark/20 transition-all flex items-center justify-center">
                    <div className="w-24 h-24 bg-white/20 rounded-full flex items-center justify-center text-white border border-white/30 group-hover:scale-110 transition-transform">
@@ -87,13 +84,11 @@ export default function HomeGallery({ images, videos }: HomeGalleryProps) {
                 onClick={() => setSelectedItem({ ...img, type: 'image' })}
                 onKeyDown={(event) => handleKeyPress(event, img)}
               >
-                <Image
+                <img
                   src={img.url}
                   alt={img.title || ''}
-                  fill
-                  sizes="(min-width: 1024px) 25vw, 50vw"
-                  loading="lazy"
-                  className="object-cover transition-transform duration-700 group-hover:scale-110"
+                  style={{width: '100%', height: '100%', objectFit: 'cover'}}
+                  className="transition-transform duration-700 group-hover:scale-110"
                 />
                 <div className="absolute inset-0 bg-gradient-to-t from-biotechvet-dark/80 via-transparent to-transparent opacity-0 group-hover:opacity-100 transition-all duration-500 flex flex-col justify-end p-6">
                    <div className="bg-secondary/90 text-white p-2.5 rounded-xl w-fit mb-3 transform -translate-y-4 group-hover:translate-y-0 transition-transform">

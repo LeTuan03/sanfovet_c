@@ -2,7 +2,6 @@
 
 import { useEffect, useState } from "react";
 import { motion, AnimatePresence } from "framer-motion";
-import Image from "next/image";
 
 export default function Preloader() {
   const [isLoading, setIsLoading] = useState(true);
@@ -52,13 +51,12 @@ export default function Preloader() {
               }}
               className="mb-8"
             >
-              <Image 
+              <img 
                 src="/images/logo.png" 
                 alt="BIOTECH-VET" 
                 width={150} 
                 height={150} 
                 className="h-auto w-auto max-w-[150px]"
-                priority
               />
             </motion.div>
 

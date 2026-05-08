@@ -1,6 +1,5 @@
 "use client";
 
-import Image from "next/image";
 import { useEffect, useState } from "react";
 
 const LOADING_DELAY_MS = 150;
@@ -21,13 +20,12 @@ export default function Loading() {
     <div className="fixed inset-0 z-[9999] pointer-events-none flex items-center justify-center bg-white/80 backdrop-blur-sm transition-opacity duration-200">
       <div className="pointer-events-auto rounded-3xl bg-white/95 p-6 shadow-2xl">
         <div className="mb-6 animate-pulse opacity-70">
-          <Image 
+          <img 
             src="/images/logo.png" 
             alt="Loading..." 
             width={100} 
             height={100} 
             className="h-auto w-auto grayscale brightness-110"
-            priority
           />
         </div>
 

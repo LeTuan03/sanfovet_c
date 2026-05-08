@@ -1,7 +1,6 @@
 export const dynamic = 'force-dynamic';
 
 import Link from 'next/link';
-import Image from 'next/image';
 import { Eye, ArrowRight, Calendar, Microscope, ShieldCheck, Users, Truck, Gem, ChevronRight, Award, CheckCircle2 } from 'lucide-react';
 import { productService, articleService, bannerService, mediaService } from '@/services';
 import { ProductSummary, ArticleSummary } from '@/types';
@@ -48,13 +47,11 @@ export default async function HomePage() {
               <div className="w-full lg:w-5/12 relative">
                 <div className="relative z-10 rounded-[40px] overflow-hidden shadow-[0_20px_50px_rgba(0,0,0,0.15)] group">
                   <div className="relative w-full h-[500px]">
-                    <Image
+                    <img
                       src="/images/about.webp"
                       alt="Trụ sở BIOTECH-VET"
-                      fill
-                      sizes="(min-width: 1024px) 42vw, 100vw"
-                      loading="lazy"
-                      className="object-cover group-hover:scale-105 transition-transform duration-1000"
+                      style={{width: '100%', height: '100%', objectFit: 'cover'}}
+                      className="group-hover:scale-105 transition-transform duration-1000"
                     />
                   </div>
                   <div className="absolute inset-0 bg-gradient-to-t from-black/60 via-black/10 to-transparent flex items-end p-10">
@@ -140,13 +137,11 @@ export default async function HomePage() {
                     <Eye size={18} />
                   </div>
                   <div className="aspect-square flex items-center justify-center relative group-hover:bg-primary-light/30 transition-colors duration-500 overflow-hidden">
-                    <Image
+                    <img
                       src={p.image}
                       alt={p.name}
-                      fill
-                      sizes="(min-width: 1024px) 22vw, (min-width: 640px) 45vw, 90vw"
-                      loading="lazy"
-                      className="object-contain transition-transform duration-700 group-hover:scale-110"
+                      style={{width: '100%', height: '100%', objectFit: 'contain'}}
+                      className="transition-transform duration-700 group-hover:scale-110"
                     />
                   </div>
                   <div className="p-3 md:p-4 flex-1 flex flex-col">
@@ -179,13 +174,11 @@ export default async function HomePage() {
               <FadeUp key={a.id} delay={i * 0.1}>
                 <article className="bg-white rounded-[32px] border border-gray-100 shadow-sm overflow-hidden hover:shadow-xl transition-all duration-500 flex flex-col group hover:-translate-y-2 h-full">
                   <div className="aspect-[4/3] relative overflow-hidden bg-gray-100">
-                    <Image
+                    <img
                       src={a?.thumbnail}
                       alt={a.title}
-                      fill
-                      sizes="(min-width: 1024px) 22vw, (min-width: 768px) 45vw, 90vw"
-                      loading="lazy"
-                      className="object-cover group-hover:scale-110 transition-transform duration-700"
+                      style={{width: '100%', height: '100%', objectFit: 'cover'}}
+                      className="group-hover:scale-110 transition-transform duration-700"
                     />
                     <div className="absolute top-4 left-4 bg-secondary text-white text-[10px] font-black py-1.5 px-3 rounded-full uppercase tracking-widest shadow-sm">
                       Cẩm nang
@@ -257,13 +250,11 @@ export default async function HomePage() {
               <FadeUp key={a.id} delay={i * 0.1}>
                 <article className="bg-white rounded-[40px] shadow-sm border border-gray-100 overflow-hidden hover:shadow-2xl transition-all duration-500 group flex flex-col hover:-translate-y-2 h-full">
                   <div className="aspect-[16/10] relative overflow-hidden">
-                    <Image
+                    <img
                       src={a?.thumbnail}
                       alt={a.title}
-                      fill
-                      sizes="(min-width: 1024px) 30vw, 90vw"
-                      loading="lazy"
-                      className="object-cover group-hover:scale-105 transition-transform duration-700"
+                      style={{width: '100%', height: '100%', objectFit: 'cover'}}
+                      className="group-hover:scale-105 transition-transform duration-700"
                     />
                     <div className="absolute bottom-4 left-4 right-4 text-white">
                       <div className="bg-biotechvet-dark/80 backdrop-blur-md rounded-3xl p-5 border border-white/10 shadow-lg">
