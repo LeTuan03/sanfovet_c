@@ -131,11 +131,6 @@ export default function ContactContent() {
                               <p className="text-gray-700 font-bold">{settings?.support?.doctorEmail}</p>
                            </div>
                         </div>
-                        <div className="bg-white p-4 rounded-2xl">
-                           <p className="text-xs font-bold text-gray-400 uppercase tracking-widest mb-2">Thời gian phục vụ</p>
-                           <p className="text-sm text-gray-600 font-medium">Thứ 2 - Thứ 7: 8:00 - 18:00</p>
-                           <p className="text-sm text-gray-600 font-medium">Chủ nhật: 8:00 - 12:00</p>
-                        </div>
                      </div>
                   </div>
 
