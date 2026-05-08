@@ -109,6 +109,36 @@ export default function ContactContent() {
                      </div>
                   )}
 
+                  {/* Technical Support */}
+                  <div className="bg-gradient-to-br from-primary/5 to-primary/10 p-10 rounded-[40px] border border-primary/20 shadow-sm">
+                     <h3 className="text-xl font-black text-biotechvet-dark mb-6 uppercase tracking-wider">Hỗ Trợ Kỹ Thuật</h3>
+                     <div className="space-y-5">
+                        <div className="flex gap-4 items-start">
+                           <div className="w-10 h-10 bg-white rounded-xl flex items-center justify-center text-primary shrink-0 shadow-sm">
+                              <Phone size={18} />
+                           </div>
+                           <div>
+                              <p className="text-xs font-black text-gray-500 uppercase tracking-widest mb-1">Tư vấn sản phẩm</p>
+                              <p className="text-gray-700 font-bold">{settings?.hotline1}</p>
+                           </div>
+                        </div>
+                        <div className="flex gap-4 items-start">
+                           <div className="w-10 h-10 bg-white rounded-xl flex items-center justify-center text-primary shrink-0 shadow-sm">
+                              <Mail size={18} />
+                           </div>
+                           <div>
+                              <p className="text-xs font-black text-gray-500 uppercase tracking-widest mb-1">Email hỗ trợ</p>
+                              <p className="text-gray-700 font-bold">{settings?.support?.doctorEmail}</p>
+                           </div>
+                        </div>
+                        <div className="bg-white p-4 rounded-2xl">
+                           <p className="text-xs font-bold text-gray-400 uppercase tracking-widest mb-2">Thời gian phục vụ</p>
+                           <p className="text-sm text-gray-600 font-medium">Thứ 2 - Thứ 7: 8:00 - 18:00</p>
+                           <p className="text-sm text-gray-600 font-medium">Chủ nhật: 8:00 - 12:00</p>
+                        </div>
+                     </div>
+                  </div>
+
                   {/* Social Links */}
                   <div className="flex gap-4">
                      {settings?.social?.facebook && (
@@ -128,15 +158,14 @@ export default function ContactContent() {
                <div className="bg-white rounded-[48px] p-10 md:p-14 border border-gray-100 shadow-2xl relative overflow-hidden group">
                   <div className="absolute top-0 right-0 w-32 h-32 bg-primary/10 rounded-full blur-3xl -mr-16 -mt-16"></div>
 
-                  <>
-                     <div className="flex items-center gap-4 mb-10">
-                        <div className="w-12 h-12 bg-primary/10 rounded-xl flex items-center justify-center text-primary">
-                           <MessageSquare size={24} />
-                        </div>
-                        <h3 className="text-2xl font-black text-biotechvet-dark uppercase tracking-tight italic">Gửi Tin Nhắn</h3>
+                  <div className="flex items-center gap-4 mb-10">
+                     <div className="w-12 h-12 bg-primary/10 rounded-xl flex items-center justify-center text-primary">
+                        <MessageSquare size={24} />
                      </div>
+                     <h3 className="text-2xl font-black text-biotechvet-dark uppercase tracking-tight italic">Gửi Tin Nhắn</h3>
+                  </div>
 
-                     <form onSubmit={handleSubmit} className="space-y-6 relative z-10">
+                  <form onSubmit={handleSubmit} className="space-y-6 relative z-10">
                         <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
                            <div>
                               <label htmlFor="fullName" className="block text-[10px] font-black uppercase text-gray-400 tracking-[2px] mb-2 px-4 italic">Họ và tên *</label>
@@ -162,7 +191,6 @@ export default function ContactContent() {
                            <Send size={18} className="group-hover:translate-x-1 group-hover:-translate-y-1 transition-transform" /> Gửi yêu cầu ngay
                         </button>
                      </form>
-                  </>
                </div>
             </div>
 

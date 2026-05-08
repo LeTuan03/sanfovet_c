@@ -203,37 +203,6 @@ export default async function HomePage() {
         </div>
       </section>
 
-      {/* Why Choose Us */}
-      <section className="py-24 lg:py-32 bg-biotechvet-dark text-white relative overflow-hidden">
-        {/* Background Decorative */}
-        <div className="absolute inset-0 bg-[url('/images/farm.png')] opacity-10 bg-cover bg-center mix-blend-overlay"></div>
-        <div className="absolute inset-0 bg-gradient-to-b from-biotechvet-dark via-biotechvet-dark/95 to-[#021016]"></div>
-
-        <div className="container mx-auto px-4 relative z-10">
-          <FadeUp className="text-center max-w-3xl mx-auto mb-20 md:mb-24">
-            <div className="inline-flex items-center gap-2 px-4 py-2 rounded-full bg-white/10 backdrop-blur-md border border-white/20 text-primary-light font-bold text-[10px] uppercase tracking-widest mb-6">
-              <Award size={14} /> Giá trị cốt lõi
-            </div>
-            <h2 className="text-4xl lg:text-6xl font-black mb-6 uppercase tracking-tighter shadow-sm">Tại Sao Chọn <br></br> <span className="text-primary-dark">BIOTECH-VET</span>?</h2>
-            <p className="text-xl text-gray-300 font-medium leading-relaxed">Sứ mệnh của chúng tôi là cung cấp những giải pháp y tế tối ưu, giúp bảo vệ và nâng cao năng suất đàn vật nuôi tại Việt Nam.</p>
-          </FadeUp>
-
-          <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-5 gap-6 lg:gap-8">
-            {features.map((f, i: number) => (
-              <FadeUp key={i} delay={i * 0.1}>
-                <div className="flex flex-col items-center text-center p-8 lg:p-10 bg-white/5 backdrop-blur-md rounded-[40px] border border-white/10 hover:bg-white/10 hover:border-primary/50 transition-all duration-500 hover:-translate-y-2 group shadow-2xl h-full">
-                  <div className="w-20 h-20 rounded-[28px] bg-gradient-to-br from-primary/80 to-primary-dark flex items-center justify-center mb-8 text-white shadow-[0_10px_30px_rgba(26,140,63,0.3)] group-hover:scale-110 transition-transform duration-500 transform rotate-3 group-hover:rotate-0">
-                    {f.icon}
-                  </div>
-                  <h3 className="font-black text-lg lg:text-xl mb-4 text-white tracking-wide">{f.title}</h3>
-                  <p className="text-sm text-gray-400 leading-relaxed font-medium">{f.desc}</p>
-                </div>
-              </FadeUp>
-            ))}
-          </div>
-        </div>
-      </section>
-
       {/* Latest News */}
       <section className="py-24 lg:py-32 bg-gray-50 overflow-hidden relative">
         <div className="container mx-auto px-4 relative z-10">
@@ -274,6 +243,37 @@ export default async function HomePage() {
                     </Link>
                   </div>
                 </article>
+              </FadeUp>
+            ))}
+          </div>
+        </div>
+      </section>
+
+      {/* Why Choose Us */}
+      <section className="py-24 lg:py-32 bg-biotechvet-dark text-white relative overflow-hidden">
+        {/* Background Decorative */}
+        <div className="absolute inset-0 bg-[url('/images/farm.png')] opacity-10 bg-cover bg-center mix-blend-overlay"></div>
+        <div className="absolute inset-0 bg-gradient-to-b from-biotechvet-dark via-biotechvet-dark/95 to-[#021016]"></div>
+
+        <div className="container mx-auto px-4 relative z-10">
+          <FadeUp className="text-center max-w-3xl mx-auto mb-20 md:mb-24">
+            <div className="inline-flex items-center gap-2 px-4 py-2 rounded-full bg-white/10 backdrop-blur-md border border-white/20 text-primary-light font-bold text-[10px] uppercase tracking-widest mb-6">
+              <Award size={14} /> Giá trị cốt lõi
+            </div>
+            <h2 className="text-4xl lg:text-6xl font-black mb-6 uppercase tracking-tighter shadow-sm">Tại Sao Chọn <br></br> <span className="text-primary-dark">BIOTECH-VET</span>?</h2>
+            <p className="text-xl text-gray-300 font-medium leading-relaxed">Sứ mệnh của chúng tôi là cung cấp những giải pháp y tế tối ưu, giúp bảo vệ và nâng cao năng suất đàn vật nuôi tại Việt Nam.</p>
+          </FadeUp>
+
+          <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-5 gap-6 lg:gap-8">
+            {features.map((f, i: number) => (
+              <FadeUp key={f.title} delay={i * 0.1}>
+                <div className="flex flex-col items-center text-center p-8 lg:p-10 bg-white/5 backdrop-blur-md rounded-[40px] border border-white/10 hover:bg-white/10 hover:border-primary/50 transition-all duration-500 hover:-translate-y-2 group shadow-2xl h-full">
+                  <div className="w-20 h-20 rounded-[28px] bg-gradient-to-br from-primary/80 to-primary-dark flex items-center justify-center mb-8 text-white shadow-[0_10px_30px_rgba(26,140,63,0.3)] group-hover:scale-110 transition-transform duration-500 transform rotate-3 group-hover:rotate-0">
+                    {f.icon}
+                  </div>
+                  <h3 className="font-black text-lg lg:text-xl mb-4 text-white tracking-wide">{f.title}</h3>
+                  <p className="text-sm text-gray-400 leading-relaxed font-medium">{f.desc}</p>
+                </div>
               </FadeUp>
             ))}
           </div>

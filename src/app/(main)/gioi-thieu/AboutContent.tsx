@@ -65,7 +65,8 @@ export default function AboutContent() {
               >
                  <div className="relative w-full aspect-video rounded-[32px] overflow-hidden shadow-[0_20px_50px_rgba(0,0,0,0.5)] border border-white/10 group">
                     <div className="absolute inset-0 bg-primary/20 mix-blend-overlay group-hover:bg-transparent transition-colors duration-500 z-10 pointer-events-none"></div>
-                    <img 
+                      <img 
+                        alt='gioithieu'
                       src="/images/gioithieu.webp" 
                       className="w-full h-full object-cover transform group-hover:scale-105 transition-transform duration-700"
                     />
@@ -155,7 +156,7 @@ export default function AboutContent() {
                            { year: "2018", text: "Mở rộng hệ sinh thái Sanford Pharma USA và Viaprotic, ứng dụng công nghệ hiện đại từ Hoa Kỳ vào sản xuất chuyên sâu." },
                            { year: "Hiện tại", text: "Trở thành tập đoàn dược phẩm thú y hàng đầu Việt Nam với mạng lưới hơn 1.000 đại lý và xuất khẩu sang nhiều thị trường quốc tế." }
                          ].map((item, index) => (
-                           <div key={index} className={`relative flex flex-col md:flex-row items-center gap-8 ${index % 2 === 0 ? 'md:flex-row-reverse' : ''}`}>
+                           <div key={item?.text} className={`relative flex flex-col md:flex-row items-center gap-8 ${index % 2 === 0 ? 'md:flex-row-reverse' : ''}`}>
                               <div className="absolute left-[-33px] md:left-1/2 w-8 h-8 rounded-full bg-primary border-4 border-white shadow-md md:-translate-x-1/2 z-10 flex items-center justify-center">
                                  <div className="w-2 h-2 bg-white rounded-full"></div>
                               </div>
@@ -222,13 +223,13 @@ export default function AboutContent() {
                             </div>
                          </div>
                       </div>
-                      <div className="p-10 bg-gradient-to-br from-primary to-primary-dark rounded-[32px] text-white shadow-lg flex flex-col justify-center items-center text-center">
+                      {/* <div className="p-10 bg-gradient-to-br from-primary to-primary-dark rounded-[32px] text-white shadow-lg flex flex-col justify-center items-center text-center">
                          <Award size={48} className="mb-6 opacity-80" />
                          <h4 className="text-2xl font-black mb-4">Tìm hiểu triết lý của chúng tôi</h4>
                          <Link href="/cam-nang-chan-nuoi" className="inline-flex items-center gap-2 bg-white text-biotechvet-dark px-8 py-3.5 rounded-full text-sm font-bold uppercase tracking-widest hover:bg-gray-100 transition-colors shadow-xl">
                             Khám phá ngay <ChevronRight size={18} />
                          </Link>
-                      </div>
+                      </div> */}
                     </div>
                   </motion.div>
                 )}
@@ -293,7 +294,7 @@ export default function AboutContent() {
                         { role: "Khối Kinh doanh - Marketing", color: "bg-white text-biotechvet-dark border border-gray-100 shadow-sm" },
                         { role: "Khối Hành chính - Nhân sự", color: "bg-white text-biotechvet-dark border border-gray-100 shadow-sm" }
                       ].map((node, i) => (
-                        <div key={i} className="relative">
+                        <div key={node.role} className="relative">
                           {i > 1 && <div className="absolute left-1/2 -top-8 w-0.5 h-8 bg-gray-200 -translate-x-1/2"></div>}
                           <div className={`p-6 md:p-8 rounded-[24px] text-center font-black uppercase tracking-widest text-sm md:text-base mx-auto max-w-sm md:max-w-md ${node.color} hover:-translate-y-1 transition-transform duration-300`}>
                             {node.role}

@@ -29,7 +29,7 @@ export const metadata: Metadata = {
   },
 };
 
-const ITEMS_PER_PAGE = 6;
+const ITEMS_PER_PAGE = 12;
 
 export default async function ProductsPage({ searchParams }: { searchParams: Promise<{ category?: string; page?: string; search?: string; sort?: string }> }) {
   const params = await searchParams;
@@ -150,7 +150,7 @@ export default async function ProductsPage({ searchParams }: { searchParams: Pro
           </div>
 
           {filteredProducts.length > 0 ? (
-            <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-8">
+            <div className="grid grid-cols-1 sm:grid-cols-3 lg:grid-cols-4 gap-8">
               {paginatedProducts.map((p: ProductSummary, index: number) => (
                 <FadeUp key={p.id} delay={index * 0.05}>
                 <div className="bg-white rounded-[32px] shadow-sm hover:shadow-2xl border border-gray-100 overflow-hidden transition-all duration-500 group flex flex-col h-full hover:-translate-y-1">
