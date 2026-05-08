@@ -1,9 +1,7 @@
 export const dynamic = 'force-dynamic';
 
-import React from 'react';
-
 import Link from 'next/link';
-import { articleService } from '@/services';
+import { articleService, settingService } from '@/services';
 import { ArticleSummary } from '@/types';
 // import { articles } from '@/lib/data'; // Removed static import
 import FadeUp from '@/components/shared/FadeUp';
@@ -31,23 +29,10 @@ export const metadata: Metadata = {
 
 export default async function NewsPage() {
   const articles = await articleService.getAllSummary();
+  const settings = (await settingService.get()) as any;
   const newsInternal = articles.filter((a: ArticleSummary) => a.category === 'tin-noi-bo');
   const newsIndustry = articles.filter((a: ArticleSummary) => a.category === 'tin-nganh');
   const allNews = [...newsInternal, ...newsIndustry].sort((a: ArticleSummary, b: ArticleSummary) => new Date(b.publishDate).getTime() - new Date(a.publishDate).getTime());
-   const [settings, setSettings] = React.useState<any>(null);
-
-   React.useEffect(() => {
-      const fetchSettings = async () => {
-         try {
-            const res = await fetch('/api/data/settings');
-            const data = await res.json();
-            setSettings(data);
-         } catch (error) {
-            console.error('Failed to fetch settings:', error);
-         }
-      };
-      fetchSettings();
-   }, []);
 
   return (
     <div className="bg-white min-h-screen pb-20">

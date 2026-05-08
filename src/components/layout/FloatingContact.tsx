@@ -1,26 +1,12 @@
 "use client";
 
-import React, { useState, useEffect } from 'react';
+import { useState, useEffect } from 'react';
 import { Phone, Mail, MessageSquare, X, Send, Globe, MapPin } from 'lucide-react';
 import Link from 'next/link';
 
-export default function FloatingContact() {
+export default function FloatingContact({ settings }: { settings: any }) {
   const [isPopupOpen, setIsPopupOpen] = useState(false);
   const [showBackToTop, setShowBackToTop] = useState(false);
-   const [settings, setSettings] = React.useState<any>(null);
-
-   React.useEffect(() => {
-      const fetchSettings = async () => {
-         try {
-            const res = await fetch('/api/data/settings');
-            const data = await res.json();
-            setSettings(data);
-         } catch (error) {
-            console.error('Failed to fetch settings:', error);
-         }
-      };
-      fetchSettings();
-   }, []);
   useEffect(() => {
     let ticking = false;
 

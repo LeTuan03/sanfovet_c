@@ -1,5 +1,6 @@
 import { Metadata } from 'next';
 import ContactContent from './ContactContent';
+import { settingService } from '@/services';
 
 export const metadata: Metadata = {
   title: "Liên Hệ - BIOTECH-VET | Hỗ Trợ Kỹ Thuật 24/7",
@@ -20,6 +21,7 @@ export const metadata: Metadata = {
   },
 };
 
-export default function Page() {
-  return <ContactContent />;
+export default async function Page() {
+  const settings = (await settingService.get()) as any;
+  return <ContactContent settings={settings} />;
 }

@@ -1,7 +1,6 @@
-import React from 'react';
 import Link from 'next/link';
 import { notFound } from 'next/navigation';
-import { jobService, productService, articleService } from '@/services';
+import { jobService, productService, articleService, settingService } from '@/services';
 import { ProductSummary, ArticleSummary } from '@/types';
 import { ChevronRight, ArrowLeft, MapPin, Calendar, Mail, Phone, Briefcase, CheckCircle, Gift, Send } from 'lucide-react';
 
@@ -10,6 +9,7 @@ export default async function JobDetailPage({ params }: Readonly<{ params: Promi
   const job = await jobService.getBySlug(slug);
   const products = await productService.getAllSummary();
   const articles = await articleService.getAllSummary();
+  const settings = (await settingService.get()) as any;
 
   if (!job) {
     notFound();
@@ -17,21 +17,6 @@ export default async function JobDetailPage({ params }: Readonly<{ params: Promi
 
   const featuredProducts = products.filter((p: ProductSummary) => p.featured).slice(0, 5);
   const latestNews = articles.slice(0, 4);
-
-   const [settings, setSettings] = React.useState<any>(null);
-
-   React.useEffect(() => {
-      const fetchSettings = async () => {
-         try {
-            const res = await fetch('/api/data/settings');
-            const data = await res.json();
-            setSettings(data);
-         } catch (error) {
-            console.error('Failed to fetch settings:', error);
-         }
-      };
-      fetchSettings();
-   }, []);
 
   return (
     <div className="bg-white min-h-screen">

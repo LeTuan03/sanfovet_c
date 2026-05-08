@@ -4,28 +4,13 @@ import React from 'react';
 import { Phone, Mail, MapPin, Send, MessageSquare } from 'lucide-react';
 import { FacebookOutlined, YoutubeOutlined } from '@ant-design/icons';
 
-export default function ContactContent() {
+export default function ContactContent({ settings }: { settings: any }) {
    const [formData, setFormData] = React.useState({
       fullName: '',
       phoneNumber: '',
       emailAddress: '',
       messageBox: '',
    });
-
-   const [settings, setSettings] = React.useState<any>(null);
-
-   React.useEffect(() => {
-      const fetchSettings = async () => {
-         try {
-            const res = await fetch('/api/data/settings');
-            const data = await res.json();
-            setSettings(data);
-         } catch (error) {
-            console.error('Failed to fetch settings:', error);
-         }
-      };
-      fetchSettings();
-   }, []);
 
    const handleInputChange = (e: React.ChangeEvent<HTMLInputElement | HTMLTextAreaElement>) => {
       const { name, value } = e.target;
