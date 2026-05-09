@@ -16,6 +16,7 @@ import {
   UserOutlined,
   LogoutOutlined,
   BellOutlined,
+  InfoCircleOutlined,
 } from '@ant-design/icons';
 import { Button, Layout, Menu, theme, ConfigProvider, Avatar, Dropdown, Space, Badge, MenuProps, App } from 'antd';
 import viVN from 'antd/locale/vi_VN';
@@ -127,6 +128,11 @@ export default function AdminLayout({
           key: '/admin/settings',
           icon: <SettingOutlined />,
           label: 'Thông tin chung',
+        },
+        {
+          key: '/admin/about',
+          icon: <InfoCircleOutlined />,
+          label: 'Trang Giới thiệu',
         },
         // {
         //   key: '/admin/users',

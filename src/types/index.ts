@@ -71,6 +71,45 @@ export interface NavMenu {
   isButton?: boolean | null;
 }
 
+export interface AboutPageContent {
+  gioiThieu?: {
+    title?: string;
+    paragraph1?: string;
+    paragraph2?: string;
+    stat1Number?: string;
+    stat1Label?: string;
+    stat2Number?: string;
+    stat2Label?: string;
+  };
+  lichSu?: {
+    title?: string;
+    intro?: string;
+    timeline?: { year: string; text: string }[];
+  };
+  tamNhin?: {
+    visionTitle?: string;
+    visionText?: string;
+    missionTitle?: string;
+    missionText?: string;
+    quoteText?: string;
+    quoteAuthor?: string;
+    quoteRole?: string;
+  };
+  coSo?: {
+    title?: string;
+    intro?: string;
+    cardTitle?: string;
+    cardText?: string;
+    stats?: { number: string; label: string }[];
+  };
+  coCau?: {
+    title?: string;
+    intro?: string;
+    roles?: string[];
+    quoteText?: string;
+  };
+}
+
 export interface Setting {
   hotline1?: string | null;
   hotline2?: string | null;
@@ -78,6 +117,7 @@ export interface Setting {
   address?: string | null;
   intro_slogan?: string | null;
   social?: any;
+  aboutPage?: AboutPageContent;
 }
 
 export interface AnimalTag {

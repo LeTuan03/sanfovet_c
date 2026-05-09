@@ -6,6 +6,7 @@ import { useSearchParams } from 'next/navigation';
 import { motion, AnimatePresence, Variants } from 'framer-motion';
 import { ChevronRight, Building2, History, Target, Award, Heart, Factory, Users } from 'lucide-react';
 import Sidebar from '@/components/shared/Sidebar';
+import { aboutDefaults, mergeAbout } from './aboutDefaults';
 
 const tabs = [
   { id: 'lich-su', label: 'Lịch sử', icon: <History size={18} /> },
@@ -19,12 +20,26 @@ export default function AboutContent() {
   const searchParams = useSearchParams();
   const tabParam = searchParams.get('tab');
   const [activeTab, setActiveTab] = useState('lich-su');
+  const [content, setContent] = useState(aboutDefaults);
 
   useEffect(() => {
     if (tabParam && tabs.find(t => t.id === tabParam)) {
       setActiveTab(tabParam);
     }
   }, [tabParam]);
+
+  useEffect(() => {
+    let cancelled = false;
+    fetch('/api/data/settings')
+      .then(res => res.ok ? res.json() : null)
+      .then(data => {
+        if (!cancelled && data) {
+          setContent(mergeAbout(data?.aboutPage));
+        }
+      })
+      .catch(() => {});
+    return () => { cancelled = true; };
+  }, []);
 
   const tabVariants: Variants = {
     hidden: { opacity: 0, y: 20 },
@@ -109,22 +124,22 @@ export default function AboutContent() {
                     <div className="flex flex-col lg:flex-row gap-12 lg:gap-16 items-center">
                       <div className="flex-1 space-y-8">
                         <div className="border-l-4 border-primary pl-6">
-                           <h2 className="text-3xl lg:text-4xl font-black text-biotechvet-dark uppercase tracking-tight">Tổng quan về BIOTECH-VET</h2>
-                           <p className="text-gray-500 font-medium leading-relaxed mt-6 text-lg">
-                             <strong className="text-biotechvet-dark">BIOTECH-VET</strong> là thương hiệu thuốc thú y thuộc Công Ty CP Công Nghệ Sinh Học Thú Y. Với hơn 20 năm phát triển, chúng tôi tự hào mang đến các giải pháp dược phẩm chất lượng cao, ứng dụng công nghệ hiện đại từ Hoa Kỳ.
+                           <h2 className="text-3xl lg:text-4xl font-black text-biotechvet-dark uppercase tracking-tight">{content.gioiThieu.title}</h2>
+                           <p className="text-gray-500 font-medium leading-relaxed mt-6 text-lg whitespace-pre-line">
+                             {content.gioiThieu.paragraph1}
                            </p>
-                           <p className="text-gray-500 font-medium leading-relaxed mt-4 text-lg">
-                             Chúng tôi hướng đến việc liên tục đổi mới, cải tiến chất lượng và dịch vụ, đáp ứng nhu cầu ngày càng cao của ngành chăn nuôi trong và ngoài nước.
+                           <p className="text-gray-500 font-medium leading-relaxed mt-4 text-lg whitespace-pre-line">
+                             {content.gioiThieu.paragraph2}
                            </p>
                         </div>
                         <div className="flex gap-4 sm:gap-6">
                           <div className="flex-1 p-6 bg-white rounded-[24px] border border-gray-100 shadow-sm hover:shadow-md transition-shadow">
-                             <div className="text-primary font-black text-4xl lg:text-5xl mb-2">200+</div>
-                             <div className="text-xs uppercase font-bold text-gray-400 tracking-widest">Sản phẩm</div>
+                             <div className="text-primary font-black text-4xl lg:text-5xl mb-2">{content.gioiThieu.stat1Number}</div>
+                             <div className="text-xs uppercase font-bold text-gray-400 tracking-widest">{content.gioiThieu.stat1Label}</div>
                           </div>
                           <div className="flex-1 p-6 bg-white rounded-[24px] border border-gray-100 shadow-sm hover:shadow-md transition-shadow">
-                             <div className="text-primary font-black text-4xl lg:text-5xl mb-2">63</div>
-                             <div className="text-xs uppercase font-bold text-gray-400 tracking-widest">Tỉnh thành</div>
+                             <div className="text-primary font-black text-4xl lg:text-5xl mb-2">{content.gioiThieu.stat2Number}</div>
+                             <div className="text-xs uppercase font-bold text-gray-400 tracking-widest">{content.gioiThieu.stat2Label}</div>
                           </div>
                         </div>
                       </div>
@@ -141,29 +156,24 @@ export default function AboutContent() {
                 {activeTab === 'lich-su' && (
                   <motion.div key="lich-su" variants={tabVariants} initial="hidden" animate="visible" exit="exit" className="space-y-10">
                     <div className="border-l-4 border-primary pl-6 mb-12">
-                       <h2 className="text-3xl lg:text-4xl font-black text-biotechvet-dark uppercase tracking-tight">Lịch sử hình thành</h2>
-                       <p className="text-gray-500 font-medium leading-relaxed mt-4 text-lg">
-                         Hành trình đầy tự hào của biotechvet trong suốt hơn hai thập kỷ cống hiến cho ngành chăn nuôi Việt Nam.
+                       <h2 className="text-3xl lg:text-4xl font-black text-biotechvet-dark uppercase tracking-tight">{content.lichSu.title}</h2>
+                       <p className="text-gray-500 font-medium leading-relaxed mt-4 text-lg whitespace-pre-line">
+                         {content.lichSu.intro}
                        </p>
                     </div>
                     <div className="relative pl-8 md:pl-0">
                       <div className="hidden md:block absolute left-1/2 top-0 bottom-0 w-1 bg-gray-100 -translate-x-1/2 rounded-full"></div>
                       <div className="md:hidden absolute left-[15px] top-0 bottom-0 w-1 bg-gray-100 rounded-full"></div>
                       <div className="space-y-12">
-                         {[
-                           { year: "2002", text: "Công ty Cổ phần Công Nghệ Sinh Học Thú Y chính thức được thành lập, đặt nền móng cho sự ra đời của thương hiệu BIOTECH-VET." },
-                           { year: "2010", text: "Khánh thành nhà máy sản xuất thuốc thú y đầu tiên đạt chuẩn GMP-WHO, khẳng định vị thế về chất lượng trên thị trường trong nước." },
-                           { year: "2018", text: "Mở rộng hệ sinh thái Sanford Pharma USA và Viaprotic, ứng dụng công nghệ hiện đại từ Hoa Kỳ vào sản xuất chuyên sâu." },
-                           { year: "Hiện tại", text: "Trở thành tập đoàn dược phẩm thú y hàng đầu Việt Nam với mạng lưới hơn 1.000 đại lý và xuất khẩu sang nhiều thị trường quốc tế." }
-                         ].map((item, index) => (
-                           <div key={item?.text} className={`relative flex flex-col md:flex-row items-center gap-8 ${index % 2 === 0 ? 'md:flex-row-reverse' : ''}`}>
+                         {content.lichSu.timeline.map((item, index) => (
+                           <div key={`${item.year}-${index}`} className={`relative flex flex-col md:flex-row items-center gap-8 ${index % 2 === 0 ? 'md:flex-row-reverse' : ''}`}>
                               <div className="absolute left-[-33px] md:left-1/2 w-8 h-8 rounded-full bg-primary border-4 border-white shadow-md md:-translate-x-1/2 z-10 flex items-center justify-center">
                                  <div className="w-2 h-2 bg-white rounded-full"></div>
                               </div>
                               <div className={`w-full md:w-1/2 ${index % 2 === 0 ? 'md:pl-12' : 'md:pr-12 md:text-right'}`}>
                                  <div className="bg-white p-8 md:p-10 rounded-[32px] border border-gray-100 shadow-sm hover:shadow-xl transition-shadow duration-500 group">
                                      <div className="text-4xl font-black text-primary-dark mb-4 inline-block">{item.year}</div>
-                                     <p className="text-gray-600 font-medium leading-relaxed group-hover:text-biotechvet-dark transition-colors">{item.text}</p>
+                                     <p className="text-gray-600 font-medium leading-relaxed group-hover:text-biotechvet-dark transition-colors whitespace-pre-line">{item.text}</p>
                                  </div>
                               </div>
                            </div>
@@ -186,10 +196,10 @@ export default function AboutContent() {
                                <Target size={32} />
                             </div>
                             <h4 className="text-2xl font-black uppercase tracking-tight text-white mb-4">
-                              Tầm nhìn chiến lược
+                              {content.tamNhin.visionTitle}
                             </h4>
-                            <p className="text-lg text-gray-300 font-medium leading-relaxed">
-                              Trở thành Tập đoàn dược phẩm với hệ sinh thái công nghệ sinh học và dược phẩm toàn diện, mang lại hiệu quả thiết thực và bền vững trong chăn nuôi, vươn tầm quốc tế.
+                            <p className="text-lg text-gray-300 font-medium leading-relaxed whitespace-pre-line">
+                              {content.tamNhin.visionText}
                             </p>
                           </div>
                         </div>
@@ -199,10 +209,10 @@ export default function AboutContent() {
                                <Heart size={32} />
                             </div>
                             <h4 className="text-2xl font-black uppercase tracking-tight text-white mb-4">
-                              Sứ mệnh cao cả
+                              {content.tamNhin.missionTitle}
                             </h4>
-                            <p className="text-lg text-gray-300 font-medium leading-relaxed">
-                              Bảo vệ sức khỏe cho con người và vật nuôi thông qua các sản phẩm hữu hiệu; góp phần bảo vệ môi trường và phát triển cộng đồng chăn nuôi bền vững.
+                            <p className="text-lg text-gray-300 font-medium leading-relaxed whitespace-pre-line">
+                              {content.tamNhin.missionText}
                             </p>
                           </div>
                         </div>
@@ -212,14 +222,14 @@ export default function AboutContent() {
                     <div className="grid grid-cols-1 md:grid-cols-2 gap-8">
                       <div className="p-10 bg-white rounded-[32px] border border-gray-100 shadow-sm relative overflow-hidden group hover:border-primary/30 transition-colors">
                          <QuoteIcon className="absolute right-6 bottom-6 w-24 h-24 text-gray-50 opacity-50 group-hover:text-primary/5 transition-colors" />
-                         <p className="text-xl font-bold text-biotechvet-dark leading-relaxed italic relative z-10">
-                           "Chất lượng là danh dự, sự hài lòng của bà con là thước đo thành công của biotechvet."
+                         <p className="text-xl font-bold text-biotechvet-dark leading-relaxed italic relative z-10 whitespace-pre-line">
+                           {content.tamNhin.quoteText}
                          </p>
                          <div className="mt-6 flex items-center gap-4">
                             <div className="w-12 h-12 bg-gray-100 rounded-full flex items-center justify-center font-bold text-gray-400">CEO</div>
                             <div>
-                               <div className="font-black text-biotechvet-dark">Ban Lãnh Đạo</div>
-                               <div className="text-xs uppercase font-bold text-gray-400">biotechvet Group</div>
+                               <div className="font-black text-biotechvet-dark">{content.tamNhin.quoteAuthor}</div>
+                               <div className="text-xs uppercase font-bold text-gray-400">{content.tamNhin.quoteRole}</div>
                             </div>
                          </div>
                       </div>
@@ -237,9 +247,9 @@ export default function AboutContent() {
                 {activeTab === 'co-so' && (
                   <motion.div key="co-so" variants={tabVariants} initial="hidden" animate="visible" exit="exit" className="space-y-10">
                     <div className="border-l-4 border-primary pl-6">
-                       <h2 className="text-3xl lg:text-4xl font-black text-biotechvet-dark uppercase tracking-tight">Cơ sở vật chất</h2>
-                       <p className="text-gray-500 font-medium leading-relaxed mt-4 text-lg max-w-3xl">
-                         BIOTECH-VET đầu tư hệ thống trang thiết bị máy móc tiên tiến, dây chuyền sản xuất khép kín vận hành theo tiêu chuẩn GMP-WHO nghiêm ngặt nhất.
+                       <h2 className="text-3xl lg:text-4xl font-black text-biotechvet-dark uppercase tracking-tight">{content.coSo.title}</h2>
+                       <p className="text-gray-500 font-medium leading-relaxed mt-4 text-lg max-w-3xl whitespace-pre-line">
+                         {content.coSo.intro}
                        </p>
                     </div>
 
@@ -248,30 +258,20 @@ export default function AboutContent() {
                         <img src="/images/coso.webp" className="absolute inset-0 w-full h-full object-cover group-hover:scale-110 transition-transform duration-1000" alt="Nhà máy GMP" />
                         <div className="absolute inset-0 bg-gradient-to-t from-biotechvet-dark via-biotechvet-dark/40 to-transparent flex flex-col justify-end p-8 text-white">
                           <span className="w-12 h-1 bg-primary mb-4 rounded-full"></span>
-                          <h4 className="text-2xl font-black uppercase tracking-tight mb-2">Nhà máy</h4>
-                          <p className="text-sm text-gray-300 font-medium">Trung tâm nghiên cứu và kiểm soát chất lượng đầu ra khắt khe.</p>
+                          <h4 className="text-2xl font-black uppercase tracking-tight mb-2">{content.coSo.cardTitle}</h4>
+                          <p className="text-sm text-gray-300 font-medium whitespace-pre-line">{content.coSo.cardText}</p>
                         </div>
                       </div>
                     </div>
 
                     <div className="bg-white p-8 lg:p-12 rounded-[40px] border border-gray-100 shadow-sm">
                       <div className="grid grid-cols-2 md:grid-cols-4 gap-8 lg:gap-12 divide-x divide-gray-100">
-                         <div className="text-center px-4">
-                            <div className="text-5xl font-black text-primary-dark mb-3">03</div>
-                            <div className="text-xs uppercase font-bold text-gray-400 tracking-widest">Nhà máy lớn</div>
-                         </div>
-                         <div className="text-center px-4">
-                            <div className="text-5xl font-black text-transparent bg-clip-text bg-gradient-to-br from-biotechvet-dark to-slate-600 mb-3">10+</div>
-                            <div className="text-xs uppercase font-bold text-gray-400 tracking-widest">Dây chuyền</div>
-                         </div>
-                         <div className="text-center px-4">
-                            <div className="text-5xl font-black text-primary-dark mb-3">5k</div>
-                            <div className="text-xs uppercase font-bold text-gray-400 tracking-widest">Diện tích m²</div>
-                         </div>
-                         <div className="text-center px-4">
-                            <div className="text-5xl font-black text-transparent bg-clip-text bg-gradient-to-br from-biotechvet-dark to-slate-600 mb-3">Top</div>
-                            <div className="text-xs uppercase font-bold text-gray-400 tracking-widest">Thương hiệu</div>
-                         </div>
+                         {content.coSo.stats.map((stat, i) => (
+                           <div key={`${stat.label}-${i}`} className="text-center px-4">
+                              <div className={`text-5xl font-black mb-3 ${i % 2 === 0 ? 'text-primary-dark' : 'text-transparent bg-clip-text bg-gradient-to-br from-biotechvet-dark to-slate-600'}`}>{stat.number}</div>
+                              <div className="text-xs uppercase font-bold text-gray-400 tracking-widest">{stat.label}</div>
+                           </div>
+                         ))}
                       </div>
                     </div>
                   </motion.div>
@@ -280,27 +280,28 @@ export default function AboutContent() {
                 {activeTab === 'co-cau' && (
                   <motion.div key="co-cau" variants={tabVariants} initial="hidden" animate="visible" exit="exit" className="space-y-10">
                     <div className="border-l-4 border-primary pl-6 mb-12">
-                       <h2 className="text-3xl lg:text-4xl font-black text-biotechvet-dark uppercase tracking-tight">Cơ cấu tổ chức</h2>
-                       <p className="text-gray-500 font-medium leading-relaxed mt-4 text-lg">
-                         Hệ thống quản trị tinh gọn với đội ngũ nhân sự chất lượng cao, tận tâm và chuyên nghiệp.
+                       <h2 className="text-3xl lg:text-4xl font-black text-biotechvet-dark uppercase tracking-tight">{content.coCau.title}</h2>
+                       <p className="text-gray-500 font-medium leading-relaxed mt-4 text-lg whitespace-pre-line">
+                         {content.coCau.intro}
                        </p>
                     </div>
 
                     <div className="space-y-6 max-w-3xl mx-auto py-8">
-                      {[
-                        { role: "Hội đồng Quản trị", color: "bg-gradient-to-r from-biotechvet-dark to-slate-800 text-white shadow-xl" },
-                        { role: "Tổng Giám đốc", color: "bg-gradient-to-r from-primary to-primary-dark text-white shadow-lg" },
-                        { role: "Khối Sản xuất - Kỹ thuật", color: "bg-white text-biotechvet-dark border border-gray-100 shadow-sm" },
-                        { role: "Khối Kinh doanh - Marketing", color: "bg-white text-biotechvet-dark border border-gray-100 shadow-sm" },
-                        { role: "Khối Hành chính - Nhân sự", color: "bg-white text-biotechvet-dark border border-gray-100 shadow-sm" }
-                      ].map((node, i) => (
-                        <div key={node.role} className="relative">
-                          {i > 1 && <div className="absolute left-1/2 -top-8 w-0.5 h-8 bg-gray-200 -translate-x-1/2"></div>}
-                          <div className={`p-6 md:p-8 rounded-[24px] text-center font-black uppercase tracking-widest text-sm md:text-base mx-auto max-w-sm md:max-w-md ${node.color} hover:-translate-y-1 transition-transform duration-300`}>
-                            {node.role}
+                      {content.coCau.roles.map((role, i) => {
+                        const colors = [
+                          "bg-gradient-to-r from-biotechvet-dark to-slate-800 text-white shadow-xl",
+                          "bg-gradient-to-r from-primary to-primary-dark text-white shadow-lg",
+                        ];
+                        const color = colors[i] ?? "bg-white text-biotechvet-dark border border-gray-100 shadow-sm";
+                        return (
+                          <div key={`${role}-${i}`} className="relative">
+                            {i > 1 && <div className="absolute left-1/2 -top-8 w-0.5 h-8 bg-gray-200 -translate-x-1/2"></div>}
+                            <div className={`p-6 md:p-8 rounded-[24px] text-center font-black uppercase tracking-widest text-sm md:text-base mx-auto max-w-sm md:max-w-md ${color} hover:-translate-y-1 transition-transform duration-300`}>
+                              {role}
+                            </div>
                           </div>
-                        </div>
-                      ))}
+                        );
+                      })}
                     </div>
 
                     <div className="mt-16 p-10 md:p-16 bg-gradient-to-br from-primary/5 to-transparent rounded-[40px] flex flex-col md:flex-row items-center gap-10 border border-primary/10">
@@ -309,8 +310,8 @@ export default function AboutContent() {
                       </div>
                       <div className="relative">
                          <QuoteIcon className="absolute -left-6 -top-6 w-12 h-12 text-primary/10" />
-                         <p className="text-xl text-gray-600 font-medium italic leading-relaxed relative z-10">
-                           "Chúng tôi tin rằng con người là tài sản quý giá nhất. Tại biotechvet, mỗi cá nhân đều là một mắt xích quan trọng trong hành trình bảo vệ sự phát triển rực rỡ của ngành chăn nuôi."
+                         <p className="text-xl text-gray-600 font-medium italic leading-relaxed relative z-10 whitespace-pre-line">
+                           {content.coCau.quoteText}
                          </p>
                       </div>
                     </div>
