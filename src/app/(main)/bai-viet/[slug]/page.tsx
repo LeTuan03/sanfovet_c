@@ -16,6 +16,7 @@ function processContentWithHeadings(html: string): { processedHtml: string, head
   let processedHtml = html;
   
   if (processedHtml) {
+    // Process h2 headings
     processedHtml = processedHtml.replaceAll(/<h2([^>]*)>(.*?)<\/h2>/gi, (match, attrs, innerHtml) => {
       const text = innerHtml.replaceAll(/<[^>]*>/g, '').trim();
       const id = text.toLowerCase().replaceAll(/[^a-z0-9\u00C0-\u024F]+/gi, '-').replaceAll(/^-|-$/g, '');
@@ -23,6 +24,20 @@ function processContentWithHeadings(html: string): { processedHtml: string, head
       
       if (!attrs.includes('id=')) {
         return `<h2${attrs} id="${id}">${innerHtml}</h2>`;
+      }
+      return match;
+    });
+
+    // Process li elements in ul
+    processedHtml = processedHtml.replaceAll(/<li([^>]*)>(.*?)<\/li>/gi, (match, attrs, innerHtml) => {
+      const text = innerHtml.replaceAll(/<[^>]*>/g, '').trim();
+      if (text) { // Only process li with text content
+        const id = text.toLowerCase().replaceAll(/[^a-z0-9\u00C0-\u024F]+/gi, '-').replaceAll(/^-|-$/g, '');
+        headings.push({ id, text });
+        
+        if (!attrs.includes('id=')) {
+          return `<li${attrs} id="${id}">${innerHtml}</li>`;
+        }
       }
       return match;
     });

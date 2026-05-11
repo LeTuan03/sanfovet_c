@@ -123,15 +123,15 @@ export default function CKEditorWrapper({ value, onChange, placeholder }: CKEdit
             const cmd = editor.commands.get('indent');
             if (cmd && cmd.isEnabled) {
               editor.execute('indent');
-              cancel();
             }
+            cancel();
           });
           editor.keystrokes.set('Shift+Tab', (_evt: any, cancel: () => void) => {
             const cmd = editor.commands.get('outdent');
             if (cmd && cmd.isEnabled) {
               editor.execute('outdent');
-              cancel();
             }
+            cancel();
           });
         }}
         onChange={(event: any, editor: any) => {
