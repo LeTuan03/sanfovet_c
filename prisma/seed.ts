@@ -242,6 +242,11 @@ async function main() {
     console.log(`  ✅ ${catalogues.length} catalogues seeded\n`);
   }
 
+  const tables = ['products', 'categories', 'articles', 'jobs', 'banners', 'nav_menus', 'animal_tags', 'media_images', 'media_videos', 'catalogues'];
+  for (const table of tables) {
+    await prisma.$executeRawUnsafe(`SELECT setval('${table}_id_seq', (SELECT MAX(id) FROM "${table}"))`);
+  }
+
   console.log('\n🎉 Seed completed!');
 }
 
