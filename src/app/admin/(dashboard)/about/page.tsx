@@ -106,10 +106,7 @@ export default function AdminAboutPage() {
                   </span>
                 ),
                 children: (
-                  <div className="p-8 max-w-3xl">
-                    <h3 className="text-xl font-black mb-6 border-b pb-2 uppercase tracking-tight italic text-primary">
-                      Tab Lịch sử
-                    </h3>
+                  <div className="p-8">
                     <Form.Item
                       name={['aboutPage', 'lichSu', 'title']}
                       label="Tiêu đề"
@@ -187,10 +184,7 @@ export default function AdminAboutPage() {
                   </span>
                 ),
                 children: (
-                  <div className="p-8 max-w-3xl">
-                    <h3 className="text-xl font-black mb-6 border-b pb-2 uppercase tracking-tight italic text-primary">
-                      Tab Giới thiệu
-                    </h3>
+                  <div className="p-8">
                     <Form.Item
                       name={['aboutPage', 'gioiThieu', 'title']}
                       label="Tiêu đề"
@@ -247,10 +241,7 @@ export default function AdminAboutPage() {
                   </span>
                 ),
                 children: (
-                  <div className="p-8 max-w-3xl">
-                    <h3 className="text-xl font-black mb-6 border-b pb-2 uppercase tracking-tight italic text-primary">
-                      Tầm nhìn – Sứ mệnh
-                    </h3>
+                  <div className="p-8">
                     <Form.Item
                       name={['aboutPage', 'tamNhin', 'visionTitle']}
                       label="Tiêu đề Tầm nhìn"
@@ -307,15 +298,12 @@ export default function AdminAboutPage() {
                   </span>
                 ),
                 children: (
-                  <div className="p-8 max-w-3xl">
-                    <h3 className="text-xl font-black mb-6 border-b pb-2 uppercase tracking-tight italic text-primary">
-                      Tab Thành tựu
-                    </h3>
+                  <div className="p-8">
                     <Form.Item
                       name={['aboutPage', 'thanhTuu', 'title']}
                       label="Tiêu đề"
                     >
-                      <Input size="large" className={inputCls} />
+                      <TextArea rows={3} className={inputCls} />
                     </Form.Item>
 
                     <div className="mt-4">
@@ -369,10 +357,7 @@ export default function AdminAboutPage() {
                   </span>
                 ),
                 children: (
-                  <div className="p-8 max-w-3xl">
-                    <h3 className="text-xl font-black mb-6 border-b pb-2 uppercase tracking-tight italic text-primary">
-                      Tab Cơ sở
-                    </h3>
+                  <div className="p-8">
                     <Form.Item
                       name={['aboutPage', 'coSo', 'title']}
                       label="Tiêu đề"
@@ -460,10 +445,7 @@ export default function AdminAboutPage() {
                   </span>
                 ),
                 children: (
-                  <div className="p-8 max-w-3xl">
-                    <h3 className="text-xl font-black mb-6 border-b pb-2 uppercase tracking-tight italic text-primary">
-                      Tab Cơ cấu tổ chức
-                    </h3>
+                  <div className="p-8">
                     <Form.Item
                       name={['aboutPage', 'coCau', 'title']}
                       label="Tiêu đề"

@@ -248,7 +248,7 @@ export default function AboutContent() {
                 {activeTab === 'thanh-tuu' && (
                   <motion.div key="thanh-tuu" variants={tabVariants} initial="hidden" animate="visible" exit="exit" className="space-y-10">
                     <div className="border-l-4 border-primary pl-6">
-                       <p className="text-lg font-black text-biotechvet-dark tracking-tight">{content.thanhTuu.title}</p>
+                       <p className="text-lg font-black text-biotechvet-dark tracking-tight whitespace-pre-line">{content.thanhTuu.title}</p>
                     </div>
 
                     <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
