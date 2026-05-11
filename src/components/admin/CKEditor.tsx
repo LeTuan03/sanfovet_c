@@ -119,19 +119,33 @@ export default function CKEditorWrapper({ value, onChange, placeholder }: CKEdit
           language: 'vi',
         }}
         onReady={(editor: any) => {
-          editor.keystrokes.set('Tab', (_evt: any, cancel: () => void) => {
-            const cmd = editor.commands.get('indent');
-            if (cmd && cmd.isEnabled) {
+          // Handle Tab key
+          editor.keystrokes.set('Tab', (data: any, stop: () => void) => {
+            const indent = editor.commands.get('indent');
+            
+            if (indent && indent.isEnabled) {
               editor.execute('indent');
+            } else {
+              // Fallback: Insert 4 spaces if indent command is not available (e.g. not in a list)
+              editor.model.change((writer: any) => {
+                editor.model.insertContent(writer.createText('    '));
+              });
             }
-            cancel();
+            
+            // Prevent default browser behavior (moving focus)
+            stop();
           });
-          editor.keystrokes.set('Shift+Tab', (_evt: any, cancel: () => void) => {
-            const cmd = editor.commands.get('outdent');
-            if (cmd && cmd.isEnabled) {
+
+          // Handle Shift+Tab key
+          editor.keystrokes.set('Shift+Tab', (data: any, stop: () => void) => {
+            const outdent = editor.commands.get('outdent');
+            
+            if (outdent && outdent.isEnabled) {
               editor.execute('outdent');
             }
-            cancel();
+            
+            // Prevent default browser behavior
+            stop();
           });
         }}
         onChange={(event: any, editor: any) => {
