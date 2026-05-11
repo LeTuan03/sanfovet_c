@@ -4,7 +4,7 @@ import React, { useState, useEffect } from 'react';
 import Link from 'next/link';
 import { useSearchParams } from 'next/navigation';
 import { motion, AnimatePresence, Variants } from 'framer-motion';
-import { ChevronRight, Building2, History, Target, Award, Heart, Factory, Users } from 'lucide-react';
+import { ChevronRight, Building2, History, Target, Award, Heart, Factory, Users, Trophy } from 'lucide-react';
 import Sidebar from '@/components/shared/Sidebar';
 import { aboutDefaults, mergeAbout } from './aboutDefaults';
 
@@ -12,6 +12,7 @@ const tabs = [
   { id: 'lich-su', label: 'Lịch sử', icon: <History size={18} /> },
   { id: 'gioi-thieu', label: 'Giới thiệu', icon: <Building2 size={18} /> },
   { id: 'tam-nhin', label: 'Tầm nhìn – Sứ mệnh', icon: <Target size={18} /> },
+  { id: 'thanh-tuu', label: 'Thành tựu', icon: <Award size={18} /> },
   { id: 'co-so', label: 'Cơ sở', icon: <Factory size={18} /> },
   { id: 'co-cau', label: 'Cơ cấu', icon: <Users size={18} /> },
 ];
@@ -244,6 +245,22 @@ export default function AboutContent() {
                   </motion.div>
                 )}
 
+                {activeTab === 'thanh-tuu' && (
+                  <motion.div key="thanh-tuu" variants={tabVariants} initial="hidden" animate="visible" exit="exit" className="space-y-10">
+                    <div className="border-l-4 border-primary pl-6">
+                       <p className="text-lg font-black text-biotechvet-dark tracking-tight">{content.thanhTuu.title}</p>
+                    </div>
+
+                    <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
+                       {content.thanhTuu.images.map((image, i) => (
+                         <div key={`${image}-${i}`} className="group rounded-[32px] overflow-hidden shadow-lg relative aspect-square">
+                           <img src={image} className="absolute inset-0 w-full h-full object-cover group-hover:scale-110 transition-transform duration-700" alt={`Thành tựu ${i + 1}`} />
+                           <div className="absolute inset-0 bg-gradient-to-t from-biotechvet-dark/60 to-transparent opacity-0 group-hover:opacity-100 transition-opacity duration-500"></div>
+                         </div>
+                       ))}
+                    </div>
+                  </motion.div>
+                )}
                 {activeTab === 'co-so' && (
                   <motion.div key="co-so" variants={tabVariants} initial="hidden" animate="visible" exit="exit" className="space-y-10">
                     <div className="border-l-4 border-primary pl-6">

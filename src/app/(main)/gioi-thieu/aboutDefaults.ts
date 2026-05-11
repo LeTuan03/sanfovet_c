@@ -37,6 +37,10 @@ export type AboutContentResolved = {
     roles: string[];
     quoteText: string;
   };
+  thanhTuu: {
+    title: string;
+    images: string[];
+  };
 };
 
 export const aboutDefaults: AboutContentResolved = {
@@ -113,6 +117,10 @@ export const aboutDefaults: AboutContentResolved = {
     quoteText:
       '"Chúng tôi tin rằng con người là tài sản quý giá nhất. Tại biotechvet, mỗi cá nhân đều là một mắt xích quan trọng trong hành trình bảo vệ sự phát triển rực rỡ của ngành chăn nuôi."',
   },
+  thanhTuu: {
+    title: 'Thành tựu nổi bật',
+    images: [],
+  },
 };
 
 export function mergeAbout(data?: AboutPageContent | null): AboutContentResolved {
@@ -144,5 +152,13 @@ export function mergeAbout(data?: AboutPageContent | null): AboutContentResolved
           ? d.coCau.roles
           : aboutDefaults.coCau.roles,
     } as AboutContentResolved['coCau'],
+    thanhTuu: {
+      ...aboutDefaults.thanhTuu,
+      ...(d.thanhTuu || {}),
+      images:
+        d.thanhTuu?.images && d.thanhTuu.images.length > 0
+          ? d.thanhTuu.images
+          : aboutDefaults.thanhTuu.images,
+    } as AboutContentResolved['thanhTuu'],
   };
 }

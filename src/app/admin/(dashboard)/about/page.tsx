@@ -19,10 +19,12 @@ import {
   TeamOutlined,
   PlusOutlined,
   DeleteOutlined,
+  TrophyOutlined,
 } from '@ant-design/icons';
 import { adminFetch } from '@/lib/api';
 import { useAdminLoading } from '@/lib/AdminLoadingContext';
 import { aboutDefaults, mergeAbout } from '@/app/(main)/gioi-thieu/aboutDefaults';
+import ImageUpload from '@/components/admin/ImageUpload';
 
 const { TextArea } = Input;
 
@@ -293,6 +295,68 @@ export default function AdminAboutPage() {
                         <Input size="large" className={inputCls} />
                       </Form.Item>
                     </div>
+                    <SaveButton />
+                  </div>
+                ),
+              },
+              {
+                key: 'thanh-tuu',
+                label: (
+                  <span className="flex items-center gap-2 font-bold">
+                    <TrophyOutlined /> Thành tựu
+                  </span>
+                ),
+                children: (
+                  <div className="p-8 max-w-3xl">
+                    <h3 className="text-xl font-black mb-6 border-b pb-2 uppercase tracking-tight italic text-primary">
+                      Tab Thành tựu
+                    </h3>
+                    <Form.Item
+                      name={['aboutPage', 'thanhTuu', 'title']}
+                      label="Tiêu đề"
+                    >
+                      <Input size="large" className={inputCls} />
+                    </Form.Item>
+
+                    <div className="mt-4">
+                      <div className="font-bold mb-3 uppercase text-xs tracking-widest text-gray-500">
+                        Danh sách ảnh thành tựu
+                      </div>
+                      <Form.List name={['aboutPage', 'thanhTuu', 'images']}>
+                        {(fields, { add, remove }) => (
+                          <Space direction="vertical" className="w-full" size="middle">
+                            {fields.map((field) => (
+                              <div
+                                key={field.key}
+                                className="p-4 border border-gray-100 rounded-2xl bg-gray-50/40 flex items-center gap-3"
+                              >
+                                <Form.Item
+                                  name={field.name}
+                                  className="!mb-0 flex-1"
+                                >
+                                  <ImageUpload />
+                                </Form.Item>
+                                <Button
+                                  danger
+                                  type="text"
+                                  icon={<DeleteOutlined />}
+                                  onClick={() => remove(field.name)}
+                                />
+                              </div>
+                            ))}
+                            <Button
+                              type="dashed"
+                              icon={<PlusOutlined />}
+                              onClick={() => add('')}
+                              className="rounded-xl"
+                            >
+                              Thêm ảnh
+                            </Button>
+                          </Space>
+                        )}
+                      </Form.List>
+                    </div>
+
                     <SaveButton />
                   </div>
                 ),

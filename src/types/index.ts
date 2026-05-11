@@ -108,6 +108,10 @@ export interface AboutPageContent {
     roles?: string[];
     quoteText?: string;
   };
+  thanhTuu?: {
+    title?: string;
+    images?: string[];
+  };
 }
 
 export interface Setting {
