@@ -246,25 +246,46 @@ export default function AboutContent() {
                 )}
 
                 {activeTab === 'thanh-tuu' && (
-                  <motion.div key="thanh-tuu" variants={tabVariants} initial="hidden" animate="visible" exit="exit" className="space-y-10">
-                    <div className="border-l-4 border-primary pl-6">
-                       <p className="text-gray-500 font-medium leading-relaxed mt-4 text-lg max-w-3xl whitespace-pre-line">{content.thanhTuu.title}</p>
-                    </div>
+                  <motion.div key="thanh-tuu" variants={tabVariants} initial="hidden" animate="visible" exit="exit">
+                    <div className="relative rounded-[32px] overflow-hidden bg-gray-100 px-6 py-12 lg:px-12 lg:py-16">
+                      <div className="absolute inset-0 bg-[url('/images/fireworks.png')] bg-cover bg-center opacity-30 pointer-events-none"></div>
 
-                    <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
-                       {content.thanhTuu.images.map((image, i) => (
-                         <div key={`${image.url}-${i}`} className="flex flex-col items-center gap-4">
-                           <div className="group rounded-[32px] overflow-hidden shadow-lg relative aspect-square w-full bg-gray-50">
-                             <img src={image.url} className="absolute inset-0 w-full h-full object-contain group-hover:scale-110 transition-transform duration-700" alt={image.title || `Thành tựu ${i + 1}`} />
-                             <div className="absolute inset-0 bg-gradient-to-t from-biotechvet-dark/60 to-transparent opacity-0 group-hover:opacity-100 transition-opacity duration-500"></div>
-                           </div>
-                           {image.title && (
-                             <p className="text-center text-base font-bold text-biotechvet-dark leading-snug whitespace-pre-line px-2">
-                               {image.title}
-                             </p>
-                           )}
-                         </div>
-                       ))}
+                      <div className="relative z-10 space-y-10">
+                        <div className="text-center max-w-4xl mx-auto">
+                          <h2 className="text-2xl lg:text-3xl font-black text-primary uppercase tracking-widest mb-6">
+                            {content.thanhTuu.heading}
+                          </h2>
+                          <p className="text-gray-600 font-medium leading-relaxed text-base lg:text-lg whitespace-pre-line">
+                            {content.thanhTuu.title}
+                          </p>
+                        </div>
+
+                        <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8 lg:gap-10">
+                          {content.thanhTuu.images.map((image, i) => (
+                            <div key={`${image.url}-${i}`} className="flex flex-col items-center gap-5">
+                              <div className="relative w-full aspect-square flex items-center justify-center">
+                                <img
+                                  src={image.url}
+                                  className="max-w-full max-h-full object-contain hover:scale-105 transition-transform duration-500 bg-transparent"
+                                  alt={image.title || `Thành tựu ${i + 1}`}
+                                />
+                              </div>
+                              <div className="text-center space-y-2">
+                                {image.subtitle && (
+                                  <p className="text-sm text-gray-500 font-medium">
+                                    {image.subtitle}
+                                  </p>
+                                )}
+                                {image.title && (
+                                  <p className="text-base lg:text-lg font-bold text-primary italic leading-snug whitespace-pre-line">
+                                    {image.title}
+                                  </p>
+                                )}
+                              </div>
+                            </div>
+                          ))}
+                        </div>
+                      </div>
                     </div>
                   </motion.div>
                 )}

@@ -39,7 +39,8 @@ export type AboutContentResolved = {
   };
   thanhTuu: {
     title: string;
-    images: { url: string; title: string }[];
+    heading: string;
+    images: { url: string; title: string; subtitle: string }[];
   };
 };
 
@@ -118,8 +119,26 @@ export const aboutDefaults: AboutContentResolved = {
       '"Chúng tôi tin rằng con người là tài sản quý giá nhất. Tại biotechvet, mỗi cá nhân đều là một mắt xích quan trọng trong hành trình bảo vệ sự phát triển rực rỡ của ngành chăn nuôi."',
   },
   thanhTuu: {
-    title: 'Thành tựu nổi bật',
-    images: [],
+    heading: 'Thành tựu',
+    title:
+      'Sau hơn 20 năm hình thành và phát triển, với tư duy sáng tạo, mạnh dạn đổi mới và nỗ lực không ngừng. Thương hiệu thuốc thú y BIOTECH-VET đã trở thành một trong những doanh nghiệp lớn hàng đầu trên thị trường Việt Nam, đóng góp tích cực vào sự phát triển của đất nước nói chung và ngành chăn nuôi – thú y nói riêng. Với những thành tựu nổi bật, thương hiệu thuốc thú y BIOTECH-VET đã nhận được những danh hiệu và giải thưởng cao quý',
+    images: [
+      {
+        url: '',
+        subtitle: 'Giải thưởng',
+        title: '"Doanh nghiệp Uy tín\n– Phát triển bền vững 2012"',
+      },
+      {
+        url: '',
+        subtitle: 'Giải thưởng',
+        title: '"Huy chương Vàng\nvì Sức khoẻ Cộng đồng 2015"',
+      },
+      {
+        url: '',
+        subtitle: 'Danh hiệu',
+        title: '"Thương hiệu Uy tín\nvì Sức khoẻ 2015"',
+      },
+    ],
   },
 };
 
@@ -159,8 +178,8 @@ export function mergeAbout(data?: AboutPageContent | null): AboutContentResolved
         d.thanhTuu?.images && d.thanhTuu.images.length > 0
           ? d.thanhTuu.images.map((item) =>
               typeof item === 'string'
-                ? { url: item, title: '' }
-                : { url: item?.url || '', title: item?.title || '' }
+                ? { url: item, title: '', subtitle: '' }
+                : { url: item?.url || '', title: item?.title || '', subtitle: item?.subtitle || '' }
             )
           : aboutDefaults.thanhTuu.images,
     } as AboutContentResolved['thanhTuu'],

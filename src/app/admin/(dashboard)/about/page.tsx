@@ -300,10 +300,16 @@ export default function AdminAboutPage() {
                 children: (
                   <div className="p-8">
                     <Form.Item
-                      name={['aboutPage', 'thanhTuu', 'title']}
-                      label="Tiêu đề"
+                      name={['aboutPage', 'thanhTuu', 'heading']}
+                      label="Tiêu đề chính"
                     >
-                      <TextArea rows={3} className={inputCls} />
+                      <Input size="large" className={inputCls} placeholder="VD: Thành tựu" />
+                    </Form.Item>
+                    <Form.Item
+                      name={['aboutPage', 'thanhTuu', 'title']}
+                      label="Mô tả"
+                    >
+                      <TextArea rows={4} className={inputCls} />
                     </Form.Item>
 
                     <div className="mt-4">
@@ -327,17 +333,29 @@ export default function AdminAboutPage() {
                                     <ImageUpload />
                                   </Form.Item>
                                 </div>
-                                <Form.Item
-                                  name={[field.name, 'title']}
-                                  label="Tiêu đề"
-                                  className="!mb-0 flex-1"
-                                >
-                                  <TextArea
-                                    rows={3}
-                                    className={inputCls}
-                                    placeholder="VD: Giải thưởng &quot;Doanh nghiệp Uy tín – Phát triển bền vững 2012&quot;"
-                                  />
-                                </Form.Item>
+                                <div className="flex-1 space-y-2">
+                                  <Form.Item
+                                    name={[field.name, 'subtitle']}
+                                    label="Phụ đề"
+                                    className="!mb-0"
+                                  >
+                                    <Input
+                                      className={inputCls}
+                                      placeholder="VD: Giải thưởng / Danh hiệu"
+                                    />
+                                  </Form.Item>
+                                  <Form.Item
+                                    name={[field.name, 'title']}
+                                    label="Tiêu đề"
+                                    className="!mb-0"
+                                  >
+                                    <TextArea
+                                      rows={3}
+                                      className={inputCls}
+                                      placeholder='VD: "Doanh nghiệp Uy tín – Phát triển bền vững 2012"'
+                                    />
+                                  </Form.Item>
+                                </div>
                                 <Button
                                   danger
                                   type="text"
@@ -350,7 +368,7 @@ export default function AdminAboutPage() {
                             <Button
                               type="dashed"
                               icon={<PlusOutlined />}
-                              onClick={() => add({ url: '', title: '' })}
+                              onClick={() => add({ url: '', title: '', subtitle: '' })}
                               className="rounded-xl"
                             >
                               Thêm ảnh
