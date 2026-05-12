@@ -248,7 +248,7 @@ export default function AboutContent() {
                   <motion.div key="thanh-tuu" variants={tabVariants} initial="hidden" animate="visible" exit="exit" className="space-y-10">
                     <div className="border-l-4 border-primary pl-6">
                       <h2 className="text-3xl lg:text-4xl font-black text-biotechvet-dark uppercase tracking-tight">{content.thanhTuu.heading}</h2>
-                      <p className="text-gray-500 font-medium leading-relaxed mt-4 text-lg max-w-3xl whitespace-pre-line">
+                      <p className="text-gray-500 font-medium leading-relaxed mt-4 text-lg whitespace-pre-line">
                         {content.thanhTuu.title}
                       </p>
                     </div>
