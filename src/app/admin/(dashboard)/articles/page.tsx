@@ -304,7 +304,7 @@ function ArticleManagementContent() {
         </div>
       </div>
 
-      <Table 
+      <Table  size="small"
          columns={columns} 
          dataSource={filteredData} 
          rowKey="id" 

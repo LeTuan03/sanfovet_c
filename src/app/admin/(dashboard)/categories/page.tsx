@@ -292,7 +292,7 @@ function CategoryAndTagManagementContent() {
               label: <span className="flex items-center gap-2 font-black px-4 uppercase text-[11px] tracking-widest"><AppstoreOutlined /> Danh mục Sản phẩm</span>,
               children: (
                 <div className="pt-2">
-                  <Table 
+                  <Table  size="small"
                     columns={categoryColumns} 
                     dataSource={filteredCategories} 
                     rowKey="id" 
@@ -313,7 +313,7 @@ function CategoryAndTagManagementContent() {
               label: <span className="flex items-center gap-2 font-black px-4 uppercase text-[11px] tracking-widest"><TagsOutlined /> Loài vật (Handbook)</span>,
               children: (
                 <div className="pt-2">
-                  <Table 
+                  <Table  size="small"
                     columns={tagColumns} 
                     dataSource={filteredAnimalTags} 
                     rowKey="id" 

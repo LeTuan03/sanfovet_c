@@ -255,7 +255,7 @@ function AdminJobsPageContent() {
           />
         </div>
 
-        <Table 
+        <Table  size="small"
           columns={columns} 
           dataSource={filteredData} 
           rowKey="id" 

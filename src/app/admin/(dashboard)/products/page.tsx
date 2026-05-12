@@ -271,7 +271,7 @@ function ProductManagementContent() {
       />
 
       <div className="bg-white rounded-[32px] overflow-hidden shadow-xl shadow-gray-200/50 border border-gray-100">
-        <Table 
+        <Table  size="small"
            columns={columns} 
            dataSource={filteredData} 
            rowKey="id" 
