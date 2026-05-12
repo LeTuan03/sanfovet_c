@@ -93,20 +93,36 @@ export default function CKEditorWrapper({ value, onChange, placeholder }: CKEdit
             items: [
               'heading',
               '|',
+              'fontFamily',
+              'fontSize',
+              'fontColor',
+              'fontBackgroundColor',
+              'highlight',
+              '|',
               'bold',
               'italic',
+              'underline',
+              'strikethrough',
+              'subscript',
+              'superscript',
+              'removeFormat',
+              '|',
               'link',
-              'bulletedList',
-              'numberedList',
-              '|',
-              'alignment',
-              'outdent',
-              'indent',
-              '|',
-              'imageUpload',
               'blockQuote',
               'insertTable',
               'mediaEmbed',
+              'imageUpload',
+              '|',
+              'bulletedList',
+              'numberedList',
+              'todoList',
+              'outdent',
+              'indent',
+              'alignment',
+              '|',
+              'horizontalLine',
+              'pageBreak',
+              '|',
               'undo',
               'redo'
             ],
@@ -114,6 +130,48 @@ export default function CKEditorWrapper({ value, onChange, placeholder }: CKEdit
           },
           alignment: {
             options: ['left', 'center', 'right', 'justify'],
+          },
+          fontFamily: {
+            options: [
+              'default',
+              'Arial, Helvetica, sans-serif',
+              'Courier New, Courier, monospace',
+              'Georgia, serif',
+              'Lucida Sans Unicode, Lucida Grande, sans-serif',
+              'Tahoma, Geneva, sans-serif',
+              'Times New Roman, Times, serif',
+              'Trebuchet MS, Helvetica, sans-serif',
+              'Verdana, Geneva, sans-serif'
+            ]
+          },
+          fontSize: {
+            options: [
+              'tiny',
+              'small',
+              'default',
+              'big',
+              'huge'
+            ]
+          },
+          image: {
+            toolbar: [
+              'imageTextAlternative',
+              'imageStyle:full',
+              'imageStyle:side',
+              'linkImage'
+            ]
+          },
+          table: {
+            contentToolbar: [
+              'tableColumn',
+              'tableRow',
+              'mergeTableCells',
+              'tableProperties',
+              'tableCellProperties'
+            ]
+          },
+          mediaEmbed: {
+            previewsInData: true
           },
           extraPlugins: [MyCustomUploadAdapterPlugin],
           language: 'vi',

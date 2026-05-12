@@ -328,7 +328,7 @@ function AdminBannersPageContent() {
               onFileChange={(file) => {
                 form.setFieldsValue({ imageSize: file.size });
               }}
-              maxSize={25}
+              maxSize={40}
             />
           </Form.Item>
 

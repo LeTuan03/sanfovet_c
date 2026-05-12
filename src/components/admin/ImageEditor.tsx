@@ -23,6 +23,9 @@ export default function ImageEditor({ visible, imageUrl, onSave, onCancel }: Ima
   const [cropStart, setCropStart] = useState({ x: 0, y: 0 });
   const [cropEnd, setCropEnd] = useState({ x: 0, y: 0 });
   const canvasContainerRef = useRef<HTMLDivElement>(null);
+  const [isDragging, setIsDragging] = useState(false);
+
+  const clampValue = (value: number, min: number, max: number) => Math.min(Math.max(value, min), max);
 
   // Vẽ ảnh lên canvas với các hiệu ứng đã chọn
   const drawImage = (canvas: HTMLCanvasElement, img: HTMLImageElement, crop?: boolean) => {
@@ -74,20 +77,32 @@ export default function ImageEditor({ visible, imageUrl, onSave, onCancel }: Ima
     drawImage(canvasRef.current, imageRef.current, cropping);
   }, [zoom, rotation, flipX, flipY, cropping, cropStart, cropEnd]);
 
-  const handleCanvasMouseDown = (e: React.MouseEvent<HTMLCanvasElement>) => {
-    if (!cropping) return;
+  const handleCanvasPointerDown = (e: React.PointerEvent<HTMLCanvasElement>) => {
+    if (!cropping || e.button !== 0) return;
     const canvas = canvasRef.current;
     if (!canvas) return;
     const rect = canvas.getBoundingClientRect();
-    setCropStart({ x: e.clientX - rect.left, y: e.clientY - rect.top });
+    const x = clampValue(e.clientX - rect.left, 0, rect.width);
+    const y = clampValue(e.clientY - rect.top, 0, rect.height);
+    setCropStart({ x, y });
+    setCropEnd({ x, y });
+    setIsDragging(true);
   };
 
-  const handleCanvasMouseMove = (e: React.MouseEvent<HTMLCanvasElement>) => {
-    if (!cropping) return;
+  const handleCanvasPointerMove = (e: React.PointerEvent<HTMLCanvasElement>) => {
+    if (!cropping || !isDragging) return;
     const canvas = canvasRef.current;
     if (!canvas) return;
     const rect = canvas.getBoundingClientRect();
-    setCropEnd({ x: e.clientX - rect.left, y: e.clientY - rect.top });
+    const x = clampValue(e.clientX - rect.left, 0, rect.width);
+    const y = clampValue(e.clientY - rect.top, 0, rect.height);
+    setCropEnd({ x, y });
+  };
+
+  const handleCanvasPointerUp = () => {
+    if (isDragging) {
+      setIsDragging(false);
+    }
   };
 
   const handleSave = () => {
@@ -152,9 +167,9 @@ export default function ImageEditor({ visible, imageUrl, onSave, onCancel }: Ima
       title="Chỉnh sửa ảnh"
       open={visible}
       onCancel={handleCancel}
-      width="90vw"
-      style={{ maxWidth: '1000px' }}
-      styles={{ body: { maxHeight: '70vh', overflow: 'auto' } }}
+      width="100vw"
+      style={{ maxWidth: '100vw', top: 0, padding: 0 }}
+      styles={{ body: { maxHeight: 'calc(100vh - 100px)', overflow: 'auto', padding: '24px' } }}
       footer={[
         <Button key="cancel" onClick={handleCancel}>
           Hủy
@@ -169,13 +184,15 @@ export default function ImageEditor({ visible, imageUrl, onSave, onCancel }: Ima
         <div
           ref={canvasContainerRef}
           className="border-2 border-gray-200 rounded-lg overflow-auto bg-gray-50 flex items-center justify-center"
-          style={{ maxHeight: '400px' }}
+          style={{ maxHeight: 'calc(100vh - 340px)', width: '100%' }}
         >
           <canvas
             ref={canvasRef}
             className={`max-w-full max-h-full ${cropping ? 'cursor-crosshair' : 'cursor-default'}`}
-            onMouseDown={handleCanvasMouseDown}
-            onMouseMove={handleCanvasMouseMove}
+            onPointerDown={handleCanvasPointerDown}
+            onPointerMove={handleCanvasPointerMove}
+            onPointerUp={handleCanvasPointerUp}
+            onPointerLeave={handleCanvasPointerUp}
           />
         </div>
 
