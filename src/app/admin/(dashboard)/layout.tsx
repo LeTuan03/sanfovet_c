@@ -346,7 +346,7 @@ export default function AdminLayout({ children }: { children: React.ReactNode })
                         }}
                         icon={<UserOutlined />}
                       />
-                      <div className="hidden lg:block">
+                      <div className="hidden lg:block" style={{ lineHeight: 'normal' }}>
                         <div style={{ fontSize: 12.5, fontWeight: 700, color: '#0f172a', lineHeight: 1.2 }}>
                           Admin
                         </div>
