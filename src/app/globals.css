@@ -53,3 +53,50 @@ h1, h2, h3, h4, h5, h6 {
   background-color: #a53640;
   filter: hue-rotate(215deg);
 }
+
+@media print {
+  .no-print, 
+  header, 
+  footer, 
+  aside, 
+  nav,
+  .breadcrumb-container,
+  .related-articles,
+  .suggested-products,
+  .newsletter-box,
+  button,
+  .article-footer,
+  .floating-contact,
+  #preloader,
+  .antd-message-container,
+  .fixed,
+  .sticky {
+    display: none !important;
+  }
+
+  body {
+    background: white !important;
+    color: black !important;
+  }
+
+  .container {
+    width: 100% !important;
+    max-width: 100% !important;
+    padding: 0 !important;
+    margin: 0 !important;
+  }
+
+  .lg\:col-span-3 {
+    width: 100% !important;
+    grid-column: span 1 / span 1 !important;
+  }
+
+  article {
+    margin: 0 !important;
+    padding: 0 !important;
+  }
+
+  .prose {
+    max-width: 100% !important;
+  }
+}

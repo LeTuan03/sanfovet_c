@@ -1,6 +1,8 @@
 "use client";
 
 import React, { useEffect, useRef, useState } from 'react';
+import { uploadFile } from '@/lib/storage-provider';
+
 
 interface CKEditorProps {
   value?: string;
@@ -75,7 +77,6 @@ export default function CKEditorWrapper({ value, onChange, placeholder }: CKEdit
           ck.ImageToolbar,
           ck.ImageUpload,
           ck.ImageInsert,
-          ck.Base64UploadAdapter,
 
           // Table
           ck.Table,
@@ -110,7 +111,22 @@ export default function CKEditorWrapper({ value, onChange, placeholder }: CKEdit
 
           // Word count (optional)
           ck.WordCount,
+
+          // Custom Upload Adapter Plugin
+          function MyCustomUploadAdapterPlugin(editor: any) {
+            editor.plugins.get('FileRepository').createUploadAdapter = (loader: any) => {
+              return {
+                upload: () => {
+                  return loader.file.then((file: File) => 
+                    uploadFile(file, 'uploads').then(url => ({ default: url }))
+                  );
+                },
+                abort: () => {}
+              };
+            };
+          }
         ]);
+
 
         setEditorLoaded(true);
       } catch (error) {

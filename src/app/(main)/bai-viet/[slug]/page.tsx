@@ -6,7 +6,8 @@ import Link from 'next/link';
 import { notFound } from 'next/navigation';
 import { articleService, productService } from '@/services';
 import { ArticleSummary, ProductSummary } from '@/types';
-import { Calendar, User, ChevronRight, ArrowLeft, Share2, Printer, Tag, List } from 'lucide-react';
+import { Calendar, User, ChevronRight, ArrowLeft, Tag, List } from 'lucide-react';
+import ArticleActions from '@/components/shared/ArticleActions';
 import { Metadata } from 'next';
 import Script from 'next/script';
 import { articleSchema } from '@/lib/schema';
@@ -172,7 +173,7 @@ export default async function ArticleDetailPage({ params }: Readonly<{ params: P
         }}
       />
       {/* Breadcrumbs */}
-      <div className="bg-biotechvet-alt py-4">
+      <div className="bg-biotechvet-alt py-4 no-print">
         <div className="container mx-auto px-4 flex items-center text-sm text-gray-500">
           <Link href="/" className="hover:text-primary transition-colors font-medium">Trang chủ</Link>
           <ChevronRight size={14} className="mx-2 text-gray-300" />
@@ -186,13 +187,13 @@ export default async function ArticleDetailPage({ params }: Readonly<{ params: P
         <div className="grid grid-cols-1 lg:grid-cols-4 gap-12">
           {/* Main Content */}
           <div className="lg:col-span-3">
-             <Link href="/tin-tuc" className="inline-flex items-center gap-2 text-primary hover:text-primary-dark mb-8 font-bold transition-all group">
+             <Link href="/tin-tuc" className="inline-flex items-center gap-2 text-primary hover:text-primary-dark mb-8 font-bold transition-all group no-print">
                 <ArrowLeft size={16} className="group-hover:-translate-x-1 transition-transform" /> Quay lại danh sách
              </Link>
-
-             <article className="prose prose-lg max-w-none prose-headings:text-biotechvet-dark prose-headings:font-black prose-p:text-gray-600 prose-p:leading-relaxed">
+             
+             <article className="prose prose-lg max-w-none prose-headings:text-biotechvet-dark prose-headings:font-black prose-p:text-gray-600 prose-p:leading-relaxed print:m-0 print:p-0">
                 <header className="mb-10 not-prose">
-                   <div className="flex items-center gap-4 text-sm text-gray-400 font-bold mb-4 uppercase tracking-widest">
+                   <div className="flex items-center gap-4 text-sm text-gray-400 font-bold mb-4 uppercase tracking-widest no-print">
                       <span className="bg-primary text-white px-3 py-1 rounded-full text-[10px]">
                         {getCategoryLabel(article.category)}
                       </span>
@@ -202,13 +203,10 @@ export default async function ArticleDetailPage({ params }: Readonly<{ params: P
                    <h1 className="text-3xl md:text-5xl font-black text-biotechvet-dark leading-tight mb-8">
                      {article.title}
                    </h1>
-                   <div className="flex items-center justify-between py-4 border-y border-gray-100">
+                   <div className="flex items-center justify-between py-4 border-y border-gray-100 no-print">
                       <div className="flex items-center gap-2">
                          <span className="text-xs font-bold text-gray-400 uppercase">Chia sẻ:</span>
-                         <div className="flex gap-2">
-                            <button className="w-8 h-8 rounded-full bg-gray-50 flex items-center justify-center text-gray-400 hover:bg-blue-600 hover:text-white transition-all"><Share2 size={14} /></button>
-                            <button className="w-8 h-8 rounded-full bg-gray-50 flex items-center justify-center text-gray-400 hover:bg-gray-800 hover:text-white transition-all"><Printer size={14} /></button>
-                         </div>
+                         <ArticleActions />
                       </div>
                       <div className="flex gap-2">
                          <span className="text-xs font-bold text-gray-400 uppercase flex items-center gap-1"><Tag size={14} /> Tags:</span>
@@ -220,7 +218,7 @@ export default async function ArticleDetailPage({ params }: Readonly<{ params: P
 
                 <div className="article-content prose-h2:scroll-mt-32" dangerouslySetInnerHTML={{ __html: processedHtml }} />
 
-                <footer className="mt-16 pt-10 border-t border-gray-100 not-prose">
+                <footer className="mt-16 pt-10 border-t border-gray-100 not-prose no-print">
                    <div className="bg-biotechvet-alt p-8 rounded-[32px] border border-primary/10 flex flex-col md:flex-row gap-8 items-center">
                       <div className="w-24 h-24 rounded-full bg-white border-4 border-primary/20 flex items-center justify-center shrink-0 overflow-hidden">
                          <img src="/images/logo.png" className="w-16 h-auto opacity-50 grayscale" alt="biotechvet" />
@@ -237,7 +235,7 @@ export default async function ArticleDetailPage({ params }: Readonly<{ params: P
              </article>
 
              {/* Suggested Products Section (Inter-linked) */}
-             <section className="mt-20">
+             <section className="mt-20 no-print">
                 <h3 className="text-2xl font-black text-biotechvet-dark mb-8 flex items-center gap-3">
                    <span className="w-2 h-8 bg-primary rounded-full"></span>
                    Sản phẩm biotechvet khuyên dùng
@@ -256,7 +254,7 @@ export default async function ArticleDetailPage({ params }: Readonly<{ params: P
           </div>
 
           {/* Sidebar */}
-          <aside className="lg:col-span-1">
+          <aside className="lg:col-span-1 no-print">
              <div className="sticky top-24 space-y-12">
                  {/* Table of Contents */}
                  {headings.length > 0 && (

@@ -2,6 +2,7 @@ import type { Metadata } from "next";
 import Script from "next/script";
 import { Inter, Montserrat } from 'next/font/google';
 import { AntdRegistry } from '@ant-design/nextjs-registry';
+import { App } from 'antd';
 import ContentProtection from "@/components/shared/ContentProtection";
 import { LanguageProvider } from "@/lib/LanguageContext";
 import { organizationSchema, localBusinessSchema } from "@/lib/schema";
@@ -168,12 +169,14 @@ export default function RootLayout({
         />
         <Preloader />
         <AntdRegistry>
-          <LanguageProvider>
-            <ContentProtection />
-            <div suppressHydrationWarning>
-              {children}
-            </div>
-          </LanguageProvider>
+          <App>
+            <LanguageProvider>
+              <ContentProtection />
+              <div suppressHydrationWarning>
+                {children}
+              </div>
+            </LanguageProvider>
+          </App>
         </AntdRegistry>
       </body>
     </html>
