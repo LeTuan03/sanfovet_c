@@ -110,7 +110,7 @@ export interface AboutPageContent {
   };
   thanhTuu?: {
     title?: string;
-    images?: string[];
+    images?: ({ url: string; title?: string } | string)[];
   };
 }
 

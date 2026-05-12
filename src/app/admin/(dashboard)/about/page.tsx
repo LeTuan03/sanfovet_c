@@ -316,26 +316,39 @@ export default function AdminAboutPage() {
                             {fields.map((field) => (
                               <div
                                 key={field.key}
-                                className="p-4 border border-gray-100 rounded-2xl bg-gray-50/40 flex items-center gap-3"
+                                className="p-4 border border-gray-100 rounded-2xl bg-gray-50/40 flex items-start gap-3"
                               >
                                 <Form.Item
-                                  name={field.name}
-                                  className="!mb-0 flex-1"
+                                  name={[field.name, 'url']}
+                                  label="Ảnh"
+                                  className="!mb-0"
                                 >
                                   <ImageUpload />
+                                </Form.Item>
+                                <Form.Item
+                                  name={[field.name, 'title']}
+                                  label="Tiêu đề"
+                                  className="!mb-0 flex-1"
+                                >
+                                  <TextArea
+                                    rows={3}
+                                    className={inputCls}
+                                    placeholder="VD: Giải thưởng &quot;Doanh nghiệp Uy tín – Phát triển bền vững 2012&quot;"
+                                  />
                                 </Form.Item>
                                 <Button
                                   danger
                                   type="text"
                                   icon={<DeleteOutlined />}
                                   onClick={() => remove(field.name)}
+                                  className="mt-7"
                                 />
                               </div>
                             ))}
                             <Button
                               type="dashed"
                               icon={<PlusOutlined />}
-                              onClick={() => add('')}
+                              onClick={() => add({ url: '', title: '' })}
                               className="rounded-xl"
                             >
                               Thêm ảnh

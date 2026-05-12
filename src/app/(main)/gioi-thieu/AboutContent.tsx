@@ -253,9 +253,16 @@ export default function AboutContent() {
 
                     <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
                        {content.thanhTuu.images.map((image, i) => (
-                         <div key={`${image}-${i}`} className="group rounded-[32px] overflow-hidden shadow-lg relative aspect-square">
-                           <img src={image} className="absolute inset-0 w-full h-full object-cover group-hover:scale-110 transition-transform duration-700" alt={`Thành tựu ${i + 1}`} />
-                           <div className="absolute inset-0 bg-gradient-to-t from-biotechvet-dark/60 to-transparent opacity-0 group-hover:opacity-100 transition-opacity duration-500"></div>
+                         <div key={`${image.url}-${i}`} className="flex flex-col items-center gap-4">
+                           <div className="group rounded-[32px] overflow-hidden shadow-lg relative aspect-square w-full bg-gray-50">
+                             <img src={image.url} className="absolute inset-0 w-full h-full object-contain group-hover:scale-110 transition-transform duration-700" alt={image.title || `Thành tựu ${i + 1}`} />
+                             <div className="absolute inset-0 bg-gradient-to-t from-biotechvet-dark/60 to-transparent opacity-0 group-hover:opacity-100 transition-opacity duration-500"></div>
+                           </div>
+                           {image.title && (
+                             <p className="text-center text-base font-bold text-biotechvet-dark leading-snug whitespace-pre-line px-2">
+                               {image.title}
+                             </p>
+                           )}
                          </div>
                        ))}
                     </div>

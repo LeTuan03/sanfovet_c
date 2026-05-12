@@ -39,7 +39,7 @@ export type AboutContentResolved = {
   };
   thanhTuu: {
     title: string;
-    images: string[];
+    images: { url: string; title: string }[];
   };
 };
 
@@ -157,7 +157,11 @@ export function mergeAbout(data?: AboutPageContent | null): AboutContentResolved
       ...(d.thanhTuu || {}),
       images:
         d.thanhTuu?.images && d.thanhTuu.images.length > 0
-          ? d.thanhTuu.images
+          ? d.thanhTuu.images.map((item) =>
+              typeof item === 'string'
+                ? { url: item, title: '' }
+                : { url: item?.url || '', title: item?.title || '' }
+            )
           : aboutDefaults.thanhTuu.images,
     } as AboutContentResolved['thanhTuu'],
   };
