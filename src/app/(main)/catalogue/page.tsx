@@ -2,6 +2,7 @@ import { Metadata } from 'next';
 import Link from 'next/link';
 import { FileText, ShieldCheck, Award } from 'lucide-react';
 import DocumentList from './CatalogueClient';
+import HomeGallery from '@/components/home/HomeGallery';
 export const metadata: Metadata = {
   title: "Catalogue & Tài Liệu - biotechvet",
   description: "Tải về Catalogue sản phẩm thú y 2026 và Hồ sơ năng lực mới nhất của BIOTECH-VET. Tài liệu kỹ thuật chuyên sâu cho trang trại.",
@@ -20,17 +21,24 @@ export const metadata: Metadata = {
     ],
   },
 };
-import { catalogueService } from '@/services';
+import { catalogueService, mediaService } from '@/services';
 
 export default async function CataloguePage() {
-  const documents = await catalogueService.getAll();
+  const [documents, mediaImages, mediaVideos] = await Promise.all([
+    catalogueService.getAll(),
+    mediaService.getImages(),
+    mediaService.getVideos(),
+  ]);
+
+  const images = Array.isArray(mediaImages) ? mediaImages.filter((img: any) => img.status === 'active').map(img => ({ ...img, id: Number(img.id) })) : [];
+  const videos = Array.isArray(mediaVideos) ? mediaVideos.filter((v: any) => v.status === 'active').map(v => ({ ...v, id: Number(v.id) })) : [];
 
   return (
     <div className="bg-white min-h-screen">
       <section className="bg-biotechvet-dark text-white py-20 relative overflow-hidden">
         <div className="absolute inset-0 opacity-20 bg-[url('/images/farm.png')] bg-cover bg-center"></div>
         <div className="container mx-auto px-4 relative z-10 text-center">
-           <h1 className="text-4xl md:text-5xl font-black mb-6 uppercase tracking-wider">Catalogue & Tài liệu</h1>
+           <h1 className="text-4xl md:text-5xl font-black mb-6 uppercase tracking-wider">CATALOGUE, THƯ VIỆN ẢNH, VIDEO VÀ TÀI LIỆU</h1>
            <p className="text-xl text-primary-light max-w-2xl mx-auto font-medium">Tải về danh mục sản phẩm và hồ sơ năng lực đầy đủ nhất của biotechvet.</p>
         </div>
       </section>
@@ -58,8 +66,14 @@ export default async function CataloguePage() {
            <div className="space-y-6">
               <DocumentList documents={documents} />
            </div>
+        </div>
+      </div>
 
-           <div className="mt-20 p-12 bg-biotechvet-dark rounded-[48px] text-white text-center relative overflow-hidden">
+      <HomeGallery images={images} videos={videos} />
+
+      <div className="container mx-auto px-4 pb-20">
+        <div className="max-w-4xl mx-auto">
+           <div className="mt-4 p-12 bg-biotechvet-dark rounded-[48px] text-white text-center relative overflow-hidden">
               <div className="absolute top-0 right-0 w-64 h-64 bg-primary/20 rounded-full blur-3xl -mr-32 -mt-32"></div>
               <h3 className="text-2xl font-black mb-4 relative z-10">Bạn cần bản in cứng?</h3>
               <p className="opacity-70 text-sm max-w-md mx-auto mb-8 relative z-10">Liên hệ với chúng tôi để nhận bộ Catalogue in ấn chất lượng cao gửi tận nơi hoàn toàn miễn phí.</p>
