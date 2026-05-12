@@ -4,7 +4,6 @@ import React, { useState, useEffect, useRef } from 'react';
 import { useSearchParams } from 'next/navigation';
 import { motion } from 'framer-motion';
 import { Building2, Target, Award, Heart, ShieldCheck, Sparkles, ChevronLeft, ChevronRight } from 'lucide-react';
-import Sidebar from '@/components/shared/Sidebar';
 import { aboutDefaults, mergeAbout } from './aboutDefaults';
 
 const VALID_TABS = ['gioi-thieu', 'lich-su', 'tam-nhin', 'thanh-tuu', 'co-so', 'co-cau'];
@@ -82,7 +81,7 @@ export default function AboutContent() {
       </section>
 
       <div className="container mx-auto px-4 py-14 lg:py-20">
-        <div className="grid grid-cols-1 lg:grid-cols-12 gap-10 lg:gap-14 items-start">
+        <div className="flex flex-col gap-20 lg:gap-28">
           {/* ===================== 1. GIỚI THIỆU ===================== */}
           <motion.section
             id="gioi-thieu"
