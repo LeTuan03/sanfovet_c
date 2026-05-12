@@ -28,13 +28,13 @@ const getBase64 = (img: RcFile, callback: (url: string) => void) => {
 /**
  * Tối ưu hóa dung lượng và kích thước hình ảnh (WebP)
  */
-const optimizeImage = async (file: File, options: { 
-  quality?: number; 
-  maxWidth?: number; 
-  maxHeight?: number; 
+const optimizeImage = async (file: File, options: {
+  quality?: number;
+  maxWidth?: number;
+  maxHeight?: number;
 }): Promise<File | Blob> => {
   const { quality = 0.82, maxWidth = 1920, maxHeight = 1080 } = options;
-  
+
   try {
     const bitmap = await createImageBitmap(file);
     const canvas = document.createElement('canvas');
@@ -58,7 +58,7 @@ const optimizeImage = async (file: File, options: {
     canvas.height = height;
     const ctx = canvas.getContext('2d');
     if (!ctx) return file;
-    
+
     ctx.imageSmoothingEnabled = true;
     ctx.imageSmoothingQuality = 'high';
     ctx.drawImage(bitmap, 0, 0, width, height);
@@ -131,15 +131,15 @@ const ImageUpload: React.FC<ImageUploadProps> = ({
     const { file, onSuccess, onError, onProgress } = options;
     try {
       setLoading(true);
-      
+
       // Khởi chạy thông báo xử lý
       messageApi.loading({ content: 'Đang tối ưu dung lượng ảnh...', key: 'upload_status' });
-      
+
       const rawFile = file.originFileObj || file;
-      
+
       // Thực hiện tối ưu hóa ảnh
       const resultFile = await optimizeImage(rawFile, { quality, maxWidth, maxHeight });
-      
+
       // Thông báo cho component cha về file đã xử lý (để lấy size, name,...)
       onFileChange?.(resultFile);
 
@@ -207,7 +207,7 @@ const ImageUpload: React.FC<ImageUploadProps> = ({
                     >
                       <PlusOutlined className="text-lg" />
                     </div>
-                    <button className="w-9 h-9 bg-white rounded-xl flex items-center justify-center text-blue-500 shadow-lg cursor-pointer hover:scale-110 transition-transform"
+                    <button type='button' className="w-9 h-9 bg-white rounded-xl flex items-center justify-center text-blue-500 shadow-lg cursor-pointer hover:scale-110 transition-transform"
                       onClick={(e) => {
                         e.stopPropagation();
                         setPreviewVisible(true);
@@ -216,6 +216,7 @@ const ImageUpload: React.FC<ImageUploadProps> = ({
                       <EyeOutlined className="text-lg" />
                     </button>
                     <button
+                      type='button'
                       className="w-9 h-9 bg-red-500 rounded-xl flex items-center justify-center text-white shadow-lg cursor-pointer hover:scale-110 transition-transform"
                       onClick={onRemove}
                     >
