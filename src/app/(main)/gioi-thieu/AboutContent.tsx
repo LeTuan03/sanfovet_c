@@ -247,7 +247,7 @@ export default function AboutContent() {
 
                 {activeTab === 'thanh-tuu' && (
                   <motion.div key="thanh-tuu" variants={tabVariants} initial="hidden" animate="visible" exit="exit">
-                    <div className="relative rounded-[32px] overflow-hidden bg-gray-100 px-6 py-12 lg:px-12 lg:py-16">
+                    <div className="relative rounded-[32px] overflow-hidden px-6 py-12 lg:px-12 lg:py-16">
                       <div className="absolute inset-0 bg-[url('/images/fireworks.png')] bg-cover bg-center opacity-30 pointer-events-none"></div>
 
                       <div className="relative z-10 space-y-10">
@@ -260,9 +260,12 @@ export default function AboutContent() {
                           </p>
                         </div>
 
-                        <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8 lg:gap-10">
+                        <div className="flex flex-wrap justify-center gap-8 lg:gap-10">
                           {content.thanhTuu.images.map((image, i) => (
-                            <div key={`${image.url}-${i}`} className="flex flex-col items-center gap-5">
+                            <div
+                              key={`${image.url}-${i}`}
+                              className="flex flex-col items-center gap-5 w-full md:w-[calc(50%-1.25rem)] lg:w-[calc(33.333%-1.667rem)]"
+                            >
                               <div className="relative w-full aspect-square flex items-center justify-center">
                                 <img
                                   src={image.url}
