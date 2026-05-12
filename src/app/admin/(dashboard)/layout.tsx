@@ -17,8 +17,12 @@ import {
   LogoutOutlined,
   BellOutlined,
   InfoCircleOutlined,
+  FileTextOutlined,
+  BookOutlined,
+  FolderOpenOutlined,
+  NotificationOutlined,
 } from '@ant-design/icons';
-import { Button, Layout, Menu, theme, ConfigProvider, Avatar, Dropdown, Space, Badge, MenuProps, App } from 'antd';
+import { Button, Layout, Menu, theme, ConfigProvider, Avatar, Dropdown, Badge, App } from 'antd';
 import viVN from 'antd/locale/vi_VN';
 import 'dayjs/locale/vi';
 import dayjs from 'dayjs';
@@ -29,16 +33,38 @@ dayjs.locale('vi');
 
 const { Header, Sider, Content } = Layout;
 
-export default function AdminLayout({
-  children,
-}: {
-  children: React.ReactNode;
-}) {
+// ─── Sidebar section divider label ───────────────────────────────────────────
+function SectionLabel({ label, collapsed }: { label: string; collapsed: boolean }) {
+  if (collapsed) {
+    return (
+      <div className="mx-auto my-2 w-6 border-t border-gray-100" />
+    );
+  }
+  return (
+    <div className="flex items-center gap-2 px-4 pt-5 pb-1">
+      <span
+        style={{
+          fontSize: 10,
+          fontWeight: 700,
+          letterSpacing: '0.14em',
+          color: '#b0bec5',
+          textTransform: 'uppercase',
+          whiteSpace: 'nowrap',
+        }}
+      >
+        {label}
+      </span>
+      <div className="flex-1 border-t border-gray-100 mt-px" />
+    </div>
+  );
+}
+
+export default function AdminLayout({ children }: { children: React.ReactNode }) {
   const [collapsed, setCollapsed] = useState(false);
   const [isAuthChecking, setIsAuthChecking] = useState(true);
   const pathname = usePathname();
   const router = useRouter();
-  
+
   useEffect(() => {
     const token = localStorage.getItem('admin_token');
     if (!token) {
@@ -48,122 +74,38 @@ export default function AdminLayout({
     }
   }, [router]);
 
-  const {
-    token: { colorBgContainer, borderRadiusLG },
-  } = theme.useToken();
+  // ─── Menu sections ──────────────────────────────────────────────────────────
+  const dashboardItems: any[] = [
+    {
+      key: '/admin',
+      icon: <DashboardOutlined />,
+      label: 'Tổng quan',
+    },
+  ];
 
-  const menuItems: any[] = [
-    {
-      label: 'DASHBOARD',
-      type: 'group',
-      children: [
-        {
-          key: '/admin',
-          icon: <DashboardOutlined />,
-          label: 'Tổng quan',
-        },
-      ]
-    },
-    {
-      label: 'QUẢN LÝ NỘI DUNG',
-      type: 'group',
-      children: [
-        {
-          key: '/admin/products',
-          icon: <ShoppingOutlined />,
-          label: 'Quản lý Sản phẩm',
-        },
-        {
-          key: '/admin/categories',
-          icon: <AppstoreOutlined />,
-          label: 'Quản lý Danh mục',
-        },
-        {
-          key: '/admin/articles',
-          icon: <ReadOutlined />,
-          label: 'Quản lý Bệnh học',
-        },
-        {
-          key: '/admin/handbooks',
-          icon: <ReadOutlined />,
-          label: 'Cẩm nang chăn nuôi',
-        },
-        {
-          key: '/admin/catalogue',
-          icon: <ReadOutlined />,
-          label: 'Catalogue & Tài liệu',
-        },
-        {
-          key: '/admin/news',
-          icon: <ReadOutlined />,
-          label: 'Quản lý Tin tức',
-        },
-        {
-          key: '/admin/jobs',
-          icon: <UsergroupAddOutlined />,
-          label: 'Tuyển dụng',
-        },
-      ]
-    },
-    {
-      label: 'CẤU HÌNH HỆ THỐNG',
-      type: 'group',
-      children: [
-        {
-          key: '/admin/banners',
-          icon: <PictureOutlined />,
-          label: 'Banner / Slider',
-        },
-        {
-          key: '/admin/media-gallery',
-          icon: <VideoCameraOutlined />,
-          label: 'Video & Hình ảnh',
-        },
-        {
-          key: '/admin/menus',
-          icon: <MenuOutlined />,
-          label: 'Quản lý Menu',
-        },
-        {
-          key: '/admin/settings',
-          icon: <SettingOutlined />,
-          label: 'Thông tin chung',
-        },
-        {
-          key: '/admin/about',
-          icon: <InfoCircleOutlined />,
-          label: 'Trang Giới thiệu',
-        },
-        // {
-        //   key: '/admin/users',
-        //   icon: <UserOutlined />,
-        //   label: 'Người dùng admin',
-        // },
-      ]
-    }
+  const contentItems: any[] = [
+    { key: '/admin/products',   icon: <ShoppingOutlined />,   label: 'Sản phẩm' },
+    { key: '/admin/categories', icon: <AppstoreOutlined />,   label: 'Danh mục' },
+    { key: '/admin/articles',   icon: <FileTextOutlined />,   label: 'Bệnh học' },
+    { key: '/admin/handbooks',  icon: <BookOutlined />,       label: 'Cẩm nang chăn nuôi' },
+    { key: '/admin/catalogue',  icon: <FolderOpenOutlined />, label: 'Catalogue & Tài liệu' },
+    { key: '/admin/news',       icon: <NotificationOutlined />, label: 'Tin tức' },
+    { key: '/admin/jobs',       icon: <UsergroupAddOutlined />, label: 'Tuyển dụng' },
+  ];
+
+  const systemItems: any[] = [
+    { key: '/admin/banners',       icon: <PictureOutlined />,    label: 'Banner / Slider' },
+    { key: '/admin/media-gallery', icon: <VideoCameraOutlined />, label: 'Video & Hình ảnh' },
+    { key: '/admin/menus',         icon: <MenuOutlined />,        label: 'Quản lý Menu' },
+    { key: '/admin/settings',      icon: <SettingOutlined />,     label: 'Thông tin chung' },
+    { key: '/admin/about',         icon: <InfoCircleOutlined />,  label: 'Trang Giới thiệu' },
   ];
 
   const userMenuItems = [
-    {
-      key: 'profile',
-      label: 'Hồ sơ cá nhân',
-      icon: <UserOutlined />,
-    },
-    {
-      key: 'settings',
-      label: 'Cài đặt tài khoản',
-      icon: <SettingOutlined />,
-    },
-    {
-      type: 'divider',
-      key: 'div2',
-    },
-    {
-      key: 'logout',
-      label: 'Đăng xuất',
-      icon: <LogoutOutlined />,
-      danger: true,
-    },
+    { key: 'profile',  label: 'Hồ sơ cá nhân',     icon: <UserOutlined /> },
+    { key: 'settings', label: 'Cài đặt tài khoản',  icon: <SettingOutlined /> },
+    { type: 'divider', key: 'div2' },
+    { key: 'logout',   label: 'Đăng xuất',          icon: <LogoutOutlined />, danger: true },
   ];
 
   const handleMenuClick = (e: { key: string }) => {
@@ -189,125 +131,270 @@ export default function AdminLayout({
       theme={{
         token: {
           colorPrimary: '#199ad6',
-          borderRadius: 16,
+          borderRadius: 10,
           fontFamily: "'Inter', sans-serif",
           colorBgBase: '#ffffff',
-          boxShadow: '0 4px 20px rgba(0,0,0,0.03)',
         },
         components: {
           Menu: {
-            itemSelectedBg: '#e8f5fb',
+            itemSelectedBg: 'rgba(25, 154, 214, 0.08)',
             itemSelectedColor: '#199ad6',
-            itemHoverBg: '#f0f9ff',
-            groupTitleFontSize: 11,
-            groupTitleColor: '#a0aec0',
-            itemColor: '#4a5568',
-            itemHeight: 48,
-            itemMarginInline: 12,
-            itemBorderRadius: 12,
+            itemHoverBg: 'rgba(0,0,0,0.03)',
+            itemColor: '#64748b',
+            itemHeight: 42,
+            itemMarginInline: 8,
+            itemBorderRadius: 8,
+            itemPaddingInline: 12,
+            iconSize: 16,
           },
           Layout: {
-            headerBg: 'rgba(255, 255, 255, 0.8)',
-            headerHeight: 72,
+            headerBg: '#ffffff',
+            headerHeight: 64,
           },
           Button: {
-            borderRadius: 12,
+            borderRadius: 10,
             controlHeight: 40,
             fontWeight: 600,
           },
-          Card: {
-            borderRadiusLG: 24,
-          }
-        }
+        },
       }}
     >
       <AdminLoadingProvider>
         <App>
-          <Layout hasSider className="min-h-screen bg-white">
-            <Sider 
-              trigger={null} 
-              collapsible 
-              collapsed={collapsed} 
-              theme="light" 
-              width={260}
-              className="shadow-[4px_0_24px_rgba(0,0,0,0.02)] border-r border-gray-50"
-              style={{ overflow: 'auto', height: '100vh', position: 'sticky', top: 0, left: 0 }}
+          <Layout hasSider className="min-h-screen">
+            {/* ─── SIDEBAR ─────────────────────────────────────────────────────── */}
+            <Sider
+              trigger={null}
+              collapsible
+              collapsed={collapsed}
+              theme="light"
+              width={248}
+              collapsedWidth={68}
+              style={{
+                overflow: 'auto',
+                height: '100vh',
+                position: 'sticky',
+                top: 0,
+                left: 0,
+                background: '#ffffff',
+                borderRight: '1px solid #f1f5f9',
+                boxShadow: '2px 0 12px rgba(0,0,0,0.03)',
+                transition: 'width 0.2s cubic-bezier(0.4,0,0.2,1)',
+              }}
             >
-              <div className="px-6 py-8 mb-2 flex flex-col items-center">
-                 <div className="flex items-center gap-3 justify-center mb-3">
-                    <div className="w-11 h-11 bg-gradient-to-br from-primary to-primary-dark rounded-2xl flex items-center justify-center text-white font-black text-2xl shadow-lg shadow-primary/30 transform hover:scale-105 transition-transform duration-300">S</div>
-                    {!collapsed && (
-                      <h2 className="font-black tracking-tighter text-biotechvet-dark text-2xl mb-0 transition-opacity duration-300 bg-clip-text text-transparent bg-gradient-to-r from-biotechvet-dark to-primary">
-                        BIOTECH-VET
-                      </h2>
-                    )}
-                 </div>
-                 {!collapsed && (
-                   <div className="text-[0.65rem] font-black text-gray-400 uppercase tracking-[0.25em] text-center opacity-70">
-                     Management Suite
-                   </div>
-                 )}
+              {/* Logo */}
+              <div
+                style={{
+                  height: 64,
+                  display: 'flex',
+                  alignItems: 'center',
+                  justifyContent: collapsed ? 'center' : 'flex-start',
+                  padding: collapsed ? '0' : '0 20px',
+                  borderBottom: '1px solid #f1f5f9',
+                  gap: 10,
+                  transition: 'all 0.2s',
+                  overflow: 'hidden',
+                }}
+              >
+                {/* Icon mark */}
+                <div
+                  style={{
+                    minWidth: 34,
+                    height: 34,
+                    borderRadius: 9,
+                    background: 'linear-gradient(135deg, #199ad6 0%, #0f7ab5 100%)',
+                    display: 'flex',
+                    alignItems: 'center',
+                    justifyContent: 'center',
+                    boxShadow: '0 4px 12px rgba(25,154,214,0.30)',
+                  }}
+                >
+                  <span style={{ color: '#fff', fontWeight: 900, fontSize: 16, letterSpacing: '-0.5px' }}>B</span>
+                </div>
+
+                {/* Brand name — hide when collapsed */}
+                {!collapsed && (
+                  <div style={{ overflow: 'hidden' }}>
+                    <div
+                      style={{
+                        fontWeight: 800,
+                        fontSize: 14,
+                        letterSpacing: '-0.3px',
+                        color: '#0f172a',
+                        lineHeight: 1.1,
+                        whiteSpace: 'nowrap',
+                      }}
+                    >
+                      BIOTECH-VET
+                    </div>
+                    <div
+                      style={{
+                        fontSize: 10,
+                        fontWeight: 600,
+                        color: '#94a3b8',
+                        letterSpacing: '0.12em',
+                        textTransform: 'uppercase',
+                        whiteSpace: 'nowrap',
+                      }}
+                    >
+                      Admin Panel
+                    </div>
+                  </div>
+                )}
               </div>
-              <Menu
-                mode="inline"
-                selectedKeys={[pathname]}
-                items={menuItems}
-                onClick={handleMenuClick}
-                className="admin-sidebar-menu border-none px-2"
-              />
+
+              {/* Menu content */}
+              <div style={{ padding: '8px 0 16px' }}>
+
+                <SectionLabel label="Dashboard" collapsed={collapsed} />
+                <Menu
+                  mode="inline"
+                  selectedKeys={[pathname]}
+                  items={dashboardItems}
+                  onClick={handleMenuClick}
+                  inlineIndent={12}
+                  style={{ border: 'none', background: 'transparent' }}
+                />
+
+                <SectionLabel label="Nội dung" collapsed={collapsed} />
+                <Menu
+                  mode="inline"
+                  selectedKeys={[pathname]}
+                  items={contentItems}
+                  onClick={handleMenuClick}
+                  inlineIndent={12}
+                  style={{ border: 'none', background: 'transparent' }}
+                />
+
+                <SectionLabel label="Hệ thống" collapsed={collapsed} />
+                <Menu
+                  mode="inline"
+                  selectedKeys={[pathname]}
+                  items={systemItems}
+                  onClick={handleMenuClick}
+                  inlineIndent={12}
+                  style={{ border: 'none', background: 'transparent' }}
+                />
+              </div>
+
+              {/* Bottom collapse toggle */}
+              <div
+                style={{
+                  position: 'absolute',
+                  bottom: 0,
+                  left: 0,
+                  right: 0,
+                  padding: '12px 8px',
+                  borderTop: '1px solid #f1f5f9',
+                  display: 'flex',
+                  justifyContent: collapsed ? 'center' : 'flex-end',
+                }}
+              >
+                <Button
+                  type="text"
+                  icon={collapsed ? <MenuUnfoldOutlined /> : <MenuFoldOutlined />}
+                  onClick={() => setCollapsed(!collapsed)}
+                  style={{
+                    color: '#94a3b8',
+                    width: 36,
+                    height: 36,
+                    display: 'flex',
+                    alignItems: 'center',
+                    justifyContent: 'center',
+                    borderRadius: 8,
+                  }}
+                />
+              </div>
             </Sider>
-            <Layout>
-              <Header 
-                style={{ 
-                  padding: '0 32px', 
-                  backdropFilter: 'blur(8px)',
+
+            {/* ─── MAIN AREA ────────────────────────────────────────────────────── */}
+            <Layout style={{ background: '#f8fafb' }}>
+              {/* Header */}
+              <Header
+                style={{
+                  padding: '0 24px',
+                  background: '#ffffff',
+                  borderBottom: '1px solid #f1f5f9',
                   position: 'sticky',
                   top: 0,
                   zIndex: 10,
                   width: '100%',
                   display: 'flex',
                   alignItems: 'center',
-                  justifyContent: 'space-between'
-                }} 
-                className="shadow-[0_1px_2px_rgba(0,0,0,0.03)] border-b border-gray-100"
+                  justifyContent: 'space-between',
+                  boxShadow: '0 1px 4px rgba(0,0,0,0.04)',
+                }}
               >
-                <div className="flex items-center gap-4">
-                  <Button
-                    type="text"
-                    icon={collapsed ? <MenuUnfoldOutlined /> : <MenuFoldOutlined />}
-                    onClick={() => setCollapsed(!collapsed)}
-                    className="hover:bg-gray-50 flex items-center justify-center rounded-xl transition-all"
-                    style={{
-                      fontSize: '18px',
-                      width: 44,
-                      height: 44,
-                    }}
-                  />
+                {/* Breadcrumb area placeholder */}
+                <div style={{ display: 'flex', alignItems: 'center', gap: 8 }}>
+                  <span style={{ fontSize: 13, fontWeight: 600, color: '#0f172a' }}>
+                    Quản trị hệ thống
+                  </span>
                 </div>
-                <div className="flex items-center gap-6">
-                  <Badge count={3} size="small" offset={[-2, 6]}>
-                    <Button 
-                      type="text" 
-                      icon={<BellOutlined />} 
-                      className="text-gray-400 hover:text-primary transition-colors flex items-center justify-center w-11 h-11 rounded-2xl hover:bg-gray-50" 
+
+                <div style={{ display: 'flex', alignItems: 'center', gap: 8 }}>
+                  {/* Notification bell */}
+                  <Badge count={3} size="small" offset={[-3, 5]}>
+                    <Button
+                      type="text"
+                      icon={<BellOutlined />}
+                      style={{
+                        width: 38,
+                        height: 38,
+                        display: 'flex',
+                        alignItems: 'center',
+                        justifyContent: 'center',
+                        borderRadius: 9,
+                        color: '#64748b',
+                      }}
                     />
                   </Badge>
-                  <Dropdown menu={{ items: userMenuItems as any, onClick: handleMenuClick }} placement="bottomRight" arrow={{ pointAtCenter: true }}>
-                    <div className="flex items-center gap-3 cursor-pointer hover:bg-gray-50 px-4 py-2 rounded-2xl transition-all border border-transparent hover:border-gray-100 bg-gray-50/50">
-                      <Avatar 
-                        size={36}
-                        style={{ backgroundColor: '#199ad6' }} 
-                        icon={<UserOutlined />} 
-                        className="shadow-lg shadow-primary/20 ring-2 ring-white"
+
+                  {/* Divider */}
+                  <div style={{ width: 1, height: 24, background: '#e2e8f0', margin: '0 4px' }} />
+
+                  {/* User menu */}
+                  <Dropdown
+                    menu={{ items: userMenuItems as any, onClick: handleMenuClick }}
+                    placement="bottomRight"
+                    arrow={false}
+                  >
+                    <div
+                      style={{
+                        display: 'flex',
+                        alignItems: 'center',
+                        gap: 10,
+                        cursor: 'pointer',
+                        padding: '5px 10px 5px 5px',
+                        borderRadius: 10,
+                        transition: 'background 0.15s',
+                        border: '1px solid transparent',
+                      }}
+                      onMouseEnter={e => (e.currentTarget.style.background = '#f8fafc')}
+                      onMouseLeave={e => (e.currentTarget.style.background = 'transparent')}
+                    >
+                      <Avatar
+                        size={32}
+                        style={{
+                          backgroundColor: '#199ad6',
+                          boxShadow: '0 2px 8px rgba(25,154,214,0.3)',
+                        }}
+                        icon={<UserOutlined />}
                       />
                       <div className="hidden lg:block">
-                        <div className="text-[12px] font-black text-biotechvet-dark leading-none uppercase tracking-tight">Admin biotechvet</div>
-                        <div className="text-[10px] text-gray-400 font-bold uppercase tracking-[0.1em] mt-1.5 opacity-80 leading-[20px]">Quản trị viên</div>
+                        <div style={{ fontSize: 12.5, fontWeight: 700, color: '#0f172a', lineHeight: 1.2 }}>
+                          Admin
+                        </div>
+                        <div style={{ fontSize: 11, color: '#94a3b8', fontWeight: 500 }}>
+                          Quản trị viên
+                        </div>
                       </div>
                     </div>
                   </Dropdown>
                 </div>
               </Header>
+
+              {/* Page content */}
               <Content
                 style={{
                   padding: 24,
@@ -316,7 +403,7 @@ export default function AdminLayout({
                   flex: 'auto',
                 }}
               >
-                <div className="max-w-[1600px] mx-auto">
+                <div style={{ maxWidth: 1600, margin: '0 auto' }}>
                   {children}
                 </div>
               </Content>
