@@ -247,7 +247,7 @@ export default function AboutContent() {
 
                 {activeTab === 'thanh-tuu' && (
                   <motion.div key="thanh-tuu" variants={tabVariants} initial="hidden" animate="visible" exit="exit">
-                    <div className="relative rounded-[32px] overflow-hidden px-6 py-12 lg:px-12 lg:py-16">
+                    <div className="relative rounded-[32px] overflow-hidden px-6 lg:px-12">
                       <div className="absolute inset-0 bg-[url('/images/fireworks.png')] bg-cover bg-center opacity-30 pointer-events-none"></div>
 
                       <div className="relative z-10 space-y-10">
