@@ -232,13 +232,13 @@ const ImageUpload: React.FC<ImageUploadProps> = ({
                 >
                   <div className="flex gap-2">
                     <div
-                      className="w-4 h-4 bg-white rounded-xl flex items-center 
+                      className="w-6 h-6 bg-white rounded-xl flex items-center 
                                  justify-center text-primary shadow-lg cursor-pointer 
                                  hover:scale-110 transition-transform"
                     >
                       <PlusOutlined className="text-lg" />
                     </div>
-                    <button type='button' className="w-4 h-4 bg-white rounded-xl flex items-center justify-center text-blue-500 shadow-lg cursor-pointer hover:scale-110 transition-transform"
+                    <button type='button' className="w-6 h-6 bg-white rounded-xl flex items-center justify-center text-blue-500 shadow-lg cursor-pointer hover:scale-110 transition-transform"
                       onClick={(e) => {
                         e.stopPropagation();
                         setPreviewVisible(true);
@@ -248,14 +248,14 @@ const ImageUpload: React.FC<ImageUploadProps> = ({
                     </button>
                     <button
                       type='button'
-                      className="w-4 h-4 bg-orange-500 rounded-xl flex items-center justify-center text-white shadow-lg cursor-pointer hover:scale-110 transition-transform"
+                      className="w-6 h-6 bg-orange-500 rounded-xl flex items-center justify-center text-white shadow-lg cursor-pointer hover:scale-110 transition-transform"
                       onClick={handleEditImage}
                     >
                       <EditOutlined className="text-lg" />
                     </button>
                     <button
                       type='button'
-                      className="w-4 h-4 bg-red-500 rounded-xl flex items-center justify-center text-white shadow-lg cursor-pointer hover:scale-110 transition-transform"
+                      className="w-6 h-6 bg-red-500 rounded-xl flex items-center justify-center text-white shadow-lg cursor-pointer hover:scale-110 transition-transform"
                       onClick={onRemove}
                     >
                       <DeleteOutlined className="text-lg" />
