@@ -1,14 +1,19 @@
 "use client";
 
 import React, { useState, useEffect, useRef } from 'react';
+import { useSearchParams } from 'next/navigation';
 import { motion } from 'framer-motion';
 import { Building2, Target, Award, Heart, ShieldCheck, Sparkles, ChevronLeft, ChevronRight } from 'lucide-react';
 import Sidebar from '@/components/shared/Sidebar';
 import { aboutDefaults, mergeAbout } from './aboutDefaults';
 
+const VALID_TABS = ['gioi-thieu', 'lich-su', 'tam-nhin', 'thanh-tuu', 'co-so', 'co-cau'];
+
 export default function AboutContent() {
   const [content, setContent] = useState(aboutDefaults);
   const timelineRef = useRef<HTMLDivElement>(null);
+  const searchParams = useSearchParams();
+  const tab = searchParams.get('tab');
 
   useEffect(() => {
     let cancelled = false;
@@ -22,6 +27,18 @@ export default function AboutContent() {
       .catch(() => { });
     return () => { cancelled = true; };
   }, []);
+
+  useEffect(() => {
+    if (!tab || !VALID_TABS.includes(tab)) return;
+    const scrollToTab = () => {
+      const el = document.getElementById(tab);
+      if (el) {
+        el.scrollIntoView({ behavior: 'smooth', block: 'start' });
+      }
+    };
+    const t = window.setTimeout(scrollToTab, 100);
+    return () => window.clearTimeout(t);
+  }, [tab, content]);
 
   const scrollTimeline = (dir: 'left' | 'right') => {
     if (!timelineRef.current) return;
