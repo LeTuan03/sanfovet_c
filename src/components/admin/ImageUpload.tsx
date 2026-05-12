@@ -2,10 +2,11 @@
 
 import React, { useState, useEffect } from 'react';
 import { Upload, App as AntdApp, Image as AntImage } from 'antd';
-import { PlusOutlined, DeleteOutlined, LoadingOutlined, EyeOutlined } from '@ant-design/icons';
+import { PlusOutlined, DeleteOutlined, LoadingOutlined, EyeOutlined, EditOutlined } from '@ant-design/icons';
 import type { UploadChangeParam } from 'antd/es/upload';
 import type { RcFile, UploadFile, UploadProps } from 'antd/es/upload/interface';
 import { uploadFile } from '@/lib/storage-provider';
+import ImageEditor from './ImageEditor';
 
 interface ImageUploadProps {
   value?: string;
@@ -103,6 +104,8 @@ const ImageUpload: React.FC<ImageUploadProps> = ({
   const [loading, setLoading] = useState(false);
   const [imageUrl, setImageUrl] = useState<string | undefined>(value);
   const [previewVisible, setPreviewVisible] = useState(false);
+  const [editorVisible, setEditorVisible] = useState(false);
+  const [editingImageUrl, setEditingImageUrl] = useState<string>('');
 
   const beforeUpload = (file: RcFile) => {
     const isJpgOrPng =
@@ -167,6 +170,34 @@ const ImageUpload: React.FC<ImageUploadProps> = ({
     onChange?.('');
   };
 
+  const handleEditImage = (e: React.MouseEvent) => {
+    e.stopPropagation();
+    setEditingImageUrl(imageUrl || '');
+    setEditorVisible(true);
+  };
+
+  const handleEditorSave = async (editedBlob: Blob) => {
+    try {
+      setLoading(true);
+      messageApi.loading({ content: 'Đang lưu ảnh đã chỉnh sửa...', key: 'upload_status' });
+
+      const bucket = 'images';
+      const url = await uploadFile(editedBlob as File, bucket, (progress: number) => {
+        // Progress tracking
+      });
+
+      setImageUrl(url);
+      onChange?.(url);
+      setEditorVisible(false);
+      messageApi.success({ content: 'Lưu ảnh chỉnh sửa thành công!', key: 'upload_status', duration: 2 });
+    } catch (error) {
+      console.error('Save edited image error:', error);
+      messageApi.error({ content: 'Lưu ảnh chỉnh sửa thất bại!', key: 'upload_status' });
+    } finally {
+      setLoading(false);
+    }
+  };
+
   return (
     <div
       className="relative w-full rounded-2xl border-2 border-dashed border-gray-100 
@@ -214,6 +245,13 @@ const ImageUpload: React.FC<ImageUploadProps> = ({
                       }}
                     >
                       <EyeOutlined className="text-lg" />
+                    </button>
+                    <button
+                      type='button'
+                      className="w-9 h-9 bg-orange-500 rounded-xl flex items-center justify-center text-white shadow-lg cursor-pointer hover:scale-110 transition-transform"
+                      onClick={handleEditImage}
+                    >
+                      <EditOutlined className="text-lg" />
                     </button>
                     <button
                       type='button'
@@ -266,6 +304,13 @@ const ImageUpload: React.FC<ImageUploadProps> = ({
           }}
         />
       )}
+
+      <ImageEditor
+        visible={editorVisible}
+        imageUrl={editingImageUrl}
+        onSave={handleEditorSave}
+        onCancel={() => setEditorVisible(false)}
+      />
 
       <style>{`
         .upload-fill,
