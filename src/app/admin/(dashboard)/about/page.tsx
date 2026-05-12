@@ -318,13 +318,15 @@ export default function AdminAboutPage() {
                                 key={field.key}
                                 className="p-4 border border-gray-100 rounded-2xl bg-gray-50/40 flex items-start gap-3"
                               >
-                                <Form.Item
-                                  name={[field.name, 'url']}
-                                  label="Ảnh"
-                                  className="!mb-0"
-                                >
-                                  <ImageUpload />
-                                </Form.Item>
+                                <div className="w-40 shrink-0">
+                                  <Form.Item
+                                    name={[field.name, 'url']}
+                                    label="Ảnh"
+                                    className="!mb-0"
+                                  >
+                                    <ImageUpload />
+                                  </Form.Item>
+                                </div>
                                 <Form.Item
                                   name={[field.name, 'title']}
                                   label="Tiêu đề"
