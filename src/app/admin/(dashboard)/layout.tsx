@@ -171,7 +171,7 @@ export default function AdminLayout({ children }: { children: React.ReactNode })
               width={248}
               collapsedWidth={68}
               style={{
-                overflow: 'auto',
+                overflow: 'hidden',
                 height: '100vh',
                 position: 'sticky',
                 top: 0,
@@ -180,6 +180,8 @@ export default function AdminLayout({ children }: { children: React.ReactNode })
                 borderRight: '1px solid #f1f5f9',
                 boxShadow: '2px 0 12px rgba(0,0,0,0.03)',
                 transition: 'width 0.2s cubic-bezier(0.4,0,0.2,1)',
+                display: 'flex',
+                flexDirection: 'column',
               }}
             >
               {/* Logo */}
@@ -243,8 +245,8 @@ export default function AdminLayout({ children }: { children: React.ReactNode })
                 )}
               </div>
 
-              {/* Menu content */}
-              <div style={{ padding: '8px 0 16px' }}>
+              {/* Menu content — scrollable middle section */}
+              <div style={{ padding: '8px 0 16px', flex: 1, overflowY: 'auto', overflowX: 'hidden' }}>
 
                 <SectionLabel label="Dashboard" collapsed={collapsed} />
                 <Menu
@@ -277,34 +279,8 @@ export default function AdminLayout({ children }: { children: React.ReactNode })
                 />
               </div>
 
-              {/* Bottom collapse toggle */}
-              <div
-                style={{
-                  position: 'absolute',
-                  bottom: 0,
-                  left: 0,
-                  right: 0,
-                  padding: '12px 8px',
-                  borderTop: '1px solid #f1f5f9',
-                  display: 'flex',
-                  justifyContent: collapsed ? 'center' : 'flex-end',
-                }}
-              >
-                <Button
-                  type="text"
-                  icon={collapsed ? <MenuUnfoldOutlined /> : <MenuFoldOutlined />}
-                  onClick={() => setCollapsed(!collapsed)}
-                  style={{
-                    color: '#94a3b8',
-                    width: 36,
-                    height: 36,
-                    display: 'flex',
-                    alignItems: 'center',
-                    justifyContent: 'center',
-                    borderRadius: 8,
-                  }}
-                />
-              </div>
+              {/* spacer */}
+              <div style={{ height: 8 }} />
             </Sider>
 
             {/* ─── MAIN AREA ────────────────────────────────────────────────────── */}
@@ -318,41 +294,30 @@ export default function AdminLayout({ children }: { children: React.ReactNode })
                   position: 'sticky',
                   top: 0,
                   zIndex: 10,
-                  width: '100%',
                   display: 'flex',
                   alignItems: 'center',
                   justifyContent: 'space-between',
                   boxShadow: '0 1px 4px rgba(0,0,0,0.04)',
+                  overflow: 'hidden',
                 }}
               >
-                {/* Breadcrumb area placeholder */}
-                <div style={{ display: 'flex', alignItems: 'center', gap: 8 }}>
-                  <span style={{ fontSize: 13, fontWeight: 600, color: '#0f172a' }}>
-                    Quản trị hệ thống
-                  </span>
-                </div>
+                <Button
+                  type="text"
+                  icon={collapsed ? <MenuUnfoldOutlined /> : <MenuFoldOutlined />}
+                  onClick={() => setCollapsed(!collapsed)}
+                  style={{
+                    width: 38,
+                    height: 38,
+                    display: 'flex',
+                    alignItems: 'center',
+                    justifyContent: 'center',
+                    borderRadius: 9,
+                    color: '#64748b',
+                    fontSize: 16,
+                  }}
+                />
 
-                <div style={{ display: 'flex', alignItems: 'center', gap: 8 }}>
-                  {/* Notification bell */}
-                  <Badge count={3} size="small" offset={[-3, 5]}>
-                    <Button
-                      type="text"
-                      icon={<BellOutlined />}
-                      style={{
-                        width: 38,
-                        height: 38,
-                        display: 'flex',
-                        alignItems: 'center',
-                        justifyContent: 'center',
-                        borderRadius: 9,
-                        color: '#64748b',
-                      }}
-                    />
-                  </Badge>
-
-                  {/* Divider */}
-                  <div style={{ width: 1, height: 24, background: '#e2e8f0', margin: '0 4px' }} />
-
+                <div style={{ display: 'flex', alignItems: 'center', gap: 8, flexShrink: 0 }}>
                   {/* User menu */}
                   <Dropdown
                     menu={{ items: userMenuItems as any, onClick: handleMenuClick }}
