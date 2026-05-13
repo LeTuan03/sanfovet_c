@@ -1,56 +1,50 @@
 "use client";
 
-import React, { useEffect } from 'react';
-import { Modal, message } from 'antd';
-import { ShieldX } from 'lucide-react';
+import { useEffect } from 'react';
 
 export default function ContentProtection() {
   useEffect(() => {
-    const handleContextMenu = (e: MouseEvent) => {
-      e.preventDefault();
-      
-      // Modal.error({
-      //   title: <span className="text-red-600 font-black uppercase italic tracking-tight">Cảnh báo bảo mật</span>,
-      //   content: (
-      //     <div className="py-4">
-      //       <div className="w-16 h-16 bg-red-50 rounded-2xl flex items-center justify-center text-red-500 mb-4 mx-auto">
-      //          <ShieldX size={32} />
-      //       </div>
-      //       <p className="text-center font-bold text-gray-700 leading-relaxed">
-      //         Xin lỗi, nội dung trên website BIOTECH-VET đã được bảo vệ bản quyền. 
-      //         Vui lòng không sao chép hoặc kiểm tra mã nguồn.
-      //       </p>
-      //     </div>
-      //   ),
-      //   okText: "Tôi đã hiểu",
-      //   okButtonProps: { className: "bg-primary font-bold px-8 rounded-full h-10 border-none" },
-      //   centered: true,
-      //   className: "content-protection-modal"
-      // });
-    };
-
-    // Enable protection by default for both dev and prod in this handover version
+    // 1. Block right-click
+    const handleContextMenu = (e: MouseEvent) => e.preventDefault();
     document.addEventListener('contextmenu', handleContextMenu);
-    
-    // Add additional protection against common shortcuts
+
+    // 2. Block keyboard shortcuts
     const handleKeyDown = (e: KeyboardEvent) => {
-      if (
-        (e.ctrlKey && (e.key === 'u' || e.key === 'U' || e.key === 's' || e.key === 'S' || e.key === 'c' || e.key === 'C')) ||
-        (e.ctrlKey && e.shiftKey && (e.key === 'I' || e.key === 'i' || e.key === 'J' || e.key === 'j' || e.key === 'C' || e.key === 'c')) ||
-        e.key === 'F12'
-      ) {
-        e.preventDefault();
-        // message.warning({
-        //   content: 'Phím tắt đã bị vô hiệu hóa để bảo vệ nội dung.',
-        //   className: 'custom-message-warning'
-        // });
-      }
+      const ctrl = e.ctrlKey || e.metaKey; // metaKey cho Mac
+      const blocked =
+        (ctrl && ['u','s','c','p','a'].includes(e.key.toLowerCase())) ||
+        (ctrl && e.shiftKey && ['i','j','c','k'].includes(e.key.toLowerCase())) ||
+        ['F12'].includes(e.key);
+      if (blocked) e.preventDefault();
     };
     document.addEventListener('keydown', handleKeyDown);
+
+    // 3. Block drag
+    const handleDragStart = (e: DragEvent) => e.preventDefault();
+    document.addEventListener('dragstart', handleDragStart);
+
+    // 4. Disable selection via JS (CSS nên set riêng)
+    const handleSelectStart = (e: Event) => e.preventDefault();
+    document.addEventListener('selectstart', handleSelectStart);
+
+    // 5. DevTools detection - dùng debugger trick (đáng tin hơn)
+    let devtoolsInterval: ReturnType<typeof setInterval>;
+    const detectDevTools = () => {
+      const start = performance.now();
+      // eslint-disable-next-line no-debugger
+      debugger;
+      if (performance.now() - start > 100) {
+        globalThis.location.replace('/');
+      }
+    };
+    devtoolsInterval = setInterval(detectDevTools, 1000);
 
     return () => {
       document.removeEventListener('contextmenu', handleContextMenu);
       document.removeEventListener('keydown', handleKeyDown);
+      document.removeEventListener('dragstart', handleDragStart);
+      document.removeEventListener('selectstart', handleSelectStart);
+      clearInterval(devtoolsInterval);
     };
   }, []);
 
