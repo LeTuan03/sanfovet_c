@@ -37,7 +37,7 @@ export default function ContentProtection() {
     };
     devtoolsInterval = setInterval(() => {
       if (detectDevTools()) {
-        globalThis.location.replace('/images/favicon.ico');
+        globalThis.location.replace('/');
       }
     }, 1000);
 
