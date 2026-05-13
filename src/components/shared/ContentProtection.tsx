@@ -46,8 +46,8 @@ export default function ContentProtection() {
     return () => {
       document.removeEventListener('contextmenu', handleContextMenu);
       document.removeEventListener('keydown', handleKeyDown);
-      document.removeEventListener('dragstart', handleDragStart);
-      document.removeEventListener('selectstart', handleSelectStart);
+      // document.removeEventListener('dragstart', handleDragStart);
+      // document.removeEventListener('selectstart', handleSelectStart);
       clearInterval(devtoolsInterval);
     };
   }, []);
