@@ -19,13 +19,13 @@ export default function ContentProtection() {
     };
     document.addEventListener('keydown', handleKeyDown);
 
-    // 3. Block drag
-    const handleDragStart = (e: DragEvent) => e.preventDefault();
-    document.addEventListener('dragstart', handleDragStart);
+    // // 3. Block drag
+    // const handleDragStart = (e: DragEvent) => e.preventDefault();
+    // document.addEventListener('dragstart', handleDragStart);
 
-    // 4. Disable selection via JS (CSS nên set riêng)
-    const handleSelectStart = (e: Event) => e.preventDefault();
-    document.addEventListener('selectstart', handleSelectStart);
+    // // 4. Disable selection via JS (CSS nên set riêng)
+    // const handleSelectStart = (e: Event) => e.preventDefault();
+    // document.addEventListener('selectstart', handleSelectStart);
 
     // 5. DevTools detection - use viewport heuristic because debugger timing is unreliable
     let devtoolsInterval: ReturnType<typeof setInterval>;
