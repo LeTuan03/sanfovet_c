@@ -27,17 +27,19 @@ export default function ContentProtection() {
     const handleSelectStart = (e: Event) => e.preventDefault();
     document.addEventListener('selectstart', handleSelectStart);
 
-    // 5. DevTools detection - dùng debugger trick (đáng tin hơn)
+    // 5. DevTools detection - use viewport heuristic because debugger timing is unreliable
     let devtoolsInterval: ReturnType<typeof setInterval>;
     const detectDevTools = () => {
-      const start = performance.now();
-      // eslint-disable-next-line no-debugger
-      debugger;
-      if (performance.now() - start > 100) {
-        globalThis.location.replace('/');
-      }
+      const threshold = 160;
+      const widthDiff = window.outerWidth - window.innerWidth;
+      const heightDiff = window.outerHeight - window.innerHeight;
+      return widthDiff > threshold || heightDiff > threshold;
     };
-    devtoolsInterval = setInterval(detectDevTools, 1000);
+    devtoolsInterval = setInterval(() => {
+      if (detectDevTools()) {
+        globalThis.location.replace('/images/favicon.ico');
+      }
+    }, 1000);
 
     return () => {
       document.removeEventListener('contextmenu', handleContextMenu);
