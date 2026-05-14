@@ -28,11 +28,11 @@ export const viewport = {
 
 export const metadata: Metadata = {
   title: {
-    default: "BIOTECH-VET - Thuốc Thú Y Công Nghệ USA | Chất Lượng Vượt Trội",
+    default: "BIOTECH-VET - Dược Thú Y Công Nghệ USA | Chất Lượng Vượt Trội",
     template: "%s | BIOTECH-VET"
   },
-  description: "BIOTECH-VET tự hào là đơn vị tiên phong trong sản xuất và phân phối thuốc thú y trang trại tại Việt Nam với công nghệ tiên tiến từ Hoa Kỳ. Nhà máy đạt tiêu chuẩn GMP-WHO.",
-  keywords: ["thuốc thú y", "biotechvet", "chăn nuôi", "gmp-who", "phòng bệnh vật nuôi", "điều trị bệnh thú y"],
+  description: "BIOTECH-VET tự hào là đơn vị tiên phong trong sản xuất và phân phối dược thú y trang trại tại Việt Nam với công nghệ tiên tiến từ Hoa Kỳ. Nhà máy đạt tiêu chuẩn GMP-WHO.",
+  keywords: ["dược thú y", "biotechvet", "chăn nuôi", "gmp-who", "phòng bệnh vật nuôi", "điều trị bệnh thú y"],
   authors: [{ name: "BIOTECH-VET Team" }],
   metadataBase: new URL("https://biotechvet.com.vn"),
   robots: {
@@ -51,8 +51,8 @@ export const metadata: Metadata = {
     locale: "vi_VN",
     url: "https://biotechvet.com.vn",
     siteName: "BIOTECH-VET",
-    title: "BIOTECH-VET - Thuốc Thú Y Công Nghệ USA",
-    description: "Tiên phong sản xuất thuốc thú y công nghệ USA tại Việt Nam. Nhà máy đạt chuẩn GMP-WHO.",
+    title: "BIOTECH-VET - Dược Thú Y Công Nghệ USA",
+    description: "Tiên phong sản xuất dược thú y công nghệ USA tại Việt Nam. Nhà máy đạt chuẩn GMP-WHO.",
     images: [
       {
         url: "/images/about.webp",
@@ -64,8 +64,8 @@ export const metadata: Metadata = {
   },
   twitter: {
     card: "summary_large_image",
-    title: "BIOTECH-VET - Thuốc Thú Y Công Nghệ USA",
-    description: "Tiên phong sản xuất thuốc thú y công nghệ USA tại Việt Nam.",
+    title: "BIOTECH-VET - Dược Thú Y Công Nghệ USA",
+    description: "Tiên phong sản xuất dược thú y công nghệ USA tại Việt Nam.",
     images: ["/images/about.webp"],
   },
   icons: {

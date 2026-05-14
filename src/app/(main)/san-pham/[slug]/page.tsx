@@ -22,9 +22,9 @@ export async function generateMetadata({ params }: { params: Promise<{ slug: str
   }
 
   return {
-    title: `${product.name} - Thuốc Thú Y biotechvet`,
+    title: `${product.name} - Dược Thú Y biotechvet`,
     description: `Chi tiết sản phẩm ${product.name} từ biotechvet - Công nghệ USA`,
-    keywords: ['thuốc thú y', 'biotechvet', product.name, 'chăn nuôi', 'sản phẩm'],
+    keywords: ['dược thú y', 'biotechvet', product.name, 'chăn nuôi', 'sản phẩm'],
     robots: 'index, follow',
     openGraph: {
       type: "website",
@@ -43,7 +43,7 @@ export async function generateMetadata({ params }: { params: Promise<{ slug: str
     twitter: {
       card: "summary_large_image",
       title: `${product.name} - biotechvet`,
-      description: 'Sản phẩm thuốc thú y chất lượng cao',
+      description: 'Sản phẩm dược thú y chất lượng cao',
       images: [product.image || '/images/default-product.png'],
     },
     alternates: {

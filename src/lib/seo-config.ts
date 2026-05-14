@@ -6,7 +6,7 @@
 export const SEO_CONFIG = {
   BASE_URL: "https://biotechvet.com.vn",
   SITE_NAME: "BIOTECH-VET",
-  SITE_DESCRIPTION: "BIOTECH-VET - Tiên phong sản xuất thuốc thú y công nghệ USA tại Việt Nam",
+  SITE_DESCRIPTION: "BIOTECH-VET - Tiên phong sản xuất dược thú y công nghệ USA tại Việt Nam",
   COMPANY_NAME: "Công Ty CP Công Nghệ Sinh Học Thú Y",
   
   // Default Images
@@ -33,7 +33,7 @@ export const SEO_CONFIG = {
   
   // SEO Keywords
   CORE_KEYWORDS: [
-    "thuốc thú y",
+    "dược thú y",
     "biotechvet",
     "chăn nuôi",
     "gmp-who",

@@ -48,7 +48,7 @@ export const aboutDefaults: AboutContentResolved = {
   gioiThieu: {
     title: 'Tổng quan về BIOTECH-VET',
     paragraph1:
-      'BIOTECH-VET là thương hiệu thuốc thú y thuộc Công Ty CP Công Nghệ Sinh Học Thú Y. Với hơn 20 năm phát triển, chúng tôi tự hào mang đến các giải pháp dược phẩm chất lượng cao, ứng dụng công nghệ hiện đại từ Hoa Kỳ.',
+      'BIOTECH-VET là thương hiệu dược thú y thuộc Công Ty CP Công Nghệ Sinh Học Thú Y. Với hơn 20 năm phát triển, chúng tôi tự hào mang đến các giải pháp dược phẩm chất lượng cao, ứng dụng công nghệ hiện đại từ Hoa Kỳ.',
     paragraph2:
       'Chúng tôi hướng đến việc liên tục đổi mới, cải tiến chất lượng và dịch vụ, đáp ứng nhu cầu ngày càng cao của ngành chăn nuôi trong và ngoài nước.',
     stat1Number: '200+',
@@ -67,7 +67,7 @@ export const aboutDefaults: AboutContentResolved = {
       },
       {
         year: '2010',
-        text: 'Khánh thành nhà máy sản xuất thuốc thú y đầu tiên đạt chuẩn GMP-WHO, khẳng định vị thế về chất lượng trên thị trường trong nước.',
+        text: 'Khánh thành nhà máy sản xuất dược thú y đầu tiên đạt chuẩn GMP-WHO, khẳng định vị thế về chất lượng trên thị trường trong nước.',
       },
       {
         year: '2018',
@@ -121,7 +121,7 @@ export const aboutDefaults: AboutContentResolved = {
   thanhTuu: {
     heading: 'Thành tựu',
     title:
-      'Sau hơn 20 năm hình thành và phát triển, với tư duy sáng tạo, mạnh dạn đổi mới và nỗ lực không ngừng. Thương hiệu thuốc thú y BIOTECH-VET đã trở thành một trong những doanh nghiệp lớn hàng đầu trên thị trường Việt Nam, đóng góp tích cực vào sự phát triển của đất nước nói chung và ngành chăn nuôi – thú y nói riêng. Với những thành tựu nổi bật, thương hiệu thuốc thú y BIOTECH-VET đã nhận được những danh hiệu và giải thưởng cao quý',
+      'Sau hơn 20 năm hình thành và phát triển, với tư duy sáng tạo, mạnh dạn đổi mới và nỗ lực không ngừng. Thương hiệu dược thú y BIOTECH-VET đã trở thành một trong những doanh nghiệp lớn hàng đầu trên thị trường Việt Nam, đóng góp tích cực vào sự phát triển của đất nước nói chung và ngành chăn nuôi – thú y nói riêng. Với những thành tựu nổi bật, thương hiệu dược thú y BIOTECH-VET đã nhận được những danh hiệu và giải thưởng cao quý',
     images: [
       {
         url: '',

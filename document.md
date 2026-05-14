@@ -35,15 +35,15 @@
 
 ## 1. Tổng Quan Website
 
-Website `biotechvet.com.vn` là **website doanh nghiệp B2B/B2C** trong lĩnh vực **thuốc thú y trang trại**, phục vụ chủ yếu cho đối tượng:
+Website `biotechvet.com.vn` là **website doanh nghiệp B2B/B2C** trong lĩnh vực **dược thú y trang trại**, phục vụ chủ yếu cho đối tượng:
 
 - Người chăn nuôi (heo, gà, vịt, trâu, bò, dê, cừu)
-- Đại lý / nhà phân phối thuốc thú y
+- Đại lý / nhà phân phối dược thú y
 - Bác sĩ thú y, kỹ thuật viên chăn nuôi
 - Ứng viên tìm việc ngành thú y
 
 **Mục tiêu chính của website:**
-- Giới thiệu thương hiệu và sản phẩm thuốc thú y biotechvet
+- Giới thiệu thương hiệu và sản phẩm dược thú y biotechvet
 - Cung cấp kiến thức chuyên sâu về chăn nuôi và bệnh thú y
 - Thu nhận yêu cầu liên hệ / tư vấn mua hàng
 - Đăng tin tuyển dụng nhân sự
@@ -158,7 +158,7 @@ Website `biotechvet.com.vn` là **website doanh nghiệp B2B/B2C** trong lĩnh v
 
 **URL gốc:** `/danh-muc-san-pham/san-pham/`
 
-**Mô tả:** Hệ thống danh mục sản phẩm thuốc thú y được phân loại theo dạng bào chế và công dụng.
+**Mô tả:** Hệ thống danh mục sản phẩm dược thú y được phân loại theo dạng bào chế và công dụng.
 
 **10 Danh mục sản phẩm:**
 
@@ -190,7 +190,7 @@ Website `biotechvet.com.vn` là **website doanh nghiệp B2B/B2C** trong lĩnh v
 **URL mẫu:** `/san-pham/{slug-san-pham}/`  
 **Ví dụ:** `/san-pham/thuoc-thu-y-hemopro/`
 
-**Mô tả:** Trang hiển thị thông tin kỹ thuật đầy đủ của từng sản phẩm thuốc thú y.
+**Mô tả:** Trang hiển thị thông tin kỹ thuật đầy đủ của từng sản phẩm dược thú y.
 
 **Cấu trúc thông tin trang chi tiết sản phẩm:**
 

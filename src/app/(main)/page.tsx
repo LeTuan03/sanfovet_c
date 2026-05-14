@@ -25,7 +25,7 @@ export default async function HomePage() {
   const videos = Array.isArray(mediaVideos) ? mediaVideos.filter((v: any) => v.status === 'active').map(v => ({ ...v, id: Number(v.id) })) : [];
 
   const features = [
-    { icon: <Microscope size={32} />, title: 'Công nghệ USA', desc: 'Ứng dụng công nghệ tiên tiến từ Hoa Kỳ trong sản xuất thuốc thú y' },
+    { icon: <Microscope size={32} />, title: 'Công nghệ USA', desc: 'Ứng dụng công nghệ tiên tiến từ Hoa Kỳ trong sản xuất dược thú y' },
     { icon: <ShieldCheck size={32} />, title: 'Đạt chuẩn GMP', desc: 'Nhà máy đạt chuẩn chất lượng GMP-WHO về sản xuất dược phẩm' },
     { icon: <Users size={32} />, title: '200+ Sản phẩm', desc: 'Chất lượng ứng dụng trong chăn nuôi thú y.BTV đã tạo trở thành người bạn đồng hành tin cậy của nhà nông' },
     { icon: <Truck size={32} />, title: '20+ Năm', desc: 'Năm 2005, BTV thành lập bằng nhiệt huyết, trí tuệ và bằng cả cái tâm của đội ngũ các nhà khoa học đầu ngành Việt Nam trong lĩnh vực chăn nuôi thú y.' },
@@ -73,7 +73,7 @@ export default async function HomePage() {
                   <span className="text-secondary tracking-tighter">Công Nghệ Sinh Học Thú Y</span>
                 </h3>
                 <p className="text-gray-600 mb-6 leading-relaxed text-lg font-medium">
-                  BIOTECH-VET tự hào là đơn vị tiên phong trong lĩnh vực sản xuất và phân phối thuốc thú y tại Việt Nam.
+                  BIOTECH-VET tự hào là đơn vị tiên phong trong lĩnh vực sản xuất và phân phối dược thú y tại Việt Nam.
                   Ứng dụng tiêu chuẩn công nghệ tiên tiến từ Hoa Kỳ, chúng tôi cam kết mang đến những giải pháp bảo vệ sức khỏe vật nuôi toàn diện.
                 </p>
                 <div className="flex flex-col sm:flex-row gap-8 sm:gap-12 mb-10 pb-10 border-b border-gray-100">

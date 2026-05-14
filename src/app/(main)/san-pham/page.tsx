@@ -12,12 +12,12 @@ import Link from 'next/link';
 
 export const metadata: Metadata = {
   title: 'Danh mục Sản phẩm - biotechvet',
-  description: 'Danh mục các loại thuốc thú y, thuốc bổ trợ, kháng sinh chất lượng cao từ biotechvet. Sản phẩm đạt chuẩn GMP-WHO với công nghệ tiên tiến từ USA.',
-  keywords: ['thuốc thú y', 'thuốc bổ trợ', 'kháng sinh', 'biotechvet', 'sản phẩm chăn nuôi'],
+  description: 'Danh mục các loại dược thú y, thuốc bổ trợ, kháng sinh chất lượng cao từ biotechvet. Sản phẩm đạt chuẩn GMP-WHO với công nghệ tiên tiến từ USA.',
+  keywords: ['dược thú y', 'thuốc bổ trợ', 'kháng sinh', 'biotechvet', 'sản phẩm chăn nuôi'],
   robots: 'index, follow',
   openGraph: {
     title: 'Danh mục Sản phẩm - biotechvet',
-    description: 'Danh mục các loại thuốc thú y, thuốc bổ trợ, kháng sinh chất lượng cao từ biotechvet.',
+    description: 'Danh mục các loại dược thú y, thuốc bổ trợ, kháng sinh chất lượng cao từ biotechvet.',
     url: 'https://biotechvet.com.vn/san-pham',
     images: [
       {
@@ -95,7 +95,7 @@ export default async function ProductsPage({ searchParams }: { searchParams: Pro
             {activeCategory ? activeCategory.name : 'Sản Phẩm Thú Y'}
           </h1>
           <p className="text-primary-light font-medium">
-            {activeCategory ? `Khám phá các dòng sản phẩm thuộc danh mục ${activeCategory.name}` : 'Danh mục đầy đủ các sản phẩm thuốc thú y chất lượng cao, công nghệ USA'}
+            {activeCategory ? `Khám phá các dòng sản phẩm thuộc danh mục ${activeCategory.name}` : 'Danh mục đầy đủ các sản phẩm dược thú y chất lượng cao, công nghệ USA'}
           </p>
         </div>
       </div>

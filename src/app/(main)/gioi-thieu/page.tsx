@@ -2,13 +2,13 @@ import { Metadata } from 'next';
 import AboutContent from './AboutContent';
 
 export const metadata: Metadata = {
-  title: "Giới Thiệu - BIOTECH-VET | Công Ty Thuốc Thú Y USA",
-  description: "Tìm hiểu về BIOTECH-VET - Công Ty CP Công Nghệ Sinh Học Thú Y, đơn vị tiên phong trong sản xuất thuốc thú y công nghệ USA tại Việt Nam.",
-  keywords: ["giới thiệu biotechvet", "công ty việt anh", "nhà máy thuốc thú y", "lịch sử biotechvet", "tầm nhìn sứ mệnh"],
+  title: "Giới Thiệu - BIOTECH-VET | Công Ty Dược Thú Y USA",
+  description: "Tìm hiểu về BIOTECH-VET - Công Ty CP Công Nghệ Sinh Học Thú Y, đơn vị tiên phong trong sản xuất dược thú y công nghệ USA tại Việt Nam.",
+  keywords: ["giới thiệu biotechvet", "công ty việt anh", "nhà máy dược thú y", "lịch sử biotechvet", "tầm nhìn sứ mệnh"],
   robots: "index, follow",
   openGraph: {
     title: "Giới Thiệu - BIOTECH-VET",
-    description: "Tìm hiểu về BIOTECH-VET - Đơn vị tiên phong sản xuất thuốc thú y công nghệ USA tại Việt Nam.",
+    description: "Tìm hiểu về BIOTECH-VET - Đơn vị tiên phong sản xuất dược thú y công nghệ USA tại Việt Nam.",
     url: "https://biotechvet.com.vn/gioi-thieu",
     images: [
       {

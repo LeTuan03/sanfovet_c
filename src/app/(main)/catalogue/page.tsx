@@ -6,7 +6,7 @@ import HomeGallery from '@/components/home/HomeGallery';
 export const metadata: Metadata = {
   title: "Catalogue & Tài Liệu - biotechvet",
   description: "Tải về Catalogue sản phẩm thú y 2026 và Hồ sơ năng lực mới nhất của BIOTECH-VET. Tài liệu kỹ thuật chuyên sâu cho trang trại.",
-  keywords: ["catalogue thuốc thú y", "hồ sơ năng lực biotechvet", "tải tài liệu thú y", "hướng dẫn sử dụng thuốc thú y"],
+  keywords: ["catalogue dược thú y", "hồ sơ năng lực biotechvet", "tải tài liệu thú y", "hướng dẫn sử dụng dược thú y"],
   robots: "index, follow",
   openGraph: {
     title: "Catalogue & Tài Liệu - biotechvet",

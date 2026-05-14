@@ -14,7 +14,7 @@ export const organizationSchema = {
   "@id": BASE_URL,
   name: "BIOTECH-VET",
   alternateName: "biotechvet",
-  description: "Tiên phong sản xuất thuốc thú y công nghệ USA tại Việt Nam",
+  description: "Tiên phong sản xuất dược thú y công nghệ USA tại Việt Nam",
   url: BASE_URL,
   logo: `${BASE_URL}/images/logo.png`,
   image: `${BASE_URL}/images/about.webp`,
@@ -149,7 +149,7 @@ export const localBusinessSchema = {
   "@id": BASE_URL,
   name: "BIOTECH-VET",
   image: `${BASE_URL}/images/logo.png`,
-  description: "Nhà máy sản xuất thuốc thú y đạt chuẩn GMP-WHO",
+  description: "Nhà máy sản xuất dược thú y đạt chuẩn GMP-WHO",
   url: BASE_URL,
   telephone: "+84-xxx-xxx-xxx",
   address: {

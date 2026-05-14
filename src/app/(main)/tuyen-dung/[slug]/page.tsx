@@ -66,7 +66,7 @@ export default async function JobDetailPage({ params }: Readonly<{ params: Promi
                 <div className="text-gray-600 leading-relaxed space-y-4 font-medium">
                   <p>
                     <strong>Công Ty CP Công Nghệ Sinh Học Thú Y (BIOTECH-VET)</strong> là doanh nghiệp hàng đầu trong lĩnh vực 
-                    sản xuất và phân phối thuốc thú y trang trại tại Việt Nam. Với nhà máy đạt tiêu chuẩn GMP-WHO và công nghệ 
+                    sản xuất và phân phối dược thú y trang trại tại Việt Nam. Với nhà máy đạt tiêu chuẩn GMP-WHO và công nghệ 
                     tiên tiến từ Hoa Kỳ, chúng tôi cam kết mang đến những sản phẩm chất lượng cao nhất cho ngành chăn nuôi.
                   </p>
                   <p>
@@ -83,7 +83,7 @@ export default async function JobDetailPage({ params }: Readonly<{ params: Promi
                 </h2>
                 <ul className="space-y-4 text-gray-600 font-medium">
                   <li className="flex gap-3 items-start"><CheckCircle size={18} className="text-primary shrink-0 mt-0.5" /> Tìm kiếm và phát triển khách hàng mới (đại lý, cửa hàng, trang trại) tại khu vực được phân công.</li>
-                  <li className="flex gap-3 items-start"><CheckCircle size={18} className="text-primary shrink-0 mt-0.5" /> Giới thiệu và tư vấn sản phẩm thuốc thú y biotechvet cho khách hàng.</li>
+                  <li className="flex gap-3 items-start"><CheckCircle size={18} className="text-primary shrink-0 mt-0.5" /> Giới thiệu và tư vấn sản phẩm dược thú y biotechvet cho khách hàng.</li>
                   <li className="flex gap-3 items-start"><CheckCircle size={18} className="text-primary shrink-0 mt-0.5" /> Duy trì và phát triển mối quan hệ với khách hàng hiện tại, đảm bảo doanh số theo chỉ tiêu.</li>
                   <li className="flex gap-3 items-start"><CheckCircle size={18} className="text-primary shrink-0 mt-0.5" /> Thu thập thông tin thị trường, phản hồi khách hàng và báo cáo định kỳ.</li>
                   <li className="flex gap-3 items-start"><CheckCircle size={18} className="text-primary shrink-0 mt-0.5" /> Hỗ trợ kỹ thuật cơ bản cho khách hàng về cách sử dụng sản phẩm.</li>
@@ -97,7 +97,7 @@ export default async function JobDetailPage({ params }: Readonly<{ params: Promi
                 </h2>
                 <ul className="space-y-4 text-gray-600 font-medium">
                   <li className="flex gap-3 items-start"><CheckCircle size={18} className="text-orange-500 shrink-0 mt-0.5" /> Tốt nghiệp Đại học/Cao đẳng ngành Thú y, Chăn nuôi hoặc các ngành liên quan.</li>
-                  <li className="flex gap-3 items-start"><CheckCircle size={18} className="text-orange-500 shrink-0 mt-0.5" /> Có kinh nghiệm kinh doanh thuốc thú y từ 1 năm trở lên (ưu tiên).</li>
+                  <li className="flex gap-3 items-start"><CheckCircle size={18} className="text-orange-500 shrink-0 mt-0.5" /> Có kinh nghiệm kinh doanh dược thú y từ 1 năm trở lên (ưu tiên).</li>
                   <li className="flex gap-3 items-start"><CheckCircle size={18} className="text-orange-500 shrink-0 mt-0.5" /> Am hiểu thị trường chăn nuôi khu vực {job.location}.</li>
                   <li className="flex gap-3 items-start"><CheckCircle size={18} className="text-orange-500 shrink-0 mt-0.5" /> Có phương tiện di chuyển cá nhân, có thể đi công tác thường xuyên.</li>
                   <li className="flex gap-3 items-start"><CheckCircle size={18} className="text-orange-500 shrink-0 mt-0.5" /> Kỹ năng giao tiếp tốt, trung thực, chịu được áp lực công việc.</li>

@@ -74,7 +74,7 @@ export async function generateMetadata({ params }: { params: Promise<{ slug: str
   return {
     title: `${article.title} - biotechvet`,
     description: plainTextContent,
-    keywords: ['biotechvet', 'thuốc thú y', 'chăn nuôi', article.title?.toLowerCase()].filter(Boolean),
+    keywords: ['biotechvet', 'dược thú y', 'chăn nuôi', article.title?.toLowerCase()].filter(Boolean),
     authors: [{ name: "biotechvet Editor" }],
     robots: "index, follow",
     openGraph: {
