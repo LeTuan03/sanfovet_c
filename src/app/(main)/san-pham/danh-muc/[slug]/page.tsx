@@ -138,8 +138,8 @@ export default async function CategoryPage({ params, searchParams }: {
               {paginatedProducts.map((p: ProductSummary, index: number) => (
                 <FadeUp key={p.id} delay={index * 0.05}>
                 <article className="bg-white rounded-[32px] shadow-sm hover:shadow-2xl border border-gray-100 overflow-hidden transition-all duration-500 group flex flex-col h-full hover:-translate-y-1">
-                  <div className="aspect-[4/3] bg-gray-50 flex items-center justify-center relative group-hover:bg-primary-light/30 transition-colors duration-500">
-                     <img src={p.image} alt={p.name} className="max-h-full w-auto object-contain transition-transform duration-700 group-hover:scale-110" />
+                  <div className="aspect-[4/3] flex items-center justify-center relative group-hover:bg-primary-light/30 transition-colors duration-500">
+                     <img src={p.image} alt={p.name} className="h-full w-auto object-contain transition-transform duration-700 group-hover:scale-110" />
                   </div>
                   <div className="p-8 flex-1 flex flex-col">
                     <h3 className="font-black text-biotechvet-dark mb-8 group-hover:text-primary transition-colors text-xl leading-tight h-14 overflow-hidden">{p.name}</h3>

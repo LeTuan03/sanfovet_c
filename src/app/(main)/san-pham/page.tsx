@@ -154,8 +154,8 @@ export default async function ProductsPage({ searchParams }: { searchParams: Pro
               {paginatedProducts.map((p: ProductSummary, index: number) => (
                 <FadeUp key={p.id} delay={index * 0.05}>
                 <div className="bg-white rounded-[32px] shadow-sm hover:shadow-2xl border border-gray-100 overflow-hidden transition-all duration-500 group flex flex-col h-full hover:-translate-y-1">
-                  <div className="bg-gray-50 aspect-square flex items-center justify-center relative group-hover:bg-primary-light/30 transition-colors duration-500 overflow-hidden">
-                     <img src={p.image} alt={p.name} className="max-h-[80%] w-auto object-contain transition-transform duration-700 group-hover:scale-110" />
+                  <div className="aspect-square flex items-center justify-center relative group-hover:bg-primary-light/30 transition-colors duration-500 overflow-hidden">
+                     <img src={p.image} alt={p.name} className="h-full w-auto object-contain transition-transform duration-700 group-hover:scale-110" />
                   </div>
                   <div className="p-6 md:p-8 flex-1 flex flex-col">
                     <h3 className="font-black text-biotechvet-dark mb-2 group-hover:text-primary transition-colors text-lg leading-tight h-14 overflow-hidden text-center text-ellipsis">{p.name}</h3>
