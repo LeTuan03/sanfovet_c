@@ -1,7 +1,7 @@
 "use client";
 
 import React, { useState, useRef, useEffect } from 'react';
-import { Modal, Button, Slider, App, Row, Col } from 'antd';
+import { Modal, Button, App, Row, Col } from 'antd';
 import { RotateLeftOutlined, RotateRightOutlined, ZoomInOutlined, SwapOutlined } from '@ant-design/icons';
 
 interface ImageEditorProps {
@@ -198,39 +198,6 @@ export default function ImageEditor({ visible, imageUrl, onSave, onCancel }: Ima
 
         {/* Controls */}
         <div className="space-y-4 p-4 bg-gray-50 rounded-lg">
-          {/* Zoom */}
-          <div>
-            <div className="flex items-center justify-between mb-2">
-              <label className="font-bold text-sm uppercase tracking-wider">
-                <ZoomInOutlined className="mr-2" />
-                Phóng to / Thu nhỏ: {zoom}%
-              </label>
-            </div>
-            <Slider
-              min={50}
-              max={200}
-              value={zoom}
-              onChange={setZoom}
-              marks={{ 50: '50%', 100: '100%', 200: '200%' }}
-            />
-          </div>
-
-          {/* Rotation */}
-          <div>
-            <div className="flex items-center justify-between mb-2">
-              <label className="font-bold text-sm uppercase tracking-wider">
-                <RotateLeftOutlined className="mr-2" />
-                Xoay: {rotation}°
-              </label>
-            </div>
-            <Slider
-              min={0}
-              max={360}
-              value={rotation}
-              onChange={setRotation}
-              marks={{ 0: '0°', 90: '90°', 180: '180°', 270: '270°', 360: '360°' }}
-            />
-          </div>
 
           {/* Action Buttons */}
           <Row gutter={16}>
