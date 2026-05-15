@@ -1,7 +1,7 @@
 "use client";
 
 import React, { useState, useMemo } from 'react';
-import { Table, Button, Space, Modal, Form, Input, Select, Tag, Tooltip, Row, Col, Divider, Breadcrumb, DatePicker, Switch, App } from 'antd';
+import { Table, Button, Space, Modal, Form, Input, Select, Tag, Tooltip, Row, Col, Divider, Breadcrumb, DatePicker, Switch, Checkbox, App } from 'antd';
 import { PlusOutlined, EditOutlined, DeleteOutlined, SearchOutlined, FileImageOutlined } from '@ant-design/icons';
 import { useRouter, useSearchParams, usePathname } from 'next/navigation';
 // import { articles, animalTags } from '@/lib/data'; // Removed static imports
@@ -243,6 +243,15 @@ function ArticleManagementContent() {
       ),
     },
     {
+      title: 'Trạng thái',
+      key: 'isDraft',
+      render: (_: any, record: ArticleSummary) => (
+        record.isDraft
+          ? <Tag color="default" className="font-bold px-3 py-0.5 rounded-full uppercase text-[0.6rem]">Bản nháp</Tag>
+          : <Tag color="green" className="font-bold px-3 py-0.5 rounded-full uppercase text-[0.6rem]">Đã đăng</Tag>
+      ),
+    },
+    {
       title: 'Thao tác',
       key: 'action',
       render: (_: any, record: ArticleSummary) => (
@@ -256,12 +265,12 @@ function ArticleManagementContent() {
              />
           </Tooltip>
           <Tooltip title="Xóa">
-             <Button 
-               icon={<DeleteOutlined />} 
-               type="text" 
-               danger 
+             <Button
+               icon={<DeleteOutlined />}
+               type="text"
+               danger
                className="hover:bg-red-50"
-               onClick={() => handleDelete(record.id)} 
+               onClick={() => handleDelete(record.id)}
              />
           </Tooltip>
         </Space>
@@ -383,6 +392,10 @@ function ArticleManagementContent() {
 
           <Form.Item name="content" label="Nội dung chuyên sâu (Tối ưu SEO - CKEditor)">
             <CKEditor placeholder="Bắt đầu viết nội dung chuyên sâu..." />
+          </Form.Item>
+
+          <Form.Item name="isDraft" valuePropName="checked" initialValue={false}>
+            <Checkbox>Lưu nháp (không hiển thị ở trang người dùng)</Checkbox>
           </Form.Item>
 
         </Form>

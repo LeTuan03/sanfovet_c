@@ -30,8 +30,9 @@ export const metadata: Metadata = {
 export default async function NewsPage() {
   const articles = await articleService.getAllSummary();
   const settings = (await settingService.get()) as any;
-  const newsInternal = articles.filter((a: ArticleSummary) => a.category === 'tin-noi-bo');
-  const newsIndustry = articles.filter((a: ArticleSummary) => a.category === 'tin-nganh');
+  const publishedArticles = articles.filter((a: ArticleSummary) => !a.isDraft);
+  const newsInternal = publishedArticles.filter((a: ArticleSummary) => a.category === 'tin-noi-bo');
+  const newsIndustry = publishedArticles.filter((a: ArticleSummary) => a.category === 'tin-nganh');
   const allNews = [...newsInternal, ...newsIndustry].sort((a: ArticleSummary, b: ArticleSummary) => new Date(b.publishDate).getTime() - new Date(a.publishDate).getTime());
 
   return (
@@ -103,7 +104,7 @@ export default async function NewsPage() {
                          <div className="w-10 h-10 bg-red-600/20 rounded-xl flex items-center justify-center text-red-400 group-hover:bg-red-600 group-hover:text-white transition-all"><Newspaper size={20} /></div>
                          <span className="font-bold">Bệnh & Điều trị</span>
                       </div>
-                      <span className="text-xs opacity-50 font-black">{articles.filter((a: ArticleSummary) => a.category === 'benh-dieu-tri').length}</span>
+                      <span className="text-xs opacity-50 font-black">{publishedArticles.filter((a: ArticleSummary) => a.category === 'benh-dieu-tri').length}</span>
                    </Link>
                 </div>
              </div>

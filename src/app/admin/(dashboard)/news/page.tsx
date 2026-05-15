@@ -2,7 +2,7 @@
 
 import React, { useState, useMemo } from 'react';
 import { useRouter, useSearchParams, usePathname } from 'next/navigation';
-import { Table, Button, Space, Tag, Input, Modal, Form, Select, Switch, Tooltip, Row, Col, App, DatePicker } from 'antd';
+import { Table, Button, Space, Tag, Input, Modal, Form, Select, Switch, Checkbox, Tooltip, Row, Col, App, DatePicker } from 'antd';
 import { PlusOutlined, EditOutlined, DeleteOutlined, EyeOutlined } from '@ant-design/icons';
 import AdminPageHeader from '@/components/admin/AdminPageHeader';
 import dayjs from 'dayjs';
@@ -117,6 +117,15 @@ function AdminNewsPageContent() {
           size="small"
           onChange={(checked) => handleToggleFeatured(record, checked)}
         />
+      ),
+    },
+    {
+      title: 'Trạng thái',
+      key: 'isDraft',
+      render: (_: any, record: ArticleSummary) => (
+        record.isDraft
+          ? <Tag color="default" className="font-bold px-3 py-0.5 rounded-full uppercase text-[10px]">Bản nháp</Tag>
+          : <Tag color="green" className="font-bold px-3 py-0.5 rounded-full uppercase text-[10px]">Đã đăng</Tag>
       ),
     },
     {
@@ -398,6 +407,10 @@ function AdminNewsPageContent() {
             label="Nội dung chi tiết"
           >
             <CKEditor placeholder="Nhập nội dung chi tiết bài viết..." />
+          </Form.Item>
+
+          <Form.Item name="isDraft" valuePropName="checked" initialValue={false}>
+            <Checkbox>Lưu nháp (không hiển thị ở trang người dùng)</Checkbox>
           </Form.Item>
         </Form>
       </Modal>

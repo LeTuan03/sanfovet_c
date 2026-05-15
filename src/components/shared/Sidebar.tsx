@@ -37,7 +37,7 @@ export default function Sidebar({ showProducts = true, showNews = true, showQuic
   if (loading) return <div className="animate-pulse space-y-4"><div className="h-40 bg-gray-100 rounded-2xl"></div><div className="h-40 bg-gray-100 rounded-2xl"></div></div>;
 
   const featuredProducts = products.filter((p: any) => p.featured).slice(0, 7);
-  const latestNews = articles.slice(0, 5);
+  const latestNews = articles.filter((a: any) => !a.isDraft).slice(0, 5);
 
   return (
     <div className="sticky top-24 space-y-10">

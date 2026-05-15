@@ -28,7 +28,7 @@ export const metadata: Metadata = {
 
 export default async function DiseasesPage() {
   const articles = await articleService.getAllSummary();
-  const list = Array.isArray(articles) ? articles.filter((a: ArticleSummary) => a.category === 'benh-dieu-tri') : [];
+  const list = Array.isArray(articles) ? articles.filter((a: ArticleSummary) => a.category === 'benh-dieu-tri' && !a.isDraft) : [];
 
   return (
     <div className="bg-white min-h-screen">

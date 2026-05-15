@@ -35,12 +35,14 @@ export default async function sitemap(): Promise<MetadataRoute.Sitemap> {
 
   // Dynamic routes - Articles
   const articles = await articleService.getAllSummary();
-  const articleRoutes = articles.map((article: any) => ({
-    url: `${baseUrl}/bai-viet/${article.slug}`,
-    lastModified: new Date(),
-    changeFrequency: 'daily' as const,
-    priority: 0.6,
-  }));
+  const articleRoutes = articles
+    .filter((article: any) => !article.isDraft)
+    .map((article: any) => ({
+      url: `${baseUrl}/bai-viet/${article.slug}`,
+      lastModified: new Date(),
+      changeFrequency: 'daily' as const,
+      priority: 0.6,
+    }));
 
   // Dynamic routes - Categories
   const categories = await categoryService.getAll();

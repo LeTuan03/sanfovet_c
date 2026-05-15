@@ -33,6 +33,7 @@ export interface Article {
   excerpt: string;
   content: string;
   featured?: boolean | null;
+  isDraft?: boolean | null;
 }
 
 export type ArticleSummary = Omit<Article, 'content'>;

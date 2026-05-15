@@ -28,7 +28,7 @@ export const metadata: Metadata = {
 export default async function HandbookPage() {
   const articles = await articleService.getAllSummary();
   const animalTags = await animalTagService.getAll();
-  const allHandbook = Array.isArray(articles) ? articles.filter((a: ArticleSummary) => a.category === 'cam-nang') : [];
+  const allHandbook = Array.isArray(articles) ? articles.filter((a: ArticleSummary) => a.category === 'cam-nang' && !a.isDraft) : [];
 
   return (
     <div className="bg-white min-h-screen">

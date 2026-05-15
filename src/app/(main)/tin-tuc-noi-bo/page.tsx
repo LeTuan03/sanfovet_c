@@ -7,7 +7,7 @@ import { Calendar, ChevronRight, Users } from 'lucide-react';
 
 export default async function InternalNewsPage() {
   const articles = await articleService.getAllSummary();
-  const list = Array.isArray(articles) ? articles.filter((a: ArticleSummary) => a.category === 'tin-noi-bo') : [];
+  const list = Array.isArray(articles) ? articles.filter((a: ArticleSummary) => a.category === 'tin-noi-bo' && !a.isDraft) : [];
 
   return (
     <div className="bg-white min-h-screen">

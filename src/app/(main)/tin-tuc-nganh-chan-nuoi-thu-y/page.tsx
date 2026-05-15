@@ -7,7 +7,7 @@ import { Calendar, ChevronRight, Globe } from 'lucide-react';
 
 export default async function IndustryNewsPage() {
   const articles = await articleService.getAllSummary();
-  const list = Array.isArray(articles) ? articles.filter((a: ArticleSummary) => a.category === 'tin-nganh') : [];
+  const list = Array.isArray(articles) ? articles.filter((a: ArticleSummary) => a.category === 'tin-nganh' && !a.isDraft) : [];
 
   return (
     <div className="bg-white min-h-screen">

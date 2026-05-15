@@ -60,8 +60,8 @@ function getCategoryLabel(category: string): string {
 export async function generateMetadata({ params }: { params: Promise<{ slug: string }> }): Promise<Metadata> {
   const { slug } = await params;
   const article = await articleService.getBySlug(slug);
-  
-  if (!article) {
+
+  if (!article || article.isDraft) {
     return {
       title: 'Bài viết không tìm thấy - biotechvet',
       description: 'Bài viết bạn tìm kiếm không tồn tại.',
@@ -112,13 +112,13 @@ export default async function ArticleDetailPage({ params }: Readonly<{ params: P
   const articles = await articleService.getAllSummary();
   const products = await productService.getAllSummary();
 
-  if (!article) {
+  if (!article || article.isDraft) {
     notFound();
   }
 
   // Get related articles
   const relatedArticles = articles
-    .filter((a: ArticleSummary) => a.category === article.category && a.id !== article.id)
+    .filter((a: ArticleSummary) => a.category === article.category && a.id !== article.id && !a.isDraft)
     .slice(0, 3);
 
   // Get suggested products
