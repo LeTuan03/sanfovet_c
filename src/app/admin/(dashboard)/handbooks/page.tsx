@@ -361,8 +361,8 @@ function HandbookManagementContent() {
           },
         }}
         centered
-        okText="Xuất bản ngay"
-        cancelText="Lưu bản nháp"
+        okText="Lưu bài viết"
+        cancelText="Huỷ"
         className="rounded-[32px] top-[40px]"
       >
         <Form form={form} layout="vertical" className="mt-8">

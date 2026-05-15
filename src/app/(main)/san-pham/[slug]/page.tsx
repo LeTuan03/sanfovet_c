@@ -192,7 +192,7 @@ export default async function ProductDetailPage({ params }: Readonly<{ params: P
               <div className="space-y-6">
                 {relatedProducts.map((p: ProductSummary) => (
                   <Link href={`/san-pham/${p.slug}`} key={p.id} className="flex gap-5 group">
-                    <div className="w-20 h-20 bg-white rounded-2xl border border-gray-100 p-2 flex items-center justify-center shrink-0 group-hover:border-primary-dark group-hover:shadow-lg transition-all duration-300">
+                    <div className="w-20 h-20 bg-white rounded-2xl border border-gray-100 flex items-center justify-center shrink-0 group-hover:border-primary-dark group-hover:shadow-lg transition-all duration-300">
                       <img src={p.image} alt={p.name} className="max-h-full max-w-full object-contain" />
                     </div>
                     <div className="flex flex-col justify-center">

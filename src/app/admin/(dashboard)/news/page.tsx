@@ -336,7 +336,7 @@ function AdminNewsPageContent() {
           },
         }}
         centered
-        okText={editingNews ? "Cập nhật bài viết" : "Đăng bài ngay"}
+        okText={editingNews ? "Cập nhật bài viết" : "Thêm mới bài viết"}
         cancelText="Hủy bỏ"
         okButtonProps={{ className: "rounded-xl h-11 px-8 font-bold uppercase tracking-widest text-[11px] border-none shadow-lg shadow-primary/20" }}
         cancelButtonProps={{ className: "rounded-xl h-11 px-8 font-bold uppercase tracking-widest text-[11px]" }}
