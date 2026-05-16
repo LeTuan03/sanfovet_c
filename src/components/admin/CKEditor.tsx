@@ -11,7 +11,6 @@ interface CKEditorProps {
 }
 
 export default function CKEditorWrapper({ value, onChange, placeholder }: CKEditorProps) {
-  const editorContainerRef = useRef<HTMLDivElement>(null);
   const editorInstanceRef = useRef<any>(null);
   const [editorLoaded, setEditorLoaded] = useState(false);
   const [CKEditorComponent, setCKEditorComponent] = useState<any>(null);
@@ -379,6 +378,11 @@ export default function CKEditorWrapper({ value, onChange, placeholder }: CKEdit
         }
         .premium-editor .ck-editor__main > .ck-editor__editable:not(.ck-focused) {
           border-color: #e5e7eb;
+        }
+        .premium-editor .ck-content ol,
+        .premium-editor .ck-content ul {
+          padding-left: 20px;
+          list-style-type: revert;
         }
       `}</style>
     </div>

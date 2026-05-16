@@ -11,7 +11,7 @@ export default function AdminLoginPage() {
 
   useEffect(() => {
     const token = localStorage.getItem('admin_token');
-    if (token) {
+    if (token && token === process.env.NEXT_PUBLIC_ACCESS_TOKEN_SECRET) {
       router.push('/admin');
     }
   }, [router]);
@@ -21,7 +21,7 @@ export default function AdminLoginPage() {
     const password = values.password;
     if (user === process.env.NEXT_PUBLIC_ADMIN_USERNAME && password === process.env.NEXT_PUBLIC_ADMIN_PASSWORD) {
       msg.success('Đăng nhập thành công!');
-      localStorage.setItem('admin_token', 'true');
+      localStorage.setItem('admin_token', process.env.NEXT_PUBLIC_ACCESS_TOKEN_SECRET || '');
       setTimeout(() => {
         router.push('/admin');
       }, 1000);

@@ -67,7 +67,8 @@ export default function AdminLayout({ children }: { children: React.ReactNode })
 
   useEffect(() => {
     const token = localStorage.getItem('admin_token');
-    if (!token) {
+    if (!token || token !== process.env.NEXT_PUBLIC_ACCESS_TOKEN_SECRET) {
+      localStorage.removeItem('admin_token');
       router.push('/admin/login');
     } else {
       setIsAuthChecking(false);

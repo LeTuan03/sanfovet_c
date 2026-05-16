@@ -4,16 +4,27 @@ import { useEffect } from 'react';
 
 export default function ContentProtection() {
   useEffect(() => {
-    // 1. Block right-click
-    const handleContextMenu = (e: MouseEvent) => e.preventDefault();
+    const isAdmin = () =>
+      globalThis.window !== undefined &&
+      localStorage.getItem('admin_token') === process.env.NEXT_PUBLIC_ACCESS_TOKEN_SECRET;
+
+    // 1. Block right-click (cho phép khi là admin để dùng copy/paste qua context menu)
+    const handleContextMenu = (e: MouseEvent) => {
+      if (isAdmin()) return;
+      e.preventDefault();
+    };
     document.addEventListener('contextmenu', handleContextMenu);
 
-    // 2. Block keyboard shortcuts
+    // 2. Block keyboard shortcuts (admin được phép copy/paste)
     const handleKeyDown = (e: KeyboardEvent) => {
       const ctrl = e.ctrlKey || e.metaKey; // metaKey cho Mac
+      const key = e.key.toLowerCase();
+      const admin = isAdmin();
+      // Với admin: bỏ chặn các phím copy/paste/cut/select-all
+      const ctrlBlockedKeys = admin ? ['u','s','p'] : ['u','s','c','p','a'];
       const blocked =
-        (ctrl && ['u','s','c','p','a'].includes(e.key.toLowerCase())) ||
-        (ctrl && e.shiftKey && ['i','j','c','k'].includes(e.key.toLowerCase())) ||
+        (ctrl && ctrlBlockedKeys.includes(key)) ||
+        (ctrl && e.shiftKey && ['i','j','c','k'].includes(key)) ||
         ['F12'].includes(e.key);
       if (blocked) e.preventDefault();
     };
