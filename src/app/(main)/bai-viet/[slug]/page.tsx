@@ -12,13 +12,23 @@ import { Metadata } from 'next';
 import Script from 'next/script';
 import { articleSchema } from '@/lib/schema';
 
+function decodeHtmlEntities(str: string): string {
+  const named: Record<string, string> = {
+    nbsp: ' ', amp: '&', lt: '<', gt: '>', quot: '"', apos: "'",
+  };
+  return str
+    .replaceAll(/&#(\d+);/g, (_, code) => String.fromCodePoint(Number(code)))
+    .replaceAll(/&#x([0-9a-f]+);/gi, (_, code) => String.fromCodePoint(parseInt(code, 16)))
+    .replaceAll(/&([a-z]+);/gi, (m, name) => named[name.toLowerCase()] ?? m);
+}
+
 function processContentWithHeadings(html: string): { processedHtml: string, headings: { id: string; text: string }[] } {
   const headings: { id: string; text: string }[] = [];
   let processedHtml = html;
-  
+
   if (processedHtml) {
     processedHtml = processedHtml.replaceAll(/<(h[1-6])([^>]*)>(.*?)<\/\1>/gi, (match, tag, attrs, innerHtml) => {
-      const text = innerHtml.replaceAll(/<[^>]*>/g, '').trim();
+      const text = decodeHtmlEntities(innerHtml.replaceAll(/<[^>]*>/g, '')).replaceAll(/\s+/g, ' ').trim();
       if (!text) return match;
       const id = text.toLowerCase().replaceAll(/[^a-z0-9\u00C0-\u024F]+/gi, '-').replaceAll(/^-|-$/g, '');
       headings.push({ id, text });
