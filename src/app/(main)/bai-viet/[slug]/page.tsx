@@ -17,28 +17,14 @@ function processContentWithHeadings(html: string): { processedHtml: string, head
   let processedHtml = html;
   
   if (processedHtml) {
-    // Process h2 headings
-    processedHtml = processedHtml.replaceAll(/<h2([^>]*)>(.*?)<\/h2>/gi, (match, attrs, innerHtml) => {
+    processedHtml = processedHtml.replaceAll(/<(h[1-6])([^>]*)>(.*?)<\/\1>/gi, (match, tag, attrs, innerHtml) => {
       const text = innerHtml.replaceAll(/<[^>]*>/g, '').trim();
+      if (!text) return match;
       const id = text.toLowerCase().replaceAll(/[^a-z0-9\u00C0-\u024F]+/gi, '-').replaceAll(/^-|-$/g, '');
       headings.push({ id, text });
-      
-      if (!attrs.includes('id=')) {
-        return `<h2${attrs} id="${id}">${innerHtml}</h2>`;
-      }
-      return match;
-    });
 
-    // Process li elements in ul
-    processedHtml = processedHtml.replaceAll(/<li([^>]*)>(.*?)<\/li>/gi, (match, attrs, innerHtml) => {
-      const text = innerHtml.replaceAll(/<[^>]*>/g, '').trim();
-      if (text) { // Only process li with text content
-        const id = text.toLowerCase().replaceAll(/[^a-z0-9\u00C0-\u024F]+/gi, '-').replaceAll(/^-|-$/g, '');
-        headings.push({ id, text });
-        
-        if (!attrs.includes('id=')) {
-          return `<li${attrs} id="${id}">${innerHtml}</li>`;
-        }
+      if (!attrs.includes('id=')) {
+        return `<${tag}${attrs} id="${id}">${innerHtml}</${tag}>`;
       }
       return match;
     });
@@ -265,7 +251,7 @@ export default async function ArticleDetailPage({ params }: Readonly<{ params: P
                      <ol className="space-y-2">
                        {headings.map((h, i) => (
                          <li key={h.id}>
-                           <a href={`#${h.id}`} className="text-sm font-medium text-gray-600 hover:text-primary transition-colors flex items-start gap-2">
+                           <a href={`#${h.id}`} title={h.text} className="text-sm font-medium text-gray-600 hover:text-primary transition-colors block truncate">
                              {h.text}
                            </a>
                          </li>
