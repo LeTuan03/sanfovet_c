@@ -22,8 +22,8 @@ export default async function HomePage() {
   const diseaseArticles = Array.isArray(articles) ? articles.filter((a: ArticleSummary) => (a.category === 'benh-dieu-tri' || a.category === 'cam-nang') && a.featured && !a.isDraft) : [];
   const latestNews = Array.isArray(articles) ? articles.filter((a: ArticleSummary) => (a.category === 'tin-noi-bo' || a.category === 'tin-nganh') && a.featured && !a.isDraft) : [];
   const activeBanners = Array.isArray(banners) ? banners.filter((b: any) => b.status).sort((a: any, b: any) => a.order - b.order).map(b => ({ ...b, id: Number(b.id) })) : [];
-  const images = Array.isArray(mediaImages) ? mediaImages.filter((img: any) => img.status === 'active').map(img => ({ ...img, id: Number(img.id) })) : [];
-  const videos = Array.isArray(mediaVideos) ? mediaVideos.filter((v: any) => v.status === 'active').map(v => ({ ...v, id: Number(v.id) })) : [];
+  const images = Array.isArray(mediaImages) ? mediaImages.filter((img: any) => img.status === 'active' && img.featured).map(img => ({ ...img, id: Number(img.id) })) : [];
+  const videos = Array.isArray(mediaVideos) ? mediaVideos.filter((v: any) => v.status === 'active' && v.featured).map(v => ({ ...v, id: Number(v.id) })) : [];
 
   const features = [
     { icon: <Microscope size={32} />, title: 'Công nghệ USA', desc: 'Ứng dụng công nghệ tiên tiến từ Hoa Kỳ trong sản xuất dược thú y' },

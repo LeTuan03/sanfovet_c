@@ -6,10 +6,10 @@ import {
   Upload, Space, Tag, Empty,
   Switch, Tooltip, Badge, Select, Image, App
 } from 'antd';
-import { 
-  PlusOutlined, DeleteOutlined, VideoCameraOutlined, 
+import {
+  PlusOutlined, DeleteOutlined, VideoCameraOutlined,
   PictureOutlined, PlayCircleOutlined, EyeOutlined,
-  SearchOutlined, EditOutlined
+  SearchOutlined, EditOutlined, StarFilled
 } from '@ant-design/icons';
 import { useRouter, useSearchParams, usePathname } from 'next/navigation';
 import AdminPageHeader from '@/components/admin/AdminPageHeader';
@@ -299,6 +299,11 @@ function AdminMediaGalleryPageContent() {
                                    <Tag color="default" className="m-0 font-black text-[9px] uppercase tracking-widest border-none bg-black/50 text-white backdrop-blur-md">ĐANG ẨN</Tag>
                                 </div>
                               )}
+                              {img.featured && (
+                                <div className="absolute top-4 right-4 z-10">
+                                   <Tag className="m-0 font-black text-[9px] uppercase tracking-widest border-none bg-amber-400 text-white backdrop-blur-md flex items-center gap-1"><StarFilled /> Trang chủ</Tag>
+                                </div>
+                              )}
                             </div>
                           }
                           className="rounded-[24px] overflow-hidden shadow-sm hover:shadow-xl transition-all border-gray-100 group"
@@ -352,6 +357,11 @@ function AdminMediaGalleryPageContent() {
                                {vid.status === 'hidden' && (
                                  <div className="absolute top-4 left-4 z-20">
                                    <Tag color="default" className="m-0 font-black text-[9px] uppercase tracking-widest border-none bg-black/50 text-white backdrop-blur-md">ĐANG ẨN</Tag>
+                                 </div>
+                               )}
+                               {vid.featured && (
+                                 <div className="absolute top-4 right-4 z-20">
+                                   <Tag className="m-0 font-black text-[9px] uppercase tracking-widest border-none bg-amber-400 text-white backdrop-blur-md flex items-center gap-1"><StarFilled /> Trang chủ</Tag>
                                  </div>
                                )}
                             </div>
@@ -445,6 +455,16 @@ function AdminMediaGalleryPageContent() {
               </Form.Item>
             </Col>
           </Row>
+
+          <Form.Item
+            name="featured"
+            label="Nổi bật"
+            valuePropName="checked"
+            initialValue={false}
+            tooltip="Bật: hiển thị ở Trang chủ. Tắt: hiển thị ở trang Catalogue."
+          >
+            <Switch checkedChildren="Trang chủ" unCheckedChildren="Catalogue" />
+          </Form.Item>
           
           {activeTab === 'images' ? (
             <Form.Item name="url" label="Hình ảnh Gallery" rules={[{ required: true, message: 'Vui lòng tải ảnh lên' }]}>

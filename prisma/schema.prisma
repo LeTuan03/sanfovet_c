@@ -106,22 +106,24 @@ model AnimalTag {
 }
 
 model MediaImage {
-  id     BigInt @id @default(autoincrement())
-  url    String
-  title  String
-  order  Int    @default(0)
-  status String @default("active")
+  id       BigInt  @id @default(autoincrement())
+  url      String
+  title    String
+  order    Int     @default(0)
+  status   String  @default("active")
+  featured Boolean @default(false)
 
   @@map("media_images")
 }
 
 model MediaVideo {
-  id        BigInt @id @default(autoincrement())
+  id        BigInt  @id @default(autoincrement())
   url       String
   title     String
-  thumbnail String @default("")
-  order     Int    @default(0)
-  status    String @default("active")
+  thumbnail String  @default("")
+  order     Int     @default(0)
+  status    String  @default("active")
+  featured  Boolean @default(false)
 
   @@map("media_videos")
 }

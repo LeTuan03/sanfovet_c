@@ -30,8 +30,8 @@ export default async function CataloguePage() {
     mediaService.getVideos(),
   ]);
 
-  const images = Array.isArray(mediaImages) ? mediaImages.filter((img: any) => img.status === 'active').map(img => ({ ...img, id: Number(img.id) })) : [];
-  const videos = Array.isArray(mediaVideos) ? mediaVideos.filter((v: any) => v.status === 'active').map(v => ({ ...v, id: Number(v.id) })) : [];
+  const images = Array.isArray(mediaImages) ? mediaImages.filter((img: any) => img.status === 'active' && !img.featured).map(img => ({ ...img, id: Number(img.id) })) : [];
+  const videos = Array.isArray(mediaVideos) ? mediaVideos.filter((v: any) => v.status === 'active' && !v.featured).map(v => ({ ...v, id: Number(v.id) })) : [];
 
   return (
     <div className="bg-white min-h-screen">
