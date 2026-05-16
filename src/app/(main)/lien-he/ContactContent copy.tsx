@@ -98,7 +98,7 @@ export default function ContactContent() {
 
              {/* Social Links */}
              <div className="flex gap-4">
-                <a href="https://facebook.com/biotechvet" target="_blank" className="flex items-center gap-3 bg-blue-600 text-white font-black py-4 px-8 rounded-full text-xs uppercase tracking-widest hover:bg-blue-700 transition-all shadow-lg shadow-blue-200">
+                <a href="https://www.facebook.com/BiotechVietNam1" target="_blank" className="flex items-center gap-3 bg-blue-600 text-white font-black py-4 px-8 rounded-full text-xs uppercase tracking-widest hover:bg-blue-700 transition-all shadow-lg shadow-blue-200">
                    <FacebookOutlined className="text-xl" /> Kết nối Facebook
                 </a>
                 <a href="https://youtube.com/biotechvet" target="_blank" className="flex items-center gap-3 bg-red-600 text-white font-black py-4 px-8 rounded-full text-xs uppercase tracking-widest hover:bg-red-700 transition-all shadow-lg shadow-red-200">

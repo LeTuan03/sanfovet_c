@@ -103,7 +103,7 @@ export default function Footer() {
                 <a href={settings?.social?.facebook || "https://facebook.com/ThuocThuYbiotechvet"} target="_blank" rel="noopener" className="w-10 h-10 bg-white/10 hover:bg-blue-600 rounded-xl flex items-center justify-center text-white/60 hover:text-white transition-all text-lg">
                   <FacebookOutlined />
                 </a>
-                <a href={settings?.social?.youtube || "https://youtube.com"} target="_blank" rel="noopener" className="w-10 h-10 bg-white/10 hover:bg-red-600 rounded-xl flex items-center justify-center text-white/60 hover:text-white transition-all text-lg">
+                <a href={settings?.social?.youtube || "https://www.youtube.com/@Biotech-VET"} target="_blank" rel="noopener" className="w-10 h-10 bg-white/10 hover:bg-red-600 rounded-xl flex items-center justify-center text-white/60 hover:text-white transition-all text-lg">
                   <YoutubeOutlined />
                 </a>
                 <a href={`https://zalo.me/${settings?.social?.zalo || "0974999204"}`} target="_blank" rel="noopener" className="w-10 h-10 bg-white/10 hover:bg-blue-500 rounded-xl flex items-center justify-center text-white/60 hover:text-white transition-all text-xs font-bold">

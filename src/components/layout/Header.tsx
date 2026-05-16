@@ -107,10 +107,10 @@ export default function Header() {
           </div>
           <div className="flex items-center gap-4">
             <div className="flex items-center gap-3 mr-2">
-              <Link href={settings?.social?.facebook || "https://facebook.com/biotechvet"} target="_blank" className="text-white/70 hover:text-amber-500 transition-all font-bold">
+              <Link href={settings?.social?.facebook || "https://www.facebook.com/BiotechVietNam1"} target="_blank" className="text-white/70 hover:text-amber-500 transition-all font-bold">
                 <FacebookOutlined />
               </Link>
-              <Link href={settings?.social?.youtube || "https://youtube.com/biotechvet"} target="_blank" className="text-white/70 hover:text-amber-500 transition-all font-bold">
+              <Link href={settings?.social?.youtube || "https://www.youtube.com/@Biotech-VET"} target="_blank" className="text-white/70 hover:text-amber-500 transition-all font-bold">
                 <YoutubeOutlined />
               </Link>
             </div>

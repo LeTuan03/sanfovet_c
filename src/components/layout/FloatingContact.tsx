@@ -57,7 +57,7 @@ export default function FloatingContact({ settings }: { settings: any }) {
           <span className="text-[0.7rem] font-bold">Zalo</span>
         </a>
         <a 
-          href="https://facebook.com/biotechvet" 
+          href={settings?.social?.facebook || 'https://www.facebook.com/BiotechVietNam1'}
           target="_blank" 
           rel="noopener"
           className="w-[52px] h-[52px] rounded-full flex items-center justify-center text-white shadow-lg transition-transform hover:scale-110 active:scale-95 bg-gradient-to-br from-[#1877f2] to-[#0d47a1]"
