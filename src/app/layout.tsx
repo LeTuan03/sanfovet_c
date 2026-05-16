@@ -28,7 +28,7 @@ export const viewport = {
 
 export const metadata: Metadata = {
   title: {
-    default: "BIOTECH-VET - Công Ty Cp Công Nghệ Sinh Học Thú Y",
+    default: "BIOTECH-VET - Công Ty Cổ Phần Công Nghệ Sinh Học Thú Y",
     template: "%s | BIOTECH-VET"
   },
   description: "BIOTECH-VET tự hào là đơn vị tiên phong trong sản xuất và phân phối dược thú y trang trại tại Việt Nam với công nghệ tiên tiến từ Hoa Kỳ. Nhà máy đạt tiêu chuẩn GMP-WHO.",
@@ -51,20 +51,20 @@ export const metadata: Metadata = {
     locale: "vi_VN",
     url: "https://biotechvet.com.vn",
     siteName: "BIOTECH-VET",
-    title: "BIOTECH-VET - Công Ty Cp Công Nghệ Sinh Học Thú Y",
+    title: "BIOTECH-VET - Công Ty Cổ Phần Công Nghệ Sinh Học Thú Y",
     description: "Tiên phong sản xuất dược thú y công nghệ USA tại Việt Nam. Nhà máy đạt chuẩn GMP-WHO.",
     images: [
       {
         url: "/images/about.webp",
         width: 1200,
         height: 630,
-        alt: "BIOTECH-VET - Công Ty Cp Công Nghệ Sinh Học Thú Y",
+        alt: "BIOTECH-VET - Công Ty Cổ Phần Công Nghệ Sinh Học Thú Y",
       },
     ],
   },
   twitter: {
     card: "summary_large_image",
-    title: "BIOTECH-VET - Công Ty Cp Công Nghệ Sinh Học Thú Y",
+    title: "BIOTECH-VET - Công Ty Cổ Phần Công Nghệ Sinh Học Thú Y",
     description: "Tiên phong sản xuất dược thú y công nghệ USA tại Việt Nam.",
     images: ["/images/about.webp"],
   },
