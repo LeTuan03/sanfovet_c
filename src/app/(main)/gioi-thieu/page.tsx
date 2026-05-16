@@ -2,7 +2,7 @@ import { Metadata } from 'next';
 import AboutContent from './AboutContent';
 
 export const metadata: Metadata = {
-  title: "Giới Thiệu - BIOTECH-VET | Công Ty Cp Công Nghệ Sinh Học Thú Y - Dược Thú Y Công Nghệ USA",
+  title: "Giới Thiệu - BIOTECH-VET | Công Ty Cp Công Nghệ Sinh Học Thú Y",
   description: "Tìm hiểu về BIOTECH-VET - Công Ty CP Công Nghệ Sinh Học Thú Y, đơn vị tiên phong trong sản xuất dược thú y công nghệ USA tại Việt Nam.",
   keywords: ["giới thiệu biotechvet", "công ty việt anh", "nhà máy dược thú y", "lịch sử biotechvet", "tầm nhìn sứ mệnh"],
   robots: "index, follow",
