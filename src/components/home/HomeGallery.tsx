@@ -7,9 +7,10 @@ import { motion, AnimatePresence } from 'framer-motion';
 interface HomeGalleryProps {
   readonly images: Array<{ id: string | number; url: string; title?: string; status?: string }>;
   readonly videos: Array<{ id: string | number; url: string; title?: string; thumbnail?: string; status?: string }>;
+  readonly youtubeUrl?: string;
 }
 
-export default function HomeGallery({ images, videos }: HomeGalleryProps) {
+export default function HomeGallery({ images, videos, youtubeUrl }: HomeGalleryProps) {
   const [selectedItem, setSelectedItem] = useState<any>(null);
 
   const featuredVideo = videos?.[0];
@@ -67,7 +68,7 @@ export default function HomeGallery({ images, videos }: HomeGalleryProps) {
                    <h4 className="font-black text-biotechvet-dark text-lg uppercase mb-1">Kênh YouTube chính thức</h4>
                    <p className="text-gray-400 text-sm font-medium italic">Cập nhật kỹ thuật chăn nuôi hàng tuần</p>
                 </div>
-                <a href="https://youtube.com/biotechvet" target="_blank" className="bg-red-600 text-white p-4 rounded-2xl hover:bg-red-700 transition-all shadow-lg shadow-red-200">
+                <a href={youtubeUrl || 'https://www.youtube.com/@Biotech-VET'} target="_blank" className="bg-red-600 text-white p-4 rounded-2xl hover:bg-red-700 transition-all shadow-lg shadow-red-200">
                    <PlayCircle size={24} />
                 </a>
              </div>

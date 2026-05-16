@@ -2,19 +2,20 @@ export const dynamic = 'force-dynamic';
 
 import Link from 'next/link';
 import { Eye, ArrowRight, Calendar, Microscope, ShieldCheck, Users, Truck, Gem, ChevronRight, Award, CheckCircle2 } from 'lucide-react';
-import { productService, articleService, bannerService, mediaService } from '@/services';
+import { productService, articleService, bannerService, mediaService, settingService } from '@/services';
 import { ProductSummary, ArticleSummary } from '@/types';
 import BannerSlider from '@/components/home/BannerSlider';
 import HomeGallery from '@/components/home/HomeGallery';
 import FadeUp from '@/components/shared/FadeUp';
 
 export default async function HomePage() {
-  const [products, articles, banners, mediaImages, mediaVideos] = await Promise.all([
+  const [products, articles, banners, mediaImages, mediaVideos, settings] = await Promise.all([
     productService.getAllSummary(),
     articleService.getAllSummary(),
     bannerService.getAll(),
     mediaService.getImages(),
     mediaService.getVideos(),
+    settingService.get(),
   ]);
 
   const featuredProducts = Array.isArray(products) ? products.filter((p: ProductSummary) => p.featured) : [];
@@ -281,7 +282,7 @@ export default async function HomePage() {
       </section>
 
 
-      <HomeGallery images={images} videos={videos} />
+      <HomeGallery images={images} videos={videos} youtubeUrl={(settings as any)?.social?.youtube} />
     </div>
   );
 }
