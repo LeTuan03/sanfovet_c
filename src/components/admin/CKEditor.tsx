@@ -243,7 +243,7 @@ export default function CKEditorWrapper({ value, onChange, placeholder }: CKEdit
               '|',
               'highlight',
               '|',
-              'link', 'insertImage', 'videoUpload', 'mediaEmbed',
+              'link', 'insertImage', 'videoUpload',
               'insertTable', 'blockQuote', 'codeBlock',
               '|',
               'alignment',
@@ -379,9 +379,6 @@ export default function CKEditorWrapper({ value, onChange, placeholder }: CKEdit
               { language: 'sql', label: 'SQL' },
               { language: 'xml', label: 'XML' },
             ],
-          },
-          mediaEmbed: {
-            previewsInData: true,
           },
           htmlSupport: {
             allow: [
