@@ -144,37 +144,49 @@ export default function CKEditorWrapper({ value, onChange, placeholder }: CKEdit
                   const file = input.files?.[0];
                   if (!file) return;
 
-                  const placeholderId = `video-uploading-${Date.now()}`;
-                  const placeholderView = editor.data.processor.toView(
-                    `<p id="${placeholderId}"><em>Đang tải video lên...</em></p>`
-                  );
-                  editor.model.insertContent(editor.data.toModel(placeholderView));
+                  const markerName = `videoUploadPlaceholder${Date.now()}`;
+
+                  editor.model.change((writer: any) => {
+                    const placeholderView = editor.data.processor.toView(
+                      `<p><em>Đang tải video lên...</em></p>`
+                    );
+                    const placeholderModel = editor.data.toModel(placeholderView);
+                    const insertedRange = editor.model.insertContent(placeholderModel);
+                    writer.addMarker(markerName, {
+                      range: writer.createRange(insertedRange.start, insertedRange.end),
+                      usingOperation: false,
+                      affectsData: false,
+                    });
+                  });
 
                   try {
                     const url = await uploadFile(file, 'uploads');
                     const videoHtml = `<figure class="video-figure" style="margin:1em 0;"><video controls preload="metadata" src="${url}" style="max-width:100%;width:100%;"></video></figure><p></p>`;
 
                     editor.model.change((writer: any) => {
-                      const root = editor.model.document.getRoot();
-                      for (const child of Array.from(root.getChildren()) as any[]) {
-                        if (child.getAttribute && child.getAttribute('htmlAttributes')?.attributes?.id === placeholderId) {
-                          writer.remove(child);
-                          break;
-                        }
+                      const marker = editor.model.markers.get(markerName);
+                      let insertPos: any = null;
+                      if (marker) {
+                        const range = marker.getRange();
+                        insertPos = writer.createPositionAt(range.start);
+                        writer.removeMarker(markerName);
+                        writer.remove(range);
                       }
-                      const viewFragment = editor.data.processor.toView(videoHtml);
-                      const modelFragment = editor.data.toModel(viewFragment);
-                      editor.model.insertContent(modelFragment);
+                      const videoView = editor.data.processor.toView(videoHtml);
+                      const videoModel = editor.data.toModel(videoView);
+                      if (insertPos) {
+                        editor.model.insertContent(videoModel, insertPos);
+                      } else {
+                        editor.model.insertContent(videoModel);
+                      }
                     });
                   } catch (error) {
                     console.error('Upload video failed:', error);
                     editor.model.change((writer: any) => {
-                      const root = editor.model.document.getRoot();
-                      for (const child of Array.from(root.getChildren()) as any[]) {
-                        if (child.getAttribute && child.getAttribute('htmlAttributes')?.attributes?.id === placeholderId) {
-                          writer.remove(child);
-                          break;
-                        }
+                      const marker = editor.model.markers.get(markerName);
+                      if (marker) {
+                        writer.remove(marker.getRange());
+                        writer.removeMarker(markerName);
                       }
                     });
                     alert('Tải video lên thất bại. Vui lòng thử lại.');
