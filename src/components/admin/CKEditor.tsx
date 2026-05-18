@@ -116,13 +116,75 @@ export default function CKEditorWrapper({ value, onChange, placeholder }: CKEdit
             editor.plugins.get('FileRepository').createUploadAdapter = (loader: any) => {
               return {
                 upload: () => {
-                  return loader.file.then((file: File) => 
+                  return loader.file.then((file: File) =>
                     uploadFile(file, 'uploads').then(url => ({ default: url }))
                   );
                 },
                 abort: () => {}
               };
             };
+          },
+
+          // Custom Video Upload Plugin
+          function VideoUploadPlugin(editor: any) {
+            editor.ui.componentFactory.add('videoUpload', (locale: any) => {
+              const button = new ck.ButtonView(locale);
+              button.set({
+                label: 'Tải video lên',
+                tooltip: true,
+                withText: false,
+                icon: '<svg viewBox="0 0 20 20" xmlns="http://www.w3.org/2000/svg"><path d="M2 5a2 2 0 0 1 2-2h9a2 2 0 0 1 2 2v1.5l3.4-2.27A.5.5 0 0 1 19 4.65v10.7a.5.5 0 0 1-.6.42L15 13.5V15a2 2 0 0 1-2 2H4a2 2 0 0 1-2-2V5zm5 2.13v5.74a.5.5 0 0 0 .77.42l4.5-2.87a.5.5 0 0 0 0-.84l-4.5-2.87a.5.5 0 0 0-.77.42z"/></svg>',
+              });
+
+              button.on('execute', () => {
+                const input = document.createElement('input');
+                input.type = 'file';
+                input.accept = 'video/*';
+                input.onchange = async () => {
+                  const file = input.files?.[0];
+                  if (!file) return;
+
+                  const placeholderId = `video-uploading-${Date.now()}`;
+                  const placeholderView = editor.data.processor.toView(
+                    `<p id="${placeholderId}"><em>Đang tải video lên...</em></p>`
+                  );
+                  editor.model.insertContent(editor.data.toModel(placeholderView));
+
+                  try {
+                    const url = await uploadFile(file, 'uploads');
+                    const videoHtml = `<figure class="video-figure" style="margin:1em 0;"><video controls preload="metadata" src="${url}" style="max-width:100%;width:100%;"></video></figure><p></p>`;
+
+                    editor.model.change((writer: any) => {
+                      const root = editor.model.document.getRoot();
+                      for (const child of Array.from(root.getChildren()) as any[]) {
+                        if (child.getAttribute && child.getAttribute('htmlAttributes')?.attributes?.id === placeholderId) {
+                          writer.remove(child);
+                          break;
+                        }
+                      }
+                      const viewFragment = editor.data.processor.toView(videoHtml);
+                      const modelFragment = editor.data.toModel(viewFragment);
+                      editor.model.insertContent(modelFragment);
+                    });
+                  } catch (error) {
+                    console.error('Upload video failed:', error);
+                    editor.model.change((writer: any) => {
+                      const root = editor.model.document.getRoot();
+                      for (const child of Array.from(root.getChildren()) as any[]) {
+                        if (child.getAttribute && child.getAttribute('htmlAttributes')?.attributes?.id === placeholderId) {
+                          writer.remove(child);
+                          break;
+                        }
+                      }
+                    });
+                    alert('Tải video lên thất bại. Vui lòng thử lại.');
+                  }
+                };
+                input.click();
+              });
+
+              return button;
+            });
           }
         ]);
 
@@ -169,7 +231,7 @@ export default function CKEditorWrapper({ value, onChange, placeholder }: CKEdit
               '|',
               'highlight',
               '|',
-              'link', 'insertImage', 'mediaEmbed',
+              'link', 'insertImage', 'videoUpload', 'mediaEmbed',
               'insertTable', 'blockQuote', 'codeBlock',
               '|',
               'alignment',
