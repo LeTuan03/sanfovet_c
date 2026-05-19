@@ -20,23 +20,15 @@ export default function CKEditorWrapper({ value, onChange, placeholder }: CKEdit
   useEffect(() => {
     const loadEditor = async () => {
       try {
-        // Import CKEditor React wrapper
         const reactModule = await import('@ckeditor/ckeditor5-react');
-
-        // Import everything from ckeditor5
         const ck = await import('ckeditor5');
-
-        // Import CSS
         await import('ckeditor5/ckeditor5.css');
 
         setCKEditorComponent(() => reactModule.CKEditor);
         setEditorClass(() => ck.ClassicEditor);
         setPlugins([
-          // Essentials
           ck.Essentials,
           ck.Paragraph,
-
-          // Text formatting
           ck.Bold,
           ck.Italic,
           ck.Underline,
@@ -45,30 +37,18 @@ export default function CKEditorWrapper({ value, onChange, placeholder }: CKEdit
           ck.Superscript,
           ck.Code,
           ck.RemoveFormat,
-
-          // Font (Font is a meta-plugin including FontFamily, FontSize, FontColor, FontBackgroundColor)
           ck.Font,
           ck.Highlight,
-
-          // Paragraph formatting
           ck.Alignment,
           ck.Indent,
           ck.IndentBlock,
-
-          // Heading
           ck.Heading,
-
-          // Lists
           ck.List,
           ck.ListProperties,
           ck.TodoList,
-
-          // Links
           ck.Link,
           ck.LinkImage,
           ck.AutoLink,
-
-          // Images
           ck.Image,
           ck.ImageCaption,
           ck.ImageResize,
@@ -76,25 +56,17 @@ export default function CKEditorWrapper({ value, onChange, placeholder }: CKEdit
           ck.ImageToolbar,
           ck.ImageUpload,
           ck.ImageInsert,
-
-          // Table
           ck.Table,
           ck.TableToolbar,
           ck.TableProperties,
           ck.TableCellProperties,
           ck.TableCaption,
           ck.TableColumnResize,
-
-          // Block
           ck.BlockQuote,
           ck.CodeBlock,
           ck.HorizontalLine,
           ck.PageBreak,
-
-          // Media
           ck.MediaEmbed,
-
-          // Special features
           ck.FindAndReplace,
           ck.SpecialCharacters,
           ck.SpecialCharactersEssentials,
@@ -103,29 +75,19 @@ export default function CKEditorWrapper({ value, onChange, placeholder }: CKEdit
           ck.GeneralHtmlSupport,
           ck.ShowBlocks,
           ck.SelectAll,
-
-          // Clipboard & paste
           ck.PasteFromOffice,
           ck.TextTransformation,
-
-          // Word count (optional)
           ck.WordCount,
 
-          // Custom Upload Adapter Plugin
           function MyCustomUploadAdapterPlugin(editor: any) {
-            editor.plugins.get('FileRepository').createUploadAdapter = (loader: any) => {
-              return {
-                upload: () => {
-                  return loader.file.then((file: File) =>
-                    uploadFile(file, 'uploads').then(url => ({ default: url }))
-                  );
-                },
-                abort: () => {}
-              };
-            };
+            editor.plugins.get('FileRepository').createUploadAdapter = (loader: any) => ({
+              upload: () => loader.file.then((file: File) =>
+                uploadFile(file, 'uploads').then(url => ({ default: url }))
+              ),
+              abort: () => {},
+            });
           },
 
-          // Custom Video Upload Plugin
           function VideoUploadPlugin(editor: any) {
             editor.ui.componentFactory.add('videoUpload', (locale: any) => {
               const button = new ck.ButtonView(locale);
@@ -135,7 +97,6 @@ export default function CKEditorWrapper({ value, onChange, placeholder }: CKEdit
                 withText: false,
                 icon: '<svg viewBox="0 0 20 20" xmlns="http://www.w3.org/2000/svg"><path d="M2 5a2 2 0 0 1 2-2h9a2 2 0 0 1 2 2v1.5l3.4-2.27A.5.5 0 0 1 19 4.65v10.7a.5.5 0 0 1-.6.42L15 13.5V15a2 2 0 0 1-2 2H4a2 2 0 0 1-2-2V5zm5 2.13v5.74a.5.5 0 0 0 .77.42l4.5-2.87a.5.5 0 0 0 0-.84l-4.5-2.87a.5.5 0 0 0-.77.42z"/></svg>',
               });
-
               button.on('execute', () => {
                 const input = document.createElement('input');
                 input.type = 'file';
@@ -143,26 +104,16 @@ export default function CKEditorWrapper({ value, onChange, placeholder }: CKEdit
                 input.onchange = async () => {
                   const file = input.files?.[0];
                   if (!file) return;
-
                   const markerName = `videoUploadPlaceholder${Date.now()}`;
-
                   editor.model.change((writer: any) => {
-                    const placeholderView = editor.data.processor.toView(
-                      `<p><em>Đang tải video lên...</em></p>`
-                    );
+                    const placeholderView = editor.data.processor.toView(`<p><em>Đang tải video lên...</em></p>`);
                     const placeholderModel = editor.data.toModel(placeholderView);
                     const insertedRange = editor.model.insertContent(placeholderModel);
-                    writer.addMarker(markerName, {
-                      range: writer.createRange(insertedRange.start, insertedRange.end),
-                      usingOperation: false,
-                      affectsData: false,
-                    });
+                    writer.addMarker(markerName, { range: writer.createRange(insertedRange.start, insertedRange.end), usingOperation: false, affectsData: false });
                   });
-
                   try {
                     const url = await uploadFile(file, 'uploads');
                     const videoHtml = `<figure class="video-figure" style="margin:1em 0;"><video controls preload="metadata" src="${url}" style="max-width:100%;width:100%;"></video></figure><p></p>`;
-
                     editor.model.change((writer: any) => {
                       const marker = editor.model.markers.get(markerName);
                       let insertPos: any = null;
@@ -172,41 +123,30 @@ export default function CKEditorWrapper({ value, onChange, placeholder }: CKEdit
                         writer.removeMarker(markerName);
                         writer.remove(range);
                       }
-                      const videoView = editor.data.processor.toView(videoHtml);
-                      const videoModel = editor.data.toModel(videoView);
-                      if (insertPos) {
-                        editor.model.insertContent(videoModel, insertPos);
-                      } else {
-                        editor.model.insertContent(videoModel);
-                      }
+                      const videoModel = editor.data.toModel(editor.data.processor.toView(videoHtml));
+                      editor.model.insertContent(videoModel, insertPos || undefined);
                     });
                   } catch (error) {
                     console.error('Upload video failed:', error);
                     editor.model.change((writer: any) => {
                       const marker = editor.model.markers.get(markerName);
-                      if (marker) {
-                        writer.remove(marker.getRange());
-                        writer.removeMarker(markerName);
-                      }
+                      if (marker) { writer.remove(marker.getRange()); writer.removeMarker(markerName); }
                     });
                     alert('Tải video lên thất bại. Vui lòng thử lại.');
                   }
                 };
                 input.click();
               });
-
               return button;
             });
-          }
+          },
         ]);
-
 
         setEditorLoaded(true);
       } catch (error) {
         console.error('Failed to load CKEditor:', error);
       }
     };
-
     loadEditor();
   }, []);
 
@@ -231,29 +171,19 @@ export default function CKEditorWrapper({ value, onChange, placeholder }: CKEdit
           placeholder: placeholder || 'Nhập nội dung...',
           toolbar: {
             items: [
-              'undo', 'redo',
-              '|',
-              'heading',
-              '|',
-              'fontFamily', 'fontSize', 'fontColor', 'fontBackgroundColor',
-              '|',
+              'undo', 'redo', '|',
+              'heading', '|',
+              'fontFamily', 'fontSize', 'fontColor', 'fontBackgroundColor', '|',
               'bold', 'italic', 'underline', 'strikethrough',
-              'subscript', 'superscript',
-              'code', 'removeFormat',
-              '|',
-              'highlight',
-              '|',
+              'subscript', 'superscript', 'code', 'removeFormat', '|',
+              'highlight', '|',
               'link', 'insertImage', 'videoUpload',
-              'insertTable', 'blockQuote', 'codeBlock',
-              '|',
-              'alignment',
-              '|',
+              'insertTable', 'blockQuote', 'codeBlock', '|',
+              'alignment', '|',
               'bulletedList', 'numberedList', 'todoList',
-              'outdent', 'indent',
-              '|',
+              'outdent', 'indent', '|',
               'horizontalLine', 'pageBreak',
-              'specialCharacters', 'htmlEmbed',
-              '|',
+              'specialCharacters', 'htmlEmbed', '|',
               'findAndReplace', 'selectAll',
               'showBlocks', 'sourceEditing',
             ],
@@ -289,27 +219,14 @@ export default function CKEditorWrapper({ value, onChange, placeholder }: CKEdit
             options: [10, 12, 14, 'default', 18, 20, 22, 24, 26, 28, 36, 48, 72],
             supportAllValues: true,
           },
-          fontColor: {
-            columns: 10,
-            documentColors: 20,
-          },
-          fontBackgroundColor: {
-            columns: 10,
-            documentColors: 20,
-          },
-          alignment: {
-            options: ['left', 'center', 'right', 'justify'],
-          },
+          fontColor: { columns: 10, documentColors: 20 },
+          fontBackgroundColor: { columns: 10, documentColors: 20 },
+          alignment: { options: ['left', 'center', 'right', 'justify'] },
           image: {
             toolbar: [
-              'imageTextAlternative',
-              'toggleImageCaption',
-              'imageStyle:inline',
-              'imageStyle:wrapText',
-              'imageStyle:breakText',
-              'imageStyle:side',
-              'resizeImage',
-              'linkImage',
+              'imageTextAlternative', 'toggleImageCaption',
+              'imageStyle:inline', 'imageStyle:wrapText', 'imageStyle:breakText', 'imageStyle:side',
+              'resizeImage', 'linkImage',
             ],
             resizeOptions: [
               { name: 'resizeImage:original', label: 'Original', value: null },
@@ -320,41 +237,17 @@ export default function CKEditorWrapper({ value, onChange, placeholder }: CKEdit
           },
           table: {
             contentToolbar: [
-              'tableColumn',
-              'tableRow',
-              'mergeTableCells',
-              'tableProperties',
-              'tableCellProperties',
-              'toggleTableCaption',
+              'tableColumn', 'tableRow', 'mergeTableCells',
+              'tableProperties', 'tableCellProperties', 'toggleTableCaption',
             ],
           },
-          list: {
-            properties: {
-              styles: true,
-              startIndex: true,
-              reversed: true,
-            },
-          },
+          list: { properties: { styles: true, startIndex: true, reversed: true } },
           link: {
             addTargetToExternalLinks: true,
             defaultProtocol: 'https://',
             decorators: {
-              toggleDownloadable: {
-                mode: 'manual',
-                label: 'Downloadable',
-                attributes: {
-                  download: 'file',
-                },
-              },
-              openInNewTab: {
-                mode: 'manual',
-                label: 'Open in a new tab',
-                defaultValue: true,
-                attributes: {
-                  target: '_blank',
-                  rel: 'noopener noreferrer',
-                },
-              },
+              toggleDownloadable: { mode: 'manual', label: 'Downloadable', attributes: { download: 'file' } },
+              openInNewTab: { mode: 'manual', label: 'Open in a new tab', defaultValue: true, attributes: { target: '_blank', rel: 'noopener noreferrer' } },
             },
           },
           highlight: {
@@ -380,71 +273,72 @@ export default function CKEditorWrapper({ value, onChange, placeholder }: CKEdit
               { language: 'xml', label: 'XML' },
             ],
           },
-          htmlSupport: {
-            allow: [
-              {
-                name: /.*/,
-                attributes: true,
-                classes: true,
-                styles: true,
-              },
-            ],
-          },
-          wordCount: {
-            onUpdate: (stats: any) => {
-              // Optional: could emit stats
-            },
-          },
+          htmlSupport: { allow: [{ name: /.*/, attributes: true, classes: true, styles: true }] },
+          wordCount: { onUpdate: (_stats: any) => {} },
           language: 'vi',
         }}
         onReady={(editor: any) => {
           editorInstanceRef.current = editor;
 
-          editor.editing.view.document.on('tab', (evt: any, data: any) => {
+          // ─────────────────────────────────────────────────────────────────────
+          // Intercept Tab at the native DOM level using the CAPTURE phase.
+          // This runs before CKEditor's own listeners, so we can fully prevent
+          // the widget-focus behaviour that moves focus into the image toolbar.
+          // ─────────────────────────────────────────────────────────────────────
+          const editableDom = editor.editing.view.getDomRoot();
+
+          const handleTabCapture = (evt: KeyboardEvent) => {
+            if (evt.key !== 'Tab') return;
+
             const selection = editor.model.document.selection;
-            const position = selection.getFirstPosition();
 
-            if (position) {
-              // If inside a table cell, let TableKeyboard handle Tab natively
-              let element: any = position.parent;
-              while (element) {
-                if (element.name === 'tableCell') return;
-                element = element.parent;
-              }
-
-              // If an image block/inline is selected, insert spaces after it
-              // instead of letting Tab shift focus to the image toolbar
-              const selectedElement = selection.getSelectedElement();
-              if (selectedElement && (selectedElement.name === 'imageBlock' || selectedElement.name === 'imageInline')) {
-                editor.model.change((writer: any) => {
-                  const posAfter = writer.createPositionAfter(selectedElement);
-                  const nodeAfter = posAfter.nodeAfter;
-                  if (!nodeAfter || nodeAfter.name !== 'paragraph') {
-                    // No paragraph after image — create one with spaces
-                    const paragraph = writer.createElement('paragraph');
-                    writer.insert(paragraph, posAfter);
-                    writer.insertText('    ', writer.createPositionAt(paragraph, 0));
-                    writer.setSelection(paragraph, 'end');
-                  } else {
-                    // Paragraph already exists — prepend spaces and place cursor after them
-                    writer.insertText('    ', writer.createPositionAt(nodeAfter, 0));
-                    writer.setSelection(writer.createPositionAt(nodeAfter, 4));
-                  }
-                });
-                data.preventDefault();
-                evt.stop();
-                return;
+            // 1. Inside a table cell → let CKEditor handle it (navigation between cells)
+            const firstPos = selection.getFirstPosition();
+            if (firstPos) {
+              let node: any = firstPos.parent;
+              while (node) {
+                if (node.name === 'tableCell') return;
+                node = node.parent;
               }
             }
 
-            if (data.shiftKey) {
+            // 2. An image widget is selected → insert spaces, do NOT focus toolbar
+            const selectedElement = selection.getSelectedElement();
+            const IMAGE_NAMES = new Set(['imageBlock', 'imageInline', 'image']);
+            if (selectedElement && IMAGE_NAMES.has(selectedElement.name)) {
+              evt.preventDefault();
+              evt.stopImmediatePropagation(); // prevent CKEditor from ever seeing this event
+
+              editor.model.change((writer: any) => {
+                const posAfter = writer.createPositionAfter(selectedElement);
+                const nodeAfter = posAfter.nodeAfter;
+
+                if (!nodeAfter || nodeAfter.name !== 'paragraph') {
+                  // No paragraph follows the image — create one
+                  const para = writer.createElement('paragraph');
+                  writer.insert(para, posAfter);
+                  writer.insertText('    ', writer.createPositionAt(para, 0));
+                  writer.setSelection(para, 'end');
+                } else {
+                  // Paragraph already exists — prepend 4 spaces and place cursor after them
+                  writer.insertText('    ', writer.createPositionAt(nodeAfter, 0));
+                  writer.setSelection(writer.createPositionAt(nodeAfter, 4));
+                }
+              });
+
+              return;
+            }
+
+            // 3. Normal text context — handle indent / dedent / insert spaces
+            evt.preventDefault();
+            evt.stopImmediatePropagation();
+
+            if (evt.shiftKey) {
               const outdent = editor.commands.get('outdent');
-              if (outdent && outdent.isEnabled) {
-                editor.execute('outdent');
-              }
+              if (outdent?.isEnabled) editor.execute('outdent');
             } else {
               const indent = editor.commands.get('indent');
-              if (indent && indent.isEnabled) {
+              if (indent?.isEnabled) {
                 editor.execute('indent');
               } else {
                 editor.model.change((writer: any) => {
@@ -452,16 +346,19 @@ export default function CKEditorWrapper({ value, onChange, placeholder }: CKEdit
                 });
               }
             }
+          };
 
-            data.preventDefault();
-            evt.stop();
-          }, { priority: 'highest' });
+          // true = capture phase, fires before any bubble-phase listeners
+          editableDom.addEventListener('keydown', handleTabCapture, true);
+
+          // Clean up when the editor is destroyed
+          editor.on('destroy', () => {
+            editableDom.removeEventListener('keydown', handleTabCapture, true);
+          });
         }}
-        onChange={(event: any, editor: any) => {
+        onChange={(_event: any, editor: any) => {
           const data = editor.getData();
-          if (onChange) {
-            onChange(data);
-          }
+          if (onChange) onChange(data);
         }}
       />
       <style jsx global>{`
