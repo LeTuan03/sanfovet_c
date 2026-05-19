@@ -415,7 +415,7 @@ export default function CKEditorWrapper({ value, onChange, placeholder }: CKEdit
 
             // Prevent default browser behavior (moving focus)
             stop();
-          });
+          }, { priority: 'highest' });
 
           // Handle Shift+Tab key
           editor.keystrokes.set('Shift+Tab', (data: any, stop: () => void) => {
@@ -427,7 +427,7 @@ export default function CKEditorWrapper({ value, onChange, placeholder }: CKEdit
 
             // Prevent default browser behavior
             stop();
-          });
+          }, { priority: 'highest' });
         }}
         onChange={(event: any, editor: any) => {
           const data = editor.getData();
