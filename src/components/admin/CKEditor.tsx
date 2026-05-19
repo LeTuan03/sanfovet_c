@@ -400,33 +400,36 @@ export default function CKEditorWrapper({ value, onChange, placeholder }: CKEdit
         onReady={(editor: any) => {
           editorInstanceRef.current = editor;
 
-          // Handle Tab key
-          editor.keystrokes.set('Tab', (data: any, stop: () => void) => {
-            const indent = editor.commands.get('indent');
+          editor.editing.view.document.on('tab', (evt: any, data: any) => {
+            // If selection is inside a table cell, let TableKeyboard handle Tab natively
+            const selection = editor.model.document.selection;
+            const position = selection.getFirstPosition();
+            if (position) {
+              let element: any = position.parent;
+              while (element) {
+                if (element.name === 'tableCell') return;
+                element = element.parent;
+              }
+            }
 
-            if (indent && indent.isEnabled) {
-              editor.execute('indent');
+            if (data.shiftKey) {
+              const outdent = editor.commands.get('outdent');
+              if (outdent && outdent.isEnabled) {
+                editor.execute('outdent');
+              }
             } else {
-              // Fallback: Insert 4 spaces if indent command is not available (e.g. not in a list)
-              editor.model.change((writer: any) => {
-                editor.model.insertContent(writer.createText('    '));
-              });
+              const indent = editor.commands.get('indent');
+              if (indent && indent.isEnabled) {
+                editor.execute('indent');
+              } else {
+                editor.model.change((writer: any) => {
+                  editor.model.insertContent(writer.createText('    '));
+                });
+              }
             }
 
-            // Prevent default browser behavior (moving focus)
-            stop();
-          }, { priority: 'highest' });
-
-          // Handle Shift+Tab key
-          editor.keystrokes.set('Shift+Tab', (data: any, stop: () => void) => {
-            const outdent = editor.commands.get('outdent');
-
-            if (outdent && outdent.isEnabled) {
-              editor.execute('outdent');
-            }
-
-            // Prevent default browser behavior
-            stop();
+            data.preventDefault();
+            evt.stop();
           }, { priority: 'highest' });
         }}
         onChange={(event: any, editor: any) => {
