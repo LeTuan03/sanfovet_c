@@ -48,7 +48,7 @@ export default function FloatingContact({ settings }: { settings: any }) {
           <Mail size={22} />
         </a>
         <a 
-          href={`https://zalo.me/${settings?.support?.zaloNumber}`} 
+          href={`https://zalo.me/${settings?.support?.zalo}`} 
           target="_blank" 
           rel="noopener"
           className="w-[52px] h-[52px] rounded-full flex items-center justify-center text-white shadow-lg transition-transform hover:scale-110 active:scale-95 bg-gradient-to-br from-[#0068ff] to-[#0052cc]"
