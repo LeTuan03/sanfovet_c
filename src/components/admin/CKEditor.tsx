@@ -401,14 +401,39 @@ export default function CKEditorWrapper({ value, onChange, placeholder }: CKEdit
           editorInstanceRef.current = editor;
 
           editor.editing.view.document.on('tab', (evt: any, data: any) => {
-            // If selection is inside a table cell, let TableKeyboard handle Tab natively
             const selection = editor.model.document.selection;
             const position = selection.getFirstPosition();
+
             if (position) {
+              // If inside a table cell, let TableKeyboard handle Tab natively
               let element: any = position.parent;
               while (element) {
                 if (element.name === 'tableCell') return;
                 element = element.parent;
+              }
+
+              // If an image block/inline is selected, insert spaces after it
+              // instead of letting Tab shift focus to the image toolbar
+              const selectedElement = selection.getSelectedElement();
+              if (selectedElement && (selectedElement.name === 'imageBlock' || selectedElement.name === 'imageInline')) {
+                editor.model.change((writer: any) => {
+                  const posAfter = writer.createPositionAfter(selectedElement);
+                  const nodeAfter = posAfter.nodeAfter;
+                  if (!nodeAfter || nodeAfter.name !== 'paragraph') {
+                    // No paragraph after image — create one with spaces
+                    const paragraph = writer.createElement('paragraph');
+                    writer.insert(paragraph, posAfter);
+                    writer.insertText('    ', writer.createPositionAt(paragraph, 0));
+                    writer.setSelection(paragraph, 'end');
+                  } else {
+                    // Paragraph already exists — prepend spaces and place cursor after them
+                    writer.insertText('    ', writer.createPositionAt(nodeAfter, 0));
+                    writer.setSelection(writer.createPositionAt(nodeAfter, 4));
+                  }
+                });
+                data.preventDefault();
+                evt.stop();
+                return;
               }
             }
 
