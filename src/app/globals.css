@@ -108,4 +108,5 @@ h1, h2, h3, h4, h5, h6 {
   background-color: var(--color-primary-light) !important;
   color: var(--color-primary-dark) !important;
   font-weight: bold;
+  border-radius: 0 !important;
 }
