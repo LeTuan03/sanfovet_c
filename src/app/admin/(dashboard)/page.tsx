@@ -1,13 +1,12 @@
 "use client";
 
 import React from 'react';
-import { Card, Col, Row, Statistic, Badge, Button } from 'antd';
+import { Card, Col, Row, Button } from 'antd';
 import {
   ShoppingOutlined,
   AppstoreOutlined,
   ReadOutlined,
   UsergroupAddOutlined,
-  ArrowUpOutlined,
   ClockCircleOutlined,
   RocketOutlined
 } from '@ant-design/icons';

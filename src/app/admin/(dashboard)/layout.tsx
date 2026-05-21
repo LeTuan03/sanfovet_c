@@ -103,9 +103,9 @@ export default function AdminLayout({ children }: { children: React.ReactNode })
   ];
 
   const userMenuItems = [
-    { key: 'profile',  label: 'Hồ sơ cá nhân',     icon: <UserOutlined /> },
-    { key: 'settings', label: 'Cài đặt tài khoản',  icon: <SettingOutlined /> },
-    { type: 'divider', key: 'div2' },
+    // { key: 'profile',  label: 'Hồ sơ cá nhân',     icon: <UserOutlined /> },
+    // { key: 'settings', label: 'Cài đặt tài khoản',  icon: <SettingOutlined /> },
+    // { type: 'divider', key: 'div2' },
     { key: 'logout',   label: 'Đăng xuất',          icon: <LogoutOutlined />, danger: true },
   ];
 
