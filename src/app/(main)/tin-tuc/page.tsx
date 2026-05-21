@@ -80,7 +80,7 @@ export default async function NewsPage() {
           </div>
 
           {/* Side Panels */}
-          <aside className="lg:col-span-1 space-y-12">
+          <aside className="lg:col-span-1 space-y-12 lg:sticky lg:top-28 lg:self-start">
              {/* Category Stats */}
              <div className="bg-biotechvet-dark p-10 rounded-[48px] text-white">
                 <h3 className="text-xl font-black mb-8 border-b border-white/10 pb-4 uppercase tracking-wider">Chuyên mục</h3>
