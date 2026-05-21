@@ -188,15 +188,15 @@ function ProductManagementContent() {
       render: (text: string, record: ProductSummary) => (
         <div className="flex items-center gap-4 py-1">
           <div className="w-12 h-12 bg-gray-50 rounded-xl overflow-hidden border border-gray-100 shrink-0 shadow-sm group-hover:shadow-md transition-all">
-             <img src={record.image} alt={text} className="w-full h-full object-contain p-1" />
+             <img src={record?.image} alt={text} className="w-full h-full object-contain p-1" />
           </div>
           <div>
             <div className="font-bold text-biotechvet-dark text-sm">{text}</div>
             <div className="flex items-center gap-2 mt-1">
-              {record.featured && <Tag color="gold" className="text-[9px] px-1.5 font-black border-none bg-amber-100 text-amber-700 m-0">NỔI BẬT</Tag>}
-              {record.images && record.images.length > 0 && (
+              {record?.featured && <Tag color="gold" className="text-[9px] px-1.5 font-black border-none bg-amber-100 text-amber-700 m-0">NỔI BẬT</Tag>}
+              {record?.images && record?.images.length > 0 && (
                 <Tag className="text-[9px] px-1.5 font-black border-none bg-blue-50 text-blue-600 m-0">
-                  +{record.images.length} ảnh
+                  +{record?.images.length} ảnh
                 </Tag>
               )}
             </div>
@@ -272,17 +272,19 @@ function ProductManagementContent() {
 
       <div className="bg-white rounded-[32px] overflow-hidden shadow-xl shadow-gray-200/50 border border-gray-100">
         <Table  size="small"
-           columns={columns} 
-           dataSource={filteredData} 
-           rowKey="id" 
+           columns={columns}
+           dataSource={filteredData}
+           rowKey="id"
            loading={loading}
            className="admin-table"
+           onChange={(pag) => {
+              if (pag.current && pag.current !== page) updateUrl({ page: pag.current });
+           }}
            pagination={{
               current: page,
               pageSize: 10,
               className: "p-6 border-t border-gray-50",
               showSizeChanger: false,
-              onChange: (p) => updateUrl({ page: p })
            }}
         />
       </div>
