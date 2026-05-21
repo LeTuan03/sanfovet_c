@@ -103,3 +103,9 @@ h1, h2, h3, h4, h5, h6 {
     max-width: 100% !important;
   }
 }
+
+.admin-table .ant-table-thead > tr > th {
+  background-color: var(--color-primary-light) !important;
+  color: var(--color-primary-dark) !important;
+  font-weight: bold;
+}

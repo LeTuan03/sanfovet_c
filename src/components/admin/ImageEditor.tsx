@@ -167,9 +167,16 @@ export default function ImageEditor({ visible, imageUrl, onSave, onCancel }: Ima
       title="Chỉnh sửa ảnh"
       open={visible}
       onCancel={handleCancel}
-      width="100vw"
-      style={{ maxWidth: '100vw', top: 0, padding: 0, borderRadius: 0 }}
-      styles={{ body: { maxHeight: 'calc(100vh - 100px)', overflow: 'auto', padding: '24px' } }}
+      styles={{ 
+        wrapper: {
+          width: "100vw",
+          maxWidth: "100vw",
+          top: 0,
+          padding: 0,
+          borderRadius: 0
+        } as any,
+        body: { maxHeight: 'calc(100vh - 100px)', overflow: 'auto', padding: '24px' } 
+      }}
       footer={[
         <Button key="cancel" onClick={handleCancel}>
           Hủy
