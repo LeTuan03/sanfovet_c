@@ -162,7 +162,7 @@ export default function AdminLayout({ children }: { children: React.ReactNode })
     >
       <AdminLoadingProvider>
         <App>
-          <Layout hasSider className="min-h-screen">
+          <Layout hasSider className="h-screen overflow-hidden">
             {/* ─── SIDEBAR ─────────────────────────────────────────────────────── */}
             <Sider
               trigger={null}
@@ -285,7 +285,7 @@ export default function AdminLayout({ children }: { children: React.ReactNode })
             </Sider>
 
             {/* ─── MAIN AREA ────────────────────────────────────────────────────── */}
-            <Layout style={{ background: '#f8fafb' }}>
+            <Layout style={{ background: '#f8fafb', display: 'flex', flexDirection: 'column' }}>
               {/* Header */}
               <Header
                 style={{
@@ -300,6 +300,7 @@ export default function AdminLayout({ children }: { children: React.ReactNode })
                   justifyContent: 'space-between',
                   boxShadow: '0 1px 4px rgba(0,0,0,0.04)',
                   overflow: 'hidden',
+                  flexShrink: 0,
                 }}
               >
                 <Button
@@ -364,12 +365,12 @@ export default function AdminLayout({ children }: { children: React.ReactNode })
               <Content
                 style={{
                   padding: 24,
-                  minHeight: 280,
                   background: '#f8fafb',
-                  flex: 'auto',
+                  flex: 1,
+                  overflowY: 'auto',
                 }}
               >
-                <div style={{ maxWidth: 1600, margin: '0 auto' }}>
+                <div style={{ maxWidth: 1600, margin: '0 auto', minHeight: '100%', display: 'flex', flexDirection: 'column' }}>
                   {children}
                 </div>
               </Content>

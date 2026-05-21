@@ -175,7 +175,7 @@ export default async function ArticleDetailPage({ params }: Readonly<{ params: P
           <ChevronRight size={14} className="mx-2 text-gray-300" />
           <Link href="/tin-tuc" className="hover:text-primary transition-colors font-medium">Tin tức & Bài viết</Link>
           <ChevronRight size={14} className="mx-2 text-gray-300" />
-          <span className="text-primary font-bold line-clamp-1 md:hidden">{article.title}</span>
+          <span className="text-primary font-bold line-clamp-1 sm:block">{article.title}</span>
         </div>
       </div>
 
@@ -189,7 +189,7 @@ export default async function ArticleDetailPage({ params }: Readonly<{ params: P
              
              <article className="prose prose-lg max-w-none prose-headings:text-biotechvet-dark prose-headings:font-black prose-p:text-gray-600 prose-p:leading-relaxed print:m-0 print:p-0">
                 <header className="mb-10 not-prose">
-                   <div className="flex items-center gap-4 text-sm text-gray-400 font-bold mb-4 uppercase tracking-widest no-print">
+                   <div className="flex flex-wrap items-center gap-4 text-sm text-gray-400 font-bold mb-4 uppercase tracking-widest no-print">
                       <span className="bg-primary text-white px-3 py-1 rounded-full text-[10px]">
                         {getCategoryLabel(article.category)}
                       </span>

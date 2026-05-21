@@ -117,7 +117,7 @@ export default async function ProductDetailPage({ params }: Readonly<{ params: P
           <ChevronRight size={14} className="mx-2 text-gray-300" />
           <Link href="/san-pham" className="hover:text-primary transition-colors">Sản phẩm</Link>
           <ChevronRight size={14} className="mx-2 text-gray-300" />
-          <span className="text-secondary font-bold md:hidden">{product.name}</span>
+          <span className="text-secondary font-bold sm:block">{product.name}</span>
         </div>
       </div>
 

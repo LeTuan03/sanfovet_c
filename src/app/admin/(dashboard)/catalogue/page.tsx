@@ -252,7 +252,7 @@ function AdminCatalogueContent() {
       />
 
       <div className="bg-white rounded-[32px] overflow-hidden shadow-xl shadow-gray-200/50 border border-gray-100">
-        <Table  size="small" sticky scroll={{ y: 'calc(100vh-200px)' }}
+        <Table  size="small" sticky
           columns={columns} 
           dataSource={filteredData} 
           rowKey="id"
