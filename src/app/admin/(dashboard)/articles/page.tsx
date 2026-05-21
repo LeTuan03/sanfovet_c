@@ -2,6 +2,7 @@
 
 import React, { useState, useMemo } from 'react';
 import { Table, Button, Space, Modal, Form, Input, Select, Tag, Tooltip, Row, Col, Divider, Breadcrumb, DatePicker, Switch, Checkbox, App } from 'antd';
+import AdminPageHeader from '@/components/admin/AdminPageHeader';
 import { PlusOutlined, EditOutlined, DeleteOutlined, SearchOutlined, FileImageOutlined } from '@ant-design/icons';
 import { useRouter, useSearchParams, usePathname } from 'next/navigation';
 // import { articles, animalTags } from '@/lib/data'; // Removed static imports
@@ -48,7 +49,7 @@ function ArticleManagementContent() {
 
   // Derived articles
   const articlesList = useMemo(() => {
-     return data.filter((a) => a.category === 'benh-dieu-tri');
+    return data.filter((a) => a.category === 'benh-dieu-tri');
   }, [data]);
 
   // Derived filtered data
@@ -60,13 +61,13 @@ function ArticleManagementContent() {
 
   const updateUrl = (params: { q?: string; page?: number }) => {
     const newSearchParams = new URLSearchParams(searchParams.toString());
-    
+
     if (params.q !== undefined) {
       if (params.q) newSearchParams.set('q', params.q);
       else newSearchParams.delete('q');
       newSearchParams.set('page', '1'); // Reset to page 1 on search
     }
-    
+
     if (params.page !== undefined) {
       newSearchParams.set('page', params.page.toString());
     }
@@ -208,7 +209,7 @@ function ArticleManagementContent() {
       render: (text: string, record: ArticleSummary) => (
         <div className="flex items-center gap-3">
           <div className="w-12 h-12 bg-gray-50 rounded-xl overflow-hidden border border-gray-100 shrink-0">
-             <img src={record.thumbnail} alt={text} className="w-full h-full object-cover" />
+            <img src={record.thumbnail} alt={text} className="w-full h-full object-cover" />
           </div>
           <span className="font-bold text-gray-800 line-clamp-2 leading-tight">{text}</span>
         </div>
@@ -257,21 +258,21 @@ function ArticleManagementContent() {
       render: (_: any, record: ArticleSummary) => (
         <Space size="middle">
           <Tooltip title="Chỉnh sửa">
-             <Button
-               icon={<EditOutlined />}
-               type="text"
-               className="text-blue-500 hover:bg-blue-50"
-               onClick={() => showModal(record)}
-             />
+            <Button
+              icon={<EditOutlined />}
+              type="text"
+              className="text-blue-500 hover:bg-blue-50"
+              onClick={() => showModal(record)}
+            />
           </Tooltip>
           <Tooltip title="Xóa">
-             <Button
-               icon={<DeleteOutlined />}
-               type="text"
-               danger
-               className="hover:bg-red-50"
-               onClick={() => handleDelete(record.id)}
-             />
+            <Button
+              icon={<DeleteOutlined />}
+              type="text"
+              danger
+              className="hover:bg-red-50"
+              onClick={() => handleDelete(record.id)}
+            />
           </Tooltip>
         </Space>
       ),
@@ -282,50 +283,35 @@ function ArticleManagementContent() {
 
   return (
     <div className="space-y-6">
-      <div className="flex justify-between items-center mb-10">
-        <div>
-           <Breadcrumb 
-             items={[
-               { title: 'Admin', href: '/admin' },
-               { title: 'Quản lý Bệnh học' },
-             ]} 
-             className="mb-2"
-           />
-           <h2 className="text-2xl font-black text-biotechvet-dark uppercase tracking-tight italic">Quản lý Bệnh học</h2>
+      <AdminPageHeader
+        title="Quản lý Bệnh học"
+        breadcrumbItems={[
+          { title: 'Admin', href: '/admin' },
+          { title: 'Quản lý Bệnh học' },
+        ]}
+        onSearch={(val) => updateUrl({ q: val })}
+        primaryAction={{
+          label: 'Viết bài mới',
+          onClick: () => showModal(),
+          icon: <PlusOutlined />
+        }}
+      />
 
-        </div>
-        <div className="flex gap-4">
-           <Input 
-              prefix={<SearchOutlined className="text-gray-300" />} 
-              placeholder="Tìm bài viết..." 
-              className="w-64 rounded-xl border-gray-100 shadow-sm shadow-black/[0.02]"
-              defaultValue={query}
-              onChange={handleSearch}
-           />
-           <Button 
-             type="primary" 
-             icon={<PlusOutlined />} 
-             onClick={() => showModal()}
-             className="rounded-xl font-bold h-10 px-6 uppercase tracking-wider text-xs shadow-lg shadow-primary/20"
-           >
-             Viết bài mới
-           </Button>
-        </div>
-      </div>
-
-      <Table  size="small" sticky
-         columns={columns} 
-         dataSource={filteredData} 
-         rowKey="id" 
-         loading={loading}
-         className="shadow-sm border border-gray-50 rounded-2xl overflow-hidden bg-white"
-         pagination={{
+      <div className="bg-white overflow-hidden shadow-xl shadow-gray-200/50 border border-gray-100" style={{ borderRadius: "3px 3px 32px 32px" }}>
+        <Table size="small" sticky
+          columns={columns}
+          dataSource={filteredData}
+          rowKey="id"
+          loading={loading}
+          className="admin-table"
+          pagination={{
             current: page,
             pageSize: 6,
-            className: "px-6 pb-4",
+            className: "p-6 border-t border-gray-50",
             onChange: (p) => updateUrl({ page: p })
-         }}
-      />
+          }}
+        />
+      </div>
 
       <Modal
         title={<span className="text-xl font-black uppercase italic tracking-tight">{editingId ? 'Chỉnh sửa Bài viết' : 'Soạn thảo Bài viết mới'}</span>}
@@ -354,8 +340,8 @@ function ArticleManagementContent() {
             </Col>
             <Col span={12}>
               <Form.Item name="category" label="Chuyên mục" initialValue="benh-dieu-tri" rules={[{ required: true }]}>
-                <Select 
-                  className="rounded-xl" 
+                <Select
+                  className="rounded-xl"
                   disabled
                   options={[
                     { label: 'Bệnh & Điều trị', value: 'benh-dieu-tri' },
@@ -383,7 +369,7 @@ function ArticleManagementContent() {
               </Form.Item>
             </Col>
           </Row>
-          
+
           <Divider><span className="text-[0.6rem] font-black text-gray-300 uppercase tracking-[3px]">Nội dung truyền thông</span></Divider>
 
           <Form.Item name="excerpt" label="Tóm tắt ngắn (Excerpt)">

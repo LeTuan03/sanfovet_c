@@ -49,12 +49,12 @@ function AdminNewsPageContent() {
 
   // Derived news list
   const news = useMemo(() => {
-     return allArticles.filter((a) => a.category === 'tin-noi-bo' || a.category === 'tin-nganh');
+    return allArticles.filter((a) => a.category === 'tin-noi-bo' || a.category === 'tin-nganh');
   }, [allArticles]);
 
   // Derived filtered data
   const filteredData = useMemo(() => {
-    return news.filter(item => 
+    return news.filter(item =>
       item.title.toLowerCase().includes(query.toLowerCase()) ||
       item.category.toLowerCase().includes(query.toLowerCase())
     );
@@ -62,13 +62,13 @@ function AdminNewsPageContent() {
 
   const updateUrl = (params: { q?: string; page?: number }) => {
     const newSearchParams = new URLSearchParams(searchParams.toString());
-    
+
     if (params.q !== undefined) {
       if (params.q) newSearchParams.set('q', params.q);
       else newSearchParams.delete('q');
       newSearchParams.set('page', '1'); // Reset to page 1 on search
     }
-    
+
     if (params.page !== undefined) {
       newSearchParams.set('page', params.page.toString());
     }
@@ -84,7 +84,7 @@ function AdminNewsPageContent() {
       render: (text: string, record: any) => (
         <div className="flex items-center gap-4 py-1">
           <div className="w-16 h-12 bg-gray-100 rounded-lg overflow-hidden border border-gray-100 shrink-0 shadow-sm group-hover:shadow-md transition-all">
-             <img src={record.thumbnail} alt={text} className="w-full h-full object-cover" />
+            <img src={record.thumbnail} alt={text} className="w-full h-full object-cover" />
           </div>
           <div>
             <div className="font-bold text-biotechvet-dark text-sm line-clamp-1">{text}</div>
@@ -135,21 +135,21 @@ function AdminNewsPageContent() {
       render: (_: any, record: any) => (
         <Space size="small">
           <Tooltip title="Chỉnh sửa">
-             <Button 
-               icon={<EditOutlined />} 
-               type="text" 
-               className="text-blue-500 hover:bg-blue-50 w-9 h-9 flex items-center justify-center rounded-xl transition-all"
-               onClick={() => handleEdit(record)} 
-             />
+            <Button
+              icon={<EditOutlined />}
+              type="text"
+              className="text-blue-500 hover:bg-blue-50 w-9 h-9 flex items-center justify-center rounded-xl transition-all"
+              onClick={() => handleEdit(record)}
+            />
           </Tooltip>
           <Tooltip title="Xóa">
-             <Button 
-               icon={<DeleteOutlined />} 
-               type="text" 
-               danger 
-               className="hover:bg-red-50 w-9 h-9 flex items-center justify-center rounded-xl transition-all"
-               onClick={() => handleDelete(record.id)} 
-             />
+            <Button
+              icon={<DeleteOutlined />}
+              type="text"
+              danger
+              className="hover:bg-red-50 w-9 h-9 flex items-center justify-center rounded-xl transition-all"
+              onClick={() => handleDelete(record.id)}
+            />
           </Tooltip>
         </Space>
       ),
@@ -242,7 +242,7 @@ function AdminNewsPageContent() {
         ...values,
         publishDate: values.publishDate ? values.publishDate.format('DD/MM/YYYY') : dayjs().format('DD/MM/YYYY'),
       };
-      
+
       const action = editingNews ? 'update' : 'create';
 
       // Save to API
@@ -278,12 +278,12 @@ function AdminNewsPageContent() {
   };
 
   return (
-    <motion.div 
+    <motion.div
       initial={{ opacity: 0, y: 10 }}
       animate={{ opacity: 1, y: 0 }}
       className="space-y-6 pb-0"
     >
-      <AdminPageHeader 
+      <AdminPageHeader
         title="Quản lý Tin tức"
         breadcrumbItems={[
           { title: 'Admin', href: '/admin' },
@@ -297,13 +297,13 @@ function AdminNewsPageContent() {
         }}
       />
 
-      <div className="bg-white rounded-[32px] overflow-hidden shadow-xl shadow-gray-200/50 border border-gray-100">
-        <Table  size="small" sticky
-          columns={columns} 
-          dataSource={filteredData} 
+      <div className="bg-white overflow-hidden shadow-xl shadow-gray-200/50 border border-gray-100" style={{ borderRadius: "3px 3px 32px 32px" }}>
+        <Table size="small" sticky
+          columns={columns}
+          dataSource={filteredData}
           rowKey="id"
           loading={loading}
-          pagination={{ 
+          pagination={{
             current: page,
             pageSize: 8,
             className: "p-6 border-t border-gray-50",
@@ -353,7 +353,7 @@ function AdminNewsPageContent() {
           >
             <Input className="rounded-xl py-2 font-bold" placeholder="Nhập tiêu đề tin tức..." />
           </Form.Item>
-          
+
           <Row gutter={24}>
             <Col span={14}>
               <Form.Item
@@ -389,10 +389,10 @@ function AdminNewsPageContent() {
           </Row>
 
           <Form.Item
-             name="thumbnail"
-             label="Hình ảnh bài viết"
+            name="thumbnail"
+            label="Hình ảnh bài viết"
           >
-             <ImageUpload label="Chọn ảnh đại diện" aspectRatio="16/9" />
+            <ImageUpload label="Chọn ảnh đại diện" aspectRatio="16/9" />
           </Form.Item>
 
           <Form.Item

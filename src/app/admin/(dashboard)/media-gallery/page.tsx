@@ -1,8 +1,8 @@
 "use client";
 
 import React, { useState, useMemo } from 'react';
-import { 
-  Tabs, Button, Card, Row, Col, Modal, Form, Input, 
+import {
+  Tabs, Button, Card, Row, Col, Modal, Form, Input,
   Upload, Space, Tag, Empty,
   Switch, Tooltip, Badge, Select, Image, App
 } from 'antd';
@@ -82,12 +82,12 @@ function AdminMediaGalleryPageContent() {
   // Filtered Data
   const filteredImages = useMemo(() => {
     return images.filter(img => img.title.toLowerCase().includes(query.toLowerCase()))
-                 .sort((a, b) => (a.order || 0) - (b.order || 0));
+      .sort((a, b) => (a.order || 0) - (b.order || 0));
   }, [images, query]);
 
   const filteredVideos = useMemo(() => {
     return videos.filter(vid => vid.title.toLowerCase().includes(query.toLowerCase()))
-                 .sort((a, b) => (a.order || 0) - (b.order || 0));
+      .sort((a, b) => (a.order || 0) - (b.order || 0));
   }, [videos, query]);
 
   const handleView = (url: string) => {
@@ -123,9 +123,9 @@ function AdminMediaGalleryPageContent() {
           const res = await adminFetch('/api/data/media-gallery', {
             method: 'POST',
             headers: { 'Content-Type': 'application/json' },
-            body: JSON.stringify({ 
-              action: 'delete', 
-              mediaType: 'image', 
+            body: JSON.stringify({
+              action: 'delete',
+              mediaType: 'image',
               id: id.toString()
             }),
           });
@@ -157,9 +157,9 @@ function AdminMediaGalleryPageContent() {
           const res = await adminFetch('/api/data/media-gallery', {
             method: 'POST',
             headers: { 'Content-Type': 'application/json' },
-            body: JSON.stringify({ 
-              action: 'delete', 
-              mediaType: 'video', 
+            body: JSON.stringify({
+              action: 'delete',
+              mediaType: 'video',
               id: id.toString()
             }),
           });
@@ -189,11 +189,11 @@ function AdminMediaGalleryPageContent() {
       const res = await adminFetch('/api/data/media-gallery', {
         method: 'POST',
         headers: { 'Content-Type': 'application/json' },
-        body: JSON.stringify({ 
-          action: 'update', 
-          mediaType: type === 'images' ? 'image' : 'video', 
-          id: id.toString(), 
-          data: { status: newStatus } 
+        body: JSON.stringify({
+          action: 'update',
+          mediaType: type === 'images' ? 'image' : 'video',
+          id: id.toString(),
+          data: { status: newStatus }
         }),
       });
       if (res.ok) {
@@ -220,14 +220,14 @@ function AdminMediaGalleryPageContent() {
         const res = await adminFetch('/api/data/media-gallery', {
           method: 'POST',
           headers: { 'Content-Type': 'application/json' },
-          body: JSON.stringify({ 
-            action, 
-            mediaType, 
-            id: editingId?.toString(), 
-            data: values 
+          body: JSON.stringify({
+            action,
+            mediaType,
+            id: editingId?.toString(),
+            data: values
           }),
         });
-        
+
         if (res.ok) {
           await fetchData();
           message.success('Đã lưu dữ liệu thành công');
@@ -247,12 +247,12 @@ function AdminMediaGalleryPageContent() {
   };
 
   return (
-    <motion.div 
+    <motion.div
       initial={{ opacity: 0, y: 10 }}
       animate={{ opacity: 1, y: 0 }}
       className="space-y-6 pb-0"
     >
-      <AdminPageHeader 
+      <AdminPageHeader
         title="Video & Hình ảnh"
         breadcrumbItems={[
           { title: 'Admin', href: '/admin' },
@@ -266,9 +266,9 @@ function AdminMediaGalleryPageContent() {
         }}
       />
 
-      <div className="bg-white rounded-[32px] overflow-hidden shadow-xl shadow-gray-200/50 border border-gray-100 p-2">
-        <Tabs 
-          activeKey={activeTab} 
+      <div className="bg-white overflow-hidden shadow-xl shadow-gray-200/50 border border-gray-100" style={{ borderRadius: "3px 3px 32px 32px" }}>
+        <Tabs
+          activeKey={activeTab}
           onChange={handleTabChange}
           className="admin-tabs custom-admin-tabs"
           items={[
@@ -290,18 +290,18 @@ function AdminMediaGalleryPageContent() {
                             <div className="h-44 overflow-hidden bg-gray-50 flex items-center justify-center relative group">
                               <img alt={img.title} src={img.url} className={`w-full h-full object-cover transition-all duration-500 group-hover:scale-110 ${img.status === 'hidden' ? 'opacity-40 grayscale' : ''}`} />
                               <div className="absolute inset-0 bg-biotechvet-dark/60 opacity-0 group-hover:opacity-100 transition-opacity flex items-center justify-center gap-3 backdrop-blur-[2px]">
-                                 <Button shape="circle" size="large" icon={<EyeOutlined />} onClick={() => handleView(img.url)} className="border-none shadow-lg" />
-                                 <Button shape="circle" size="large" icon={<EditOutlined />} onClick={() => handleEdit(img)} className="border-none shadow-lg text-blue-500" />
-                                 <Button shape="circle" size="large" icon={<DeleteOutlined />} danger onClick={() => handleDeleteImage(img.id)} className="border-none shadow-lg" />
+                                <Button shape="circle" size="large" icon={<EyeOutlined />} onClick={() => handleView(img.url)} className="border-none shadow-lg" />
+                                <Button shape="circle" size="large" icon={<EditOutlined />} onClick={() => handleEdit(img)} className="border-none shadow-lg text-blue-500" />
+                                <Button shape="circle" size="large" icon={<DeleteOutlined />} danger onClick={() => handleDeleteImage(img.id)} className="border-none shadow-lg" />
                               </div>
                               {img.status === 'hidden' && (
                                 <div className="absolute top-4 left-4 z-10">
-                                   <Tag color="default" className="m-0 font-black text-[9px] uppercase tracking-widest border-none bg-black/50 text-white backdrop-blur-md">ĐANG ẨN</Tag>
+                                  <Tag color="default" className="m-0 font-black text-[9px] uppercase tracking-widest border-none bg-black/50 text-white backdrop-blur-md">ĐANG ẨN</Tag>
                                 </div>
                               )}
                               {img.featured && (
                                 <div className="absolute top-4 right-4 z-10">
-                                   <Tag className="m-0 font-black text-[9px] uppercase tracking-widest border-none bg-amber-400 text-white backdrop-blur-md flex items-center gap-1"><StarFilled /> Trang chủ</Tag>
+                                  <Tag className="m-0 font-black text-[9px] uppercase tracking-widest border-none bg-amber-400 text-white backdrop-blur-md flex items-center gap-1"><StarFilled /> Trang chủ</Tag>
                                 </div>
                               )}
                             </div>
@@ -314,14 +314,14 @@ function AdminMediaGalleryPageContent() {
                           }}
                         >
                           <div className="flex justify-between items-start mb-3">
-                             <div className="flex-1 mr-2">
-                                <h4 className="text-sm font-black text-biotechvet-dark truncate m-0 italic">{img.title}</h4>
-                             </div>
-                             <Tag className="m-0 text-[10px] font-black tracking-tighter bg-amber-50 text-amber-600 border-none px-2 py-0.5 rounded-lg">#{img.order || 0}</Tag>
+                            <div className="flex-1 mr-2">
+                              <h4 className="text-sm font-black text-biotechvet-dark truncate m-0 italic">{img.title}</h4>
+                            </div>
+                            <Tag className="m-0 text-[10px] font-black tracking-tighter bg-amber-50 text-amber-600 border-none px-2 py-0.5 rounded-lg">#{img.order || 0}</Tag>
                           </div>
                           <div className="flex items-center justify-between pt-3 border-t border-gray-50">
-                             <span className="text-[10px] font-black text-gray-400 uppercase tracking-widest">Hiển thị Gallery</span>
-                             <Switch size="small" checked={img.status === 'active'} onChange={() => toggleStatus(img.id, 'images')} className="bg-gray-200" />
+                            <span className="text-[10px] font-black text-gray-400 uppercase tracking-widest">Hiển thị Gallery</span>
+                            <Switch size="small" checked={img.status === 'active'} onChange={() => toggleStatus(img.id, 'images')} className="bg-gray-200" />
                           </div>
                         </Card>
                       </Col>
@@ -340,7 +340,7 @@ function AdminMediaGalleryPageContent() {
               ),
               children: (
                 <div className="p-6">
-                   <Row gutter={[24, 24]}>
+                  <Row gutter={[24, 24]}>
                     {filteredVideos.map(vid => (
                       <Col xs={24} lg={12} key={vid.id}>
                         <Card
@@ -350,48 +350,48 @@ function AdminMediaGalleryPageContent() {
                         >
                           <div className="flex flex-col sm:flex-row h-full">
                             <div className="w-full sm:w-56 h-48 bg-biotechvet-dark shrink-0 flex items-center justify-center relative overflow-hidden group">
-                               <img src={vid.thumbnail || null} className={`absolute inset-0 w-full h-full object-cover transition-all duration-700 group-hover:scale-110 ${vid.status === 'hidden' ? 'opacity-20 grayscale' : 'opacity-60'}`} />
-                               <div className="relative z-10 w-16 h-16 bg-white/20 backdrop-blur-md rounded-full flex items-center justify-center text-white text-3xl group-hover:scale-110 group-hover:bg-primary transition-all shadow-xl">
-                                  <PlayCircleOutlined />
-                               </div>
-                               {vid.status === 'hidden' && (
-                                 <div className="absolute top-4 left-4 z-20">
-                                   <Tag color="default" className="m-0 font-black text-[9px] uppercase tracking-widest border-none bg-black/50 text-white backdrop-blur-md">ĐANG ẨN</Tag>
-                                 </div>
-                               )}
-                               {vid.featured && (
-                                 <div className="absolute top-4 right-4 z-20">
-                                   <Tag className="m-0 font-black text-[9px] uppercase tracking-widest border-none bg-amber-400 text-white backdrop-blur-md flex items-center gap-1"><StarFilled /> Trang chủ</Tag>
-                                 </div>
-                               )}
+                              <img src={vid.thumbnail || null} className={`absolute inset-0 w-full h-full object-cover transition-all duration-700 group-hover:scale-110 ${vid.status === 'hidden' ? 'opacity-20 grayscale' : 'opacity-60'}`} />
+                              <div className="relative z-10 w-16 h-16 bg-white/20 backdrop-blur-md rounded-full flex items-center justify-center text-white text-3xl group-hover:scale-110 group-hover:bg-primary transition-all shadow-xl">
+                                <PlayCircleOutlined />
+                              </div>
+                              {vid.status === 'hidden' && (
+                                <div className="absolute top-4 left-4 z-20">
+                                  <Tag color="default" className="m-0 font-black text-[9px] uppercase tracking-widest border-none bg-black/50 text-white backdrop-blur-md">ĐANG ẨN</Tag>
+                                </div>
+                              )}
+                              {vid.featured && (
+                                <div className="absolute top-4 right-4 z-20">
+                                  <Tag className="m-0 font-black text-[9px] uppercase tracking-widest border-none bg-amber-400 text-white backdrop-blur-md flex items-center gap-1"><StarFilled /> Trang chủ</Tag>
+                                </div>
+                              )}
                             </div>
                             <div className="flex flex-1 flex-col justify-between p-6">
-                               <div>
-                                  <div className="flex justify-between items-start gap-4 mb-4">
-                                     <h4 className={`font-black text-biotechvet-dark text-lg italic leading-tight ${vid.status === 'hidden' ? 'text-gray-400' : ''}`}>{vid.title}</h4>
-                                     <Tag className="m-0 text-[10px] font-black tracking-tighter bg-amber-50 text-amber-600 border-none px-2 py-0.5 rounded-lg shrink-0">#{vid.order || 0}</Tag>
-                                  </div>
-                                  <code className="text-[10px] text-gray-400 bg-gray-50 px-3 py-1.5 rounded-lg border border-gray-100 block truncate w-full italic mb-6">
-                                    {vid.url}
-                                  </code>
-                               </div>
-                               <div className="flex items-center justify-between pt-4 border-t border-gray-50">
-                                  <Space>
-                                    <Tooltip title="Xem thử">
-                                      <Button size="small" icon={<EyeOutlined />} onClick={() => handleVideoPreview(vid.url)} className="rounded-xl border-gray-200 h-9 px-4 text-xs font-bold" />
-                                    </Tooltip>
-                                    <Tooltip title="Chỉnh sửa">
-                                      <Button size="small" icon={<EditOutlined />} onClick={() => handleEdit(vid)} className="rounded-xl border-gray-200 h-9 px-4 text-xs font-bold text-blue-500" />
-                                    </Tooltip>
-                                    <Tooltip title="Xóa">
-                                      <Button size="small" danger icon={<DeleteOutlined />} onClick={() => handleDeleteVideo(vid.id)} className="rounded-xl border-gray-200 h-9 px-4 text-xs font-bold" />
-                                    </Tooltip>
-                                  </Space>
-                                  <div className="flex items-center gap-2">
-                                      <span className="text-[9px] font-black text-gray-400 tracking-widest uppercase">HIỂN THỊ</span>
-                                      <Switch size="small" checked={vid.status === 'active'} onChange={() => toggleStatus(vid.id, 'videos')} className="bg-gray-200" />
-                                  </div>
-                               </div>
+                              <div>
+                                <div className="flex justify-between items-start gap-4 mb-4">
+                                  <h4 className={`font-black text-biotechvet-dark text-lg italic leading-tight ${vid.status === 'hidden' ? 'text-gray-400' : ''}`}>{vid.title}</h4>
+                                  <Tag className="m-0 text-[10px] font-black tracking-tighter bg-amber-50 text-amber-600 border-none px-2 py-0.5 rounded-lg shrink-0">#{vid.order || 0}</Tag>
+                                </div>
+                                <code className="text-[10px] text-gray-400 bg-gray-50 px-3 py-1.5 rounded-lg border border-gray-100 block truncate w-full italic mb-6">
+                                  {vid.url}
+                                </code>
+                              </div>
+                              <div className="flex items-center justify-between pt-4 border-t border-gray-50">
+                                <Space>
+                                  <Tooltip title="Xem thử">
+                                    <Button size="small" icon={<EyeOutlined />} onClick={() => handleVideoPreview(vid.url)} className="rounded-xl border-gray-200 h-9 px-4 text-xs font-bold" />
+                                  </Tooltip>
+                                  <Tooltip title="Chỉnh sửa">
+                                    <Button size="small" icon={<EditOutlined />} onClick={() => handleEdit(vid)} className="rounded-xl border-gray-200 h-9 px-4 text-xs font-bold text-blue-500" />
+                                  </Tooltip>
+                                  <Tooltip title="Xóa">
+                                    <Button size="small" danger icon={<DeleteOutlined />} onClick={() => handleDeleteVideo(vid.id)} className="rounded-xl border-gray-200 h-9 px-4 text-xs font-bold" />
+                                  </Tooltip>
+                                </Space>
+                                <div className="flex items-center gap-2">
+                                  <span className="text-[9px] font-black text-gray-400 tracking-widest uppercase">HIỂN THỊ</span>
+                                  <Switch size="small" checked={vid.status === 'active'} onChange={() => toggleStatus(vid.id, 'videos')} className="bg-gray-200" />
+                                </div>
+                              </div>
                             </div>
                           </div>
                         </Card>
@@ -465,20 +465,20 @@ function AdminMediaGalleryPageContent() {
           >
             <Switch checkedChildren="Trang chủ" unCheckedChildren="Catalogue" />
           </Form.Item>
-          
+
           {activeTab === 'images' ? (
             <Form.Item name="url" label="Hình ảnh Gallery" rules={[{ required: true, message: 'Vui lòng tải ảnh lên' }]}>
-               <ImageUpload label="Tải ảnh Gallery lên" aspectRatio="16/9" />
+              <ImageUpload label="Tải ảnh Gallery lên" aspectRatio="16/9" />
             </Form.Item>
           ) : (
             <>
               <Form.Item label="Link Video hoặc Tải lên tập tin" required rules={[{ required: true, message: 'Vui lòng cung cấp link video hoặc tải lên' }]}>
                 <div className="space-y-4">
                   <Form.Item name="url" noStyle>
-                    <Input 
-                      placeholder="Dán link video (YouTube, MP4...) tại đây" 
-                      prefix={<PlayCircleOutlined className="text-red-500" />} 
-                      className="rounded-xl py-2 px-4 mb-2" 
+                    <Input
+                      placeholder="Dán link video (YouTube, MP4...) tại đây"
+                      prefix={<PlayCircleOutlined className="text-red-500" />}
+                      className="rounded-xl py-2 px-4 mb-2"
                     />
                   </Form.Item>
                   <Form.Item name="url" noStyle>
@@ -487,7 +487,7 @@ function AdminMediaGalleryPageContent() {
                 </div>
               </Form.Item>
               <Form.Item name="thumbnail" label="Ảnh đại diện Video (Thumbnail)">
-                 <ImageUpload label="Tải thumbnail lên" aspectRatio="16/9" />
+                <ImageUpload label="Tải thumbnail lên" aspectRatio="16/9" />
               </Form.Item>
             </>
           )}

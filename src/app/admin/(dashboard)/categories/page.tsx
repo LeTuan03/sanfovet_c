@@ -3,9 +3,9 @@
 import React, { useState, useMemo } from 'react';
 import { useRouter, useSearchParams, usePathname } from 'next/navigation';
 import { Table, Button, Space, Modal, Form, Input, Tabs, Tooltip, Row, Col, App } from 'antd';
-import { 
-  PlusOutlined, EditOutlined, DeleteOutlined, 
-  AppstoreOutlined, TagsOutlined, SearchOutlined 
+import {
+  PlusOutlined, EditOutlined, DeleteOutlined,
+  AppstoreOutlined, TagsOutlined, SearchOutlined
 } from '@ant-design/icons';
 // import { categories as initialCategories, animalTags as initialAnimalTags } from '@/lib/data'; // Removed static imports
 import AdminPageHeader from '@/components/admin/AdminPageHeader';
@@ -55,14 +55,14 @@ function CategoryAndTagManagementContent() {
 
   // Derived filtered data
   const filteredCategories = useMemo(() => {
-    return categories.filter(item => 
+    return categories.filter(item =>
       item.name.toLowerCase().includes(query.toLowerCase()) ||
       item.slug.toLowerCase().includes(query.toLowerCase())
     );
   }, [categories, query]);
 
   const filteredAnimalTags = useMemo(() => {
-    return animalTags.filter(item => 
+    return animalTags.filter(item =>
       item.name.toLowerCase().includes(query.toLowerCase()) ||
       item.slug.toLowerCase().includes(query.toLowerCase())
     );
@@ -70,13 +70,13 @@ function CategoryAndTagManagementContent() {
 
   const updateUrl = (params: { q?: string; page?: number; tab?: string }) => {
     const newSearchParams = new URLSearchParams(searchParams.toString());
-    
+
     if (params.q !== undefined) {
       if (params.q) newSearchParams.set('q', params.q);
       else newSearchParams.delete('q');
       newSearchParams.set('page', '1'); // Reset to page 1 on search
     }
-    
+
     if (params.page !== undefined) {
       newSearchParams.set('page', params.page.toString());
     }
@@ -108,7 +108,7 @@ function CategoryAndTagManagementContent() {
     form.validateFields().then(async (values) => {
       const dataType = activeTab === '1' ? 'categories' : 'animal-tags';
       const action = editingItem ? 'update' : 'create';
-      
+
       // Save to API
       setGlobalLoading(true);
       try {
@@ -177,24 +177,24 @@ function CategoryAndTagManagementContent() {
   };
 
   const categoryColumns = [
-    { 
-      title: 'ID', 
-      dataIndex: 'id', 
-      key: 'id', 
+    {
+      title: 'ID',
+      dataIndex: 'id',
+      key: 'id',
       width: 80,
       render: (id: number) => <span className="font-bold text-gray-400 text-xs">#{id}</span>
     },
-    { 
-      title: 'Tên danh mục', 
-      dataIndex: 'name', 
-      key: 'name', 
-      render: (text: string) => <span className="font-black text-biotechvet-dark">{text}</span> 
+    {
+      title: 'Tên danh mục',
+      dataIndex: 'name',
+      key: 'name',
+      render: (text: string) => <span className="font-black text-biotechvet-dark">{text}</span>
     },
-    { 
-      title: 'Slug (URL)', 
-      dataIndex: 'slug', 
-      key: 'slug', 
-      render: (text: string) => <code className="text-[10px] text-primary bg-emerald-50 px-2 py-1 rounded-md border border-emerald-100 font-bold">{text}</code> 
+    {
+      title: 'Slug (URL)',
+      dataIndex: 'slug',
+      key: 'slug',
+      render: (text: string) => <code className="text-[10px] text-primary bg-emerald-50 px-2 py-1 rounded-md border border-emerald-100 font-bold">{text}</code>
     },
     {
       title: 'Thao tác',
@@ -203,10 +203,10 @@ function CategoryAndTagManagementContent() {
       render: (_: any, record: any) => (
         <Space size="small">
           <Tooltip title="Chỉnh sửa">
-             <Button icon={<EditOutlined />} type="text" onClick={() => showModal(record)} className="text-blue-500 hover:bg-blue-50 w-9 h-9 flex items-center justify-center rounded-xl transition-all" />
+            <Button icon={<EditOutlined />} type="text" onClick={() => showModal(record)} className="text-blue-500 hover:bg-blue-50 w-9 h-9 flex items-center justify-center rounded-xl transition-all" />
           </Tooltip>
           <Tooltip title="Xóa">
-             <Button icon={<DeleteOutlined />} type="text" danger onClick={() => handleDelete(record.id)} className="hover:bg-red-50 w-9 h-9 flex items-center justify-center rounded-xl transition-all" />
+            <Button icon={<DeleteOutlined />} type="text" danger onClick={() => handleDelete(record.id)} className="hover:bg-red-50 w-9 h-9 flex items-center justify-center rounded-xl transition-all" />
           </Tooltip>
         </Space>
       ),
@@ -214,33 +214,33 @@ function CategoryAndTagManagementContent() {
   ];
 
   const tagColumns = [
-    { 
-      title: 'Icon', 
-      dataIndex: 'icon', 
-      key: 'icon', 
-      width: 80, 
+    {
+      title: 'Icon',
+      dataIndex: 'icon',
+      key: 'icon',
+      width: 80,
       render: (icon: string) => (
         <div className="w-10 h-10 bg-gray-50 rounded-xl flex items-center justify-center text-xl shadow-sm border border-gray-100">
           {icon}
         </div>
       )
     },
-    { 
-      title: 'Tên loài vật', 
-      dataIndex: 'name', 
-      key: 'name', 
-      render: (text: string) => <span className="font-black text-biotechvet-dark">{text}</span> 
+    {
+      title: 'Tên loài vật',
+      dataIndex: 'name',
+      key: 'name',
+      render: (text: string) => <span className="font-black text-biotechvet-dark">{text}</span>
     },
-    { 
-      title: 'Slug', 
-      dataIndex: 'slug', 
-      key: 'slug', 
-      render: (text: string) => <code className="text-[10px] text-gray-500 bg-gray-50 px-2 py-1 rounded-md font-bold">{text}</code> 
+    {
+      title: 'Slug',
+      dataIndex: 'slug',
+      key: 'slug',
+      render: (text: string) => <code className="text-[10px] text-gray-500 bg-gray-50 px-2 py-1 rounded-md font-bold">{text}</code>
     },
-    { 
-      title: 'Mô tả', 
-      dataIndex: 'description', 
-      key: 'description', 
+    {
+      title: 'Mô tả',
+      dataIndex: 'description',
+      key: 'description',
       ellipsis: true,
       render: (text: string) => <span className="text-gray-400 text-xs italic">{text || 'Chưa có mô tả...'}</span>
     },
@@ -251,10 +251,10 @@ function CategoryAndTagManagementContent() {
       render: (_: any, record: any) => (
         <Space size="small">
           <Tooltip title="Chỉnh sửa">
-             <Button icon={<EditOutlined />} type="text" onClick={() => showModal(record)} className="text-blue-500 hover:bg-blue-50 w-9 h-9 flex items-center justify-center rounded-xl transition-all" />
+            <Button icon={<EditOutlined />} type="text" onClick={() => showModal(record)} className="text-blue-500 hover:bg-blue-50 w-9 h-9 flex items-center justify-center rounded-xl transition-all" />
           </Tooltip>
           <Tooltip title="Xóa">
-             <Button icon={<DeleteOutlined />} type="text" danger onClick={() => handleDelete(record.id)} className="hover:bg-red-50 w-9 h-9 flex items-center justify-center rounded-xl transition-all" />
+            <Button icon={<DeleteOutlined />} type="text" danger onClick={() => handleDelete(record.id)} className="hover:bg-red-50 w-9 h-9 flex items-center justify-center rounded-xl transition-all" />
           </Tooltip>
         </Space>
       ),
@@ -262,12 +262,12 @@ function CategoryAndTagManagementContent() {
   ];
 
   return (
-    <motion.div 
+    <motion.div
       initial={{ opacity: 0, y: 10 }}
       animate={{ opacity: 1, y: 0 }}
       className="space-y-6 pb-0"
     >
-      <AdminPageHeader 
+      <AdminPageHeader
         title="Phân loại & Tag"
         breadcrumbItems={[
           { title: 'Admin', href: '/admin' },
@@ -281,7 +281,7 @@ function CategoryAndTagManagementContent() {
         }}
       />
 
-      <div className="bg-white rounded-[32px] overflow-hidden shadow-xl shadow-gray-200/50 border border-gray-100 p-2">
+      <div className="bg-white overflow-hidden shadow-xl shadow-gray-200/50 border border-gray-100" style={{ borderRadius: "3px 3px 32px 32px" }}>
         <Tabs
           activeKey={activeTab}
           onChange={onTabChange}
@@ -292,10 +292,10 @@ function CategoryAndTagManagementContent() {
               label: <span className="flex items-center gap-2 font-black px-4 uppercase text-[11px] tracking-widest"><AppstoreOutlined /> Danh mục Sản phẩm</span>,
               children: (
                 <div className="pt-2">
-                  <Table  size="small" sticky
-                    columns={categoryColumns} 
-                    dataSource={filteredCategories} 
-                    rowKey="id" 
+                  <Table size="small" sticky
+                    columns={categoryColumns}
+                    dataSource={filteredCategories}
+                    rowKey="id"
                     loading={loading}
                     className="admin-table"
                     pagination={{
@@ -313,10 +313,10 @@ function CategoryAndTagManagementContent() {
               label: <span className="flex items-center gap-2 font-black px-4 uppercase text-[11px] tracking-widest"><TagsOutlined /> Loài vật (Handbook)</span>,
               children: (
                 <div className="pt-2">
-                  <Table  size="small" sticky
-                    columns={tagColumns} 
-                    dataSource={filteredAnimalTags} 
-                    rowKey="id" 
+                  <Table size="small" sticky
+                    columns={tagColumns}
+                    dataSource={filteredAnimalTags}
+                    rowKey="id"
                     loading={loading}
                     className="admin-table"
                     pagination={{
@@ -371,14 +371,14 @@ function CategoryAndTagManagementContent() {
           {activeTab === '2' && (
             <Row gutter={20}>
               <Col span={6}>
-                 <Form.Item name="icon" label="Biểu tượng" initialValue="🐾">
-                    <Input className="rounded-xl py-2 px-4 text-center text-xl h-[48px]" />
-                 </Form.Item>
+                <Form.Item name="icon" label="Biểu tượng" initialValue="🐾">
+                  <Input className="rounded-xl py-2 px-4 text-center text-xl h-[48px]" />
+                </Form.Item>
               </Col>
               <Col span={18}>
-                 <Form.Item name="description" label="Mô tả ngắn">
-                    <Input.TextArea rows={1} className="rounded-xl p-3 h-[48px]" placeholder="Mô tả cho loài vật này..." />
-                 </Form.Item>
+                <Form.Item name="description" label="Mô tả ngắn">
+                  <Input.TextArea rows={1} className="rounded-xl p-3 h-[48px]" placeholder="Mô tả cho loài vật này..." />
+                </Form.Item>
               </Col>
             </Row>
           )}

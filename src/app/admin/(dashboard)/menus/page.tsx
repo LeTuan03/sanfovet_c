@@ -2,6 +2,7 @@
 
 import React, { useState, useMemo } from 'react';
 import { Table, Button, Space, Tag, Modal, Form, Input, Select, Breadcrumb, Divider, Row, Col, Tooltip, App } from 'antd';
+import AdminPageHeader from '@/components/admin/AdminPageHeader';
 import { PlusOutlined, EditOutlined, DeleteOutlined, MenuOutlined, GlobalOutlined, LinkOutlined, ArrowUpOutlined, ArrowDownOutlined, SearchOutlined } from '@ant-design/icons';
 import { useRouter, useSearchParams, usePathname } from 'next/navigation';
 import { adminFetch } from '@/lib/api';
@@ -236,59 +237,29 @@ function AdminMenusPageContent() {
 
   return (
     <div className="space-y-6">
-      <div className="flex justify-between items-center mb-10">
-        <div>
-          <Breadcrumb items={[{ title: 'Admin' }, { title: 'Quản lý Menu' }]} />
-          <h1 className="text-2xl font-black text-biotechvet-dark mt-2 tracking-tight uppercase italic">Cơ cấu Điều hướng Web</h1>
-        </div>
-        <div className="flex gap-4">
-           <Input 
-              prefix={<SearchOutlined className="text-gray-300" />} 
-              placeholder="Tìm kiếm menu..." 
-              className="w-64 rounded-xl border-gray-100 shadow-sm"
-              defaultValue={query}
-              onChange={handleSearch}
-           />
-           <Button 
-             type="primary" 
-             icon={<PlusOutlined />} 
-             size="large"
-             className="rounded-xl font-bold h-10 px-6 uppercase tracking-wider text-xs shadow-lg shadow-primary/20"
-             onClick={handleAdd}
-           >
-             Thêm Menu mới
-           </Button>
-        </div>
-      </div>
+      <AdminPageHeader 
+        title="Cơ cấu Điều hướng Web"
+        breadcrumbItems={[
+          { title: 'Admin' },
+          { title: 'Quản lý Menu' },
+        ]}
+        onSearch={(val) => updateUrl({ q: val })}
+        primaryAction={{
+          label: 'Thêm Menu mới',
+          onClick: handleAdd,
+          icon: <PlusOutlined />
+        }}
+      />
 
-      <div className="bg-white p-8 rounded-[32px] shadow-sm border border-gray-100 min-h-[500px]">
-        <div className="mb-8 p-4 bg-gray-50 rounded-2xl border border-dashed border-gray-200 flex items-center gap-3">
-          <GlobalOutlined className="text-primary text-xl" />
-          <div className="flex flex-col">
-            <span className="text-gray-800 font-bold text-sm">Chế độ quản lý phân cấp</span>
-            <span className="text-gray-400 text-[10px] uppercase font-bold tracking-widest mt-0.5">Hệ thống hỗ trợ Menu đa cấp (Nested Menus) và phân loại theo khu vực hiển thị</span>
-          </div>
-        </div>
-
-        <Table  size="small" sticky
+      <div className="bg-white overflow-hidden shadow-xl shadow-gray-200/50 border border-gray-100 min-h-[500px]" style={{ borderRadius: "3px 3px 32px 32px" }}>
+        <Table size="small" sticky
           columns={columns} 
           dataSource={filteredData} 
           rowKey="id" 
           pagination={false}
           loading={loading}
-          className="border border-gray-50 rounded-2xl overflow-hidden shadow-xs"
+          className="admin-table"
         />
-
-        <Divider dashed className="my-10" />
-        <div className="flex justify-between items-center px-4">
-           <div className="flex gap-4">
-              <Space className="text-[10px] font-black text-gray-300 uppercase"><div className="w-2 h-2 bg-blue-400 rounded-full"></div> Header</Space>
-              <Space className="text-[10px] font-black text-gray-300 uppercase"><div className="w-2 h-2 bg-purple-400 rounded-full"></div> Footer</Space>
-           </div>
-           <div className="italic text-[10px] text-gray-300 font-bold uppercase tracking-widest">
-              * Thay đổi thứ tự bằng cách chỉnh sửa số STT
-           </div>
-        </div>
       </div>
 
       <Modal

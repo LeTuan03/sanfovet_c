@@ -3,10 +3,10 @@
 import React, { useState, useMemo } from 'react';
 import { useRouter, useSearchParams, usePathname } from 'next/navigation';
 import { Table, Button, Space, Modal, Form, Input, Upload, Switch, Tooltip, Row, Col, App } from 'antd';
-import { 
-  PlusOutlined, EditOutlined, DeleteOutlined, 
-  PictureOutlined, ArrowUpOutlined, ArrowDownOutlined, 
-  SearchOutlined, LinkOutlined 
+import {
+  PlusOutlined, EditOutlined, DeleteOutlined,
+  PictureOutlined, ArrowUpOutlined, ArrowDownOutlined,
+  SearchOutlined, LinkOutlined
 } from '@ant-design/icons';
 import AdminPageHeader from '@/components/admin/AdminPageHeader';
 import ImageUpload from '@/components/admin/ImageUpload';
@@ -53,7 +53,7 @@ function AdminBannersPageContent() {
   // Derived filtered data
   const filteredData = useMemo(() => {
     return banners
-      .filter(item => 
+      .filter(item =>
         item.title.toLowerCase().includes(query.toLowerCase()) ||
         item.link.toLowerCase().includes(query.toLowerCase())
       )
@@ -62,13 +62,13 @@ function AdminBannersPageContent() {
 
   const updateUrl = (params: { q?: string; page?: number }) => {
     const newSearchParams = new URLSearchParams(searchParams.toString());
-    
+
     if (params.q !== undefined) {
       if (params.q) newSearchParams.set('q', params.q);
       else newSearchParams.delete('q');
       newSearchParams.set('page', '1'); // Reset to page 1 on search
     }
-    
+
     if (params.page !== undefined) {
       newSearchParams.set('page', params.page.toString());
     }
@@ -108,7 +108,7 @@ function AdminBannersPageContent() {
       width: 100,
       render: (size: number) => size ? (
         <span className="text-[10px] font-bold text-gray-400 bg-gray-100 px-2 py-0.5 rounded-full">
-          { (size / 1024).toFixed(0) } KB
+          {(size / 1024).toFixed(0)} KB
         </span>
       ) : <span className="text-[10px] text-gray-300">-</span>
     },
@@ -135,25 +135,25 @@ function AdminBannersPageContent() {
       render: (_: any, record: Banner) => (
         <Space size="small">
           <Tooltip title="Chỉnh sửa">
-             <Button 
-               icon={<EditOutlined />} 
-               type="text" 
-               className="text-blue-500 hover:bg-blue-50 w-9 h-9 flex items-center justify-center rounded-xl transition-all"
-               onClick={() => handleEdit(record)} 
-             />
+            <Button
+              icon={<EditOutlined />}
+              type="text"
+              className="text-blue-500 hover:bg-blue-50 w-9 h-9 flex items-center justify-center rounded-xl transition-all"
+              onClick={() => handleEdit(record)}
+            />
           </Tooltip>
           <div className="flex flex-col gap-1">
             <Button icon={<ArrowUpOutlined className="text-[10px]" />} size="small" className="h-4 w-6 p-0 text-gray-400 hover:text-primary" />
             <Button icon={<ArrowDownOutlined className="text-[10px]" />} size="small" className="h-4 w-6 p-0 text-gray-400 hover:text-primary" />
           </div>
           <Tooltip title="Xóa">
-             <Button 
-               icon={<DeleteOutlined />} 
-               type="text" 
-               danger 
-               className="hover:bg-red-50 w-9 h-9 flex items-center justify-center rounded-xl transition-all"
-               onClick={() => handleDelete(record.id)} 
-             />
+            <Button
+              icon={<DeleteOutlined />}
+              type="text"
+              danger
+              className="hover:bg-red-50 w-9 h-9 flex items-center justify-center rounded-xl transition-all"
+              onClick={() => handleDelete(record.id)}
+            />
           </Tooltip>
         </Space>
       ),
@@ -241,12 +241,12 @@ function AdminBannersPageContent() {
   };
 
   return (
-    <motion.div 
+    <motion.div
       initial={{ opacity: 0, y: 10 }}
       animate={{ opacity: 1, y: 0 }}
       className="space-y-6 pb-0"
     >
-      <AdminPageHeader 
+      <AdminPageHeader
         title="Banner Slider"
         breadcrumbItems={[
           { title: 'Admin', href: '/admin' },
@@ -260,7 +260,7 @@ function AdminBannersPageContent() {
         }}
       />
 
-      <div className="bg-white rounded-[32px] overflow-hidden shadow-xl shadow-gray-200/50 border border-gray-100">
+      <div className="bg-white overflow-hidden shadow-xl shadow-gray-200/50 border border-gray-100" style={{ borderRadius: "3px 3px 32px 32px" }}>
         <div className="p-8">
           <div className="flex items-center gap-3 mb-8 p-5 bg-emerald-50 border border-emerald-100 rounded-2xl text-emerald-700 shadow-sm">
             <PictureOutlined className="text-xl" />
@@ -270,10 +270,10 @@ function AdminBannersPageContent() {
             </div>
           </div>
 
-          <Table  size="small" sticky
-            columns={columns} 
-            dataSource={filteredData} 
-            rowKey="id" 
+          <Table size="small" sticky
+            columns={columns}
+            dataSource={filteredData}
+            rowKey="id"
             loading={loading}
             className="admin-table"
             pagination={{
@@ -318,12 +318,12 @@ function AdminBannersPageContent() {
           <Form.Item name="imageSize" hidden>
             <Input />
           </Form.Item>
-          
+
           <Form.Item name="image" label="Hình ảnh Banner" rules={[{ required: true }]}>
-            <ImageUpload 
-              label="Tải lên Banner" 
-              aspectRatio="1920/800" 
-              maxWidth={1920} 
+            <ImageUpload
+              label="Tải lên Banner"
+              aspectRatio="1920/800"
+              maxWidth={1920}
               maxHeight={800}
               onFileChange={(file) => {
                 form.setFieldsValue({ imageSize: file.size });
@@ -333,23 +333,23 @@ function AdminBannersPageContent() {
           </Form.Item>
 
           <Form.Item name="title" label="Tiêu đề / Ghi chú" rules={[{ required: true }]}>
-             <Input className="rounded-xl py-2 font-bold" placeholder="Ghi chú tên banner để dễ quản lý..." />
+            <Input className="rounded-xl py-2 font-bold" placeholder="Ghi chú tên banner để dễ quản lý..." />
           </Form.Item>
 
           <Form.Item name="link" label="Đường dẫn điều hướng (URL)" initialValue="/">
-             <Input className="rounded-xl py-2 italic" placeholder="VD: /san-pham hoặc https://..." />
+            <Input className="rounded-xl py-2 italic" placeholder="VD: /san-pham hoặc https://..." />
           </Form.Item>
 
           <Row gutter={24}>
             <Col span={12}>
-               <Form.Item name="status" label="Trạng thái hiển thị" valuePropName="checked" initialValue={true}>
-                 <Switch checkedChildren="ON" unCheckedChildren="OFF" />
-               </Form.Item>
+              <Form.Item name="status" label="Trạng thái hiển thị" valuePropName="checked" initialValue={true}>
+                <Switch checkedChildren="ON" unCheckedChildren="OFF" />
+              </Form.Item>
             </Col>
             <Col span={12}>
-               <Form.Item name="order" label="Thứ tự">
-                 <Input type="number" className="rounded-xl" />
-               </Form.Item>
+              <Form.Item name="order" label="Thứ tự">
+                <Input type="number" className="rounded-xl" />
+              </Form.Item>
             </Col>
           </Row>
         </Form>

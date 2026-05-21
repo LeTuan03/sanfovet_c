@@ -1,12 +1,12 @@
 "use client";
 
 import React, { useState, useMemo } from 'react';
-import { 
-  Table, Button, Space, Form, 
-  Tag, Tooltip, App 
+import {
+  Table, Button, Space, Form,
+  Tag, Tooltip, App
 } from 'antd';
-import { 
-  PlusOutlined, EditOutlined, DeleteOutlined, 
+import {
+  PlusOutlined, EditOutlined, DeleteOutlined,
   EyeOutlined
 } from '@ant-design/icons';
 import { useRouter, useSearchParams, usePathname } from 'next/navigation';
@@ -71,13 +71,13 @@ function ProductManagementContent() {
 
   const updateUrl = (params: { q?: string; page?: number }) => {
     const newSearchParams = new URLSearchParams(searchParams.toString());
-    
+
     if (params.q !== undefined) {
       if (params.q) newSearchParams.set('q', params.q);
       else newSearchParams.delete('q');
       newSearchParams.set('page', '1'); // Reset to page 1 on search
     }
-    
+
     if (params.page !== undefined) {
       newSearchParams.set('page', params.page.toString());
     }
@@ -111,7 +111,7 @@ function ProductManagementContent() {
   const handleOk = () => {
     form.validateFields().then(async (values) => {
       const action = editingId ? 'update' : 'create';
-      
+
       // Save to API
       setGlobalLoading(true);
       try {
@@ -127,7 +127,7 @@ function ProductManagementContent() {
             id: editingId?.toString()
           }),
         });
-        
+
         if (res.ok) {
           await fetchData();
           message.success(editingId ? 'Cập nhật sản phẩm thành công' : 'Thêm sản phẩm mới thành công');
@@ -188,7 +188,7 @@ function ProductManagementContent() {
       render: (text: string, record: ProductSummary) => (
         <div className="flex items-center gap-4 py-1">
           <div className="w-12 h-12 bg-gray-50 rounded-xl overflow-hidden border border-gray-100 shrink-0 shadow-sm group-hover:shadow-md transition-all">
-             <img src={record?.image} alt={text} className="w-full h-full object-contain p-1" />
+            <img src={record?.image} alt={text} className="w-full h-full object-contain p-1" />
           </div>
           <div>
             <div className="font-bold text-biotechvet-dark text-sm">{text}</div>
@@ -221,29 +221,29 @@ function ProductManagementContent() {
       render: (_: any, record: ProductSummary) => (
         <Space size="small">
           <Tooltip title="Xem trang khách">
-             <Button 
-               icon={<EyeOutlined />} 
-               onClick={() => window.open(`/san-pham/${record.slug}`)}
-               type="text" 
-               className="text-gray-400 hover:text-primary hover:bg-emerald-50 w-9 h-9 flex items-center justify-center rounded-xl transition-all" 
-             />
+            <Button
+              icon={<EyeOutlined />}
+              onClick={() => window.open(`/san-pham/${record.slug}`)}
+              type="text"
+              className="text-gray-400 hover:text-primary hover:bg-emerald-50 w-9 h-9 flex items-center justify-center rounded-xl transition-all"
+            />
           </Tooltip>
           <Tooltip title="Chỉnh sửa">
-             <Button 
-               icon={<EditOutlined />} 
-               type="text" 
-               className="text-blue-500 hover:bg-blue-50 w-9 h-9 flex items-center justify-center rounded-xl transition-all"
-               onClick={() => showModal(record)} 
-             />
+            <Button
+              icon={<EditOutlined />}
+              type="text"
+              className="text-blue-500 hover:bg-blue-50 w-9 h-9 flex items-center justify-center rounded-xl transition-all"
+              onClick={() => showModal(record)}
+            />
           </Tooltip>
           <Tooltip title="Xóa">
-             <Button 
-               icon={<DeleteOutlined />} 
-               type="text" 
-               danger 
-               className="hover:bg-red-50 w-9 h-9 flex items-center justify-center rounded-xl transition-all"
-               onClick={() => handleDelete(record.id)} 
-             />
+            <Button
+              icon={<DeleteOutlined />}
+              type="text"
+              danger
+              className="hover:bg-red-50 w-9 h-9 flex items-center justify-center rounded-xl transition-all"
+              onClick={() => handleDelete(record.id)}
+            />
           </Tooltip>
         </Space>
       ),
@@ -251,12 +251,12 @@ function ProductManagementContent() {
   ];
 
   return (
-    <motion.div 
+    <motion.div
       initial={{ opacity: 0, y: 10 }}
       animate={{ opacity: 1, y: 0 }}
       className="space-y-6 pb-0"
     >
-      <AdminPageHeader 
+      <AdminPageHeader
         title="Quản lý Sản phẩm"
         breadcrumbItems={[
           { title: 'Admin', href: '/admin' },
@@ -270,26 +270,26 @@ function ProductManagementContent() {
         }}
       />
 
-      <div className="bg-white rounded-[32px] overflow-hidden shadow-xl shadow-gray-200/50 border border-gray-100">
-        <Table  size="small" sticky
-           columns={columns}
-           dataSource={filteredData}
-           rowKey="id"
-           loading={loading}
-           className="admin-table"
-           onChange={(pag) => {
-              if (pag.current && pag.current !== page) updateUrl({ page: pag.current });
-           }}
-           pagination={{
-              current: page,
-              pageSize: 10,
-              className: "p-6 border-t border-gray-50",
-              showSizeChanger: false,
-           }}
+      <div className="bg-white overflow-hidden shadow-xl shadow-gray-200/50 border border-gray-100" style={{ borderRadius: "3px 3px 32px 32px" }}>
+        <Table size="small" sticky
+          columns={columns}
+          dataSource={filteredData}
+          rowKey="id"
+          loading={loading}
+          className="admin-table"
+          onChange={(pag) => {
+            if (pag.current && pag.current !== page) updateUrl({ page: pag.current });
+          }}
+          pagination={{
+            current: page,
+            pageSize: 10,
+            className: "p-6 border-t border-gray-50",
+            showSizeChanger: false,
+          }}
         />
       </div>
 
-     {isModalOpen && <ProductModal
+      {isModalOpen && <ProductModal
         open={isModalOpen}
         editingId={editingId}
         form={form}

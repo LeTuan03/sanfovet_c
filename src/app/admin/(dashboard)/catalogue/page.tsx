@@ -54,19 +54,19 @@ function AdminCatalogueContent() {
     fetchCatalogues();
   }, [fetchCatalogues]);
 
-  const filteredData = catalogues.filter(item => 
+  const filteredData = catalogues.filter(item =>
     item.title.toLowerCase().includes(query.toLowerCase())
   );
 
   const updateUrl = (params: { q?: string; page?: number }) => {
     const newSearchParams = new URLSearchParams(searchParams.toString());
-    
+
     if (params.q !== undefined) {
       if (params.q) newSearchParams.set('q', params.q);
       else newSearchParams.delete('q');
       newSearchParams.set('page', '1');
     }
-    
+
     if (params.page !== undefined) {
       newSearchParams.set('page', params.page.toString());
     }
@@ -109,21 +109,21 @@ function AdminCatalogueContent() {
       render: (_: any, record: Catalogue) => (
         <Space size="small">
           <Tooltip title="Chỉnh sửa">
-             <Button 
-               icon={<EditOutlined />} 
-               type="text" 
-               className="text-blue-500 hover:bg-blue-50 w-9 h-9 flex items-center justify-center rounded-xl transition-all"
-               onClick={() => handleEdit(record)} 
-             />
+            <Button
+              icon={<EditOutlined />}
+              type="text"
+              className="text-blue-500 hover:bg-blue-50 w-9 h-9 flex items-center justify-center rounded-xl transition-all"
+              onClick={() => handleEdit(record)}
+            />
           </Tooltip>
           <Tooltip title="Xóa">
-             <Button 
-               icon={<DeleteOutlined />} 
-               type="text" 
-               danger 
-               className="hover:bg-red-50 w-9 h-9 flex items-center justify-center rounded-xl transition-all"
-               onClick={() => handleDelete(record)} 
-             />
+            <Button
+              icon={<DeleteOutlined />}
+              type="text"
+              danger
+              className="hover:bg-red-50 w-9 h-9 flex items-center justify-center rounded-xl transition-all"
+              onClick={() => handleDelete(record)}
+            />
           </Tooltip>
         </Space>
       ),
@@ -150,7 +150,7 @@ function AdminCatalogueContent() {
           const response = await fetch(`/api/admin/catalogues/${record.id}`, { method: 'DELETE' });
           const data = await response.json();
           if (data.error) throw new Error(data.error);
-          
+
           await fetchCatalogues();
           message.success('Đã xóa thành công');
         } catch (error) {
@@ -177,13 +177,13 @@ function AdminCatalogueContent() {
     setGlobalLoading(true);
     try {
       const url = await uploadFile(file as File, 'catalogues', onProgress);
-      
+
       const sizeInMB = (file.size / (1024 * 1024)).toFixed(1);
-      form.setFieldsValue({ 
+      form.setFieldsValue({
         link: url,
         size: `${sizeInMB} MB`
       });
-      
+
       onSuccess?.(url);
       message.success('Tải lên thành công');
     } catch (error) {
@@ -219,7 +219,7 @@ function AdminCatalogueContent() {
           if (data.error) throw new Error(data.error);
           message.success('Thêm mới thành công');
         }
-        
+
         setIsModalOpen(false);
         fetchCatalogues();
       } catch (error) {
@@ -232,12 +232,12 @@ function AdminCatalogueContent() {
   };
 
   return (
-    <motion.div 
+    <motion.div
       initial={{ opacity: 0, y: 10 }}
       animate={{ opacity: 1, y: 0 }}
       className="space-y-6 pb-0"
     >
-      <AdminPageHeader 
+      <AdminPageHeader
         title="Quản lý Catalogue & Tài liệu"
         breadcrumbItems={[
           { title: 'Admin', href: '/admin' },
@@ -251,13 +251,13 @@ function AdminCatalogueContent() {
         }}
       />
 
-      <div className="bg-white rounded-[32px] overflow-hidden shadow-xl shadow-gray-200/50 border border-gray-100">
-        <Table  size="small" sticky
-          columns={columns} 
-          dataSource={filteredData} 
+      <div className="bg-white overflow-hidden shadow-xl shadow-gray-200/50 border border-gray-100" style={{ borderRadius: "3px 3px 32px 32px" }}>
+        <Table size="small" sticky
+          columns={columns}
+          dataSource={filteredData}
           rowKey="id"
           loading={loading}
-          pagination={{ 
+          pagination={{
             current: page,
             pageSize: 10,
             className: "p-6 border-t border-gray-50",
@@ -300,7 +300,7 @@ function AdminCatalogueContent() {
           >
             <Input className="rounded-xl py-2 font-bold" placeholder="VD: Catalogue Sản phẩm biotechvet 2026" />
           </Form.Item>
-          
+
           <div className="grid grid-cols-2 gap-4">
             <Form.Item
               name="type"
@@ -313,7 +313,7 @@ function AdminCatalogueContent() {
                 <Select.Option value="XLSX">XLSX</Select.Option>
               </Select>
             </Form.Item>
-            
+
             <Form.Item
               name="size"
               label="Dung lượng"
@@ -324,7 +324,7 @@ function AdminCatalogueContent() {
           </div>
 
           <Form.Item label="Upload File (hoặc nhập link bên dưới)">
-            <Upload 
+            <Upload
               customRequest={handleUploadFile}
               fileList={fileList}
               onChange={({ fileList }) => setFileList(fileList)}

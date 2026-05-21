@@ -3,6 +3,7 @@
 import React, { useState, useMemo } from 'react';
 import { useRouter, useSearchParams, usePathname } from 'next/navigation';
 import { Table, Button, Space, Modal, Form, Input, Select, Tag, Breadcrumb, Row, Col, Tooltip, App, DatePicker } from 'antd';
+import AdminPageHeader from '@/components/admin/AdminPageHeader';
 import { PlusOutlined, EditOutlined, DeleteOutlined, SearchOutlined, GlobalOutlined } from '@ant-design/icons';
 // import { jobs as initialJobs } from '@/lib/data'; // Removed static import
 import CKEditor from '@/components/admin/CKEditor';
@@ -48,7 +49,7 @@ function AdminJobsPageContent() {
 
   // Derived filtered data
   const filteredData = useMemo(() => {
-    return data.filter(item => 
+    return data.filter(item =>
       item.title.toLowerCase().includes(query.toLowerCase()) ||
       item.location.toLowerCase().includes(query.toLowerCase())
     );
@@ -56,13 +57,13 @@ function AdminJobsPageContent() {
 
   const updateUrl = (params: { q?: string; page?: number }) => {
     const newSearchParams = new URLSearchParams(searchParams.toString());
-    
+
     if (params.q !== undefined) {
       if (params.q) newSearchParams.set('q', params.q);
       else newSearchParams.delete('q');
       newSearchParams.set('page', '1'); // Reset to page 1 on search
     }
-    
+
     if (params.page !== undefined) {
       newSearchParams.set('page', params.page.toString());
     }
@@ -204,20 +205,20 @@ function AdminJobsPageContent() {
             <Button icon={<EditOutlined />} type="text" className="text-blue-500" onClick={() => showModal(record)} />
           </Tooltip>
           <Tooltip title="Gỡ tin">
-            <Button 
-                icon={<DeleteOutlined />} 
-                type="text" 
-                danger 
-                onClick={() => {
-                   modal.confirm({
-                      title: 'Xác nhận gỡ tin tuyển dụng?',
-                      content: `Bạn có chắc chắn muốn gỡ vị trí "${record.title}" không?`,
-                      okText: 'Gỡ tin ngay',
-                      cancelText: 'Hủy',
-                      okType: 'danger',
-                      onOk: () => handleRemove(record.id)
-                   });
-                }} 
+            <Button
+              icon={<DeleteOutlined />}
+              type="text"
+              danger
+              onClick={() => {
+                modal.confirm({
+                  title: 'Xác nhận gỡ tin tuyển dụng?',
+                  content: `Bạn có chắc chắn muốn gỡ vị trí "${record.title}" không?`,
+                  okText: 'Gỡ tin ngay',
+                  cancelText: 'Hủy',
+                  okType: 'danger',
+                  onOk: () => handleRemove(record.id)
+                });
+              }}
             />
           </Tooltip>
         </Space>
@@ -227,45 +228,33 @@ function AdminJobsPageContent() {
 
   return (
     <div className="space-y-6">
-      <div className="flex justify-between items-center mb-10">
-        <div>
-          <Breadcrumb items={[{ title: 'Admin', href: '/admin' }, { title: 'Quản lý Tuyển dụng' }]} />
-          <h1 className="text-2xl font-black text-biotechvet-dark mt-2 tracking-tight uppercase italic">Quản lý Tuyển dụng</h1>
+      <AdminPageHeader
+        title="Quản lý Tuyển dụng"
+        breadcrumbItems={[
+          { title: 'Admin', href: '/admin' },
+          { title: 'Quản lý Tuyển dụng' },
+        ]}
+        onSearch={(val) => updateUrl({ q: val })}
+        primaryAction={{
+          label: 'Đăng tin mới',
+          onClick: () => showModal(),
+          icon: <PlusOutlined />
+        }}
+      />
 
-        </div>
-        <Button 
-          type="primary" 
-          icon={<PlusOutlined />} 
-          size="large"
-          className="rounded-xl font-bold h-10 px-6 uppercase tracking-wider text-xs shadow-lg shadow-primary/20"
-          onClick={() => showModal()}
-        >
-          Đăng tin mới
-        </Button>
-      </div>
-
-      <div className="bg-white p-8 rounded-3xl shadow-sm border border-gray-100">
-        <div className="mb-6 flex gap-4">
-          <Input 
-            prefix={<SearchOutlined className="text-gray-300" />} 
-            placeholder="Tìm kiếm vị trí..." 
-            className="max-w-md rounded-xl"
-            defaultValue={query}
-            onChange={handleSearch}
-          />
-        </div>
-
-        <Table  size="small" sticky
-          columns={columns} 
-          dataSource={filteredData} 
-          rowKey="id" 
+      <div className="bg-white overflow-hidden shadow-xl shadow-gray-200/50 border border-gray-100" style={{ borderRadius: "3px 3px 32px 32px" }}>
+        <Table size="small" sticky
+          columns={columns}
+          dataSource={filteredData}
+          rowKey="id"
           loading={loading}
-          pagination={{ 
+          pagination={{
             current: page,
             pageSize: 6,
+            className: "p-6 border-t border-gray-50",
             onChange: (p) => updateUrl({ page: p })
           }}
-          className="border border-gray-50 rounded-2xl overflow-hidden" 
+          className="admin-table"
         />
       </div>
 
@@ -307,22 +296,22 @@ function AdminJobsPageContent() {
 
           <Row gutter={24}>
             <Col span={10}>
-               <Form.Item name="status" label="Trạng thái hiển thị" initialValue="active">
-                  <Select className="rounded-xl">
-                    <Select.Option value="active">Đang mở tuyển</Select.Option>
-                    <Select.Option value="closed">Đã đóng / Tạm dừng</Select.Option>
-                  </Select>
-               </Form.Item>
+              <Form.Item name="status" label="Trạng thái hiển thị" initialValue="active">
+                <Select className="rounded-xl">
+                  <Select.Option value="active">Đang mở tuyển</Select.Option>
+                  <Select.Option value="closed">Đã đóng / Tạm dừng</Select.Option>
+                </Select>
+              </Form.Item>
             </Col>
             <Col span={14}>
-               <Form.Item name="date" label="Ngày đăng tin">
-                 <DatePicker className="w-full rounded-xl py-2" format="YYYY-MM-DD" />
-               </Form.Item>
+              <Form.Item name="date" label="Ngày đăng tin">
+                <DatePicker className="w-full rounded-xl py-2" format="YYYY-MM-DD" />
+              </Form.Item>
             </Col>
           </Row>
 
           <Form.Item name="thumbnail" label="Hình ảnh Poster (Tùy chọn)">
-             <ImageUpload label="Tải ảnh poster" aspectRatio="16/9" />
+            <ImageUpload label="Tải ảnh poster" aspectRatio="16/9" />
           </Form.Item>
         </Form>
       </Modal>
