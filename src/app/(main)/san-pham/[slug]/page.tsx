@@ -69,7 +69,7 @@ export default async function ProductDetailPage({ params }: Readonly<{ params: P
       <Script
         id={`product-schema-${product.id}`}
         type="application/ld+json"
-        dangerouslySetInnerHTML={{ 
+        dangerouslySetInnerHTML={{
           __html: JSON.stringify(productSchema({
             id: String(product.id),
             name: product.name,
@@ -77,7 +77,7 @@ export default async function ProductDetailPage({ params }: Readonly<{ params: P
             image: product.image,
             slug: product.slug,
             category: category?.name
-          })) 
+          }))
         }}
       />
       <Script
@@ -116,8 +116,8 @@ export default async function ProductDetailPage({ params }: Readonly<{ params: P
           <Link href="/" className="hover:text-primary transition-colors">Trang chủ</Link>
           <ChevronRight size={14} className="mx-2 text-gray-300" />
           <Link href="/san-pham" className="hover:text-primary transition-colors">Sản phẩm</Link>
-          <ChevronRight size={14} className="mx-2 text-gray-300" />
-          <span className="text-secondary font-bold sm:block">{product.name}</span>
+          <ChevronRight size={14} className="mx-2 text-gray-300 hidden sm:block" />
+          <span className="text-secondary font-bold hidden sm:block">{product.name}</span>
         </div>
       </div>
 

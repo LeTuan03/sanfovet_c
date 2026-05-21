@@ -174,8 +174,8 @@ export default async function ArticleDetailPage({ params }: Readonly<{ params: P
           <Link href="/" className="hover:text-primary transition-colors font-medium">Trang chủ</Link>
           <ChevronRight size={14} className="mx-2 text-gray-300" />
           <Link href="/tin-tuc" className="hover:text-primary transition-colors font-medium">Tin tức & Bài viết</Link>
-          <ChevronRight size={14} className="mx-2 text-gray-300" />
-          <span className="text-primary font-bold line-clamp-1 sm:block">{article.title}</span>
+          <ChevronRight size={14} className="mx-2 text-gray-300 hidden sm:block" />
+          <span className="text-primary font-bold line-clamp-1 hidden sm:block">{article.title}</span>
         </div>
       </div>
 
