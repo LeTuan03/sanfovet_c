@@ -212,7 +212,7 @@ function AdminUsersPageContent() {
           <span className="font-bold text-sm italic">Cảnh báo: Chỉ SuperAdmin mới có quyền tạo mới hoặc phân quyền cho các tài khoản khác.</span>
         </div>
 
-        <Table  size="small"
+        <Table  size="small" sticky scroll={{ y: 'calc(100vh - 200px)' }}
           columns={columns} 
           dataSource={filteredData} 
           rowKey="id" 

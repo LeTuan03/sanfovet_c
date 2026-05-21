@@ -333,7 +333,7 @@ function HandbookManagementContent() {
         </div>
       </div>
 
-      <Table  size="small"
+      <Table  size="small" sticky scroll={{ y: 'calc(100vh - 200px)' }}
          columns={columns} 
          dataSource={filteredData} 
          rowKey="id" 
