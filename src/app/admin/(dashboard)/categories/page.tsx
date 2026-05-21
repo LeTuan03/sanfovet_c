@@ -292,7 +292,7 @@ function CategoryAndTagManagementContent() {
               label: <span className="flex items-center gap-2 font-black px-4 uppercase text-[11px] tracking-widest"><AppstoreOutlined /> Danh mục Sản phẩm</span>,
               children: (
                 <div className="pt-2">
-                  <Table  size="small" sticky scroll={{ y: 'calc(100vh - 200px)' }}
+                  <Table  size="small" sticky scroll={{ y: 'calc(100vh-200px)' }}
                     columns={categoryColumns} 
                     dataSource={filteredCategories} 
                     rowKey="id" 
@@ -313,7 +313,7 @@ function CategoryAndTagManagementContent() {
               label: <span className="flex items-center gap-2 font-black px-4 uppercase text-[11px] tracking-widest"><TagsOutlined /> Loài vật (Handbook)</span>,
               children: (
                 <div className="pt-2">
-                  <Table  size="small" sticky scroll={{ y: 'calc(100vh - 200px)' }}
+                  <Table  size="small" sticky scroll={{ y: 'calc(100vh-200px)' }}
                     columns={tagColumns} 
                     dataSource={filteredAnimalTags} 
                     rowKey="id" 
