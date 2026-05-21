@@ -286,6 +286,11 @@ function ProductManagementContent() {
               className: "p-6 border-t border-gray-50",
               showSizeChanger: false,
            }}
+           styles={{ 
+              body:{
+                wrapper: { maxHeight: 'calc(100vh - 400px)',} as any,
+              }
+            }}
         />
       </div>
 
