@@ -364,6 +364,7 @@ export default function AdminLayout({ children }: { children: React.ReactNode })
               <Content
                 style={{
                   padding: 24,
+                  paddingBottom: 0,
                   minHeight: 280,
                   background: '#f8fafb',
                   flex: 'auto',

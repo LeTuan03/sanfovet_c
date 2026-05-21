@@ -254,7 +254,7 @@ function ProductManagementContent() {
     <motion.div 
       initial={{ opacity: 0, y: 10 }}
       animate={{ opacity: 1, y: 0 }}
-      className="space-y-6 pb-12"
+      className="space-y-6 pb-0"
     >
       <AdminPageHeader 
         title="Quản lý Sản phẩm"
@@ -286,11 +286,6 @@ function ProductManagementContent() {
               className: "p-6 border-t border-gray-50",
               showSizeChanger: false,
            }}
-           styles={{ 
-              body:{
-                wrapper: { maxHeight: 'calc(100vh - 400px)',} as any,
-              }
-            }}
         />
       </div>
 
