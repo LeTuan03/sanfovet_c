@@ -63,6 +63,7 @@ export default async function ProductDetailPage({ params }: Readonly<{ params: P
   const category = await categoryService.getById(product.categoryId);
   const products = await productService.getAllSummary();
   const relatedProducts = products.filter((p: ProductSummary) => p.categoryId === product.categoryId && p.id !== product.id).slice(0, 4);
+  const featuredProducts = products.filter((p: ProductSummary) => p.featured && p.id !== product.id).slice(0, 4);
 
   return (
     <div className="bg-white min-h-[100vh] pb-24">
@@ -207,6 +208,26 @@ export default async function ProductDetailPage({ params }: Readonly<{ params: P
             </div>
           </aside>
         </div>
+
+        {/* Featured Products */}
+        {featuredProducts.length > 0 && (
+          <section className="mt-20 no-print">
+            <h3 className="text-2xl font-black text-biotechvet-dark mb-8 flex items-center gap-3">
+              <span className="w-2 h-8 bg-primary rounded-full"></span>
+              Sản phẩm nổi bật
+            </h3>
+            <div className="grid grid-cols-2 md:grid-cols-4 gap-6">
+              {featuredProducts.map((p: ProductSummary) => (
+                <Link href={`/san-pham/${p.slug}`} key={p.id} className="bg-white p-5 rounded-2xl border border-gray-100 shadow-sm hover:shadow-xl transition-all group">
+                  <div className="aspect-square mb-4 bg-white rounded-xl p-4 flex items-center justify-center transition-colors">
+                    <img src={p.image} alt={p.name} className="max-h-full w-auto" />
+                  </div>
+                  <h4 className="font-bold text-biotechvet-dark group-hover:text-primary transition-colors line-clamp-1 h-12 flex items-center justify-center text-center">{p.name}</h4>
+                </Link>
+              ))}
+            </div>
+          </section>
+        )}
       </div>
     </div>
   );

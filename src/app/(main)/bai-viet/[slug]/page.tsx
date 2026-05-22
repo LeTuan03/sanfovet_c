@@ -118,7 +118,7 @@ export default async function ArticleDetailPage({ params }: Readonly<{ params: P
     .slice(0, 3);
 
   // Get suggested products
-  const suggestedProducts = products.slice(0, 3);
+  const suggestedProducts = products.filter((p: ProductSummary) => p.featured).slice(0, 4);
 
   // Process content to extract headings and inject IDs
   const { processedHtml, headings } = processContentWithHeadings(article.content || "");
@@ -234,12 +234,12 @@ export default async function ArticleDetailPage({ params }: Readonly<{ params: P
              <section className="mt-20 no-print">
                 <h3 className="text-2xl font-black text-biotechvet-dark mb-8 flex items-center gap-3">
                    <span className="w-2 h-8 bg-primary rounded-full"></span>
-                   Sản phẩm biotechvet khuyên dùng
+                   Sản phẩm nổi bật
                 </h3>
-                <div className="grid grid-cols-1 md:grid-cols-3 gap-6">
+                <div className="grid grid-cols-2 md:grid-cols-4 gap-6">
                    {suggestedProducts.map((p: ProductSummary) => (
                       <Link href={`/san-pham/${p.slug}`} key={p.id} className="bg-white p-5 rounded-2xl border border-gray-100 shadow-sm hover:shadow-xl transition-all group">
-                         <div className="aspect-square mb-4 bg-biotechvet-alt rounded-xl p-4 flex items-center justify-center group-hover:bg-primary-light transition-colors">
+                         <div className="aspect-square mb-4 bg-white rounded-xl p-4 flex items-center justify-center transition-colors">
                             <img src={p.image} alt={p.name} className="max-h-full w-auto" />
                          </div>
                          <h4 className="font-bold text-biotechvet-dark group-hover:text-primary transition-colors line-clamp-1 h-12 flex items-center justify-center text-center">{p.name}</h4>
