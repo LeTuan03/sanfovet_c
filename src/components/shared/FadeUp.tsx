@@ -1,6 +1,7 @@
 "use client";
 
-import React, { ReactNode } from "react";
+import { ReactNode } from "react";
+import { motion } from "framer-motion";
 
 interface FadeUpProps {
   children: ReactNode;
@@ -20,10 +21,13 @@ export default function FadeUp({
   amount = "some",
 }: Readonly<FadeUpProps>) {
   return (
-    <div
+    <motion.div
+      initial={{ opacity: 0, y }}
+      animate={{ opacity: 1, y: 0 }}
+      transition={{ duration, delay, ease: "easeOut" }}
       className={className}
     >
       {children}
-    </div>
+    </motion.div>
   );
 }
