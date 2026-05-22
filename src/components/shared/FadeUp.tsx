@@ -19,11 +19,12 @@ export default function FadeUp({
   duration = 0.6,
   y = 40,
   amount = "some",
-}: Readonly<FadeUpProps>) {
+}: FadeUpProps) {
   return (
     <motion.div
       initial={{ opacity: 0, y }}
-      animate={{ opacity: 1, y: 0 }}
+      whileInView={{ opacity: 1, y: 0 }}
+      viewport={{ once: true, amount }}
       transition={{ duration, delay, ease: "easeOut" }}
       className={className}
     >
