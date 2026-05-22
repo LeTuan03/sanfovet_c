@@ -31,7 +31,7 @@ export default function BannerSlider({ banners }: BannerSliderProps) {
 
   return (
     <section className="relative w-full bg-biotechvet-dark overflow-hidden">
-      <div className="grid grid-cols-1">
+      <div className="grid grid-cols-1 w-full aspect-[16/9]">
         <AnimatePresence initial={false}>
           {banners.map((slide, index) => {
             if (index !== currentSlide) return null;
@@ -43,7 +43,7 @@ export default function BannerSlider({ banners }: BannerSliderProps) {
                 animate={{ opacity: 1 }}
                 exit={{ opacity: 0 }}
                 transition={{ duration: 0.4 }}
-                className="col-start-1 row-start-1 relative z-10 w-full"
+                className="col-start-1 row-start-1 relative z-10 w-full h-full"
               >
                 <img
                   src={slide.image}
@@ -51,7 +51,7 @@ export default function BannerSlider({ banners }: BannerSliderProps) {
                   loading={index === 0 ? 'eager' : 'lazy'}
                   fetchPriority={index === 0 ? 'high' : 'auto'}
                   decoding="async"
-                  className="w-full h-auto block"
+                  className="w-full h-full object-cover block"
                 />
               </motion.div>
             );
