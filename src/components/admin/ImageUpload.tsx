@@ -33,17 +33,38 @@ const optimizeImage = async (file: File, options: {
   quality?: number;
   maxWidth?: number;
   maxHeight?: number;
+  targetAspectRatio?: number;
 }): Promise<File | Blob> => {
-  const { quality = 0.82, maxWidth = 1920, maxHeight = 1080 } = options;
+  const { quality = 0.82, maxWidth = 1920, maxHeight = 1080, targetAspectRatio } = options;
 
   try {
     const bitmap = await createImageBitmap(file);
     const canvas = document.createElement('canvas');
-    let width = bitmap.width;
-    let height = bitmap.height;
 
-    // Tính toán tỉ lệ để giữ nguyên aspect ratio khi tối ưu
-    const ratio = width / height;
+    // Vùng nguồn (mặc định là toàn bộ ảnh)
+    let srcX = 0;
+    let srcY = 0;
+    let srcW = bitmap.width;
+    let srcH = bitmap.height;
+
+    // Nếu có target aspect ratio -> center-crop để ép tỉ lệ ảnh đầu ra
+    if (targetAspectRatio && targetAspectRatio > 0) {
+      const currentRatio = bitmap.width / bitmap.height;
+      if (currentRatio > targetAspectRatio) {
+        // Ảnh gốc rộng hơn -> cắt bớt 2 bên
+        srcW = bitmap.height * targetAspectRatio;
+        srcX = (bitmap.width - srcW) / 2;
+      } else if (currentRatio < targetAspectRatio) {
+        // Ảnh gốc cao hơn -> cắt bớt trên/dưới
+        srcH = bitmap.width / targetAspectRatio;
+        srcY = (bitmap.height - srcH) / 2;
+      }
+    }
+
+    // Tỉ lệ thực tế sau khi crop
+    const ratio = srcW / srcH;
+    let width = srcW;
+    let height = srcH;
 
     if (width > maxWidth) {
       width = maxWidth;
@@ -62,7 +83,7 @@ const optimizeImage = async (file: File, options: {
 
     ctx.imageSmoothingEnabled = true;
     ctx.imageSmoothingQuality = 'high';
-    ctx.drawImage(bitmap, 0, 0, width, height);
+    ctx.drawImage(bitmap, srcX, srcY, srcW, srcH, 0, 0, width, height);
 
     return new Promise((resolve) => {
       // Chuyển đổi sang WebP để giảm dung lượng tối đa
@@ -107,6 +128,17 @@ const ImageUpload: React.FC<ImageUploadProps> = ({
   const [editorVisible, setEditorVisible] = useState(false);
   const [editingImageUrl, setEditingImageUrl] = useState<string>('');
 
+  // Parse "1920/800" hoặc "16/9" thành số (width / height). Trả về undefined nếu không hợp lệ.
+  const parsedAspectRatio = React.useMemo(() => {
+    if (!aspectRatio) return undefined;
+    const parts = aspectRatio.split('/');
+    if (parts.length !== 2) return undefined;
+    const w = parseFloat(parts[0]);
+    const h = parseFloat(parts[1]);
+    if (!w || !h) return undefined;
+    return w / h;
+  }, [aspectRatio]);
+
   const beforeUpload = (file: RcFile) => {
     const isJpgOrPng =
       file.type === 'image/jpeg' ||
@@ -140,8 +172,13 @@ const ImageUpload: React.FC<ImageUploadProps> = ({
 
       const rawFile = file.originFileObj || file;
 
-      // Thực hiện tối ưu hóa ảnh
-      const resultFile = await optimizeImage(rawFile, { quality, maxWidth, maxHeight });
+      // Thực hiện tối ưu hóa ảnh (center-crop về đúng aspectRatio nếu có)
+      const resultFile = await optimizeImage(rawFile, {
+        quality,
+        maxWidth,
+        maxHeight,
+        targetAspectRatio: parsedAspectRatio,
+      });
 
       // Thông báo cho component cha về file đã xử lý (để lấy size, name,...)
       onFileChange?.(resultFile);
@@ -222,7 +259,7 @@ const ImageUpload: React.FC<ImageUploadProps> = ({
                 <img
                   src={imageUrl}
                   alt="preview"
-                  className="w-full h-full object-contain rounded-xl"
+                  className="w-full h-full object-cover rounded-xl"
                 />
                 <div
                   className="absolute inset-0 bg-black/40 opacity-0 
