@@ -31,7 +31,7 @@ export default function BannerSlider({ banners }: BannerSliderProps) {
 
   return (
     <section className="relative w-full bg-biotechvet-dark overflow-hidden">
-      <div className="grid grid-cols-1 w-full aspect-[16/9]">
+      <div className="grid grid-cols-1 w-full aspect-[16/6]">
         <AnimatePresence initial={false}>
           {banners.map((slide, index) => {
             if (index !== currentSlide) return null;
