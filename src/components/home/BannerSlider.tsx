@@ -30,36 +30,34 @@ export default function BannerSlider({ banners }: BannerSliderProps) {
   }
 
   return (
-    <section className="relative w-full bg-biotechvet-dark overflow-hidden">
-      <div className="grid grid-cols-1 w-full aspect-[16/6]">
-        <AnimatePresence initial={false}>
-          {banners.map((slide, index) => {
-            if (index !== currentSlide) return null;
+    <section className="relative w-full bg-biotechvet-dark overflow-hidden h-[300px] md:h-[400px] lg:h-[500px]">
+      <AnimatePresence initial={false}>
+        {banners.map((slide, index) => {
+          if (index !== currentSlide) return null;
 
-            return (
-              <motion.div
-                key={slide.id}
-                initial={{ opacity: 0 }}
-                animate={{ opacity: 1 }}
-                exit={{ opacity: 0 }}
-                transition={{ duration: 0.4 }}
-                className="col-start-1 row-start-1 relative z-10 w-full h-full"
-              >
-                <img
-                  src={slide.image}
-                  alt={slide.title || 'Banner'}
-                  loading={index === 0 ? 'eager' : 'lazy'}
-                  fetchPriority={index === 0 ? 'high' : 'auto'}
-                  decoding="async"
-                  className="w-full h-full object-cover block"
-                />
-              </motion.div>
-            );
-          })}
-        </AnimatePresence>
-      </div>
+          return (
+            <motion.div
+              key={slide.id}
+              initial={{ opacity: 0 }}
+              animate={{ opacity: 1 }}
+              exit={{ opacity: 0 }}
+              transition={{ duration: 0.4 }}
+              className="absolute inset-0 w-full h-full"
+            >
+              <img
+                src={slide.image}
+                alt={slide.title || 'Banner'}
+                loading={index === 0 ? 'eager' : 'lazy'}
+                fetchPriority={index === 0 ? 'high' : 'auto'}
+                decoding="async"
+                className="w-full h-full object-cover block"
+              />
+            </motion.div>
+          );
+        })}
+      </AnimatePresence>
 
-      {/* 🔥 Prev Button */}
+      {/* Prev Button */}
       <button
         onClick={prevSlide}
         className="absolute left-4 top-1/2 -translate-y-1/2 z-20 p-3 rounded-full bg-black/10 hover:bg-black/50 backdrop-blur-sm transition"
@@ -67,7 +65,7 @@ export default function BannerSlider({ banners }: BannerSliderProps) {
         <ChevronLeft className="text-white" />
       </button>
 
-      {/* 🔥 Next Button */}
+      {/* Next Button */}
       <button
         onClick={nextSlide}
         className="absolute right-4 top-1/2 -translate-y-1/2 z-20 p-3 rounded-full bg-black/10 hover:bg-black/50 backdrop-blur-sm transition"
@@ -75,17 +73,16 @@ export default function BannerSlider({ banners }: BannerSliderProps) {
         <ChevronRight className="text-white" />
       </button>
 
-      {/* dots */}
+      {/* Dots */}
       <div className="absolute bottom-6 left-1/2 -translate-x-1/2 flex items-center gap-3 z-20">
         {banners.map((slide, index) => (
           <button
             key={slide.id}
             onClick={() => setCurrentSlide(index)}
-            className={`w-3 h-3 rounded-full transition-all ${
-              index === currentSlide
+            className={`w-3 h-3 rounded-full transition-all ${index === currentSlide
                 ? 'bg-white scale-125'
                 : 'bg-white/40'
-            }`}
+              }`}
             type="button"
             aria-label={`Go to slide ${index + 1}`}
           />
