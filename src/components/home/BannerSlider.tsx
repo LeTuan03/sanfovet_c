@@ -30,7 +30,7 @@ export default function BannerSlider({ banners }: BannerSliderProps) {
   }
 
   return (
-    <section className="relative w-full bg-biotechvet-dark overflow-hidden h-[300px] md:h-[400px] lg:h-[500px]">
+    <section className="relative w-full bg-biotechvet-dark overflow-hidden h-[170px] md:h-[400px] lg:h-[590px]">
       <AnimatePresence initial={false}>
         {banners.map((slide, index) => {
           if (index !== currentSlide) return null;
