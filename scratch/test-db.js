@@ -8,12 +8,12 @@ async function testConnection() {
 
   try {
     await client.connect();
-    console.log('✅ Connection successful!');
+    console.log(' Connection successful!');
     const res = await client.query('SELECT current_database(), current_user;');
     console.log('Result:', res.rows[0]);
     await client.end();
   } catch (err) {
-    console.error('❌ Connection failed:', err.message);
+    console.error(' Connection failed:', err.message);
   }
 }
 

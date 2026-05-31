@@ -35,22 +35,22 @@ async function main() {
       const maxId = result[0]?.max;
       
       if (maxId !== null && maxId !== undefined) {
-        console.log(`📍 Table ${item.table}: Max ID is ${maxId}. Resetting sequence ${item.seq}...`);
+        console.log(` Table ${item.table}: Max ID is ${maxId}. Resetting sequence ${item.seq}...`);
         
         // Reset the sequence to maxId + 1
         await prisma.$executeRawUnsafe(
           `SELECT setval('${item.seq}', ${maxId})`
         );
       } else {
-        console.log(`ℹ️ Table ${item.table} is empty. Skipping sequence reset.`);
+        console.log(` Table ${item.table} is empty. Skipping sequence reset.`);
       }
     } catch (error) {
-      console.error(`❌ Error resetting sequence for ${item.table}:`, error);
+      console.error(` Error resetting sequence for ${item.table}:`, error);
     }
   }
 
   await prisma.$disconnect();
-  console.log('✅ All sequences have been reset.');
+  console.log(' All sequences have been reset.');
 }
 
 main().catch((e) => {

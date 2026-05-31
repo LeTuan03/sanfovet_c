@@ -10,7 +10,6 @@
     "db:migrate": "npx prisma migrate dev",
     "db:push": "npx prisma db push",
     "db:seed": "npx tsx prisma/seed.ts",
-    "db:sync": "npx tsx scripts/sync-from-cloud.ts",
     "db:studio": "npx prisma studio"
   },
   "prisma": {
