@@ -116,6 +116,18 @@ export default function Header() {
             </div>
             <div className="flex items-center gap-2 border-l border-white/20 pl-4">
               <button 
+                className={`flex items-center rounded text-[0.7rem] font-black transition-all uppercase tracking-wider`}
+              >
+                <img src="/images/VN.png" alt="VN" className="w-[35px] rounded-sm" />
+              </button>
+              <button 
+                className={`flex items-center rounded text-[0.7rem] font-black transition-all uppercase tracking-wider`}
+              >
+                <img src="/images/UK.png" alt="EN" className="w-[35px] rounded-sm" />
+              </button>
+            </div>
+            {/* <div className="flex items-center gap-2 border-l border-white/20 pl-4">
+              <button 
                 onClick={() => setLanguage('vi')}
                 className={`flex items-center gap-1.5 px-2.5 py-1 rounded text-[0.7rem] font-black border transition-all uppercase tracking-wider ${language === 'vi' ? 'bg-primary border-primary' : 'bg-white/5 border-white/20 text-white/80 hover:bg-white/10'}`}
               >
@@ -127,7 +139,7 @@ export default function Header() {
               >
                 <img src="/images/UK.png" alt="EN" className="w-[16px] rounded-sm" /> EN
               </button>
-            </div>
+            </div> */}
           </div>
         </div>
       </div>
