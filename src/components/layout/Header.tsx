@@ -42,30 +42,6 @@ export default function Header() {
     window.addEventListener('scroll', handleScroll, { passive: true });
     handleScroll();
 
-    // Load Google Translate widget (client-side only)
-    const addGoogleTranslate = () => {
-      try {
-        (window as any).googleTranslateElementInit = function () {
-          new (window as any).google.translate.TranslateElement(
-            {
-              pageLanguage: 'vi',
-              includedLanguages: 'vi,en',
-              layout: (window as any).google.translate.TranslateElement.InlineLayout.SIMPLE,
-            },
-            'google_translate_element'
-          );
-        };
-
-        const script = document.createElement('script');
-        script.src = '//translate.google.com/translate_a/element.js?cb=googleTranslateElementInit';
-        script.async = true;
-        document.body.appendChild(script);
-      } catch (err) {
-        console.error('Failed to load Google Translate', err);
-      }
-    };
-    if (typeof window !== 'undefined') addGoogleTranslate();
-
     // Fetch dynamic data
     const fetchData = async () => {
       try {
@@ -95,19 +71,6 @@ export default function Header() {
 
     return () => window.removeEventListener('scroll', handleScroll);
   }, []);
-
-  // Programmatically change Google Translate language selector
-  const changeGoogleTranslate = (lang: string) => {
-    try {
-      const combo = document.querySelector<HTMLSelectElement>('.goog-te-combo');
-      if (combo) {
-        combo.value = lang;
-        combo.dispatchEvent(new Event('change'));
-      }
-    } catch (err) {
-      console.debug('translate combo not ready yet', err);
-    }
-  };
 
   return (
     <div className="w-full z-50 relative" suppressHydrationWarning>
@@ -153,18 +116,17 @@ export default function Header() {
             </div>
             <div className="flex items-center gap-2 border-l border-white/20 pl-4">
               <button 
-                onClick={() => { setLanguage('vi'); changeGoogleTranslate('vi'); }}
+                onClick={() => setLanguage('vi')}
                 className={`flex items-center gap-1.5 px-2.5 py-1 rounded text-[0.7rem] font-black border transition-all uppercase tracking-wider ${language === 'vi' ? 'bg-primary border-primary' : 'bg-white/5 border-white/20 text-white/80 hover:bg-white/10'}`}
               >
                 <img src="/images/VN.png" alt="VN" className="w-[16px] rounded-sm" /> VI
               </button>
               <button 
-                onClick={() => { setLanguage('en'); changeGoogleTranslate('en'); }}
+                onClick={() => setLanguage('en')}
                 className={`flex items-center gap-1.5 px-2.5 py-1 rounded text-[0.7rem] font-black border transition-all uppercase tracking-wider ${language === 'en' ? 'bg-primary border-primary' : 'bg-white/5 border-white/20 text-white/80 hover:bg-white/10'}`}
               >
                 <img src="/images/UK.png" alt="EN" className="w-[16px] rounded-sm" /> EN
               </button>
-              <div id="google_translate_element" className="hidden" />
             </div>
           </div>
         </div>
