@@ -2,20 +2,30 @@ import React from 'react';
 import Link from 'next/link';
 import { notFound } from 'next/navigation';
 import { articleService, animalTagService } from '@/services';
-import { ArticleSummary } from '@/types';
+import { ArticleSummary, AnimalTag } from '@/types';
 // import { articles, animalTags } from '@/lib/data'; // Removed static imports
 import { Calendar, ChevronRight } from 'lucide-react';
 
 export default async function AnimalTagPage({ params }: Readonly<{ params: Promise<{ tag: string }> }>) {
   const { tag } = await params;
   const articles = await articleService.getAllSummary();
-  const animalTag = await animalTagService.getBySlug(tag);
+  const isOther = tag === 'khac';
 
-  if (!animalTag) {
-    notFound();
+  let animalTag: AnimalTag | null;
+  let tagArticles: ArticleSummary[];
+
+  if (isOther) {
+    const animalTags = await animalTagService.getAll();
+    const tagSlugs = new Set(animalTags.map((t: AnimalTag) => t.slug));
+    animalTag = { id: BigInt(0), name: 'Khác', slug: 'khac', icon: '🐾', description: 'Các bài viết khác' };
+    tagArticles = articles.filter((a: ArticleSummary) => a.category === 'cam-nang' && !a.isDraft && (!a.animalTag || !tagSlugs.has(a.animalTag)));
+  } else {
+    animalTag = await animalTagService.getBySlug(tag);
+    if (!animalTag) {
+      notFound();
+    }
+    tagArticles = articles.filter((a: ArticleSummary) => a.animalTag === tag && a.category === 'cam-nang' && !a.isDraft);
   }
-
-  const tagArticles = articles.filter((a: ArticleSummary) => a.animalTag === tag && a.category === 'cam-nang' && !a.isDraft);
 
   return (
     <div className="bg-white min-h-screen">
