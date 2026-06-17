@@ -49,7 +49,7 @@ export default function ContentProtection() {
     return () => {
       document.removeEventListener('contextmenu', handleContextMenu);
       document.removeEventListener('keydown', handleKeyDown);
-      clearInterval(devtoolsInterval);
+      // clearInterval(devtoolsInterval);
     };
   }, []);
 
