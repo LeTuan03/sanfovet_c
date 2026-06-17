@@ -33,18 +33,18 @@ export default function ContentProtection() {
     // 5. DevTools detection - use viewport heuristic because debugger timing is unreliable
     let devtoolsInterval: ReturnType<typeof setInterval>;
     const isMobile = () => /mobile|android|iphone|ipad|tablet/i.test(navigator.userAgent);
-    const detectDevTools = () => {
-      if (isMobile()) return false; // Disable detection on mobile to avoid false positives
-      const threshold = 160;
-      const widthDiff = window.outerWidth - window.innerWidth;
-      const heightDiff = window.outerHeight - window.innerHeight;
-      return widthDiff > threshold || heightDiff > threshold;
-    };
-    devtoolsInterval = setInterval(() => {
-      if (detectDevTools()) {
-        globalThis.location.replace('/images/favicon.ico');
-      }
-    }, 1000);
+    // const detectDevTools = () => {
+    //   if (isMobile()) return false; // Disable detection on mobile to avoid false positives
+    //   const threshold = 160;
+    //   const widthDiff = window.outerWidth - window.innerWidth;
+    //   const heightDiff = window.outerHeight - window.innerHeight;
+    //   return widthDiff > threshold || heightDiff > threshold;
+    // };
+    // devtoolsInterval = setInterval(() => {
+    //   if (detectDevTools()) {
+    //     globalThis.location.replace('/images/favicon.ico');
+    //   }
+    // }, 1000);
 
     return () => {
       document.removeEventListener('contextmenu', handleContextMenu);
