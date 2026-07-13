@@ -84,22 +84,20 @@ export default function LeadPopup() {
         headers: { 'Content-Type': 'application/json' },
         body: JSON.stringify({ ...formData, locale: language }),
       });
-      const result = await res.json();
 
       if (res.ok) {
         setStatus('success');
         setFeedback(
-          result.message ||
-            (en
-              ? 'Thank you! We have received your details and will contact you shortly.'
-              : 'Cảm ơn bạn! Chúng tôi đã nhận được thông tin và sẽ liên hệ trong thời gian sớm nhất.')
+          (en
+            ? 'Thank you! We have received your details and will contact you shortly.'
+            : 'Cảm ơn bạn! Chúng tôi đã nhận được thông tin và sẽ liên hệ trong thời gian sớm nhất.')
         );
         remember();
         setTimeout(() => setOpen(false), 2800);
       } else {
         setStatus('error');
         setFeedback(
-          result.error || (en ? 'An error occurred. Please try again.' : 'Đã có lỗi xảy ra. Vui lòng thử lại sau.')
+          (en ? 'An error occurred. Please try again.' : 'Đã có lỗi xảy ra. Vui lòng thử lại sau.')
         );
       }
     } catch {
@@ -151,110 +149,110 @@ export default function LeadPopup() {
             </button>
 
             <div className="relative z-10 p-8 md:p-10">
-            {status === 'success' ? (
-              <div className="flex flex-col items-center text-center py-6">
-                <div className="w-16 h-16 rounded-2xl bg-emerald-50 text-emerald-500 flex items-center justify-center mb-5">
-                  <CheckCircle2 size={34} />
+              {status === 'success' ? (
+                <div className="flex flex-col items-center text-center py-6">
+                  <div className="w-16 h-16 rounded-2xl bg-emerald-50 text-emerald-500 flex items-center justify-center mb-5">
+                    <CheckCircle2 size={34} />
+                  </div>
+                  <h3 className="text-2xl font-black uppercase italic tracking-tight text-biotechvet-dark mb-3">
+                    {en ? 'Thank you!' : 'Cảm ơn bạn!'}
+                  </h3>
+                  <p className="text-gray-500 font-medium leading-relaxed max-w-sm">{feedback}</p>
                 </div>
-                <h3 className="text-2xl font-black uppercase italic tracking-tight text-biotechvet-dark mb-3">
-                  {en ? 'Thank you!' : 'Cảm ơn bạn!'}
-                </h3>
-                <p className="text-gray-500 font-medium leading-relaxed max-w-sm">{feedback}</p>
-              </div>
-            ) : (
-              <>
-                <div className="flex items-center gap-4 mb-6 pr-8">
-                  <div className="w-12 h-12 bg-primary/10 rounded-xl flex items-center justify-center text-primary shrink-0">
-                    <MessageSquare size={24} />
-                  </div>
-                  <div>
-                    <span className="block text-[10px] font-black uppercase text-primary tracking-[2px] mb-1 italic">
-                      {en ? 'Free consultation' : 'Tư vấn miễn phí'}
-                    </span>
-                    <h3 className="text-xl md:text-2xl font-black uppercase italic tracking-tight text-biotechvet-dark leading-tight">
-                      {en ? 'Get advice from BIOTECH-VET' : 'Nhận tư vấn từ BIOTECH-VET'}
-                    </h3>
-                  </div>
-                </div>
-
-                <p className="text-sm text-gray-500 font-medium leading-relaxed mb-6">
-                  {en
-                    ? 'Leave your details and our technical team will reach out to support you shortly.'
-                    : 'Để lại thông tin, đội ngũ kỹ thuật của chúng tôi sẽ liên hệ và hỗ trợ bạn trong thời gian sớm nhất.'}
-                </p>
-
-                <form onSubmit={handleSubmit} className="space-y-4">
-                  <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
-                    <input
-                      name="fullName"
-                      type="text"
-                      placeholder={en ? 'Full name *' : 'Họ và tên *'}
-                      value={formData.fullName}
-                      onChange={handleInputChange}
-                      className={inputClass}
-                      required
-                    />
-                    <input
-                      name="phoneNumber"
-                      type="tel"
-                      placeholder={en ? 'Phone number *' : 'Số điện thoại *'}
-                      value={formData.phoneNumber}
-                      onChange={handleInputChange}
-                      className={inputClass}
-                      required
-                    />
-                  </div>
-                  <input
-                    name="emailAddress"
-                    type="email"
-                    placeholder={en ? 'Email address (optional)' : 'Địa chỉ email (không bắt buộc)'}
-                    value={formData.emailAddress}
-                    onChange={handleInputChange}
-                    className={inputClass}
-                  />
-                  <textarea
-                    name="messageBox"
-                    rows={3}
-                    placeholder={en ? 'Your message (optional)' : 'Nội dung cần hỗ trợ (không bắt buộc)'}
-                    value={formData.messageBox}
-                    onChange={handleInputChange}
-                    className={inputClass}
-                  />
-
-                  {status === 'error' && (
-                    <div className="flex items-start gap-3 rounded-2xl border border-red-200 bg-red-50 px-5 py-4 text-red-700">
-                      <AlertCircle size={20} className="mt-0.5 shrink-0 text-red-500" />
-                      <p className="text-sm font-semibold leading-relaxed">{feedback}</p>
+              ) : (
+                <>
+                  <div className="flex items-center gap-4 mb-6 pr-8">
+                    <div className="w-12 h-12 bg-primary/10 rounded-xl flex items-center justify-center text-primary shrink-0">
+                      <MessageSquare size={24} />
                     </div>
-                  )}
+                    <div>
+                      <span className="block text-[10px] font-black uppercase text-primary tracking-[2px] mb-1 italic">
+                        {en ? 'Free consultation' : 'Tư vấn miễn phí'}
+                      </span>
+                      <h3 className="text-xl md:text-2xl font-black uppercase italic tracking-tight text-biotechvet-dark leading-tight">
+                        {en ? 'Get advice from BIOTECH-VET' : 'Nhận tư vấn từ BIOTECH-VET'}
+                      </h3>
+                    </div>
+                  </div>
 
-                  <button
-                    type="submit"
-                    disabled={status === 'submitting'}
-                    className="w-full bg-primary hover:bg-primary-dark text-white font-black py-4 rounded-2xl text-xs uppercase tracking-[3px] transition-all shadow-xl shadow-primary/20 active:scale-95 flex items-center justify-center gap-3 group disabled:opacity-70 disabled:cursor-not-allowed"
-                  >
-                    {status === 'submitting' ? (
-                      <>
-                        <Loader2 size={18} className="animate-spin" /> {en ? 'Sending...' : 'Đang gửi...'}
-                      </>
-                    ) : (
-                      <>
-                        <Send size={18} className="group-hover:translate-x-1 group-hover:-translate-y-1 transition-transform" />{' '}
-                        {en ? 'Get free advice' : 'Nhận tư vấn ngay'}
-                      </>
+                  <p className="text-sm text-gray-500 font-medium leading-relaxed mb-6">
+                    {en
+                      ? 'Leave your details and our technical team will reach out to support you shortly.'
+                      : 'Để lại thông tin, đội ngũ kỹ thuật của chúng tôi sẽ liên hệ và hỗ trợ bạn trong thời gian sớm nhất.'}
+                  </p>
+
+                  <form onSubmit={handleSubmit} className="space-y-4">
+                    <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
+                      <input
+                        name="fullName"
+                        type="text"
+                        placeholder={en ? 'Full name *' : 'Họ và tên *'}
+                        value={formData.fullName}
+                        onChange={handleInputChange}
+                        className={inputClass}
+                        required
+                      />
+                      <input
+                        name="phoneNumber"
+                        type="tel"
+                        placeholder={en ? 'Phone number *' : 'Số điện thoại *'}
+                        value={formData.phoneNumber}
+                        onChange={handleInputChange}
+                        className={inputClass}
+                        required
+                      />
+                    </div>
+                    <input
+                      name="emailAddress"
+                      type="email"
+                      placeholder={en ? 'Email address (optional)' : 'Địa chỉ email (không bắt buộc)'}
+                      value={formData.emailAddress}
+                      onChange={handleInputChange}
+                      className={inputClass}
+                    />
+                    <textarea
+                      name="messageBox"
+                      rows={3}
+                      placeholder={en ? 'Your message (optional)' : 'Nội dung cần hỗ trợ (không bắt buộc)'}
+                      value={formData.messageBox}
+                      onChange={handleInputChange}
+                      className={inputClass}
+                    />
+
+                    {status === 'error' && (
+                      <div className="flex items-start gap-3 rounded-2xl border border-red-200 bg-red-50 px-5 py-4 text-red-700">
+                        <AlertCircle size={20} className="mt-0.5 shrink-0 text-red-500" />
+                        <p className="text-sm font-semibold leading-relaxed">{feedback}</p>
+                      </div>
                     )}
-                  </button>
 
-                  <button
-                    type="button"
-                    onClick={dismiss}
-                    className="w-full text-center text-[11px] font-bold uppercase tracking-widest text-gray-300 hover:text-gray-500 transition-colors pt-1"
-                  >
-                    {en ? 'No thanks, maybe later' : 'Để sau, cảm ơn'}
-                  </button>
-                </form>
-              </>
-            )}
+                    <button
+                      type="submit"
+                      disabled={status === 'submitting'}
+                      className="w-full bg-primary hover:bg-primary-dark text-white font-black py-4 rounded-2xl text-xs uppercase tracking-[3px] transition-all shadow-xl shadow-primary/20 active:scale-95 flex items-center justify-center gap-3 group disabled:opacity-70 disabled:cursor-not-allowed"
+                    >
+                      {status === 'submitting' ? (
+                        <>
+                          <Loader2 size={18} className="animate-spin" /> {en ? 'Sending...' : 'Đang gửi...'}
+                        </>
+                      ) : (
+                        <>
+                          <Send size={18} className="group-hover:translate-x-1 group-hover:-translate-y-1 transition-transform" />{' '}
+                          {en ? 'Get free advice' : 'Nhận tư vấn ngay'}
+                        </>
+                      )}
+                    </button>
+
+                    <button
+                      type="button"
+                      onClick={dismiss}
+                      className="w-full text-center text-[11px] font-bold uppercase tracking-widest text-gray-300 hover:text-gray-500 transition-colors pt-1"
+                    >
+                      {en ? 'No thanks, maybe later' : 'Để sau, cảm ơn'}
+                    </button>
+                  </form>
+                </>
+              )}
             </div>
           </motion.div>
         </motion.div>
