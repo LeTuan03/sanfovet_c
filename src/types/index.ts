@@ -132,3 +132,15 @@ export interface AnimalTag {
   icon: string;
   description: string;
 }
+
+export interface ContactRequest {
+  id: number | string;
+  fullName: string;
+  phoneNumber: string;
+  emailAddress: string;
+  messageBox: string;
+  locale: string;
+  status: 'new' | 'handled' | string;
+  createdAt: string;
+  updatedAt?: string;
+}

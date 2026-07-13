@@ -1,7 +1,7 @@
 "use client";
 
 import React from 'react';
-import { Phone, Mail, MapPin, Send, MessageSquare } from 'lucide-react';
+import { Phone, Mail, MapPin, Send, MessageSquare, CheckCircle2, AlertCircle, Loader2 } from 'lucide-react';
 import { FacebookOutlined, YoutubeOutlined } from '@ant-design/icons';
 
 export default function ContactContent({ settings }: { settings: any }) {
@@ -11,27 +11,42 @@ export default function ContactContent({ settings }: { settings: any }) {
       emailAddress: '',
       messageBox: '',
    });
+   const [status, setStatus] = React.useState<'idle' | 'submitting' | 'success' | 'error'>('idle');
+   const [feedback, setFeedback] = React.useState('');
 
    const handleInputChange = (e: React.ChangeEvent<HTMLInputElement | HTMLTextAreaElement>) => {
       const { name, value } = e.target;
       setFormData(prev => ({ ...prev, [name]: value }));
+      if (status === 'error') setStatus('idle');
    };
 
-   const handleSubmit = (e: React.FormEvent<HTMLFormElement>) => {
+   const handleSubmit = async (e: React.FormEvent<HTMLFormElement>) => {
       e.preventDefault();
+      if (status === 'submitting') return;
 
-      const { fullName, phoneNumber, emailAddress, messageBox } = formData;
-      const emailTo = settings?.email || 'pkd.biotechvet@gmail.com';
-      const subject = encodeURIComponent(`Yêu cầu từ ${fullName}`);
-      const body = encodeURIComponent(
-         `Họ tên: ${fullName}\n` +
-         `Số điện thoại: ${phoneNumber}\n` +
-         `Email: ${emailAddress}\n` +
-         `\n--- Nội dung yêu cầu ---\n` +
-         `${messageBox}`
-      );
+      setStatus('submitting');
+      setFeedback('');
 
-      window.location.href = `mailto:${emailTo}?subject=${subject}&body=${body}`;
+      try {
+         const res = await fetch('/api/contact', {
+            method: 'POST',
+            headers: { 'Content-Type': 'application/json' },
+            body: JSON.stringify(formData),
+         });
+         const result = await res.json();
+
+         if (res.ok) {
+            setStatus('success');
+            setFeedback(result.message || 'Yêu cầu của bạn đã được gửi thành công. Chúng tôi sẽ liên hệ trong thời gian sớm nhất.');
+            setFormData({ fullName: '', phoneNumber: '', emailAddress: '', messageBox: '' });
+         } else {
+            setStatus('error');
+            setFeedback(result.error || 'Đã có lỗi xảy ra. Vui lòng thử lại sau.');
+         }
+      } catch {
+         setStatus('error');
+         setFeedback('Không thể gửi. Vui lòng kiểm tra kết nối và thử lại.');
+      }
    };
 
    return (
@@ -135,7 +150,7 @@ export default function ContactContent({ settings }: { settings: any }) {
                </div>
 
                {/* Form Column */}
-               <div className="bg-white rounded-[48px] p-10 md:p-14 border border-gray-100 shadow-2xl relative overflow-hidden group">
+               <div className="bg-white rounded-[48px] p-10 md:p-14 border border-gray-100 shadow-2xl relative overflow-hidden group h-fit">
                   <div className="absolute top-0 right-0 w-32 h-32 bg-primary/10 rounded-full blur-3xl -mr-16 -mt-16"></div>
 
                   <div className="flex items-center gap-4 mb-10">
@@ -164,11 +179,28 @@ export default function ContactContent({ settings }: { settings: any }) {
                            <label htmlFor="messageBox" className="block text-[10px] font-black uppercase text-gray-400 tracking-[2px] mb-2 px-4 italic">Nội dung yêu cầu *</label>
                            <textarea id="messageBox" name="messageBox" rows={5} placeholder="Bạn cần chúng tôi hỗ trợ gì?" value={formData.messageBox} onChange={handleInputChange} className="w-full bg-gray-50 border-none rounded-2xl px-6 py-4 text-sm focus:ring-2 focus:ring-primary focus:bg-white transition-all placeholder:text-gray-300" required></textarea>
                         </div>
+                        {status === 'success' && (
+                           <div className="flex items-start gap-3 rounded-2xl border border-emerald-200 bg-emerald-50 px-5 py-4 text-emerald-700">
+                              <CheckCircle2 size={20} className="mt-0.5 shrink-0 text-emerald-500" />
+                              <p className="text-sm font-semibold leading-relaxed">{feedback}</p>
+                           </div>
+                        )}
+                        {status === 'error' && (
+                           <div className="flex items-start gap-3 rounded-2xl border border-red-200 bg-red-50 px-5 py-4 text-red-700">
+                              <AlertCircle size={20} className="mt-0.5 shrink-0 text-red-500" />
+                              <p className="text-sm font-semibold leading-relaxed">{feedback}</p>
+                           </div>
+                        )}
                         <button
                            type="submit"
-                           className="w-full bg-primary hover:bg-primary-dark text-white font-black py-5 rounded-2xl text-xs uppercase tracking-[3px] transition-all shadow-xl shadow-primary/20 active:scale-95 flex items-center justify-center gap-3 group"
+                           disabled={status === 'submitting'}
+                           className="w-full bg-primary hover:bg-primary-dark text-white font-black py-5 rounded-2xl text-xs uppercase tracking-[3px] transition-all shadow-xl shadow-primary/20 active:scale-95 flex items-center justify-center gap-3 group disabled:opacity-70 disabled:cursor-not-allowed"
                         >
-                           <Send size={18} className="group-hover:translate-x-1 group-hover:-translate-y-1 transition-transform" /> Gửi yêu cầu ngay
+                           {status === 'submitting' ? (
+                              <><Loader2 size={18} className="animate-spin" /> Đang gửi...</>
+                           ) : (
+                              <><Send size={18} className="group-hover:translate-x-1 group-hover:-translate-y-1 transition-transform" /> Gửi yêu cầu ngay</>
+                           )}
                         </button>
                      </form>
                </div>

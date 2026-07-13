@@ -16,6 +16,7 @@ import {
   UserOutlined,
   LogoutOutlined,
   BellOutlined,
+  MailOutlined,
   InfoCircleOutlined,
   FileTextOutlined,
   BookOutlined,
@@ -81,6 +82,11 @@ export default function AdminLayout({ children }: { children: React.ReactNode })
       key: '/admin',
       icon: <DashboardOutlined />,
       label: 'Tổng quan',
+    },
+    {
+      key: '/admin/contact-requests',
+      icon: <MailOutlined />,
+      label: 'Yêu cầu liên hệ',
     },
   ];
 

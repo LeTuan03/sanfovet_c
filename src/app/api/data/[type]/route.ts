@@ -8,8 +8,9 @@ import {
   animalTagService, 
   menuService, 
   settingService, 
-  bannerService, 
-  mediaService 
+  bannerService,
+  mediaService,
+  contactRequestService
 } from '@/services';
 
 export async function GET(
@@ -60,6 +61,9 @@ export async function GET(
         break;
       case 'banners':
         data = await bannerService.getAll();
+        break;
+      case 'contact-requests':
+        data = await contactRequestService.getAll();
         break;
       case 'media-gallery':
         data = {
@@ -115,6 +119,7 @@ export async function POST(
         case 'animal-tags': return animalTagService;
         case 'menus': return menuService;
         case 'banners': return bannerService;
+        case 'contact-requests': return contactRequestService;
         default: return null;
       }
     };
