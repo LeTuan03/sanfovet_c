@@ -4,6 +4,7 @@ import React, { useState, useMemo } from 'react';
 import { useRouter, useSearchParams, usePathname } from 'next/navigation';
 import { Table, Button, Space, Modal, Form, Input, Select, Tag, Breadcrumb, Row, Col, Tooltip, App, DatePicker } from 'antd';
 import AdminPageHeader from '@/components/admin/AdminPageHeader';
+import AdminFilterBar from '@/components/admin/AdminFilterBar';
 import { PlusOutlined, EditOutlined, DeleteOutlined, SearchOutlined, GlobalOutlined } from '@ant-design/icons';
 // import { jobs as initialJobs } from '@/lib/data'; // Removed static import
 import CKEditor from '@/components/admin/CKEditor';
@@ -21,6 +22,8 @@ function AdminJobsPageContent() {
   const pathname = usePathname();
   const searchParams = useSearchParams();
   const query = searchParams.get('q') || '';
+  const filterLocation = searchParams.get('location') || '';
+  const filterStatus = searchParams.get('status') || '';
   const page = parseInt(searchParams.get('page') || '1');
 
   const [data, setData] = useState<JobSummary[]>([]);
@@ -49,11 +52,21 @@ function AdminJobsPageContent() {
 
   // Derived filtered data
   const filteredData = useMemo(() => {
-    return data.filter(item =>
-      item.title.toLowerCase().includes(query.toLowerCase()) ||
-      item.location.toLowerCase().includes(query.toLowerCase())
-    );
-  }, [data, query]);
+    return data.filter(item => {
+      const matchesQuery =
+        item.title.toLowerCase().includes(query.toLowerCase()) ||
+        item.location.toLowerCase().includes(query.toLowerCase());
+      const matchesLocation = !filterLocation || item.location === filterLocation;
+      const matchesStatus =
+        !filterStatus || (filterStatus === 'closed' ? item.status === 'closed' : item.status !== 'closed');
+      return matchesQuery && matchesLocation && matchesStatus;
+    });
+  }, [data, query, filterLocation, filterStatus]);
+
+  const locationOptions = useMemo(() => {
+    return Array.from(new Set(data.map(item => item.location).filter(Boolean)))
+      .map(loc => ({ label: loc, value: loc }));
+  }, [data]);
 
   const updateUrl = (params: { q?: string; page?: number }) => {
     const newSearchParams = new URLSearchParams(searchParams.toString());
@@ -194,7 +207,11 @@ function AdminJobsPageContent() {
     {
       title: 'Trạng thái',
       key: 'status',
-      render: () => <Tag color="green" className="font-bold uppercase text-[10px]">Đang tuyển</Tag>
+      render: (_: any, record: JobSummary) => (
+        record.status === 'closed'
+          ? <Tag color="default" className="font-bold uppercase text-[10px]">Đã đóng</Tag>
+          : <Tag color="green" className="font-bold uppercase text-[10px]">Đang tuyển</Tag>
+      )
     },
     {
       title: 'Thao tác',
@@ -234,12 +251,32 @@ function AdminJobsPageContent() {
           { title: 'Admin', href: '/admin' },
           { title: 'Quản lý Tuyển dụng' },
         ]}
-        onSearch={(val) => updateUrl({ q: val })}
+      />
+
+      <AdminFilterBar
+        searchPlaceholder="Tìm theo vị trí, khu vực..."
         primaryAction={{
           label: 'Đăng tin mới',
           onClick: () => showModal(),
           icon: <PlusOutlined />
         }}
+        filters={[
+          {
+            key: 'location',
+            placeholder: 'Khu vực',
+            width: 180,
+            options: locationOptions,
+          },
+          {
+            key: 'status',
+            placeholder: 'Trạng thái',
+            width: 160,
+            options: [
+              { label: 'Đang tuyển', value: 'active' },
+              { label: 'Đã đóng', value: 'closed' },
+            ],
+          },
+        ]}
       />
 
       <div className="bg-white overflow-hidden shadow-xl shadow-gray-200/50 border border-gray-100" style={{ borderRadius: "3px 3px 32px 32px" }}>

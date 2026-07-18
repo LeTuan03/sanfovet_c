@@ -3,6 +3,7 @@
 import React, { useState, useMemo } from 'react';
 import { Table, Button, Space, Modal, Form, Input, Select, Tag, Tooltip, Row, Col, Divider, Breadcrumb, DatePicker, Switch, Checkbox, App } from 'antd';
 import AdminPageHeader from '@/components/admin/AdminPageHeader';
+import AdminFilterBar from '@/components/admin/AdminFilterBar';
 import { PlusOutlined, EditOutlined, DeleteOutlined, SearchOutlined, FileImageOutlined } from '@ant-design/icons';
 import { useRouter, useSearchParams, usePathname } from 'next/navigation';
 // import { articles, animalTags } from '@/lib/data'; // Removed static imports
@@ -21,6 +22,9 @@ function HandbookManagementContent() {
   const pathname = usePathname();
   const searchParams = useSearchParams();
   const query = searchParams.get('q') || '';
+  const filterAnimal = searchParams.get('animal') || '';
+  const filterFeatured = searchParams.get('featured') || '';
+  const filterStatus = searchParams.get('status') || '';
   const page = parseInt(searchParams.get('page') || '1');
 
   const [data, setData] = useState<ArticleSummary[]>([]);
@@ -60,10 +64,16 @@ function HandbookManagementContent() {
 
   // Derived filtered data
   const filteredData = useMemo(() => {
-    return handbooksList.filter((item) =>
-      item.title.toLowerCase().includes(query.toLowerCase())
-    );
-  }, [handbooksList, query]);
+    return handbooksList.filter((item) => {
+      const matchesQuery = item.title.toLowerCase().includes(query.toLowerCase());
+      const matchesAnimal = !filterAnimal || item.animalTag === filterAnimal;
+      const matchesFeatured =
+        !filterFeatured || (filterFeatured === '1' ? !!item.featured : !item.featured);
+      const matchesStatus =
+        !filterStatus || (filterStatus === 'draft' ? !!item.isDraft : !item.isDraft);
+      return matchesQuery && matchesAnimal && matchesFeatured && matchesStatus;
+    });
+  }, [handbooksList, query, filterAnimal, filterFeatured, filterStatus]);
 
   const updateUrl = (params: { q?: string; page?: number }) => {
     const newSearchParams = new URLSearchParams(searchParams.toString());
@@ -309,12 +319,44 @@ function HandbookManagementContent() {
           { title: 'Admin', href: '/admin' },
           { title: 'Cẩm nang chăn nuôi' },
         ]}
-        onSearch={(val) => updateUrl({ q: val })}
+      />
+
+      <AdminFilterBar
+        searchPlaceholder="Tìm theo tiêu đề bài viết..."
         primaryAction={{
           label: 'Viết bài mới',
           onClick: () => showModal(),
           icon: <PlusOutlined />
         }}
+        filters={[
+          {
+            key: 'animal',
+            placeholder: 'Loài vật',
+            width: 180,
+            options: animalTags.map((tag: AnimalTag) => ({
+              label: <span>{tag.icon} {tag.name}</span>,
+              value: tag.slug,
+            })),
+          },
+          {
+            key: 'featured',
+            placeholder: 'Nổi bật',
+            width: 150,
+            options: [
+              { label: 'Nổi bật', value: '1' },
+              { label: 'Không nổi bật', value: '0' },
+            ],
+          },
+          {
+            key: 'status',
+            placeholder: 'Trạng thái',
+            width: 150,
+            options: [
+              { label: 'Đã đăng', value: 'published' },
+              { label: 'Bản nháp', value: 'draft' },
+            ],
+          },
+        ]}
       />
 
       <div className="bg-white overflow-hidden shadow-xl shadow-gray-200/50 border border-gray-100" style={{ borderRadius: "3px 3px 32px 32px" }}>

@@ -3,6 +3,7 @@
 import React, { useState, useMemo } from 'react';
 import { Table, Button, Space, Tag, Modal, Form, Input, Select, Breadcrumb, Divider, Row, Col, Tooltip, App } from 'antd';
 import AdminPageHeader from '@/components/admin/AdminPageHeader';
+import AdminFilterBar from '@/components/admin/AdminFilterBar';
 import { PlusOutlined, EditOutlined, DeleteOutlined, MenuOutlined, GlobalOutlined, LinkOutlined, ArrowUpOutlined, ArrowDownOutlined, SearchOutlined } from '@ant-design/icons';
 import { useRouter, useSearchParams, usePathname } from 'next/navigation';
 import { adminFetch } from '@/lib/api';
@@ -15,6 +16,7 @@ function AdminMenusPageContent() {
   const pathname = usePathname();
   const searchParams = useSearchParams();
   const query = searchParams.get('q') || '';
+  const filterPosition = searchParams.get('position') || '';
 
   const [menus, setMenus] = useState<any[]>([]);
   const [loading, setLoading] = useState(true);
@@ -42,10 +44,13 @@ function AdminMenusPageContent() {
 
   // Derived filtered data
   const filteredData = useMemo(() => {
-    const rawFiltered = menus.filter(item => 
-      item.name.toLowerCase().includes(query.toLowerCase()) ||
-      item.link.toLowerCase().includes(query.toLowerCase())
-    );
+    const rawFiltered = menus.filter(item => {
+      const matchesQuery =
+        item.name.toLowerCase().includes(query.toLowerCase()) ||
+        item.link.toLowerCase().includes(query.toLowerCase());
+      const matchesPosition = !filterPosition || item.position === filterPosition;
+      return matchesQuery && matchesPosition;
+    });
 
     const finalData: any[] = [];
     const rawFilteredIds = new Set(rawFiltered.map(item => item.id));
@@ -243,12 +248,27 @@ function AdminMenusPageContent() {
           { title: 'Admin' },
           { title: 'Quản lý Menu' },
         ]}
-        onSearch={(val) => updateUrl({ q: val })}
+      />
+
+      <AdminFilterBar
+        searchPlaceholder="Tìm theo tên menu, đường dẫn..."
         primaryAction={{
           label: 'Thêm Menu mới',
           onClick: handleAdd,
           icon: <PlusOutlined />
         }}
+        filters={[
+          {
+            key: 'position',
+            placeholder: 'Vị trí',
+            width: 160,
+            options: [
+              { label: 'Header', value: 'header' },
+              { label: 'Footer', value: 'footer' },
+              { label: 'Cả hai', value: 'both' },
+            ],
+          },
+        ]}
       />
 
       <div className="bg-white overflow-hidden shadow-xl shadow-gray-200/50 border border-gray-100 min-h-[500px]" style={{ borderRadius: "3px 3px 32px 32px" }}>

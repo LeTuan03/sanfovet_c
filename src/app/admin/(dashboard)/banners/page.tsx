@@ -9,6 +9,7 @@ import {
   SearchOutlined, LinkOutlined
 } from '@ant-design/icons';
 import AdminPageHeader from '@/components/admin/AdminPageHeader';
+import AdminFilterBar from '@/components/admin/AdminFilterBar';
 import ImageUpload from '@/components/admin/ImageUpload';
 import { motion } from 'framer-motion';
 import { adminFetch } from '@/lib/api';
@@ -24,6 +25,7 @@ function AdminBannersPageContent() {
   const pathname = usePathname();
   const searchParams = useSearchParams();
   const query = searchParams.get('q') || '';
+  const filterStatus = searchParams.get('status') || '';
   const page = parseInt(searchParams.get('page') || '1');
 
   const [banners, setBanners] = useState<Banner[]>([]);
@@ -53,12 +55,16 @@ function AdminBannersPageContent() {
   // Derived filtered data
   const filteredData = useMemo(() => {
     return banners
-      .filter(item =>
-        item.title.toLowerCase().includes(query.toLowerCase()) ||
-        item.link.toLowerCase().includes(query.toLowerCase())
-      )
+      .filter(item => {
+        const matchesQuery =
+          item.title.toLowerCase().includes(query.toLowerCase()) ||
+          item.link.toLowerCase().includes(query.toLowerCase());
+        const matchesStatus =
+          !filterStatus || (filterStatus === '1' ? !!item.status : !item.status);
+        return matchesQuery && matchesStatus;
+      })
       .sort((a, b) => a.order - b.order);
-  }, [banners, query]);
+  }, [banners, query, filterStatus]);
 
   const updateUrl = (params: { q?: string; page?: number }) => {
     const newSearchParams = new URLSearchParams(searchParams.toString());
@@ -252,12 +258,26 @@ function AdminBannersPageContent() {
           { title: 'Admin', href: '/admin' },
           { title: 'Banner / Slider' },
         ]}
-        onSearch={(val) => updateUrl({ q: val })}
+      />
+
+      <AdminFilterBar
+        searchPlaceholder="Tìm theo tên banner, link..."
         primaryAction={{
           label: 'Tải lên Banner',
           onClick: handleAdd,
           icon: <PlusOutlined />
         }}
+        filters={[
+          {
+            key: 'status',
+            placeholder: 'Trạng thái',
+            width: 160,
+            options: [
+              { label: 'Đang hiển thị', value: '1' },
+              { label: 'Đang ẩn', value: '0' },
+            ],
+          },
+        ]}
       />
 
       <div className="bg-white overflow-hidden shadow-xl shadow-gray-200/50 border border-gray-100" style={{ borderRadius: "3px 3px 32px 32px" }}>

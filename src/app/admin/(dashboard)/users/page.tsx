@@ -3,7 +3,8 @@
 import React, { useState, useMemo } from 'react';
 import { useRouter, useSearchParams, usePathname } from 'next/navigation';
 import { Table, Button, Space, Tag, Modal, Form, Input, Select, Breadcrumb, Avatar, Tooltip, App } from 'antd';
-import { PlusOutlined, EditOutlined, DeleteOutlined, UserOutlined, LockOutlined, SafetyCertificateOutlined, SearchOutlined } from '@ant-design/icons';
+import { PlusOutlined, EditOutlined, DeleteOutlined, UserOutlined, LockOutlined, SafetyCertificateOutlined } from '@ant-design/icons';
+import AdminFilterBar from '@/components/admin/AdminFilterBar';
 import { useAdminLoading } from '@/lib/AdminLoadingContext';
 
 const initialUsers = [
@@ -18,6 +19,7 @@ function AdminUsersPageContent() {
   const pathname = usePathname();
   const searchParams = useSearchParams();
   const query = searchParams.get('q') || '';
+  const filterRole = searchParams.get('role') || '';
   const page = parseInt(searchParams.get('page') || '1');
 
   const [users, setUsers] = useState(initialUsers);
@@ -29,12 +31,15 @@ function AdminUsersPageContent() {
 
   // Derived filtered data
   const filteredData = useMemo(() => {
-    return users.filter(item => 
-      item.name.toLowerCase().includes(query.toLowerCase()) ||
-      item.email.toLowerCase().includes(query.toLowerCase()) ||
-      item.role.toLowerCase().includes(query.toLowerCase())
-    );
-  }, [users, query]);
+    return users.filter(item => {
+      const matchesQuery =
+        item.name.toLowerCase().includes(query.toLowerCase()) ||
+        item.email.toLowerCase().includes(query.toLowerCase()) ||
+        item.role.toLowerCase().includes(query.toLowerCase());
+      const matchesRole = !filterRole || item.role === filterRole;
+      return matchesQuery && matchesRole;
+    });
+  }, [users, query, filterRole]);
 
   const updateUrl = (params: { q?: string; page?: number }) => {
     const newSearchParams = new URLSearchParams(searchParams.toString());
@@ -50,10 +55,6 @@ function AdminUsersPageContent() {
     }
 
     router.push(`${pathname}?${newSearchParams.toString()}`);
-  };
-
-  const handleSearch = (e: React.ChangeEvent<HTMLInputElement>) => {
-    updateUrl({ q: e.target.value });
   };
 
   const showModal = (record?: any) => {
@@ -186,25 +187,27 @@ function AdminUsersPageContent() {
           <Breadcrumb items={[{ title: 'Admin', href: '/admin' }, { title: 'Quản lý Người dùng' }]} />
           <h1 className="text-2xl font-black text-biotechvet-dark mt-2 tracking-tight">Tài khoản Quản trị viên</h1>
         </div>
-        <div className="flex gap-4">
-           <Input 
-              prefix={<SearchOutlined className="text-gray-300" />} 
-              placeholder="Tìm kiếm user..." 
-              className="w-64 rounded-xl border-gray-100 shadow-sm"
-              defaultValue={query}
-              onChange={handleSearch}
-           />
-           <Button 
-             type="primary" 
-             icon={<PlusOutlined />} 
-             size="large"
-             className="rounded-xl font-bold h-10 px-6 uppercase tracking-wider text-xs shadow-lg shadow-primary/20"
-             onClick={() => showModal()}
-           >
-             Cấp tài khoản mới
-           </Button>
-        </div>
       </div>
+
+      <AdminFilterBar
+        searchPlaceholder="Tìm theo tên, email..."
+        primaryAction={{
+          label: 'Cấp tài khoản mới',
+          onClick: () => showModal(),
+          icon: <PlusOutlined />
+        }}
+        filters={[
+          {
+            key: 'role',
+            placeholder: 'Phân quyền',
+            width: 170,
+            options: [
+              { label: 'SuperAdmin', value: 'SuperAdmin' },
+              { label: 'Editor', value: 'Editor' },
+            ],
+          },
+        ]}
+      />
 
       <div className="bg-white p-8 rounded-2xl shadow-sm border border-gray-100">
         <div className="flex items-center gap-3 mb-8 p-4 bg-orange-50 border border-orange-100 rounded-2xl text-orange-700">

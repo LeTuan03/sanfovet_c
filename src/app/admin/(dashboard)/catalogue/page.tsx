@@ -5,6 +5,7 @@ import { useRouter, useSearchParams, usePathname } from 'next/navigation';
 import { Table, Button, Space, Tag, Input, Modal, Form, Select, Switch, Tooltip, App, Upload } from 'antd';
 import { PlusOutlined, EditOutlined, DeleteOutlined, UploadOutlined } from '@ant-design/icons';
 import AdminPageHeader from '@/components/admin/AdminPageHeader';
+import AdminFilterBar from '@/components/admin/AdminFilterBar';
 import { motion } from 'framer-motion';
 import { uploadFile } from '@/lib/storage-provider';
 import { useAdminLoading } from '@/lib/AdminLoadingContext';
@@ -25,6 +26,7 @@ function AdminCatalogueContent() {
   const pathname = usePathname();
   const searchParams = useSearchParams();
   const query = searchParams.get('q') || '';
+  const filterType = searchParams.get('type') || '';
   const page = parseInt(searchParams.get('page') || '1');
 
   const [catalogues, setCatalogues] = useState<Catalogue[]>([]);
@@ -54,9 +56,14 @@ function AdminCatalogueContent() {
     fetchCatalogues();
   }, [fetchCatalogues]);
 
-  const filteredData = catalogues.filter(item =>
-    item.title.toLowerCase().includes(query.toLowerCase())
-  );
+  const filteredData = catalogues.filter(item => {
+    const matchesQuery = item.title.toLowerCase().includes(query.toLowerCase());
+    const matchesType = !filterType || item.type === filterType;
+    return matchesQuery && matchesType;
+  });
+
+  const typeOptions = Array.from(new Set(catalogues.map(item => item.type).filter(Boolean)))
+    .map(t => ({ label: t.toUpperCase(), value: t }));
 
   const updateUrl = (params: { q?: string; page?: number }) => {
     const newSearchParams = new URLSearchParams(searchParams.toString());
@@ -243,12 +250,23 @@ function AdminCatalogueContent() {
           { title: 'Admin', href: '/admin' },
           { title: 'Quản lý Catalogue' },
         ]}
-        onSearch={(val) => updateUrl({ q: val })}
+      />
+
+      <AdminFilterBar
+        searchPlaceholder="Tìm theo tiêu đề tài liệu..."
         primaryAction={{
           label: 'Thêm tài liệu mới',
           onClick: handleAdd,
           icon: <PlusOutlined />
         }}
+        filters={[
+          {
+            key: 'type',
+            placeholder: 'Định dạng',
+            width: 160,
+            options: typeOptions,
+          },
+        ]}
       />
 
       <div className="bg-white overflow-hidden shadow-xl shadow-gray-200/50 border border-gray-100" style={{ borderRadius: "3px 3px 32px 32px" }}>

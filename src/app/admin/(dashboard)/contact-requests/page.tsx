@@ -10,6 +10,7 @@ import {
 import dayjs from 'dayjs';
 import { motion } from 'framer-motion';
 import AdminPageHeader from '@/components/admin/AdminPageHeader';
+import AdminFilterBar from '@/components/admin/AdminFilterBar';
 import { adminFetch } from '@/lib/api';
 import { ContactRequest } from '@/types';
 import { useAdminLoading } from '@/lib/AdminLoadingContext';
@@ -21,6 +22,8 @@ function AdminContactRequestsPageContent() {
   const pathname = usePathname();
   const searchParams = useSearchParams();
   const query = searchParams.get('q') || '';
+  const filterStatus = searchParams.get('status') || '';
+  const filterLocale = searchParams.get('locale') || '';
   const page = parseInt(searchParams.get('page') || '1');
 
   const [requests, setRequests] = useState<ContactRequest[]>([]);
@@ -47,13 +50,18 @@ function AdminContactRequestsPageContent() {
 
   const filteredData = useMemo(() => {
     const q = query.toLowerCase();
-    return requests.filter(item =>
-      item.fullName.toLowerCase().includes(q) ||
-      item.phoneNumber.toLowerCase().includes(q) ||
-      (item.emailAddress || '').toLowerCase().includes(q) ||
-      item.messageBox.toLowerCase().includes(q)
-    );
-  }, [requests, query]);
+    return requests.filter(item => {
+      const matchesQuery =
+        item.fullName.toLowerCase().includes(q) ||
+        item.phoneNumber.toLowerCase().includes(q) ||
+        (item.emailAddress || '').toLowerCase().includes(q) ||
+        item.messageBox.toLowerCase().includes(q);
+      const matchesStatus = !filterStatus || item.status === filterStatus;
+      const matchesLocale =
+        !filterLocale || (filterLocale === 'en' ? item.locale === 'en' : item.locale !== 'en');
+      return matchesQuery && matchesStatus && matchesLocale;
+    });
+  }, [requests, query, filterStatus, filterLocale]);
 
   const newCount = useMemo(() => requests.filter(r => r.status === 'new').length, [requests]);
 
@@ -222,8 +230,30 @@ function AdminContactRequestsPageContent() {
           { title: 'Admin', href: '/admin' },
           { title: 'Yêu cầu liên hệ' },
         ]}
+      />
+
+      <AdminFilterBar
         searchPlaceholder="Tìm theo tên, SĐT, email, nội dung..."
-        onSearch={(val) => updateUrl({ q: val })}
+        filters={[
+          {
+            key: 'status',
+            placeholder: 'Trạng thái',
+            width: 150,
+            options: [
+              { label: 'Mới', value: 'new' },
+              { label: 'Đã xử lý', value: 'handled' },
+            ],
+          },
+          {
+            key: 'locale',
+            placeholder: 'Ngôn ngữ',
+            width: 150,
+            options: [
+              { label: 'Tiếng Việt', value: 'vi' },
+              { label: 'Tiếng Anh', value: 'en' },
+            ],
+          },
+        ]}
       />
 
       <div className="flex flex-wrap gap-4">

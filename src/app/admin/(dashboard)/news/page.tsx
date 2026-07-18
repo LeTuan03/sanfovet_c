@@ -5,6 +5,7 @@ import { useRouter, useSearchParams, usePathname } from 'next/navigation';
 import { Table, Button, Space, Tag, Input, Modal, Form, Select, Switch, Checkbox, Tooltip, Row, Col, App, DatePicker } from 'antd';
 import { PlusOutlined, EditOutlined, DeleteOutlined } from '@ant-design/icons';
 import AdminPageHeader from '@/components/admin/AdminPageHeader';
+import AdminFilterBar from '@/components/admin/AdminFilterBar';
 import dayjs from 'dayjs';
 import 'dayjs/locale/vi';
 import { motion } from 'framer-motion';
@@ -21,6 +22,9 @@ function AdminNewsPageContent() {
   const pathname = usePathname();
   const searchParams = useSearchParams();
   const query = searchParams.get('q') || '';
+  const filterCategory = searchParams.get('cat') || '';
+  const filterFeatured = searchParams.get('featured') || '';
+  const filterStatus = searchParams.get('status') || '';
   const page = parseInt(searchParams.get('page') || '1');
 
   const [allArticles, setAllArticles] = useState<ArticleSummary[]>([]);
@@ -54,11 +58,18 @@ function AdminNewsPageContent() {
 
   // Derived filtered data
   const filteredData = useMemo(() => {
-    return news.filter(item =>
-      item.title.toLowerCase().includes(query.toLowerCase()) ||
-      item.category.toLowerCase().includes(query.toLowerCase())
-    );
-  }, [news, query]);
+    return news.filter(item => {
+      const matchesQuery =
+        item.title.toLowerCase().includes(query.toLowerCase()) ||
+        item.category.toLowerCase().includes(query.toLowerCase());
+      const matchesCategory = !filterCategory || item.category === filterCategory;
+      const matchesFeatured =
+        !filterFeatured || (filterFeatured === '1' ? !!item.featured : !item.featured);
+      const matchesStatus =
+        !filterStatus || (filterStatus === 'draft' ? !!item.isDraft : !item.isDraft);
+      return matchesQuery && matchesCategory && matchesFeatured && matchesStatus;
+    });
+  }, [news, query, filterCategory, filterFeatured, filterStatus]);
 
   const updateUrl = (params: { q?: string; page?: number }) => {
     const newSearchParams = new URLSearchParams(searchParams.toString());
@@ -289,12 +300,44 @@ function AdminNewsPageContent() {
           { title: 'Admin', href: '/admin' },
           { title: 'Quản lý Tin tức' },
         ]}
-        onSearch={(val) => updateUrl({ q: val })}
+      />
+
+      <AdminFilterBar
+        searchPlaceholder="Tìm theo tiêu đề tin tức..."
         primaryAction={{
           label: 'Thêm tin tức mới',
           onClick: handleAdd,
           icon: <PlusOutlined />
         }}
+        filters={[
+          {
+            key: 'cat',
+            placeholder: 'Chuyên mục',
+            width: 170,
+            options: [
+              { label: 'Tin nội bộ', value: 'tin-noi-bo' },
+              { label: 'Tin ngành', value: 'tin-nganh' },
+            ],
+          },
+          {
+            key: 'featured',
+            placeholder: 'Nổi bật',
+            width: 150,
+            options: [
+              { label: 'Nổi bật', value: '1' },
+              { label: 'Không nổi bật', value: '0' },
+            ],
+          },
+          {
+            key: 'status',
+            placeholder: 'Trạng thái',
+            width: 150,
+            options: [
+              { label: 'Đã đăng', value: 'published' },
+              { label: 'Bản nháp', value: 'draft' },
+            ],
+          },
+        ]}
       />
 
       <div className="bg-white overflow-hidden shadow-xl shadow-gray-200/50 border border-gray-100" style={{ borderRadius: "3px 3px 32px 32px" }}>

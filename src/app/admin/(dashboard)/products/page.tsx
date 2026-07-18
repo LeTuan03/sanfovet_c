@@ -12,6 +12,7 @@ import {
 import { useRouter, useSearchParams, usePathname } from 'next/navigation';
 
 import AdminPageHeader from '@/components/admin/AdminPageHeader';
+import AdminFilterBar from '@/components/admin/AdminFilterBar';
 import ProductModal from '@/components/admin/ProductModal';
 import { motion } from 'framer-motion';
 import { adminFetch } from '@/lib/api';
@@ -25,6 +26,8 @@ function ProductManagementContent() {
   const pathname = usePathname();
   const searchParams = useSearchParams();
   const query = searchParams.get('q') || '';
+  const filterCat = searchParams.get('cat') || '';
+  const filterFeatured = searchParams.get('featured') || '';
   const page = parseInt(searchParams.get('page') || '1');
 
   const [data, setData] = useState<ProductSummary[]>([]);
@@ -62,12 +65,15 @@ function ProductManagementContent() {
   const filteredData = useMemo(() => {
     return data.filter(item => {
       const cat = categories.find(c => c.id === item.categoryId);
-      return (
+      const matchesQuery =
         item.name.toLowerCase().includes(query.toLowerCase()) ||
-        cat?.name.toLowerCase().includes(query.toLowerCase())
-      );
+        cat?.name.toLowerCase().includes(query.toLowerCase());
+      const matchesCat = !filterCat || item.categoryId.toString() === filterCat;
+      const matchesFeatured =
+        !filterFeatured || (filterFeatured === '1' ? !!item.featured : !item.featured);
+      return matchesQuery && matchesCat && matchesFeatured;
     });
-  }, [data, categories, query]);
+  }, [data, categories, query, filterCat, filterFeatured]);
 
   const updateUrl = (params: { q?: string; page?: number }) => {
     const newSearchParams = new URLSearchParams(searchParams.toString());
@@ -262,12 +268,32 @@ function ProductManagementContent() {
           { title: 'Admin', href: '/admin' },
           { title: 'Quản lý Sản phẩm' },
         ]}
-        onSearch={(val) => updateUrl({ q: val })}
+      />
+
+      <AdminFilterBar
+        searchPlaceholder="Tìm theo tên sản phẩm, danh mục..."
         primaryAction={{
           label: 'Thêm Sản phẩm',
           onClick: () => showModal(),
           icon: <PlusOutlined />
         }}
+        filters={[
+          {
+            key: 'cat',
+            placeholder: 'Danh mục',
+            width: 220,
+            options: categories.map((c: Category) => ({ label: c.name, value: c.id.toString() })),
+          },
+          {
+            key: 'featured',
+            placeholder: 'Nổi bật',
+            width: 150,
+            options: [
+              { label: 'Nổi bật', value: '1' },
+              { label: 'Không nổi bật', value: '0' },
+            ],
+          },
+        ]}
       />
 
       <div className="bg-white overflow-hidden shadow-xl shadow-gray-200/50 border border-gray-100" style={{ borderRadius: "3px 3px 32px 32px" }}>
