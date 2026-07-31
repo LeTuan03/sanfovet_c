@@ -1,7 +1,7 @@
 'use client';
 
 import { useState, useEffect } from 'react';
-import { FileText, Download, Eye } from 'lucide-react';
+import { FileText, Download, Eye, Loader2 } from 'lucide-react';
 import dynamic from 'next/dynamic';
 
 const PdfFlipbook = dynamic(() => import('@/components/ui/PdfFlipbook'), {
@@ -31,8 +31,29 @@ const isHtmlDocumentLink = (url: string) => {
   }
 };
 
+// Cố gắng tải file thật (kể cả link html) bằng fetch + blob.
+// Nếu bị chặn CORS (thường gặp với link ngoài như heyzine.com) thì fallback mở tab mới.
+async function forceDownload(url: string, filename: string) {
+  try {
+    const res = await fetch(url, { mode: 'cors' });
+    if (!res.ok) throw new Error('fetch failed');
+    const blob = await res.blob();
+    const blobUrl = window.URL.createObjectURL(blob);
+    const a = document.createElement('a');
+    a.href = blobUrl;
+    a.download = filename;
+    document.body.appendChild(a);
+    a.click();
+    a.remove();
+    window.URL.revokeObjectURL(blobUrl);
+  } catch {
+    window.open(url, '_blank', 'noopener,noreferrer');
+  }
+}
+
 export default function DocumentList({ documents }: { documents: DocumentInfo[] }) {
   const [selectedPdf, setSelectedPdf] = useState<string | null>(null);
+  const [downloadingKey, setDownloadingKey] = useState<string | null>(null);
 
   useEffect(() => {
     if (selectedPdf) {
@@ -45,11 +66,20 @@ export default function DocumentList({ documents }: { documents: DocumentInfo[] 
     };
   }, [selectedPdf]);
 
+  const handleDownload = async (doc: DocumentInfo) => {
+    setDownloadingKey(doc.link);
+    const ext = doc.link.split('?')[0].split('.').pop() || 'html';
+    const filename = `${doc.title || 'document'}.${ext}`;
+    await forceDownload(doc.link, filename);
+    setDownloadingKey(null);
+  };
+
   return (
     <>
       <div className="space-y-6">
         {documents.map((doc) => {
           const isHtmlLink = isHtmlDocumentLink(doc.link);
+          const isDownloading = downloadingKey === doc.link;
 
           return (
             <div key={doc.title} className="flex flex-col md:flex-row items-center gap-6 p-8 bg-white rounded-[32px] border border-gray-100 shadow-sm hover:shadow-xl transition-all group">
@@ -75,15 +105,29 @@ export default function DocumentList({ documents }: { documents: DocumentInfo[] 
                 >
                   <Eye size={16} /> Xem
                 </button>
-                <a
-                  href={doc.link}
-                  target={isHtmlLink ? '_blank' : undefined}
-                  rel={isHtmlLink ? 'noopener noreferrer' : undefined}
-                  download={isHtmlLink ? undefined : true}
-                  className="flex items-center justify-center flex-1 md:flex-initial gap-2 bg-primary text-white font-black py-3 px-6 rounded-full text-xs uppercase tracking-widest hover:bg-primary-dark transition-all shadow-lg shadow-primary/20"
-                >
-                  <Download size={16} /> Tải về
-                </a>
+
+                {isHtmlLink ? (
+                  <button
+                    onClick={() => handleDownload(doc)}
+                    disabled={isDownloading}
+                    className="flex items-center justify-center flex-1 md:flex-initial gap-2 bg-primary text-white font-black py-3 px-6 rounded-full text-xs uppercase tracking-widest hover:bg-primary-dark transition-all shadow-lg shadow-primary/20 disabled:opacity-60"
+                  >
+                    {isDownloading ? (
+                      <Loader2 size={16} className="animate-spin" />
+                    ) : (
+                      <Download size={16} />
+                    )}
+                    Tải về
+                  </button>
+                ) : (
+                  <a
+                    href={doc.link}
+                    download
+                    className="flex items-center justify-center flex-1 md:flex-initial gap-2 bg-primary text-white font-black py-3 px-6 rounded-full text-xs uppercase tracking-widest hover:bg-primary-dark transition-all shadow-lg shadow-primary/20"
+                  >
+                    <Download size={16} /> Tải về
+                  </a>
+                )}
               </div>
             </div>
           );
@@ -95,12 +139,12 @@ export default function DocumentList({ documents }: { documents: DocumentInfo[] 
           className="fixed inset-0 z-[100] flex items-center justify-center bg-black/80 backdrop-blur-sm p-3 md:p-6 lg:p-10 animate-in fade-in zoom-in-95 duration-300"
           onClick={() => setSelectedPdf(null)}
         >
-           <div
-             className="w-full h-full max-w-[1400px] relative mx-auto flex flex-col shadow-2xl rounded-3xl"
-             onClick={(e) => e.stopPropagation()}
-           >
-             <PdfFlipbook url={selectedPdf} onClose={() => setSelectedPdf(null)} />
-           </div>
+          <div
+            className="w-full h-full max-w-[1400px] relative mx-auto flex flex-col shadow-2xl rounded-3xl"
+            onClick={(e) => e.stopPropagation()}
+          >
+            <PdfFlipbook url={selectedPdf} onClose={() => setSelectedPdf(null)} />
+          </div>
         </div>
       )}
     </>
