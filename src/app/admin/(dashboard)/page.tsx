@@ -172,17 +172,17 @@ export default function AdminDashboard() {
               <Card variant="borderless" className="shadow-xl rounded-[32px] bg-gradient-to-br from-biotechvet-dark to-primary text-white h-full relative overflow-hidden group">
                  <div className="absolute -top-10 -right-10 w-40 h-40 bg-white/10 rounded-full blur-3xl group-hover:bg-white/20 transition-all duration-700"></div>
                  <div className="relative z-1">
-                    <h3 className="text-xl font-black mb-6 text-white uppercase tracking-[0.1em] italic">Trung tâm Hỗ trợ</h3>
-                    <p className="text-white/70 text-sm font-medium leading-relaxed mb-10 italic opacity-90 border-l-2 border-white/20 pl-4">
+                    <h3 className="text-xl font-black mb-6 uppercase tracking-[0.1em] italic">Trung tâm Hỗ trợ</h3>
+                    <p className="text-sm font-medium leading-relaxed mb-10 italic opacity-90 border-l-2 border-white/20 pl-4">
                       Hệ thống quản trị được tối ưu giúp bạn vận hành website chuyên nghiệp. Cần hỗ trợ kỹ thuật?
                     </p>
                     <div className="space-y-4">
                        <div className="p-5 bg-white/10 backdrop-blur-md rounded-2xl border border-white/10 hover:bg-white/15 transition-all">
-                          <div className="text-[10px] font-black uppercase text-white/50 tracking-widest mb-1">Kỹ thuật viên</div>
+                          <div className="text-[10px] font-black uppercase tracking-widest mb-1">Kỹ thuật viên</div>
                           <div className="font-bold text-sm">Team Dev biotechvet</div>
                        </div>
                        <div className="p-5 bg-white/10 backdrop-blur-md rounded-2xl border border-white/10 hover:bg-white/15 transition-all">
-                          <div className="text-[10px] font-black uppercase text-white/50 tracking-widest mb-1">Kênh liên hệ 24/7</div>
+                          <div className="text-[10px] font-black uppercase tracking-widest mb-1">Kênh liên hệ 24/7</div>
                           <div className="font-bold text-sm tracking-tight italic">support@biotechvet.com.vn</div>
                        </div>
                     </div>

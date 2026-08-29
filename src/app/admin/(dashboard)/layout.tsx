@@ -15,15 +15,15 @@ import {
   SettingOutlined,
   UserOutlined,
   LogoutOutlined,
-  BellOutlined,
   MailOutlined,
   InfoCircleOutlined,
   FileTextOutlined,
   BookOutlined,
   FolderOpenOutlined,
   NotificationOutlined,
+  HomeOutlined,
 } from '@ant-design/icons';
-import { Button, Layout, Menu, theme, ConfigProvider, Avatar, Dropdown, Badge, App } from 'antd';
+import { Button, Layout, Menu, theme, ConfigProvider, Avatar, Dropdown, App, Tooltip } from 'antd';
 import viVN from 'antd/locale/vi_VN';
 import 'dayjs/locale/vi';
 import dayjs from 'dayjs';
@@ -91,28 +91,28 @@ export default function AdminLayout({ children }: { children: React.ReactNode })
   ];
 
   const contentItems: any[] = [
-    { key: '/admin/products',   icon: <ShoppingOutlined />,   label: 'Sản phẩm' },
-    { key: '/admin/categories', icon: <AppstoreOutlined />,   label: 'Danh mục' },
-    { key: '/admin/articles',   icon: <FileTextOutlined />,   label: 'Bệnh học' },
-    { key: '/admin/handbooks',  icon: <BookOutlined />,       label: 'Cẩm nang chăn nuôi' },
-    { key: '/admin/catalogue',  icon: <FolderOpenOutlined />, label: 'Catalogue & Tài liệu' },
-    { key: '/admin/news',       icon: <NotificationOutlined />, label: 'Tin tức' },
-    { key: '/admin/jobs',       icon: <UsergroupAddOutlined />, label: 'Tuyển dụng' },
+    { key: '/admin/products', icon: <ShoppingOutlined />, label: 'Sản phẩm' },
+    { key: '/admin/categories', icon: <AppstoreOutlined />, label: 'Danh mục' },
+    { key: '/admin/articles', icon: <FileTextOutlined />, label: 'Bệnh học' },
+    { key: '/admin/handbooks', icon: <BookOutlined />, label: 'Cẩm nang chăn nuôi' },
+    { key: '/admin/catalogue', icon: <FolderOpenOutlined />, label: 'Catalogue & Tài liệu' },
+    { key: '/admin/news', icon: <NotificationOutlined />, label: 'Tin tức' },
+    { key: '/admin/jobs', icon: <UsergroupAddOutlined />, label: 'Tuyển dụng' },
   ];
 
   const systemItems: any[] = [
-    { key: '/admin/banners',       icon: <PictureOutlined />,    label: 'Banner / Slider' },
+    { key: '/admin/banners', icon: <PictureOutlined />, label: 'Banner / Slider' },
     { key: '/admin/media-gallery', icon: <VideoCameraOutlined />, label: 'Video & Hình ảnh' },
-    { key: '/admin/menus',         icon: <MenuOutlined />,        label: 'Quản lý Menu' },
-    { key: '/admin/settings',      icon: <SettingOutlined />,     label: 'Thông tin chung' },
-    { key: '/admin/about',         icon: <InfoCircleOutlined />,  label: 'Trang Giới thiệu' },
+    { key: '/admin/menus', icon: <MenuOutlined />, label: 'Quản lý Menu' },
+    { key: '/admin/settings', icon: <SettingOutlined />, label: 'Thông tin chung' },
+    { key: '/admin/about', icon: <InfoCircleOutlined />, label: 'Trang Giới thiệu' },
   ];
 
   const userMenuItems = [
     // { key: 'profile',  label: 'Hồ sơ cá nhân',     icon: <UserOutlined /> },
     // { key: 'settings', label: 'Cài đặt tài khoản',  icon: <SettingOutlined /> },
     // { type: 'divider', key: 'div2' },
-    { key: 'logout',   label: 'Đăng xuất',          icon: <LogoutOutlined />, danger: true },
+    { key: 'logout', label: 'Đăng xuất', icon: <LogoutOutlined />, danger: true },
   ];
 
   const handleMenuClick = (e: { key: string }) => {
@@ -253,7 +253,7 @@ export default function AdminLayout({ children }: { children: React.ReactNode })
               </div>
 
               {/* Menu content — scrollable middle section */}
-              <div style={{ padding: '8px 0 16px', flex: 1, overflowY: 'auto', overflowX: 'hidden' }}>
+              <div style={{ padding: '8px 0 16px', flex: 1, overflow: 'auto', height: 'calc(100vh - 180px)' }}>
 
                 <SectionLabel label="Dashboard" collapsed={collapsed} />
                 <Menu
@@ -286,8 +286,100 @@ export default function AdminLayout({ children }: { children: React.ReactNode })
                 />
               </div>
 
-              {/* spacer */}
-              <div style={{ height: 8 }} />
+              {/* Bottom Actions: Về trang chủ & Đăng xuất */}
+              <div
+                style={{
+                  padding: collapsed ? '12px 8px' : '12px 14px',
+                  borderTop: '1px solid #f1f5f9',
+                  display: 'flex',
+                  flexDirection: 'column',
+                  gap: 8,
+                  background: '#ffffff',
+                }}
+              >
+                {/* Về trang chủ */}
+                <Tooltip title={collapsed ? "Về trang chủ" : ""} placement="right">
+                  <button
+                    type="button"
+                    onClick={() => window.open('/', '_blank')}
+                    style={{
+                      width: '100%',
+                      height: 40,
+                      borderRadius: 10,
+                      border: '1px solid rgba(25, 154, 214, 0.2)',
+                      background: '#e8f5fb',
+                      color: '#147eb0',
+                      display: 'flex',
+                      alignItems: 'center',
+                      justifyContent: 'center',
+                      padding: collapsed ? 0 : '0 14px',
+                      gap: 10,
+                      cursor: 'pointer',
+                      fontSize: 13,
+                      fontWeight: 700,
+                      transition: 'all 0.2s cubic-bezier(0.4, 0, 0.2, 1)',
+                    }}
+                    onMouseEnter={e => {
+                      e.currentTarget.style.background = '#199ad6';
+                      e.currentTarget.style.color = '#ffffff';
+                      e.currentTarget.style.borderColor = '#199ad6';
+                      e.currentTarget.style.boxShadow = '0 4px 12px rgba(25, 154, 214, 0.25)';
+                    }}
+                    onMouseLeave={e => {
+                      e.currentTarget.style.background = '#e8f5fb';
+                      e.currentTarget.style.color = '#147eb0';
+                      e.currentTarget.style.borderColor = 'rgba(25, 154, 214, 0.2)';
+                      e.currentTarget.style.boxShadow = 'none';
+                    }}
+                  >
+                    <HomeOutlined style={{ fontSize: 16 }} />
+                    {!collapsed && <span style={{ whiteSpace: 'nowrap' }}>Về trang chủ</span>}
+                  </button>
+                </Tooltip>
+
+                {/* Đăng xuất */}
+                <Tooltip title={collapsed ? "Đăng xuất" : ""} placement="right">
+                  <button
+                    type="button"
+                    onClick={() => {
+                      localStorage.removeItem('admin_token');
+                      router.push('/admin/login');
+                    }}
+                    style={{
+                      width: '100%',
+                      height: 40,
+                      borderRadius: 10,
+                      border: '1px solid rgba(239, 68, 68, 0.15)',
+                      background: '#fff1f2',
+                      color: '#e11d48',
+                      display: 'flex',
+                      alignItems: 'center',
+                      justifyContent: 'center',
+                      padding: collapsed ? 0 : '0 14px',
+                      gap: 10,
+                      cursor: 'pointer',
+                      fontSize: 13,
+                      fontWeight: 700,
+                      transition: 'all 0.2s cubic-bezier(0.4, 0, 0.2, 1)',
+                    }}
+                    onMouseEnter={e => {
+                      e.currentTarget.style.background = '#e11d48';
+                      e.currentTarget.style.color = '#ffffff';
+                      e.currentTarget.style.borderColor = '#e11d48';
+                      e.currentTarget.style.boxShadow = '0 4px 12px rgba(225, 29, 72, 0.25)';
+                    }}
+                    onMouseLeave={e => {
+                      e.currentTarget.style.background = '#fff1f2';
+                      e.currentTarget.style.color = '#e11d48';
+                      e.currentTarget.style.borderColor = 'rgba(239, 68, 68, 0.15)';
+                      e.currentTarget.style.boxShadow = 'none';
+                    }}
+                  >
+                    <LogoutOutlined style={{ fontSize: 16 }} />
+                    {!collapsed && <span style={{ whiteSpace: 'nowrap' }}>Đăng xuất</span>}
+                  </button>
+                </Tooltip>
+              </div>
             </Sider>
 
             {/* ─── MAIN AREA ────────────────────────────────────────────────────── */}
