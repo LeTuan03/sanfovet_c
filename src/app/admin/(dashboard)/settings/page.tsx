@@ -69,7 +69,7 @@ export default function AdminSettingsPage() {
                 key: 'general',
                 label: <span className="flex items-center gap-2 font-bold"><HomeOutlined /> Thông tin cơ sở</span>,
                 children: (
-                  <div className="p-8 max-w-2xl">
+                  <div className="p-8">
                     <h3 className="text-xl font-black mb-6 border-b pb-2 uppercase tracking-tight italic text-primary">Trụ sở & Chi nhánh</h3>
                     <Form.Item name="companyName" label="Tên công ty" rules={[{ required: true }]}>
                       <Input size="large" className="rounded-xl" />
@@ -105,7 +105,7 @@ export default function AdminSettingsPage() {
                 key: 'social',
                 label: <span className="flex items-center gap-2 font-bold"><FacebookOutlined /> Mạng xã hội</span>,
                 children: (
-                  <div className="p-8 max-w-2xl">
+                  <div className="p-8">
                     <h3 className="text-xl font-black mb-6 border-b pb-2 uppercase tracking-tight italic text-primary">Liên kết Cộng đồng</h3>
                     <Form.Item name={['social', 'facebook']} label="Facebook Page URL">
                       <Input size="large" className="rounded-xl" prefix={<FacebookOutlined className="text-blue-600" />} placeholder="https://facebook.com/..." />
@@ -124,7 +124,7 @@ export default function AdminSettingsPage() {
                 key: 'support',
                 label: <span className="flex items-center gap-2 font-bold"><UserOutlined /> Hỗ trợ kỹ thuật</span>,
                 children: (
-                  <div className="p-8 max-w-2xl">
+                  <div className="p-8">
                     <h3 className="text-xl font-black mb-6 border-b pb-2 uppercase tracking-tight italic text-primary">Thông tin Bác sĩ thú y</h3>
                     <Form.Item name={['support', 'doctorName']} label="Họ tên BSTY">
                       <Input size="large" className="rounded-xl" />
