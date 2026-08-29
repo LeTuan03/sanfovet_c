@@ -89,8 +89,8 @@ model NavMenu {
 }
 
 model Setting {
-  id    BigInt @id @default(1)
-  data  Json   @default("{}")
+  id   BigInt @id @default(1)
+  data Json   @default("{}")
 
   @@map("settings")
 }

@@ -161,48 +161,48 @@ export default function ContactContent({ settings }: { settings: any }) {
                   </div>
 
                   <form onSubmit={handleSubmit} className="space-y-6 relative z-10">
-                        <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
-                           <div>
-                              <label htmlFor="fullName" className="block text-[10px] font-black uppercase text-gray-400 tracking-[2px] mb-2 px-4 italic">Họ và tên *</label>
-                              <input id="fullName" name="fullName" type="text" placeholder="Nhập họ tên của bạn" value={formData.fullName} onChange={handleInputChange} className="w-full bg-gray-50 border-none rounded-2xl px-6 py-4 text-sm focus:ring-2 focus:ring-primary focus:bg-white transition-all placeholder:text-gray-300" required={true} />
-                           </div>
-                           <div>
-                              <label htmlFor="phoneNumber" className="block text-[10px] font-black uppercase text-gray-400 tracking-[2px] mb-2 px-4 italic">Số điện thoại *</label>
-                              <input id="phoneNumber" name="phoneNumber" type="tel" placeholder="Nhập số điện thoại" value={formData.phoneNumber} onChange={handleInputChange} className="w-full bg-gray-50 border-none rounded-2xl px-6 py-4 text-sm focus:ring-2 focus:ring-primary focus:bg-white transition-all placeholder:text-gray-300" required={true} />
-                           </div>
+                     <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
+                        <div>
+                           <label htmlFor="fullName" className="block text-[10px] font-black uppercase text-gray-400 tracking-[2px] mb-2 px-4 italic">Họ và tên *</label>
+                           <input id="fullName" name="fullName" type="text" placeholder="Nhập họ tên của bạn" value={formData.fullName} onChange={handleInputChange} className="w-full bg-gray-50 border-none rounded-2xl px-6 py-4 text-sm focus:ring-2 focus:ring-primary focus:bg-white transition-all placeholder:text-gray-300" required={true} />
                         </div>
                         <div>
-                           <label htmlFor="emailAddress" className="block text-[10px] font-black uppercase text-gray-400 tracking-[2px] mb-2 px-4 italic">Địa chỉ Email</label>
-                           <input id="emailAddress" name="emailAddress" type="email" placeholder="Nhập địa chỉ email" value={formData.emailAddress} onChange={handleInputChange} className="w-full bg-gray-50 border-none rounded-2xl px-6 py-4 text-sm focus:ring-2 focus:ring-primary focus:bg-white transition-all placeholder:text-gray-300" />
+                           <label htmlFor="phoneNumber" className="block text-[10px] font-black uppercase text-gray-400 tracking-[2px] mb-2 px-4 italic">Số điện thoại *</label>
+                           <input id="phoneNumber" name="phoneNumber" type="tel" placeholder="Nhập số điện thoại" value={formData.phoneNumber} onChange={handleInputChange} className="w-full bg-gray-50 border-none rounded-2xl px-6 py-4 text-sm focus:ring-2 focus:ring-primary focus:bg-white transition-all placeholder:text-gray-300" required={true} />
                         </div>
-                        <div>
-                           <label htmlFor="messageBox" className="block text-[10px] font-black uppercase text-gray-400 tracking-[2px] mb-2 px-4 italic">Nội dung yêu cầu *</label>
-                           <textarea id="messageBox" name="messageBox" rows={5} placeholder="Bạn cần chúng tôi hỗ trợ gì?" value={formData.messageBox} onChange={handleInputChange} className="w-full bg-gray-50 border-none rounded-2xl px-6 py-4 text-sm focus:ring-2 focus:ring-primary focus:bg-white transition-all placeholder:text-gray-300" required></textarea>
+                     </div>
+                     <div>
+                        <label htmlFor="emailAddress" className="block text-[10px] font-black uppercase text-gray-400 tracking-[2px] mb-2 px-4 italic">Địa chỉ Email</label>
+                        <input id="emailAddress" name="emailAddress" type="email" placeholder="Nhập địa chỉ email" value={formData.emailAddress} onChange={handleInputChange} className="w-full bg-gray-50 border-none rounded-2xl px-6 py-4 text-sm focus:ring-2 focus:ring-primary focus:bg-white transition-all placeholder:text-gray-300" />
+                     </div>
+                     <div>
+                        <label htmlFor="messageBox" className="block text-[10px] font-black uppercase text-gray-400 tracking-[2px] mb-2 px-4 italic">Nội dung yêu cầu *</label>
+                        <textarea id="messageBox" name="messageBox" rows={5} placeholder="Bạn cần chúng tôi hỗ trợ gì?" value={formData.messageBox} onChange={handleInputChange} className="w-full bg-gray-50 border-none rounded-2xl px-6 py-4 text-sm focus:ring-2 focus:ring-primary focus:bg-white transition-all placeholder:text-gray-300" required></textarea>
+                     </div>
+                     {status === 'success' && (
+                        <div className="flex items-start gap-3 rounded-2xl border border-emerald-200 bg-emerald-50 px-5 py-4 text-emerald-700">
+                           <CheckCircle2 size={20} className="mt-0.5 shrink-0 text-emerald-500" />
+                           <p className="text-sm font-semibold leading-relaxed">{feedback}</p>
                         </div>
-                        {status === 'success' && (
-                           <div className="flex items-start gap-3 rounded-2xl border border-emerald-200 bg-emerald-50 px-5 py-4 text-emerald-700">
-                              <CheckCircle2 size={20} className="mt-0.5 shrink-0 text-emerald-500" />
-                              <p className="text-sm font-semibold leading-relaxed">{feedback}</p>
-                           </div>
+                     )}
+                     {status === 'error' && (
+                        <div className="flex items-start gap-3 rounded-2xl border border-red-200 bg-red-50 px-5 py-4 text-red-700">
+                           <AlertCircle size={20} className="mt-0.5 shrink-0 text-red-500" />
+                           <p className="text-sm font-semibold leading-relaxed">{feedback}</p>
+                        </div>
+                     )}
+                     <button
+                        type="submit"
+                        disabled={status === 'submitting'}
+                        className="w-full bg-primary hover:bg-primary-dark text-white font-black py-5 rounded-2xl text-xs uppercase tracking-[3px] transition-all shadow-xl shadow-primary/20 active:scale-95 flex items-center justify-center gap-3 group disabled:opacity-70 disabled:cursor-not-allowed"
+                     >
+                        {status === 'submitting' ? (
+                           <><Loader2 size={18} className="animate-spin" /> Đang gửi...</>
+                        ) : (
+                           <><Send size={18} className="group-hover:translate-x-1 group-hover:-translate-y-1 transition-transform" /> Gửi yêu cầu ngay</>
                         )}
-                        {status === 'error' && (
-                           <div className="flex items-start gap-3 rounded-2xl border border-red-200 bg-red-50 px-5 py-4 text-red-700">
-                              <AlertCircle size={20} className="mt-0.5 shrink-0 text-red-500" />
-                              <p className="text-sm font-semibold leading-relaxed">{feedback}</p>
-                           </div>
-                        )}
-                        <button
-                           type="submit"
-                           disabled={status === 'submitting'}
-                           className="w-full bg-primary hover:bg-primary-dark text-white font-black py-5 rounded-2xl text-xs uppercase tracking-[3px] transition-all shadow-xl shadow-primary/20 active:scale-95 flex items-center justify-center gap-3 group disabled:opacity-70 disabled:cursor-not-allowed"
-                        >
-                           {status === 'submitting' ? (
-                              <><Loader2 size={18} className="animate-spin" /> Đang gửi...</>
-                           ) : (
-                              <><Send size={18} className="group-hover:translate-x-1 group-hover:-translate-y-1 transition-transform" /> Gửi yêu cầu ngay</>
-                           )}
-                        </button>
-                     </form>
+                     </button>
+                  </form>
                </div>
             </div>
 
@@ -218,7 +218,7 @@ export default function ContactContent({ settings }: { settings: any }) {
 
             {/* Google Maps */}
             <div className="mt-24 w-full h-[500px] rounded-[48px] overflow-hidden shadow-2xl border-8 border-white">
-               <iframe
+               {/* <iframe
                   src="https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d3727.9957!2d105.8652!3d20.8305!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x0%3A0x0!2sCụm+CN+Li%C3%AAn+Ph%C6%B0%C6%A1ng%2C+X%C3%A3+H%E1%BB%93ng+V%C3%A2n%2C+Th%C6%B0%E1%BB%9Dng+T%C3%ADn%2C+H%C3%A0+N%E1%BB%99i!5e0!3m2!1svi!2svn!4v1700000000000"
                   width="100%"
                   height="100%"
@@ -227,7 +227,25 @@ export default function ContactContent({ settings }: { settings: any }) {
                   loading="lazy"
                   referrerPolicy="no-referrer-when-downgrade"
                   title="Bản đồ BiotechVet - Cụm CN Liên Phương, Xã Hồng Vân, Thường Tín, Hà Nội"
-               />
+               /> */}
+               <a
+                  href={settings.googleMapsLink || "https://maps.app.goo.gl/p8Nbw6RqdTMXPVBaA"}
+                  target="_blank"
+                  rel="noopener noreferrer"
+                  className="relative block overflow-hidden cursor-pointer h-full"
+                  title={'Mở Google Maps để chỉ đường'}
+               >
+                  <iframe
+                     src={settings.googleMapsEmbed || "https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d6007.076767417964!2d105.72458297685907!3d20.93151888069375!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x3134527a3a6e8bed%3A0x5a2dd7517891760d!2zQ8O0bmcgVHkgQ3AgQ8O0bmcgTmdo4buHIFNpbmggSOG7jWMgVGjDuiBZ!5e1!3m2!1svi!2s!4v1787994357704!5m2!1svi!2s"}
+                     width="100%"
+                     height="100%"
+                     style={{ border: 0, borderRadius: 'var(--radius-xl)' }}
+                     allowFullScreen
+                     loading="lazy"
+                     referrerPolicy="no-referrer-when-downgrade"
+                     title={'Bản đồ BiotechVet - Cụm CN Liên Phương, Xã Hồng Vân, Thường Tín, Hà Nội'}
+                  />
+               </a>
             </div>
          </div>
       </div>

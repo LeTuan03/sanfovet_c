@@ -1,8 +1,8 @@
 "use client";
 
 import React, { useState } from 'react';
-import { Form, Input, Button, Card, Tabs, Space, Divider, Breadcrumb, Spin, App } from 'antd';
-import { SettingOutlined, PhoneOutlined, MailOutlined, HomeOutlined, FacebookOutlined, YoutubeOutlined, UserOutlined } from '@ant-design/icons';
+import { Form, Input, Button, Tabs, Breadcrumb, Spin, App } from 'antd';
+import { PhoneOutlined, MailOutlined, HomeOutlined, FacebookOutlined, YoutubeOutlined, UserOutlined, GlobalOutlined } from '@ant-design/icons';
 import { adminFetch } from '@/lib/api';
 import { useAdminLoading } from '@/lib/AdminLoadingContext';
 
@@ -90,6 +90,12 @@ export default function AdminSettingsPage() {
                     </div>
                     <Form.Item name="email" label="Email chính">
                       <Input size="large" className="rounded-xl" prefix={<MailOutlined />} />
+                    </Form.Item>
+                    <Form.Item name="googleMapsLink" label="Link Google Maps">
+                      <Input size="large" className="rounded-xl" prefix={<GlobalOutlined />} placeholder="https://maps.app.goo.gl/..." />
+                    </Form.Item>
+                    <Form.Item name="googleMapsEmbed" label="Mã nhúng Google Maps">
+                      <Input.TextArea rows={4} className="rounded-xl" placeholder='' />
                     </Form.Item>
                     <Button type="primary" size="large" htmlType="submit" className="rounded-xl px-10 font-black uppercase tracking-widest text-xs h-12 shadow-lg shadow-primary/20">Cập nhật ngay</Button>
                   </div>
